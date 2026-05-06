@@ -12,5 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182295e1a5d26ba4283521f632185ae4, type: 3}
   m_Name: UIRegistry
   m_EditorClassIdentifier: Assembly-CSharp::UIRegistry
-  Scenes: []
-  Popups: []
+  Scenes:
+  - _type: 1
+    _prefabReference:
+      m_AssetGUID: 8e5cc4288944db644935fdbf7c92667c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _lifetimePolicy: 0
+    _releaseAssetOnClose: 0
+  Popups:
+  - _type: 1
+    _prefabReference:
+      m_AssetGUID: 54e798e2fbc86614cad5201938d0d11f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _lifetimePolicy: 0
+    _releaseAssetOnClose: 0

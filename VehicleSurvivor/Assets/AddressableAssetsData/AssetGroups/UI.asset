@@ -10,11 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: UI
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
+  m_GroupName: UI
   m_GUID: 6bc17cb9f6e5c9c40a2cef9b88410355
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 54e798e2fbc86614cad5201938d0d11f
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_SelectCard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e5cc4288944db644935fdbf7c92667c
+    m_Address: Assets/03. Prefabs/UI/Scene/UI_InGameHUD.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0b885e8babacb2d43ad4a1f441931e4d, type: 2}
   m_SchemaSet:
