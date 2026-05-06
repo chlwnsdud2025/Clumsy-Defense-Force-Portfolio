@@ -16,6 +16,7 @@
 - 인터페이스: `I` 접두사 사용 (예: `IDamageable`)
 - 베이스 클래스: `Base` 접미사 사용 (예: `CharacterBase`)
 - 열거형: `E` 접두사 사용 (예: `EGameState`)
+- 클릭이벤트 함수: `OnClick` 접두사 사용 (예: `OnClickSetting`)
 
 ## 코드 포맷팅
 
