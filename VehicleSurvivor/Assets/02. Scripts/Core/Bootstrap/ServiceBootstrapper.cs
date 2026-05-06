@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using System;
-using System.ComponentModel.Design;
 using UnityEngine;
 
 public static class ServiceBootstrapper
@@ -34,10 +33,17 @@ public static class ServiceBootstrapper
         }
     }
 
-    private static async UniTask<bool> RegisterCoreServicesAsync()
+    private static UniTask<bool> RegisterCoreServicesAsync()
     {
         ServiceLocator.Clear();
 
-        return true;
+        IResourceService resourceService = new ResourceService();
+
+
+
+        // 서비스 등록
+        ServiceLocator.Register<IResourceService>(resourceService);
+
+        return UniTask.FromResult(true);
     }
 }
