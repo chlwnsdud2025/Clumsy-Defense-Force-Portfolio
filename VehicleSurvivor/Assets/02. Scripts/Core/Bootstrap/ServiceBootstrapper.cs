@@ -38,11 +38,11 @@ public static class ServiceBootstrapper
         ServiceLocator.Clear();
 
         IResourceService resourceService = new ResourceService();
-
-
+        IEventBus eventBus = new EventBus();
 
         // 서비스 등록
         ServiceLocator.Register<IResourceService>(resourceService);
+        ServiceLocator.Register<IEventBus>(eventBus);
 
         return UniTask.FromResult(true);
     }
