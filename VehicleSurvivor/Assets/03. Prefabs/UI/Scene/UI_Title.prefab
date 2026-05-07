@@ -1138,5 +1138,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1efe013fd47ee3748bfd4105016cabd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Title
-  titleRect: {fileID: 0}
-  titleText: {fileID: 0}
+  titleRect: {fileID: 5761301863901786067}
+  titleText: {fileID: 5761301863901786064}

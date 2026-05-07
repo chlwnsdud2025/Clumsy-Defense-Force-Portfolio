@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UI_ChoiceSkill : MonoBehaviour
+public class UI_ChoiceSkill : UIPopup
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

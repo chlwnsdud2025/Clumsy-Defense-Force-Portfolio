@@ -12,7 +12,7 @@ public class GameManager : MonoSingleton<GameManager>
         if (!await InitializeGameUIAsync())
             return;
 
-        UIManager.Instance.ShowScene(ESceneUIType.InGameHUD);
+        UIManager.Instance.ShowScene(ESceneUIType.Title);
 
         await UniTask.Yield();
     }
