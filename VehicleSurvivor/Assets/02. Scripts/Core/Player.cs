@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
         float move = moveInput.y;
         float turn = moveInput.x;
 
-        bool isBoosting = Keyboard.current.leftShiftKey.isPressed;
+        bool isBoosting = Keyboard.current.leftCtrlKey.isPressed;
 
         float targetSpeed;
 
