@@ -73,7 +73,7 @@ public partial struct EnemySpawnerSystem : ISystem
                 Entity newEnemy = ecb.Instantiate(spawner.ValueRO.EnemyPrefab);
 
                 float2 randomDir = random.NextFloat2Direction();
-                float spawnRadius = 15f;
+                float spawnRadius = 35f;
                 float3 spawnPos = playerPos + new float3(randomDir.x, 0, randomDir.y) * spawnRadius;
 
                 // 3. 중요: SetComponentData 대신 ecb.SetComponent 사용
