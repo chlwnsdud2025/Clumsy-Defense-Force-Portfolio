@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VehicleSurvivor/Assets/02. Scripts/Test.meta
 guid: de7d4ffb1ee341149a8d6165b652168d
 folderAsset: yes
+========
+guid: d063526a4420fd441ae1ccbfad984b11
+>>>>>>>> feedback:VehicleSurvivor/Assets/ithappy/Battle_Stadium/Render_Pipeline_Convert/Unity_6_Built-In_source.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
