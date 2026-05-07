@@ -59,6 +59,8 @@ public class HomingMissile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            Enemy enemy = other.GetComponent<Enemy>();
+            enemy.TakeDamage(10);
             Destroy(gameObject);
         }
     }
