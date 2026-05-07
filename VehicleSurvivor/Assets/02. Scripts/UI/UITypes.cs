@@ -13,6 +13,7 @@ public enum ESceneUIType
 {
     None = 0,
 
+    InGameHUD
 }
 
 
@@ -20,4 +21,5 @@ public enum EPopupUIType
 {
     None = 0,
 
+    SelectCard
 }
