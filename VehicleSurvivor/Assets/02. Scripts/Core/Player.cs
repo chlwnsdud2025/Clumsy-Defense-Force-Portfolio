@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public float movespeed = 5;
@@ -9,20 +9,23 @@ public class Player : MonoBehaviour
     public float fireRate = 0.5f;
     private float fireTimer;
 
+    private Vector2 moveInput;
+
     private void Update()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        //vector2 입력값을 3D 방향으로 변환
+        Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-        Vector3 moveDir = new Vector3(x, 0f, z).normalized;
-
+        //이동
         transform.position += moveDir * movespeed * Time.deltaTime;
         
+        //이동 방향 바라보기
         if(moveDir != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(moveDir);  
         }
 
+        //자동 발사 타이머
         fireTimer += Time.deltaTime;
         if(fireTimer >= fireRate)
         {
@@ -30,5 +33,11 @@ public class Player : MonoBehaviour
 
             fireTimer = 0f;
         }
+    }
+
+    // Input System Move 이벤트 함수
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
     }
 }
