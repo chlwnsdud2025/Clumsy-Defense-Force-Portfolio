@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float acceleration = 3f;
     public float deceleration = 4f;
     public float turnSpeed = 120f;
+    
 
     [Header("Wheels")]
     public Transform frontLeftWheel;
@@ -22,13 +23,19 @@ public class Player : MonoBehaviour
 
     private Vector2 moveInput;
     private float currentSpeed;
+    private Vector3 currentVelocity;
+
+    [Header("Drift")]
+    public float driftSmoothness = 5f;
+
+    private bool isBoosting;
 
     private void Update()
     {
         float move = moveInput.y;
         float turn = moveInput.x;
 
-        bool isBoosting = Keyboard.current.leftCtrlKey.isPressed;
+        isBoosting = Keyboard.current.leftCtrlKey.isPressed;
 
         float targetSpeed;
 
@@ -53,7 +60,16 @@ public class Player : MonoBehaviour
             speedChangeRate * Time.deltaTime
         );
 
-        transform.position += transform.forward * move * currentSpeed * Time.deltaTime;
+        Vector3 targetVelocity = transform.forward * move * currentSpeed;
+
+        currentVelocity = Vector3.Lerp(
+            currentVelocity,
+            targetVelocity,
+            driftSmoothness * Time.deltaTime
+            );
+
+        transform.position += currentVelocity * Time.deltaTime;
+
         transform.Rotate(0f, turn * turnSpeed * Time.deltaTime, 0f);
 
         RotateWheels(move);
@@ -92,5 +108,9 @@ public class Player : MonoBehaviour
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+    }
+    public void OnBoost(InputValue value)
+    {
+        // TODO 받은 값이 눌렀으면 isBoosting true / 때면 false
     }
 }
