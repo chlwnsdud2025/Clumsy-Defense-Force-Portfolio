@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Enemy : MonoBehaviour
     private float currentHealth;
     public float rotationSpeed = 2f;
 
+    [Header("Exp Reward")]
+    public int expReward = 34;
 
     [Header("Separation Settings")]
     public float separationRadius = 1.5f; // 회피 거리
@@ -92,6 +95,8 @@ public class Enemy : MonoBehaviour
     
     public void Die()//사망
     {
+        DropExpOrbs();
+
         if (myManager != null)
         {
             myManager.ReturnToPool(this);
@@ -99,6 +104,38 @@ public class Enemy : MonoBehaviour
         else
         {
             gameObject.SetActive(false); 
+        }
+    }
+
+    private void DropExpOrbs()
+    {
+        int remainingExp = expReward;
+
+        int largeCount = remainingExp / 50;
+        remainingExp %= 50;
+
+        int mediumCount = remainingExp / 10;
+        remainingExp %= 10;
+
+        int smallCount = remainingExp;
+
+        
+        Vector3 dropPos = transform.position;
+        dropPos.y = 0.5f; 
+
+        SpawnOrbs(ExpType.Large, largeCount, dropPos);
+        SpawnOrbs(ExpType.Medium, mediumCount, dropPos);
+        SpawnOrbs(ExpType.Small, smallCount, dropPos);
+    }
+
+    private void SpawnOrbs(ExpType type, int count, Vector3 pos)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (ExpManager.Instance != null)
+            {
+                ExpManager.Instance.SpawnExp(type, pos);
+            }
         }
     }
 }
