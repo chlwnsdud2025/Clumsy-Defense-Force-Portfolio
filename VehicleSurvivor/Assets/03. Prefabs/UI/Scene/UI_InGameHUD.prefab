@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 1905138607265157364}
   - component: {fileID: 1905138607265157365}
   m_Layer: 0
-  m_Name: Slider_Panel_White
+  m_Name: Exp_Slider_Panel_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -842,7 +842,7 @@ GameObject:
   - component: {fileID: 5228253778854203904}
   - component: {fileID: 707928688314550617}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Timer_Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2013,7 +2013,7 @@ GameObject:
   - component: {fileID: 6205259088183871496}
   - component: {fileID: 6205259088183871503}
   m_Layer: 5
-  m_Name: SpecialSkill_Slider06_White
+  m_Name: Boost_Slider06_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2299,7 +2299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6205259089903330821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2696,6 +2696,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ce0e6e6636cc944abbe4f0ab2225ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_InGameHUD
+  playerNameText: {fileID: 0}
+  hpSlider: {fileID: 6077589823792533656}
+  hpText: {fileID: 6077589825476216035}
+  expSlider: {fileID: 1905138607265157364}
+  boostSlider: {fileID: 6205259088183871503}
+  goldText: {fileID: 6881421496446537388}
+  killCountText: {fileID: 7511890982938601588}
+  timerText: {fileID: 707928688314550617}
 --- !u!1 &6751831094275019818
 GameObject:
   m_ObjectHideFlags: 0
