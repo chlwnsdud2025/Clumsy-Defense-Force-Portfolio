@@ -1,42 +1,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class EnemyPoolSetting
+{
+    public EnemyType type;
+    public GameObject prefab;
+    public int poolSize = 50;
+
+    // 유저님이 제안하신 스폰 비율(가중치) 변수! 기본값을 1로 두어 스폰이 아예 안 되는 것을 방지합니다.
+    public float amountRate = 1f;
+}
+
 public class EnemyManager : MonoBehaviour
 {
+    public static EnemyManager Instance;
+
     [Header("References")]
-    public GameObject enemyPrefab;
     public Transform playerTransform;
 
     [Header("Pool Settings")]
-    public int maxEnemies = 200; // 최대 스폰 수
+    public EnemyPoolSetting[] poolSettings;
 
     [Header("Spawn Settings")]
-    public float spawnRadius = 50f;     // 스폰 거리 
-    public float spawnInterval = 0.5f;  // 스폰 간격
+    public float spawnRadius = 50f;
+    public float spawnInterval = 0.5f;
     private float spawnTimer = 0f;
 
     [Header("Grid & Separation Settings")]
     public float cellSize = 2f;
     private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
 
+    private Dictionary<EnemyType, Queue<Enemy>> enemyPools;
+    private List<Enemy> activeEnemies = new List<Enemy>();
 
-    private Queue<Enemy> enemyPool = new Queue<Enemy>(); // 비활성화 적
-    private List<Enemy> activeEnemies = new List<Enemy>(); // 활성화 적
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {
         InitializePool();
     }
 
-    private void InitializePool() // 오브젝트 풀링
+    private void InitializePool()
     {
-        for (int i = 0; i < maxEnemies; i++)
-        {
-            GameObject obj = Instantiate(enemyPrefab, transform);
-            obj.SetActive(false);
+        enemyPools = new Dictionary<EnemyType, Queue<Enemy>>();
 
-            Enemy enemyScript = obj.GetComponent<Enemy>();
-            enemyPool.Enqueue(enemyScript);
+        foreach (var setting in poolSettings)
+        {
+            Queue<Enemy> pool = new Queue<Enemy>();
+            GameObject poolParent = new GameObject($"{setting.type} Pool");
+            poolParent.transform.SetParent(this.transform);
+
+            for (int i = 0; i < setting.poolSize; i++)
+            {
+                GameObject obj = Instantiate(setting.prefab, poolParent.transform);
+                obj.SetActive(false);
+
+                Enemy enemyScript = obj.GetComponent<Enemy>();
+                enemyScript.myType = setting.type;
+
+                pool.Enqueue(enemyScript);
+            }
+
+            enemyPools.Add(setting.type, pool);
         }
     }
 
@@ -44,57 +74,78 @@ public class EnemyManager : MonoBehaviour
     {
         float dt = Time.deltaTime;
 
-        UpdateGrid(); // 격자 지도 갱신
-
+        UpdateGrid();
 
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
-            activeEnemies[i].ManagedUpdate(dt);//개별 이동 로직 실행
+            activeEnemies[i].ManagedUpdate(dt);
         }
 
         spawnTimer += dt;
         if (spawnTimer >= spawnInterval)
         {
             spawnTimer = 0f;
-            SpawnEnemyAtRandomCircle();// 스폰
+            SpawnEnemyAtRandomCircle();
         }
     }
 
-    // 플레이어 주변 원형 반경 랜덤 스폰
+    // ★ 유저님의 아이디어가 적용된 가중치 랜덤 스폰 로직!
     private void SpawnEnemyAtRandomCircle()
     {
-        //숫자 제한
-        if (enemyPool.Count == 0) return;
+        if (poolSettings.Length == 0) return;
 
-        // 수학 공식: 유니티의 2D 랜덤 원형 좌표를 가져와서 테두리(.normalized)로 만든 뒤 반경을 곱함
+        // 1. 모든 몹의 비율(amountRate)을 다 합친 총합을 구합니다.
+        float totalRate = 0f;
+        for (int i = 0; i < poolSettings.Length; i++)
+        {
+            totalRate += poolSettings[i].amountRate;
+        }
+
+        // 만약 모든 비율이 0이라면 아무것도 스폰하지 않습니다. (특정 웨이브 대기용으로 쓸 수 있음)
+        if (totalRate <= 0f) return;
+
+        // 2. 0부터 총합 사이의 랜덤한 숫자를 하나 뽑습니다.
+        float randomValue = Random.Range(0f, totalRate);
+        EnemyType typeToSpawn = poolSettings[0].type;
+
+        // 3. 룰렛판을 돌리듯, 랜덤 숫자가 어느 몹의 비율 범위에 속하는지 찾습니다.
+        float cumulativeRate = 0f;
+        for (int i = 0; i < poolSettings.Length; i++)
+        {
+            cumulativeRate += poolSettings[i].amountRate;
+            if (randomValue <= cumulativeRate)
+            {
+                typeToSpawn = poolSettings[i].type;
+                break; // 당첨되었으니 반복문 즉시 탈출
+            }
+        }
+
+        // 당첨된 타입의 풀에 남아있는 몹이 없다면 스폰 건너뜀 (풀 고갈 방어)
+        if (enemyPools[typeToSpawn].Count == 0) return;
+
+        // 스폰 위치 계산 및 생성
         Vector2 randomCircle = Random.insideUnitCircle.normalized * spawnRadius;
-
-        // 3D 공간의 XZ 좌표로 변환하고, 플레이어의 현재 위치를 더해줍니다.
         Vector3 spawnPos = new Vector3(randomCircle.x, 0f, randomCircle.y) + playerTransform.position;
 
-        
-        Enemy enemy = enemyPool.Dequeue();
+        Enemy enemy = enemyPools[typeToSpawn].Dequeue();
         enemy.SpawnSetup(playerTransform, spawnPos, this);
         activeEnemies.Add(enemy);
     }
 
     public void ReturnToPool(Enemy enemy)
     {
-        enemy.gameObject.SetActive(false); 
+        enemy.gameObject.SetActive(false);
         activeEnemies.Remove(enemy);
-        enemyPool.Enqueue(enemy); 
+        enemyPools[enemy.myType].Enqueue(enemy);
     }
 
-    // 매 프레임마다 적들을 격자 칸에 배정하는 함수
     private void UpdateGrid()
     {
-        // 이전 프레임의 데이터 지우기 (List 재사용으로 가비지 생성 방지)
         foreach (var list in spatialGrid.Values)
         {
             list.Clear();
         }
 
-        // 모든 활성화된 적을 현재 위치에 맞는 격자에 넣기
         for (int i = 0; i < activeEnemies.Count; i++)
         {
             Enemy enemy = activeEnemies[i];
@@ -108,20 +159,17 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    // 월드 좌표를 격자 좌표로 변환
     private Vector2Int GetCellPos(Vector3 position)
     {
         return new Vector2Int(Mathf.FloorToInt(position.x / cellSize), Mathf.FloorToInt(position.z / cellSize));
     }
 
-    // 개별 Enemy가 호출할 함수: "내 주변 친구들을 피해갈 방향 벡터를 구해줘!"
     public Vector3 GetSeparationForce(Enemy targetEnemy, float radius)
     {
         Vector3 force = Vector3.zero;
         Vector2Int cell = GetCellPos(targetEnemy.transform.position);
         float sqrRadius = radius * radius;
 
-        // 내 격자를 포함해 주변 3x3칸(총 9칸)만 검사합니다. (200마리 전수조사 방지!)
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -133,16 +181,14 @@ public class EnemyManager : MonoBehaviour
                     for (int i = 0; i < neighbors.Count; i++)
                     {
                         Enemy neighbor = neighbors[i];
-                        if (neighbor == targetEnemy) continue; // 자기 자신은 제외
+                        if (neighbor == targetEnemy) continue;
 
                         Vector3 diff = targetEnemy.transform.position - neighbor.transform.position;
-                        diff.y = 0; // 평면 계산
+                        diff.y = 0;
                         float sqrDist = diff.sqrMagnitude;
 
-                        // 반경 안에 들어왔다면
                         if (sqrDist > 0 && sqrDist < sqrRadius)
                         {
-                            // 가까울수록 더 강하게 밀어내는 힘을 누적합니다.
                             force += diff.normalized / Mathf.Sqrt(sqrDist);
                         }
                     }

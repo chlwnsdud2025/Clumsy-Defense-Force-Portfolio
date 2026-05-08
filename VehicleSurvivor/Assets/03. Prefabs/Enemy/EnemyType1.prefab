@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2417709712796156429}
-  - component: {fileID: -3277128060393171363}
   - component: {fileID: -1045721241837379299}
   - component: {fileID: 3391092239978916298}
+  - component: {fileID: -7729513013793624253}
   m_Layer: 0
   m_Name: EnemyType1
   m_TagString: Enemy
@@ -35,24 +35,6 @@ Transform:
   - {fileID: 1337064417107675852}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3277128060393171363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5944618501675846902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48783d41b4d61d24faf9e0f7794c5962, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  moveSpeed: 5
-  maxHealth: 100
-  rotationSpeed: 2
-  separationRadius: 3
-  separationWeight: 10
-  attackRange: 10
 --- !u!136 &-1045721241837379299
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -103,6 +85,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-7729513013793624253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5944618501675846902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba7dace150239343bb64ae2bfa138db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BasicEnemy
+  myType: 0
+  moveSpeed: 5
+  maxHealth: 50
+  rotationSpeed: 2
+  expReward: 34
+  separationRadius: 3
+  separationWeight: 10
+  attackRange: 10
+  attackCooltime: 2
 --- !u!1001 &5677402643872791607
 PrefabInstance:
   m_ObjectHideFlags: 0
