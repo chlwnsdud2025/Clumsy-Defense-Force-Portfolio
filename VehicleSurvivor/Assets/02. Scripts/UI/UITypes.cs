@@ -23,5 +23,6 @@ public enum EPopupUIType
     None = 0,
 
     SelectCard,
-    ChoiceSkill
+    ChoiceSkill,
+    Pause
 }
