@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UI_InGameHUD : UIScene
 {
+    private IEventBus _eventBus;
     [Header("Player UI")]
     [SerializeField] private TextMeshProUGUI characterNameText;
     [SerializeField] private Slider hpSlider;
