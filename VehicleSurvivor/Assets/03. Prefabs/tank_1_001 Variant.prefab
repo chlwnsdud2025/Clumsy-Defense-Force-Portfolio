@@ -435,6 +435,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.30800056
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.1700006
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.05451584
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 155680815183329019, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1610047184814059861, guid: 957186ed8f4e9064fb64d84052d7ff82, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.74705
@@ -558,7 +590,6 @@ MonoBehaviour:
   rearRightWheel: {fileID: 4442453071715337751}
   wheelRotateSpeed: 700
   maxSteerAngle: 30
-  driftSmoothness: 2
 --- !u!65 &2240005772905103195
 BoxCollider:
   m_ObjectHideFlags: 0

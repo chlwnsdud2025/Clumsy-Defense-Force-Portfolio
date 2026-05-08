@@ -539,12 +539,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512eb5c7258dcfa4f9d785556007a3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  enemyPrefab: {fileID: 5944618501675846902, guid: 4f77ee1a71a1d34478864f1434be83c4, type: 3}
   playerTransform: {fileID: 1937051309}
-  maxEnemies: 500
+  poolSettings:
+  - type: 0
+    prefab: {fileID: 5944618501675846902, guid: 4f77ee1a71a1d34478864f1434be83c4, type: 3}
+    poolSize: 500
+    amountRate: 70
+  - type: 1
+    prefab: {fileID: 7539001815701513887, guid: 9b079ac896a56334292a21f2ceee9502, type: 3}
+    poolSize: 100
+    amountRate: 20
+  - type: 2
+    prefab: {fileID: 7539001815701513887, guid: 746c0e5d2bbbdaf4792c44bf4059d437, type: 3}
+    poolSize: 200
+    amountRate: 10
+  - type: 3
+    prefab: {fileID: 3976847350399919973, guid: 28742cafc4f171748b2bdfd9775ff449, type: 3}
+    poolSize: 100
+    amountRate: 1
+  - type: 4
+    prefab: {fileID: 5254603863205873838, guid: 688b91cce7d147d4fb5e2e9613af592c, type: 3}
+    poolSize: 100
+    amountRate: 1
+  - type: 5
+    prefab: {fileID: 7539001815701513887, guid: e7612061d793fde48b683358da9b969f, type: 3}
+    poolSize: 100
+    amountRate: 1
   spawnRadius: 70
   spawnInterval: 0.1
-  cellSize: 2
+  cellSize: 3
 --- !u!114 &663870442
 MonoBehaviour:
   m_ObjectHideFlags: 0
