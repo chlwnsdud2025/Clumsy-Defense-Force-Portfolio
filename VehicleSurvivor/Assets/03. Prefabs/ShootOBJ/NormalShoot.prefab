@@ -106,5 +106,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202fba32616d8784c90731eef81168b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StraightBullet
-  speed: 50
-  maxDistance: 40
+  speed: 100
+  maxDistance: 100
