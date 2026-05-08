@@ -14,12 +14,12 @@ public class ProjectileBullet : MonoBehaviour
     {
         if (!other.CompareTag("Enemy")) return;
 
-       // EnemyHealth enemyHealth = other.GetComponentInParent<EnemyHealth>();
+        Enemy enemy = other.GetComponentInParent<Enemy>();
 
-       // if (enemyHealth != null)
-        //{
-          //  enemyHealth.TakeDamage(damage);
-       // }
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+        }
 
         Destroy(gameObject);
     }
