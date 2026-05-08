@@ -504,6 +504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 663870440}
   - component: {fileID: 663870441}
+  - component: {fileID: 663870442}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -544,6 +545,24 @@ MonoBehaviour:
   spawnRadius: 70
   spawnInterval: 0.1
   cellSize: 2
+--- !u!114 &663870442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663870439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d530556500ba648b372875539e9e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExpManager
+  smallOrbPrefab: {fileID: 7779597859874199718, guid: f39f2878e3a85bd42999d021cea3955f, type: 3}
+  mediumOrbPrefab: {fileID: 594004295867374277, guid: 813b8d3b10043d9428f7d001b6e3a5b1, type: 3}
+  largeOrbPrefab: {fileID: 5705903128194090994, guid: 0f5dadc842538bd46b076d4b789c1cbc, type: 3}
+  smallPoolSize: 2000
+  mediumPoolSize: 1000
+  largePoolSize: 100
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4379396002876632979, guid: e6cf8533637cc624e8897e5d38ceca8f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 13.92
       objectReference: {fileID: 0}
     - target: {fileID: 4379396002876632979, guid: e6cf8533637cc624e8897e5d38ceca8f, type: 3}
       propertyPath: m_LocalPosition.y

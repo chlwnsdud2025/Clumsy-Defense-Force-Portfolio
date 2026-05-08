@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   moveSpeed: 5
-  maxHealth: 100
+  maxHealth: 10
   rotationSpeed: 2
+  expReward: 34
   separationRadius: 3
   separationWeight: 10
   attackRange: 10
