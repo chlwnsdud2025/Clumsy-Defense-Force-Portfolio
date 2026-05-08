@@ -22,10 +22,28 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     _lifetimePolicy: 0
     _releaseAssetOnClose: 0
+  - _type: 2
+    _prefabReference:
+      m_AssetGUID: 4f0444a4554ec0540baba60c46a2c6f2
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _lifetimePolicy: 0
+    _releaseAssetOnClose: 0
   Popups:
   - _type: 1
     _prefabReference:
       m_AssetGUID: 54e798e2fbc86614cad5201938d0d11f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _lifetimePolicy: 0
+    _releaseAssetOnClose: 0
+  - _type: 2
+    _prefabReference:
+      m_AssetGUID: 6f9bc07201c05224baaf3a8f9fe08cf6
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

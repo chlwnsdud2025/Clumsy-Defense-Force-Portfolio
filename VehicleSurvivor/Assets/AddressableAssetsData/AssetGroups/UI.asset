@@ -15,13 +15,28 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: 6bc17cb9f6e5c9c40a2cef9b88410355
   m_SerializeEntries:
+  - m_GUID: 4f0444a4554ec0540baba60c46a2c6f2
+    m_Address: Assets/03. Prefabs/UI/Scene/UI_Title.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 54e798e2fbc86614cad5201938d0d11f
     m_Address: Assets/03. Prefabs/UI/Popup/UI_SelectCard.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f9bc07201c05224baaf3a8f9fe08cf6
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_ChoiceSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8e5cc4288944db644935fdbf7c92667c
     m_Address: Assets/03. Prefabs/UI/Scene/UI_InGameHUD.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e74962b9b8a738d4782daee1bb40fb2a
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_GameOver.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
