@@ -61,17 +61,15 @@ public class ExpManager : MonoBehaviour
         orbPools.Add(type, pool); // 딕셔너리에 완성된 풀 추가
     }
 
-    public void SpawnExp(ExpType type, Vector3 position)
+    public void SpawnExp(ExpType type, Vector3 position, int expAmount)
     {
-        // 해당 타입의 풀에 여유가 있다면
         if (orbPools[type].Count > 0)
         {
             ExpOrb orb = orbPools[type].Dequeue();
-            orb.Spawn(position);
-        }
-        else
-        {
-            // 맵에 있는 가장 먼 구슬을 당겨오게 만들예정
+
+            // activeOrbs.Add(orb); 
+
+            orb.Spawn(position, expAmount);
         }
     }
 
