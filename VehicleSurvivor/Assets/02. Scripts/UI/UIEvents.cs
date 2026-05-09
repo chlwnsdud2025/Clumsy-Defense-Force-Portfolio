@@ -1,7 +1,7 @@
 using UnityEngine;
 
-public class UIEvents : MonoBehaviour
-{
+//public class UIEvents : MonoBehaviour
+
     public readonly struct HpChangedEvent
     {
         public readonly int Current;
@@ -42,4 +42,4 @@ public class UIEvents : MonoBehaviour
         }
     }
 
-}
+
