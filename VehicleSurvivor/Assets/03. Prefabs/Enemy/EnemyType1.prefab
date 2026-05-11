@@ -107,6 +107,13 @@ MonoBehaviour:
   separationWeight: 10
   attackRange: 10
   attackCooltime: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  raycastStartHeight: 50
+  raycastDistance: 100
+  climbSmoothness: 15
+  gravity: -20
 --- !u!1 &7311469931525132662
 GameObject:
   m_ObjectHideFlags: 0
