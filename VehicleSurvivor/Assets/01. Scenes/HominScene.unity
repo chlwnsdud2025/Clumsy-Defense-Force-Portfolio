@@ -328,6 +328,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+--- !u!4 &280017996 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2411872763733203541, guid: e0be35e8b8e052942912b97787e0637f, type: 3}
+  m_PrefabInstance: {fileID: 6815452977622005258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,6 +1544,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6265575287772571189, guid: e0be35e8b8e052942912b97787e0637f, type: 3}
+      propertyPath: weaponHolder
+      value: 
+      objectReference: {fileID: 280017996}
+    - target: {fileID: 6265575287772571189, guid: e0be35e8b8e052942912b97787e0637f, type: 3}
+      propertyPath: startWeaponPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265575287772571189, guid: e0be35e8b8e052942912b97787e0637f, type: 3}
+      propertyPath: 'startWeaponPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3232517892170819734, guid: 5f16de2f6793d9b42843a6f2d529c35d, type: 3}
+    - target: {fileID: 6265575287772571189, guid: e0be35e8b8e052942912b97787e0637f, type: 3}
+      propertyPath: 'startWeaponPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 302306146513328959, guid: 544f10705c59a1a458b4659e4058d0f8, type: 3}
     - target: {fileID: 7258513839941660159, guid: e0be35e8b8e052942912b97787e0637f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.408356

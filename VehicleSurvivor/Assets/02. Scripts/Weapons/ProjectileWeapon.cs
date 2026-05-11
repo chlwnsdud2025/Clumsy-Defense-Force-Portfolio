@@ -2,90 +2,54 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("Projectile Settings")]
-    public GameObject bulletPrefab;
+    [Header("발사 위치")]
     public Transform firePoint;
-    public float bulletSpeed = 20f;
 
-    [Header("Multi Shot")]
-    public int projectileCount = 1;
-    public float spreadAngle = 15f;
+    [Header("총알 프리팹")]
+    public GameObject projectilePrefab;
 
     protected override void Attack()
     {
-        if (bulletPrefab == null || firePoint == null)
-        {
-            Debug.LogWarning("총알 프리팹 또는 FirePoint가 비어있습니다.");
-            return;
-        }
+        WeaponLevelData data = GetCurrentLevelData();
 
-        projectileCount = Mathf.Max(1, projectileCount);
+        if (data == null)
+            return;
+
+        int projectileCount = data.projectileCount;
+
+        float angleStep = 10f;
+        float startAngle = -(angleStep * (projectileCount - 1)) / 2f;
 
         for (int i = 0; i < projectileCount; i++)
         {
-            float angle = 0f;
+            float currentAngle = startAngle + (angleStep * i);
 
-            if (projectileCount > 1)
-            {
-                float centerIndex = (projectileCount - 1) / 2f;
-                angle = (i - centerIndex) * spreadAngle;
-            }
-
-            Quaternion bulletRotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+            Quaternion rotation =
+                firePoint.rotation *
+                Quaternion.Euler(0f, currentAngle, 0f);
 
             GameObject bullet = Instantiate(
-                bulletPrefab,
+                projectilePrefab,
                 firePoint.position,
-                bulletRotation
+                rotation
             );
 
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                rb.linearVelocity = bulletRotation * Vector3.forward * bulletSpeed;
-            }
-
-            ProjectileBullet projectile = bullet.GetComponent<ProjectileBullet>();
+            ProjectileBullet projectile =
+                bullet.GetComponent<ProjectileBullet>();
 
             if (projectile != null)
             {
-                projectile.damage = damage;
+                projectile.Setup(data);
+            }
+
+            if (data.attackParticlePrefab != null)
+            {
+                Instantiate(
+                    data.attackParticlePrefab,
+                    firePoint.position,
+                    rotation
+                );
             }
         }
-    }
-
-    public override void LevelUp()
-    {
-        if (level >= maxLevel)
-        {
-            Debug.Log($"{weaponName}은 이미 최대 레벨입니다.");
-            return;
-        }
-
-        level++;
-
-        if (level == 2)
-        {
-            damage += 5f;
-        }
-        else if (level == 3)
-        {
-            cooldown *= 0.8f;
-        }
-        else if (level == 4)
-        {
-            projectileCount = 2;
-        }
-        else if (level == 5)
-        {
-            projectileCount = 3;
-            spreadAngle = 15f;
-        }
-
-        bulletSpeed += 2f;
-
-        Debug.Log($"{weaponName} Lv.{level} 강화 완료");
     }
 }
