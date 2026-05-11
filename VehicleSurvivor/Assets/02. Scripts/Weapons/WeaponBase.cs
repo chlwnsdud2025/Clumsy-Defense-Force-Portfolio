@@ -2,44 +2,56 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
-    [Header("Weapon Info")]
-    public string weaponID;
-    public string weaponName;
+    [Header("무기 레벨 데이터")]
+    public WeaponLevelData[] levelData;
 
-    [Header("Weapon Stats")]
-    public int level = 1;
-    public int maxLevel = 5;
-    public float damage = 10f;
-    public float cooldown = 1f;
-
+    [Header("현재 무기 상태")]
+    [SerializeField] protected int currentLevel = 0;
     protected float attackTimer;
 
     protected virtual void Update()
     {
         attackTimer += Time.deltaTime;
 
-        if (attackTimer >= cooldown)
+        WeaponLevelData data = GetCurrentLevelData();
+
+        if (data == null)
+            return;
+
+        if (attackTimer >= data.cooldown)
         {
             Attack();
             attackTimer = 0f;
         }
     }
 
-    protected abstract void Attack();
-
-    public virtual void LevelUp()
+    public void LevelUpWeapon()
     {
-        if (level >= maxLevel)
-        {
-            Debug.Log($"{weaponName}은 이미 최대 레벨입니다.");
+        if (levelData == null || levelData.Length == 0)
             return;
+
+        currentLevel++;
+
+        if (currentLevel >= levelData.Length)
+        {
+            currentLevel = levelData.Length - 1;
         }
 
-        level++;
-
-        damage += 5f;
-        cooldown *= 0.9f;
-
-        Debug.Log($"{weaponName} 레벨업! 현재 레벨: {level}");
+        OnWeaponLevelUp();
     }
-}       
+
+    protected WeaponLevelData GetCurrentLevelData()
+    {
+        if (levelData == null || levelData.Length == 0)
+            return null;
+
+        return levelData[currentLevel];
+    }
+
+    protected virtual void OnWeaponLevelUp()
+    {
+        Debug.Log($"{gameObject.name} 무기 레벨업! 현재 레벨: {currentLevel + 1}");
+    }
+
+    protected abstract void Attack();
+}
