@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - UI
   - Player
   - Obsticle
-  - 
-  - 
+  - MainCarmera
+  - MinimapCarmera
   - 
   - 
   - 
@@ -50,4 +51,5 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
+  - FloorDecal
   m_MigratedRenderPipelines: []
