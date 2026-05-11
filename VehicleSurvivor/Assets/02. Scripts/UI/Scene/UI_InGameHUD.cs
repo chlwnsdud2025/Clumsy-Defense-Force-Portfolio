@@ -16,10 +16,54 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI killCountText;
     [SerializeField] private TextMeshProUGUI timerText;
+    [Header("Game UI")]
+    [SerializeField] private RectTransform pauseButtonRect;
+    [Header("HP Tween")]
+    [SerializeField] private float hpTweenDuration = 0.25f;
+    [SerializeField] private Ease hpTweenEase = Ease.OutQuad;
+    [Header("EXP Tween")]
+    [SerializeField] private float expTweenDuration = 0.25f;
+    [SerializeField] private Ease expTweenEase = Ease.OutQuad;
+    [Header("Boost Tween")]
+    [SerializeField] private float boostTweenDuration = 0.25f;
+    [SerializeField] private Ease boostTweenEase = Ease.OutQuad;
+    [Header("HP Warning")]
+    [SerializeField] private float hpWarningThreshold = 0.2f;
+    [SerializeField] private float hpWarningFadeDuration = 0.35f;
+    [SerializeField] private float hpWarningTargetAlpha = 0.35f;
+    [SerializeField] private Ease hpWarningEase = Ease.Linear;
+    [Header("Pause Button Tween")]
+    [SerializeField] private float pauseButtonPunchPower = 0.12f;
+    [SerializeField] private float pauseButtonTweenDuration = 0.15f;
+
+
 
     private Tween hpTween;
     private Tween expTween;
     private Tween boostTween;
+    private Tween hpWarningTween;
+    private Tween pauseButtonTween;
+
+    public override void OnShow()
+    {
+        _eventBus = ServiceLocator.Get<IEventBus>();
+        _eventBus.Subscribe<HpChangedEvent>(OnHpChanged);
+        _eventBus.Subscribe<KillCountEvent>(OnKillChanged);
+        _eventBus.Subscribe<TimeChangeEvent>(OnTimeChanged);
+        _eventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
+    }
+    public override void OnHide()
+    {
+        if (_eventBus == null)
+        {
+            return;
+        }
+
+        _eventBus.Unsubscribe<HpChangedEvent>(OnHpChanged);
+        _eventBus.Unsubscribe<KillCountEvent>(OnKillChanged);
+        _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
+        _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
+    }
     public void UpdateCharacterName(string characterName)
     {
         if (characterNameText != null)
@@ -34,11 +78,21 @@ public class UI_InGameHUD : UIScene
         if (hpSlider != null)
         {
             hpTween?.Kill();
-            hpTween = hpSlider.DOValue(ratio, 0.25f).SetEase(Ease.OutQuad);
+            hpTween = hpSlider
+                .DOValue(ratio, hpTweenDuration)
+                .SetEase(hpTweenEase);
         }
         if (hpText != null)
         {
             hpText.text = $"{current} / {max}";
+        }
+        if (ratio < hpWarningThreshold)
+        {
+            StartWarningHp();
+        }
+        else
+        {
+            StopWarningHp();
         }
     }
     public void UpdateBoostGauge(int current, int max)
@@ -48,7 +102,9 @@ public class UI_InGameHUD : UIScene
         if (boostSlider != null)
         {
             boostTween?.Kill();
-            boostTween = boostSlider.DOValue(ratio, 0.25f).SetEase(Ease.OutQuad);
+            boostTween = boostSlider
+                .DOValue(ratio, boostTweenDuration)
+                .SetEase(boostTweenEase);
         }
 
     }
@@ -59,7 +115,9 @@ public class UI_InGameHUD : UIScene
         if (expSlider != null)
         {
             expTween?.Kill();
-            expTween = expSlider.DOValue(ratio, 0.25f).SetEase(Ease.OutQuad);
+            expTween = expSlider
+                .DOValue(ratio, expTweenDuration)
+                .SetEase(expTweenEase);
         }
 
     }
@@ -86,14 +144,71 @@ public class UI_InGameHUD : UIScene
             timerText.text = $"{minutes:00}:{seconds:00}";
         }
     }
+
+    private void OnHpChanged(HpChangedEvent e)
+    {
+        UpdateHpGauge(e.Current, e.Max);
+    }
+    private void OnKillChanged(KillCountEvent e)
+    {
+        UpdateKillUI(e.KillCount);
+    }
+
+    private void OnTimeChanged(TimeChangeEvent e)
+    {
+        UpdateTimerUI(e.Time);
+    }
+
+    private void OnGoldChanged(GoldChangedEvent e)
+    {
+        UpdateGoldUI(e.Gold);
+    }
+
+    private void StartWarningHp()
+    {
+        if (hpText == null) return;
+
+        if (hpWarningTween != null &&
+            hpWarningTween.IsActive())
+        {
+            return;
+        } // 가독성좋다해서
+        hpWarningTween = hpText
+            .DOFade(hpWarningTargetAlpha, hpWarningFadeDuration)
+            .SetEase(hpWarningEase)
+            .SetLoops(-1, LoopType.Yoyo);
+    }
+    private void StopWarningHp()
+    {
+        hpWarningTween?.Kill();
+        hpWarningTween = null; // Kill 후 참조 정리
+
+        if (hpText != null)
+        {
+            hpText.alpha = 1f;
+        }
+    }
     private void OnDestroy()
     {
+        OnHide();
+
         hpTween?.Kill();
         expTween?.Kill();
         boostTween?.Kill();
+        hpWarningTween?.Kill();
+        pauseButtonTween?.Kill();
     }
+    private void PlayPauseButtonTween()
+    {
+        if (pauseButtonRect == null) return;
+        pauseButtonTween?.Kill();
+        pauseButtonRect.localScale = Vector3.one;
+        pauseButtonTween = pauseButtonRect.DOPunchScale(Vector3.one * pauseButtonPunchPower, pauseButtonTweenDuration);
+    }
+
     public void OnClickPausePopup()
     {
+        PlayPauseButtonTween();
         UIManager.Instance.ShowPopup(EPopupUIType.Pause);
     }
 }
