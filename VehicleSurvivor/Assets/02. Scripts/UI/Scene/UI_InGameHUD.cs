@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,9 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private TextMeshProUGUI killCountText;
     [SerializeField] private TextMeshProUGUI timerText;
 
+    private Tween hpTween;
+    private Tween expTween;
+    private Tween boostTween;
     public void UpdateCharacterName(string characterName)
     {
         if (characterNameText != null)
@@ -25,10 +29,12 @@ public class UI_InGameHUD : UIScene
     }
     public void UpdateHpGauge(int current, int max)
     {
-
+        float ratio = max > 0 ? (float)current / max : 0f;
+        ratio = Mathf.Clamp01(ratio);
         if (hpSlider != null)
         {
-            hpSlider.value = max > 0 ? (float)current / max : 0f;
+            hpTween?.Kill();
+            hpTween = hpSlider.DOValue(ratio, 0.25f).SetEase(Ease.OutQuad);
         }
         if (hpText != null)
         {
@@ -37,21 +43,23 @@ public class UI_InGameHUD : UIScene
     }
     public void UpdateBoostGauge(int current, int max)
     {
-        if (max <= 0) return;
-
+        float ratio = max > 0 ? (float)current / max : 0f;
+        ratio = Mathf.Clamp01(ratio);
         if (boostSlider != null)
         {
-            boostSlider.value = (float)current / max;
+            boostTween?.Kill();
+            boostTween = boostSlider.DOValue(ratio, 0.25f).SetEase(Ease.OutQuad);
         }
 
     }
     public void UpdateExpGauge(int current, int max)
     {
-        if (max <= 0) return;
-
+        float ratio = max > 0 ? (float)current / max : 0f;
+        ratio = Mathf.Clamp01(ratio);
         if (expSlider != null)
         {
-            expSlider.value = (float)current / max;
+            expTween?.Kill();
+            expTween = expSlider.DOValue(ratio, 0.25f).SetEase(Ease.OutQuad);
         }
 
     }
@@ -78,7 +86,12 @@ public class UI_InGameHUD : UIScene
             timerText.text = $"{minutes:00}:{seconds:00}";
         }
     }
-
+    private void OnDestroy()
+    {
+        hpTween?.Kill();
+        expTween?.Kill();
+        boostTween?.Kill();
+    }
     public void OnClickPausePopup()
     {
         UIManager.Instance.ShowPopup(EPopupUIType.Pause);
