@@ -804,10 +804,17 @@ MonoBehaviour:
   separationWeight: 0.5
   attackRange: 50
   attackCooltime: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  raycastStartHeight: 50
+  raycastDistance: 100
+  climbSmoothness: 15
+  gravity: -20
   dashSpeed: 200
   telegraphDuration: 1
   dashOvershoot: 20
-  warningDecal: {fileID: 2226923903716545097}
+  DashDecal: {fileID: 0}
   dashWidth: 12
   decalDepth: 5
 --- !u!54 &-3167664928056456729
