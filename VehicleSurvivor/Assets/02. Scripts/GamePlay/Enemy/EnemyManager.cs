@@ -8,7 +8,7 @@ public class EnemyPoolSetting
     public GameObject prefab;
     public int poolSize = 50;
 
-    // 유저님이 제안하신 스폰 비율(가중치) 변수! 기본값을 1로 두어 스폰이 아예 안 되는 것을 방지합니다.
+    // 스폰 비율(가중치) 변수
     public float amountRate = 1f;
 }
 
@@ -22,10 +22,18 @@ public class EnemyManager : MonoBehaviour
     [Header("Pool Settings")]
     public EnemyPoolSetting[] poolSettings;
 
-    [Header("Spawn Settings")]
+    [Header("Cluster Spawn Settings")]
     public float spawnRadius = 50f;
-    public float spawnInterval = 0.5f;
+    public float spawnInterval = 2.0f;
+    public float clusterRadius = 4f;
+    public int minSpawnCount = 3;
+    public int maxSpawnCount = 7;
     private float spawnTimer = 0f;
+
+    [Header("3D Spawn Settings")]
+    public LayerMask groundLayer;
+    public float raycastStartHeight = 100f;
+    public float raycastDistance = 200f;
 
     [Header("Grid & Separation Settings")]
     public float cellSize = 2f;
@@ -89,47 +97,71 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    // ★ 유저님의 아이디어가 적용된 가중치 랜덤 스폰 로직!
     private void SpawnEnemyAtRandomCircle()
     {
         if (poolSettings.Length == 0) return;
 
-        // 1. 모든 몹의 비율(amountRate)을 다 합친 총합을 구합니다.
+        // 1. 모든 몹의 비율(amountRate) 총합을 구합니다. (루프 밖에서 한 번만 연산)
         float totalRate = 0f;
         for (int i = 0; i < poolSettings.Length; i++)
         {
             totalRate += poolSettings[i].amountRate;
         }
 
-        // 만약 모든 비율이 0이라면 아무것도 스폰하지 않습니다. (특정 웨이브 대기용으로 쓸 수 있음)
         if (totalRate <= 0f) return;
 
-        // 2. 0부터 총합 사이의 랜덤한 숫자를 하나 뽑습니다.
-        float randomValue = Random.Range(0f, totalRate);
-        EnemyType typeToSpawn = poolSettings[0].type;
+        // 2. 군집 스폰 (Cluster Spawn) 중심점 및 마리 수 계산
+        Vector2 centerCircle = Random.insideUnitCircle.normalized * spawnRadius;
+        Vector3 clusterCenterXZ = new Vector3(
+            playerTransform.position.x + centerCircle.x,
+            0f,
+            playerTransform.position.z + centerCircle.y
+        );
 
-        // 3. 룰렛판을 돌리듯, 랜덤 숫자가 어느 몹의 비율 범위에 속하는지 찾습니다.
-        float cumulativeRate = 0f;
-        for (int i = 0; i < poolSettings.Length; i++)
+        int spawnCount = Random.Range(minSpawnCount, maxSpawnCount + 1);
+
+        // 3. 결정된 마리 수만큼 반복하면서, '매번 개별적으로' 몹 타입을 뽑아 스폰합니다.
+        for (int i = 0; i < spawnCount; i++)
         {
-            cumulativeRate += poolSettings[i].amountRate;
-            if (randomValue <= cumulativeRate)
+            // --- [수정된 부분] 반복문 안에서 매번 룰렛을 돌립니다 ---
+            float randomValue = Random.Range(0f, totalRate);
+            EnemyType typeToSpawn = poolSettings[0].type;
+            float cumulativeRate = 0f;
+
+            // 주의: 바깥쪽 반복문이 i를 쓰므로 안쪽은 j를 사용합니다.
+            for (int j = 0; j < poolSettings.Length; j++)
             {
-                typeToSpawn = poolSettings[i].type;
-                break; // 당첨되었으니 반복문 즉시 탈출
+                cumulativeRate += poolSettings[j].amountRate;
+                if (randomValue <= cumulativeRate)
+                {
+                    typeToSpawn = poolSettings[j].type;
+                    break;
+                }
+            }
+
+            // 풀 고갈 방어: 이 몹의 풀이 비었다면 전체를 취소(break)하지 않고 이 1마리만 건너뜀(continue)
+            if (enemyPools[typeToSpawn].Count == 0) continue;
+            // --------------------------------------------------------
+
+            // 중심점을 기준으로 반경(clusterRadius) 내의 랜덤한 위치 오프셋 생성
+            Vector2 randomOffset = Random.insideUnitCircle * clusterRadius;
+
+            // 3D 지형을 인식하기 위한 상공 레이캐스트 시작점
+            Vector3 rayStartPos = new Vector3(
+                clusterCenterXZ.x + randomOffset.x,
+                playerTransform.position.y + raycastStartHeight,
+                clusterCenterXZ.z + randomOffset.y
+            );
+
+            // 하늘에서 아래로 레이캐스트(레이저) 발사
+            if (Physics.Raycast(rayStartPos, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
+            {
+                // 바닥을 찾았다면 해당 위치(hit.point)의 정확한 높이에 몹을 스폰
+                Enemy enemy = enemyPools[typeToSpawn].Dequeue();
+                enemy.SpawnSetup(playerTransform, hit.point, this);
+                activeEnemies.Add(enemy);
             }
         }
-
-        // 당첨된 타입의 풀에 남아있는 몹이 없다면 스폰 건너뜀 (풀 고갈 방어)
-        if (enemyPools[typeToSpawn].Count == 0) return;
-
-        // 스폰 위치 계산 및 생성
-        Vector2 randomCircle = Random.insideUnitCircle.normalized * spawnRadius;
-        Vector3 spawnPos = new Vector3(randomCircle.x, 0f, randomCircle.y) + playerTransform.position;
-
-        Enemy enemy = enemyPools[typeToSpawn].Dequeue();
-        enemy.SpawnSetup(playerTransform, spawnPos, this);
-        activeEnemies.Add(enemy);
     }
 
     public void ReturnToPool(Enemy enemy)
