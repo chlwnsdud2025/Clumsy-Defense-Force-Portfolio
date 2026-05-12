@@ -2,43 +2,67 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    private Vector3 moveDirection;
-    private float speed;
+    private Vector3 startPos;
+    private Vector3 endPos;
+    private float arcHeight;
+    private float duration;
+    private float progress;
     private float damage;
-    private float currentLifeTime;
+    private float explosionRadius;
 
-    // 총알이 발사될 때 RangedEnemy가 호출해 줄 초기화 함수
-    public void Initialize(Vector3 direction, float speed, float damage, float lifeTime = 5f)
+    [Header("Hit Settings")]
+    public LayerMask playerLayer; // 인스펙터에서 플레이어 레이어를 꼭 할당해주세요!
+
+    public void InitializeParabolic(Vector3 start, Vector3 end, float height, float damage, float flyTime, float radius)
     {
-        moveDirection = direction.normalized;
-        this.speed = speed;
+        this.startPos = start;
+        this.endPos = end;
+        this.arcHeight = height;
         this.damage = damage;
-        this.currentLifeTime = lifeTime; // 일정 시간이 지나면 스스로 파괴되도록 설정
+        this.duration = flyTime;
+        this.explosionRadius = radius;
+        this.progress = 0f;
     }
 
     void Update()
     {
-        // 1. 앞으로 이동 (물리 엔진 없이 수학적 이동으로 최적화)
-        transform.position += moveDirection * speed * Time.deltaTime;
+        progress += Time.deltaTime / duration;
 
-        // 2. 수명 체크 (화면 밖으로 영원히 날아가서 메모리를 갉아먹는 것 방지)
-        currentLifeTime -= Time.deltaTime;
-        if (currentLifeTime <= 0)
+        // X, Z 축 일직선 이동
+        Vector3 currentPos = Vector3.Lerp(startPos, endPos, progress);
+        // Y 축에 Sine파를 곱해 포물선을 그림
+        currentPos.y += Mathf.Sin(progress * Mathf.PI) * arcHeight;
+
+        transform.position = currentPos;
+
+        // 도착 시 폭발
+        if (progress >= 1.0f)
         {
-            Destroy(gameObject); // (임시) 나중에는 파괴 대신 풀(Pool)로 반환해야 합니다.
+            Explode();
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void Explode()
     {
-        // 3. 차량(플레이어)에 닿았는지 체크하여 데미지 적용
-        IDamageable target = other.GetComponent<IDamageable>();
+        // 닿았을 때가 아니라 도착 지점에서 폭발 반경(구체) 내의 모든 타겟에 데미지 판정
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer);
 
-        // 주의: 다른 몹을 때리지 않도록 태그 검사를 추가하는 것이 좋습니다.
-        if (target != null && other.CompareTag("Player"))
+        foreach (Collider hit in hitColliders)
         {
-            target.TakeDamage(damage);
-            Destroy(gameObject); // (임시) 타격 후 파괴
+            IDamageable target = hit.GetComponent<IDamageable>();
+            if (target != null)
+            {
+                target.TakeDamage(damage);
+            }
         }
+
+        Destroy(gameObject); // (임시) 타격 후 파괴
+    }
+
+    // 에디터 화면에서 폭발 범위를 빨간 선으로 보여줍니다.
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }
