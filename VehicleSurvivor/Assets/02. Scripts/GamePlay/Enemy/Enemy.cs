@@ -45,8 +45,10 @@ public class Enemy : MonoBehaviour, IDamageable
     public LayerMask groundLayer;         // 지형으로 인식할 레이어
     public float raycastStartHeight = 50f; // 레이캐스트를 쏠 상공의 높이
     public float raycastDistance = 100f;   // 레이캐스트 최대 도달 거리
-    public float climbSmoothness = 15f;    // 절벽/경사면을 타고 오르는 속도
-    public float gravity = -20f;           // 중력 가속도
+    public float fastStepSpeed = 25f;      // 평지, 계단, 작은 돌멩이를 밟고 지나가는 빠른 속도
+    public float slowClimbSpeed = 5f;      // 절벽, 다리 기둥 등을 천천히 기어오르는 속도
+
+    public float gravity = -20f; // 증력
 
     protected bool isTrackingPlayer = true;
 
@@ -84,39 +86,44 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Vector3 horizontalVelocity = desiredVelocity + (separationForce * separationWeight);
 
-        //if (knockbackVelocity.sqrMagnitude > 0.01f)
-        //{
-        //    horizontalVelocity += knockbackVelocity;
-        //    knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, deltaTime * 5f);
-        //}
-
         // ==========================================
-        // [수정됨] 타겟 높이 인식형 스마트 레이캐스트 (이중 레이더)
+        // [완성판] 다중 레이어 투시 스마트 레이캐스트
         // ==========================================
         Vector3 nextPosXZ = transform.position + (horizontalVelocity * deltaTime);
         float targetHeight = transform.position.y;
         bool hitGround = false;
 
-        // 1. 플레이어가 나보다 유의미하게 높은 곳(예: 2m 이상)에 있는지 확인합니다.
+        // 1. 플레이어가 나보다 높은 곳(예: 2m 이상)에 있는지 확인
         bool isPlayerHigher = playerTarget.position.y > transform.position.y + 2.0f;
 
         if (isPlayerHigher)
         {
-            // 🚨 [플레이어가 높은 곳에 있음] 
-            // 다리 위로 쫓아가기 위해 레이캐스트 시작점을 플레이어보다 더 높은 상공으로 잡습니다.
+            // [플레이어가 높은 곳에 있음]
+            // RaycastAll을 사용하여 하늘에서부터 모든 지형을 관통하여 스캔합니다.
             float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
             Vector3 highRayStart = nextPosXZ + Vector3.up * dynamicHeight;
+            RaycastHit[] hits = Physics.RaycastAll(highRayStart, Vector3.down, raycastDistance, groundLayer);
 
-            if (Physics.Raycast(highRayStart, Vector3.down, out RaycastHit highHit, raycastDistance, groundLayer))
+            if (hits.Length > 0)
             {
-                targetHeight = highHit.point.y;
-                hitGround = true;
+                float closestDiff = float.MaxValue;
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    // 플레이어의 높이와 가장 가까운 지형 선택
+                    float diff = Mathf.Abs(hits[i].point.y - playerTarget.position.y);
+                    if (diff < closestDiff)
+                    {
+                        closestDiff = diff;
+                        targetHeight = hits[i].point.y;
+                        hitGround = true;
+                    }
+                }
             }
         }
         else
         {
-            // 🟢 [플레이어가 평지이거나 내 아래에 있음]
-            // 다리 밑 천장에 납치되지 않도록 근거리(머리 위 2m) 레이더부터 가동합니다.
+            // [플레이어가 평지이거나 내 아래에 있음]
+            // 다리 밑 천장에 납치되지 않도록 근거리(머리 위 2m) 레이더부터 가동
             float lowRayStartHeight = 2.0f;
             float lowRayDistance = 4.0f;
             Vector3 lowRayStart = nextPosXZ + Vector3.up * lowRayStartHeight;
@@ -126,51 +133,73 @@ public class Enemy : MonoBehaviour, IDamageable
                 targetHeight = lowHit.point.y;
                 hitGround = true;
             }
-            // 근거리 탐색 실패 시 (절벽 등반을 위해) 원거리 탐색 발동
+            // 근거리 탐색 실패 시 (절벽 등반 혹은 다층 지형 탐색)
             else
             {
                 Vector3 highRayStart = nextPosXZ + Vector3.up * raycastStartHeight;
-                if (Physics.Raycast(highRayStart, Vector3.down, out RaycastHit highHit, raycastDistance, groundLayer))
+                RaycastHit[] hits = Physics.RaycastAll(highRayStart, Vector3.down, raycastDistance, groundLayer);
+
+                if (hits.Length > 0)
                 {
-                    targetHeight = highHit.point.y;
-                    hitGround = true;
+                    float closestDiff = float.MaxValue;
+                    for (int i = 0; i < hits.Length; i++)
+                    {
+                        float diff = Mathf.Abs(hits[i].point.y - playerTarget.position.y);
+                        if (diff < closestDiff)
+                        {
+                            closestDiff = diff;
+                            targetHeight = hits[i].point.y;
+                            hitGround = true;
+                        }
+                    }
                 }
             }
         }
 
-        // ==========================================
-        // 지형 충돌 결과 처리
-        // ==========================================
+
+        // 지형 충돌 결과 처리(단차)
         if (hitGround)
         {
             float heightDiff = targetHeight - transform.position.y;
 
-            // 단차(maxStepHeight) 제한을 없앴습니다. 수직 절벽이든 평지이든 무조건 타고 오릅니다.
             if (heightDiff >= -0.1f)
             {
-                // Lerp를 통해 벽을 스르륵 타고 오르는 연출
-                float smoothY = Mathf.Lerp(transform.position.y, targetHeight, deltaTime * climbSmoothness);
-                transform.position = new Vector3(transform.position.x, smoothY, transform.position.z);
+                float currentClimbSpeed;
 
-                verticalVelocity = 0; // 지면에 붙어있으므로 수직 속도 초기화
+                // '실제 단차의 높이'에 따라 등반/보행 속도 결정
+                if (heightDiff > 0.5f)
+                {
+                    // 거대한 벽을 만나면 전진을 멈추고 천천히 등반
+                    horizontalVelocity = Vector3.zero;
+                    currentClimbSpeed = slowClimbSpeed;
+                }
+                else
+                {
+                    // 작은 단차는 멈추지 않고 빠른 속도로 밟고 지나감
+                    currentClimbSpeed = fastStepSpeed;
+                }
+
+                float newY = Mathf.MoveTowards(transform.position.y, targetHeight, currentClimbSpeed * deltaTime);
+                transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+
+                verticalVelocity = 0;
                 isGrounded = true;
             }
-            else // 낭떠러지, 내리막길 등 현재 위치보다 지형이 한참 아래일 때
+            else // 낭떠러지 등 하강 상황
             {
                 isGrounded = false;
             }
         }
         else
         {
-            isGrounded = false; // 지형을 아예 찾지 못해도 추락
+            isGrounded = false;
         }
 
-        // 중력 적용 (공중에 떠 있거나 떨어질 때)
+        // 중력 적용
         if (!isGrounded)
         {
             verticalVelocity += gravity * deltaTime;
 
-            // 추락 중 바닥을 뚫고 지나가지 않도록 최소 높이 보정
             if (hitGround && transform.position.y + (verticalVelocity * deltaTime) < targetHeight)
             {
                 transform.position = new Vector3(transform.position.x, targetHeight, transform.position.z);
@@ -179,10 +208,10 @@ public class Enemy : MonoBehaviour, IDamageable
             }
         }
 
-        // 최종 위치 적용 (수평 이동 + 수직 이동)
+        // 최종 위치 적용
         transform.position += (horizontalVelocity + Vector3.up * verticalVelocity) * deltaTime;
 
-        // 회전 처리 (기존과 동일하게 Y축 무시)
+        // 회전 처리
         if (isTrackingPlayer)
         {
             Vector3 playerDir = playerTarget.position - transform.position;
@@ -196,7 +225,6 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    // 이동 방향과 공격 타이밍을 결정하는 부모의 공통 로직
     protected virtual void ExecuteBehavior(float deltaTime, out Vector3 desiredVelocity)
     {
         Vector3 playerDir = playerTarget.position - transform.position;
@@ -206,38 +234,29 @@ public class Enemy : MonoBehaviour, IDamageable
 
         desiredVelocity = Vector3.zero;
 
-        // 매 프레임 쿨타임 감소
         if (currentAttackCooldown > 0)
         {
             currentAttackCooldown -= deltaTime;
         }
 
-        // 사거리 밖이면 다가감
         if (distanceToPlayer > attackRange)
         {
             desiredVelocity = playerDir * moveSpeed;
         }
         else
         {
-            // 사거리 이내이고 쿨타임이 돌았다면 공격
             if (currentAttackCooldown <= 0)
             {
                 Attack();
-                currentAttackCooldown = attackCooltime; // 쿨타임 리셋
+                currentAttackCooldown = attackCooltime;
             }
         }
     }
 
     protected virtual void Attack()
     {
-        Debug.Log("기본 근접 몹이 차를 들이받습니다!");
+        Debug.Log("기본 근접 몹 공격!");
     }
-
-    //public void ApplyKnockback(Vector3 pushDirection, float pushPower)
-    //{
-    //    pushDirection.y = 0;
-    //    knockbackVelocity = pushDirection.normalized * pushPower;
-    //}
 
     public virtual void TakeDamage(float damage)
     {
@@ -252,7 +271,6 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         DropExpOrbs();
-
         GameSessionManager.Instance.AddKill();
 
         if (myManager != null)
@@ -271,15 +289,8 @@ public class Enemy : MonoBehaviour, IDamageable
         dropPos.y += 0.5f;
 
         ExpType typeToDrop = ExpType.Small;
-
-        if (expReward >= 50)
-        {
-            typeToDrop = ExpType.Large;
-        }
-        else if (expReward >= 10)
-        {
-            typeToDrop = ExpType.Medium;
-        }
+        if (expReward >= 50) typeToDrop = ExpType.Large;
+        else if (expReward >= 10) typeToDrop = ExpType.Medium;
 
         if (ExpManager.Instance != null)
         {

@@ -109,7 +109,8 @@ MonoBehaviour:
     m_Bits: 1024
   raycastStartHeight: 50
   raycastDistance: 100
-  climbSmoothness: 15
+  fastStepSpeed: 25
+  slowClimbSpeed: 3
   gravity: 0
   flyingHeightOffset: 1.2
 --- !u!1001 &2704501675487106496
