@@ -46,7 +46,10 @@ public class UI_InGameHUD : UIScene
 
     public override void OnShow()
     {
-        _eventBus = ServiceLocator.Get<IEventBus>();
+        if (_eventBus == null)
+        {
+            _eventBus = ServiceLocator.Get<IEventBus>();
+        }
         _eventBus.Subscribe<HpChangedEvent>(OnHpChanged);
         _eventBus.Subscribe<KillCountEvent>(OnKillChanged);
         _eventBus.Subscribe<TimeChangeEvent>(OnTimeChanged);
@@ -54,15 +57,15 @@ public class UI_InGameHUD : UIScene
     }
     public override void OnHide()
     {
-        if (_eventBus == null)
+        if (_eventBus != null)
         {
-            return;
+            _eventBus.Unsubscribe<HpChangedEvent>(OnHpChanged);
+            _eventBus.Unsubscribe<KillCountEvent>(OnKillChanged);
+            _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
+            _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
         }
 
-        _eventBus.Unsubscribe<HpChangedEvent>(OnHpChanged);
-        _eventBus.Unsubscribe<KillCountEvent>(OnKillChanged);
-        _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
-        _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
+        KillTweens();//이벤트 버스가 없어도 킬할수있게
     }
     public void UpdateCharacterName(string characterName)
     {
@@ -191,13 +194,22 @@ public class UI_InGameHUD : UIScene
     private void OnDestroy()
     {
         OnHide();
-
+    }
+    private void KillTweens()
+    {
         hpTween?.Kill();
         expTween?.Kill();
         boostTween?.Kill();
         hpWarningTween?.Kill();
         pauseButtonTween?.Kill();
+        //kill 후 참조처리
+        hpTween = null;
+        expTween = null;
+        boostTween = null;
+        hpWarningTween = null;
+        pauseButtonTween = null;
     }
+
     private void PlayPauseButtonTween()
     {
         if (pauseButtonRect == null) return;
