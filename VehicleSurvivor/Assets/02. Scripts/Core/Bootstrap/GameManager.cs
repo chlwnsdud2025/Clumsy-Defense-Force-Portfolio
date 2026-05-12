@@ -1,9 +1,24 @@
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
-
+public enum GameState
+{
+    Title,
+    CharacterSelect,
+    Playing,
+    Paused,
+    GameOver
+}
 public class GameManager : MonoSingleton<GameManager>
 {
+    public GameState CurrentState { get; private set; } = GameState.Title;
+
+    public bool IsPlaying => CurrentState == GameState.Playing;
+    public void ChangeState(GameState newState)
+    {
+        CurrentState = newState;
+    }
+
     private async void Start()
     {
         if (!await InitializeServicesAsync())
@@ -11,12 +26,23 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (!await InitializeGameUIAsync())
             return;
-
+        ChangeState(GameState.Title);
         UIManager.Instance.ShowScene(ESceneUIType.Title);
 
         await UniTask.Yield();
     }
+    public void GoToCharacterSelect()
+    {
+        ChangeState(GameState.CharacterSelect);
+        UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
+    }
 
+    public void StartGame()
+    {
+        ChangeState(GameState.Playing);
+        GameSessionManager.Instance.StartSession();
+        UIManager.Instance.ShowScene(ESceneUIType.InGameHUD);
+    }
     private async UniTask<bool> InitializeServicesAsync()
     {
         if (!await ServiceBootstrapper.InitializeAsync())

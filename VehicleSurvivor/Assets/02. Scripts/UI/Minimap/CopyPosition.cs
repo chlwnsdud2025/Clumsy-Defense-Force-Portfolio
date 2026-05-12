@@ -12,10 +12,14 @@ public class CopyPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+    private void LateUpdate()
+    {
         if (target == null) return;
         transform.position = new Vector3(
             x ? target.position.x : transform.position.x,
             y ? target.position.y : transform.position.y,
-            z ? target.position.z : transform.position.z);
+            z ? target.position.z : transform.position.z);  
     }
 }
