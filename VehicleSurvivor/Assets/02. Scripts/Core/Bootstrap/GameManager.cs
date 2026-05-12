@@ -37,11 +37,11 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
     }
 
-    public void StartGame()
+    public void GoToInGameHUD()
     {
         ChangeState(GameState.Playing);
-        GameSessionManager.Instance.StartSession();
         UIManager.Instance.ShowScene(ESceneUIType.InGameHUD);
+        RunManager.Instance.StartRun();
     }
     private async UniTask<bool> InitializeServicesAsync()
     {

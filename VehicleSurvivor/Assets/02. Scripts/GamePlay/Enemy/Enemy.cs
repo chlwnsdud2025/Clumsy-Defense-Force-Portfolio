@@ -271,7 +271,8 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         DropExpOrbs();
-        GameSessionManager.Instance.AddKill();
+
+        RunManager.Instance.AddKill();
 
         if (myManager != null)
         {

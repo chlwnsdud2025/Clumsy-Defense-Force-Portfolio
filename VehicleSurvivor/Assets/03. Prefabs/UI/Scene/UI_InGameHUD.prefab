@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.485
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3690,6 +3690,19 @@ MonoBehaviour:
   goldText: {fileID: 6881421496446537388}
   killCountText: {fileID: 7511890982938601588}
   timerText: {fileID: 707928688314550617}
+  pauseButtonRect: {fileID: 0}
+  hpTweenDuration: 0.25
+  hpTweenEase: 6
+  expTweenDuration: 0.25
+  expTweenEase: 6
+  boostTweenDuration: 0.25
+  boostTweenEase: 6
+  hpWarningThreshold: 0.2
+  hpWarningFadeDuration: 0.35
+  hpWarningTargetAlpha: 0.35
+  hpWarningEase: 1
+  pauseButtonPunchPower: 0.12
+  pauseButtonTweenDuration: 0.15
 --- !u!1 &6751831094275019818
 GameObject:
   m_ObjectHideFlags: 0
