@@ -7,7 +7,9 @@ public enum EnemyType
     Normal_C,
     Ranged,
     Dash,
-    Suicide
+    Suicide,
+    Flying_A,
+    Raser
 }
 
 public interface IDamageable
@@ -70,7 +72,7 @@ public class Enemy : MonoBehaviour, IDamageable
         isGrounded = false;
     }
 
-    public void ManagedUpdate(float deltaTime)
+    public virtual void ManagedUpdate(float deltaTime)
     {
         if (playerTarget == null) return;
 
@@ -82,11 +84,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Vector3 horizontalVelocity = desiredVelocity + (separationForce * separationWeight);
 
-        if (knockbackVelocity.sqrMagnitude > 0.01f)
-        {
-            horizontalVelocity += knockbackVelocity;
-            knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, deltaTime * 5f);
-        }
+        //if (knockbackVelocity.sqrMagnitude > 0.01f)
+        //{
+        //    horizontalVelocity += knockbackVelocity;
+        //    knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, deltaTime * 5f);
+        //}
 
         // 레이캐스트를 통한 3D 지형 감지 및 등반
         Vector3 nextPosXZ = transform.position + (horizontalVelocity * deltaTime);
@@ -188,11 +190,11 @@ public class Enemy : MonoBehaviour, IDamageable
         Debug.Log("기본 근접 몹이 차를 들이받습니다!");
     }
 
-    public void ApplyKnockback(Vector3 pushDirection, float pushPower)
-    {
-        pushDirection.y = 0;
-        knockbackVelocity = pushDirection.normalized * pushPower;
-    }
+    //public void ApplyKnockback(Vector3 pushDirection, float pushPower)
+    //{
+    //    pushDirection.y = 0;
+    //    knockbackVelocity = pushDirection.normalized * pushPower;
+    //}
 
     public virtual void TakeDamage(float damage)
     {

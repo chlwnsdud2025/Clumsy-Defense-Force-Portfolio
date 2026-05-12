@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3391092239978916298}
   - component: {fileID: -7729513013793624253}
   m_Layer: 8
-  m_Name: EnemyType1
+  m_Name: EnemyType1(Normal)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1337064417107675852}
@@ -55,10 +55,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.5
-  m_Height: 10
+  m_Radius: 0.5384426
+  m_Height: 2.2485905
   m_Direction: 1
-  m_Center: {x: 0, y: 4, z: 0}
+  m_Center: {x: 0, y: 0.78, z: 0}
 --- !u!54 &3391092239978916298
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,9 +103,9 @@ MonoBehaviour:
   maxHealth: 50
   rotationSpeed: 2
   expReward: 34
-  separationRadius: 3
-  separationWeight: 10
-  attackRange: 10
+  separationRadius: 1
+  separationWeight: 1
+  attackRange: 1
   attackCooltime: 2
   groundLayer:
     serializedVersion: 2
@@ -263,15 +263,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: 6e64b3eea45e0f648ad238f5eabe680b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: 6e64b3eea45e0f648ad238f5eabe680b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: 6e64b3eea45e0f648ad238f5eabe680b, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: 6e64b3eea45e0f648ad238f5eabe680b, type: 3}
       propertyPath: m_LocalPosition.x
