@@ -90,16 +90,59 @@ public class Enemy : MonoBehaviour, IDamageable
         //    knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, deltaTime * 5f);
         //}
 
-        // 레이캐스트를 통한 3D 지형 감지 및 등반
+        // ==========================================
+        // [수정됨] 타겟 높이 인식형 스마트 레이캐스트 (이중 레이더)
+        // ==========================================
         Vector3 nextPosXZ = transform.position + (horizontalVelocity * deltaTime);
         float targetHeight = transform.position.y;
+        bool hitGround = false;
 
-        // 몹의 다음 XZ 위치 기준, 상공에서 아래로 레이를 쏩니다.
-        bool hitGround = Physics.Raycast(nextPosXZ + Vector3.up * raycastStartHeight, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer);
+        // 1. 플레이어가 나보다 유의미하게 높은 곳(예: 2m 이상)에 있는지 확인합니다.
+        bool isPlayerHigher = playerTarget.position.y > transform.position.y + 2.0f;
 
+        if (isPlayerHigher)
+        {
+            // 🚨 [플레이어가 높은 곳에 있음] 
+            // 다리 위로 쫓아가기 위해 레이캐스트 시작점을 플레이어보다 더 높은 상공으로 잡습니다.
+            float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
+            Vector3 highRayStart = nextPosXZ + Vector3.up * dynamicHeight;
+
+            if (Physics.Raycast(highRayStart, Vector3.down, out RaycastHit highHit, raycastDistance, groundLayer))
+            {
+                targetHeight = highHit.point.y;
+                hitGround = true;
+            }
+        }
+        else
+        {
+            // 🟢 [플레이어가 평지이거나 내 아래에 있음]
+            // 다리 밑 천장에 납치되지 않도록 근거리(머리 위 2m) 레이더부터 가동합니다.
+            float lowRayStartHeight = 2.0f;
+            float lowRayDistance = 4.0f;
+            Vector3 lowRayStart = nextPosXZ + Vector3.up * lowRayStartHeight;
+
+            if (Physics.Raycast(lowRayStart, Vector3.down, out RaycastHit lowHit, lowRayDistance, groundLayer))
+            {
+                targetHeight = lowHit.point.y;
+                hitGround = true;
+            }
+            // 근거리 탐색 실패 시 (절벽 등반을 위해) 원거리 탐색 발동
+            else
+            {
+                Vector3 highRayStart = nextPosXZ + Vector3.up * raycastStartHeight;
+                if (Physics.Raycast(highRayStart, Vector3.down, out RaycastHit highHit, raycastDistance, groundLayer))
+                {
+                    targetHeight = highHit.point.y;
+                    hitGround = true;
+                }
+            }
+        }
+
+        // ==========================================
+        // 지형 충돌 결과 처리
+        // ==========================================
         if (hitGround)
         {
-            targetHeight = hit.point.y;
             float heightDiff = targetHeight - transform.position.y;
 
             // 단차(maxStepHeight) 제한을 없앴습니다. 수직 절벽이든 평지이든 무조건 타고 오릅니다.
