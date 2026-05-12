@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameSessionManager : MonoSingleton<GameSessionManager>
+public class RunManager : MonoSingleton<RunManager>
 {
     private IEventBus _eventBus;
 
@@ -10,15 +10,12 @@ public class GameSessionManager : MonoSingleton<GameSessionManager>
     private int _lastDisplayedSecond = -1;
     private bool _isPlaying;
 
-    protected override void Awake()
-    {
-        base.Awake();
 
-        _eventBus = ServiceLocator.Get<IEventBus>();
-    }
 
-    public void StartSession()
+    public void StartRun()
     {
+        if (_eventBus == null)
+            _eventBus = ServiceLocator.Get<IEventBus>();
         _killCount = 0;
         _gold = 0;
         _playTime = 0f;
