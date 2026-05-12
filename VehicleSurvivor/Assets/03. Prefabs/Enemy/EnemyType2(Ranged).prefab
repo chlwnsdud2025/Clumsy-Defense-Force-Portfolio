@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3603261484497233054}
   - component: {fileID: 8046493170022611316}
   m_Layer: 8
-  m_Name: EnemyType2
+  m_Name: EnemyType2(Ranged)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4891141996500179091}
@@ -57,10 +57,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.53
-  m_Height: 19.69239
+  m_Radius: 0.4
+  m_Height: 1.99
   m_Direction: 1
-  m_Center: {x: 0, y: 9.346195, z: 0}
+  m_Center: {x: 0, y: 0.83, z: 0}
 --- !u!114 &3603261484497233054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,9 +78,9 @@ MonoBehaviour:
   maxHealth: 50
   rotationSpeed: 2
   expReward: 34
-  separationRadius: 3
-  separationWeight: 10
-  attackRange: 80
+  separationRadius: 1
+  separationWeight: 1
+  attackRange: 20
   attackCooltime: 3
   groundLayer:
     serializedVersion: 2
@@ -91,10 +91,10 @@ MonoBehaviour:
   gravity: -20
   bulletPrefab: {fileID: 9221311787326238095, guid: eb8e9c86143f2494da1abe5d08b4a7e7, type: 3}
   firePoint: {fileID: 2256778290825846030}
-  bulletArcHeight: 20
+  bulletArcHeight: 2
   bulletFlyTime: 1
   mortarDamage: 15
-  explosionRadius: 10
+  explosionRadius: 1.5
   targetIndicator: {fileID: 1509365444786983447}
 --- !u!54 &8046493170022611316
 Rigidbody:
@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 5396460053299652565}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 14.24, z: 2.89}
+  m_LocalPosition: {x: 0, y: 1.39, z: 0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -316,6 +316,18 @@ PrefabInstance:
     - target: {fileID: 6560250504379670268, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648468220332357371, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648468220332357371, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648468220332357371, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
       propertyPath: m_LocalPosition.x
