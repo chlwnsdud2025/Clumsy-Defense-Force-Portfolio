@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2278687311743719268}
   - component: {fileID: 630118819870417188}
   - component: {fileID: 4845308732996411179}
+  - component: {fileID: 5216017041611032765}
   m_Layer: 5
   m_Name: CharacterIcon_05
   m_TagString: Untagged
@@ -75,3 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5216017041611032765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188042986657414612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9384cfab344097342ad64ea0cf333c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_PlayerIcon
+  button: {fileID: 0}
+  iconImage: {fileID: 0}
+  nameText: {fileID: 0}
