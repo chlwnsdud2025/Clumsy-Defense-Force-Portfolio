@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e711aba1e4018340a0b0fc1c72a5385
+    m_Address: Assets/03. Prefabs/UI/Scene/UI_CharacterSelect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6f9bc07201c05224baaf3a8f9fe08cf6
     m_Address: Assets/03. Prefabs/UI/Popup/UI_ChoiceSkill.prefab
     m_ReadOnly: 0
