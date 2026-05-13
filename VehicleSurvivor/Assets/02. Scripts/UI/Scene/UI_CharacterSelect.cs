@@ -1,12 +1,25 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_CharacterSelect : UIScene
 {
-    [SerializeField] private PlayerData playerdatas;
+    [Header("Data")]
+    [SerializeField] private PlayerDatabase playerDatabase;
+
+    [Header("Icon List")]
+    [SerializeField] private UI_PlayerIcon playerIconPrefab;
     [SerializeField] private Transform content;
 
-    private bool _isInitialized;
+    [Header("Right Info Panel")]
+    [SerializeField] private Image portraitImage;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
 
+    private PlayerInfo _selectedPlayer;
+    private bool _isInitialized;
 
     public override void OnShow()
     {
@@ -15,38 +28,89 @@ public class UI_CharacterSelect : UIScene
         if (_isInitialized)
         {
             return;
+
         }
 
         _isInitialized = InitItems();
 
+        if (_isInitialized && playerDatabase.Players.Count > 0)
+        {
+            SelectPlayer(playerDatabase.Players[0]);
+        }
     }
-
 
     private bool InitItems()
     {
-        if(playerdatas == null)
+        if (playerDatabase == null)
         {
-            Debug.LogError("[UI_CharacterSelect] PlayerData가 할당되지 않았습니다.");
+            Debug.LogError("[UI_CharacterSelect] PlayerDatabase가 할당되지 않았습니다.");
             return false;
         }
-        if(content == null)
+
+        if (playerIconPrefab == null)
+        {
+            Debug.LogError("[UI_CharacterSelect] PlayerIconPrefab이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (content == null)
         {
             Debug.LogError("[UI_CharacterSelect] Content가 할당되지 않았습니다.");
             return false;
         }
 
-        foreach (GameObject prefab in playerdatas.PlayerIcons)
+        foreach (PlayerInfo playerInfo in playerDatabase.Players)
         {
-            Instantiate(prefab, content);
+            UI_PlayerIcon icon = Instantiate(playerIconPrefab, content);
+            icon.Initialize(playerInfo, SelectPlayer);
         }
-        return true;
 
+        return true;
     }
 
+    private void SelectPlayer(PlayerInfo playerInfo)
+    {
+        _selectedPlayer = playerInfo;
+        UpdateInfoPanel(playerInfo);
+    }
 
+    private void UpdateInfoPanel(PlayerInfo playerInfo)
+    {
+        if (portraitImage != null)
+        {
+            portraitImage.sprite = playerInfo.Portrait;
+        }
+
+        if (nameText != null)
+        {
+            nameText.text = playerInfo.CharacterName;
+        }
+
+        if (hpText != null)
+        {
+            hpText.text = $"HP : {playerInfo.MaxHp}";
+        }
+
+        if (speedText != null)
+        {
+            speedText.text = $"Speed : {playerInfo.MoveSpeed}";
+        }
+
+        if (descriptionText != null)
+        {
+            descriptionText.text = playerInfo.Description;
+        }
+    }
 
     public void OnClickStartGame()
     {
+        if (_selectedPlayer == null)
+        {
+            Debug.LogWarning("[UI_CharacterSelect] 선택된 캐릭터가 없습니다.");
+            return;
+        }
+
+        // 나중에 선택 캐릭터를 RunManager에 넘기기
         GameManager.Instance.GoToInGameHUD();
     }
 }
