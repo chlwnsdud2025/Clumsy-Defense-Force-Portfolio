@@ -13,9 +13,9 @@ public enum ESceneUIType
 {
     None = 0,
 
-    InGameHUD,
     Title,
-    CharacterSelect
+    CharacterSelect,
+    InGameHUD
 
 }
 

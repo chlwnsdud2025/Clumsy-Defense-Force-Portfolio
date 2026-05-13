@@ -8,6 +8,7 @@ using UnityEditor;
 
 public class UI_Title : UIScene
 {
+    //TODO : 마우스 클릭시 이팩트 dotween	
 
     [Header("Title References")]
     [SerializeField] private RectTransform titleRect;
@@ -39,6 +40,13 @@ public class UI_Title : UIScene
     [SerializeField] private float idleDuration = 1.2f;
     [SerializeField] private Ease idleEase = Ease.InOutSine;
 
+    [Header("Start Text Blink")]
+    [SerializeField] private TMP_Text startText;
+    [SerializeField] private float startTextMinAlpha = 0.25f;
+    [SerializeField] private float startTextBlinkDuration = 0.6f;
+    [SerializeField] private Ease startTextBlinkEase = Ease.InOutSine;
+
+    private Tween startTextBlinkTween;
     private Sequence introSeq;
     private Tween idleTween;
 
@@ -91,16 +99,34 @@ public class UI_Title : UIScene
             .SetLoops(-1, LoopType.Yoyo)
             .SetEase(idleEase);
         });
+        PlayStartTextBlink();
 
 
+
+    }
+    private void PlayStartTextBlink()
+    {
+        if (startText == null) return;
+
+        startText.text = "click to start";
+        startText.alpha = 1f;
+
+        startTextBlinkTween?.Kill();
+        startTextBlinkTween = startText
+            .DOFade(startTextMinAlpha, startTextBlinkDuration)
+            .SetEase(startTextBlinkEase)
+            .SetLoops(-1, LoopType.Yoyo);
     }
     private void KillTweens()
     {
         introSeq?.Kill();
         idleTween?.Kill();
+        startTextBlinkTween?.Kill();
+
 
         introSeq = null;
         idleTween = null;
+        startTextBlinkTween = null;
     }
     private void OnDestroy()
     {

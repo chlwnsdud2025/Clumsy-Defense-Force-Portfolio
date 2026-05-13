@@ -15,7 +15,7 @@ MonoBehaviour:
   Scenes:
   - _type: 1
     _prefabReference:
-      m_AssetGUID: 8e5cc4288944db644935fdbf7c92667c
+      m_AssetGUID: 4f0444a4554ec0540baba60c46a2c6f2
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
@@ -24,7 +24,7 @@ MonoBehaviour:
     _releaseAssetOnClose: 0
   - _type: 2
     _prefabReference:
-      m_AssetGUID: 4f0444a4554ec0540baba60c46a2c6f2
+      m_AssetGUID: 6e711aba1e4018340a0b0fc1c72a5385
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
@@ -33,11 +33,11 @@ MonoBehaviour:
     _releaseAssetOnClose: 0
   - _type: 3
     _prefabReference:
-      m_AssetGUID: 6e711aba1e4018340a0b0fc1c72a5385
+      m_AssetGUID: 8e5cc4288944db644935fdbf7c92667c
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
+      m_EditorAssetChanged: 1
     _lifetimePolicy: 0
     _releaseAssetOnClose: 0
   Popups:
