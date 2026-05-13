@@ -48,6 +48,12 @@ public class EnemyManager : MonoBehaviour
     public float cellSize = 2f;
     private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
 
+    // ==========================================
+    // [최적화 추가] 그리드 업데이트 타이머 변수
+    // ==========================================
+    private float gridUpdateTimer = 0f;
+    public float gridUpdateInterval = 0.15f; // 0.15초마다 한 번씩만 그리드 갱신 (1초에 약 6번)
+
     // 풀 관리용 Dictionary
     private Dictionary<EnemyType, Queue<Enemy>> enemyPools;
     private Dictionary<EnemyType, Transform> poolParents; // 예비 풀 생성 시 부모를 찾기 위한 딕셔너리
@@ -96,7 +102,15 @@ public class EnemyManager : MonoBehaviour
     {
         float dt = Time.deltaTime;
 
-        UpdateGrid();
+        // ==========================================
+        // [최적화 적용] 그리드 갱신을 타이머로 분산
+        // ==========================================
+        gridUpdateTimer += dt;
+        if (gridUpdateTimer >= gridUpdateInterval)
+        {
+            gridUpdateTimer = 0f;
+            UpdateGrid();
+        }
 
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
@@ -112,7 +126,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     // ==========================================
-    // [신규] 확률 룰렛을 돌려 특정 몹의 세팅을 반환
+    // 확률 룰렛을 돌려 특정 몹의 세팅을 반환
     // ==========================================
     private EnemyPoolSetting GetRandomEnemySetting()
     {
@@ -136,17 +150,15 @@ public class EnemyManager : MonoBehaviour
     }
 
     // ==========================================
-    // [신규] 예비 풀(동적 확장)을 포함한 몹 꺼내기 로직
+    // 예비 풀(동적 확장)을 포함한 몹 꺼내기 로직
     // ==========================================
     private Enemy GetEnemyFromPool(EnemyType type)
     {
-        // 1. 큐에 남아있는 몹이 있다면 정상적으로 꺼내줍니다.
         if (enemyPools[type].Count > 0)
         {
             return enemyPools[type].Dequeue();
         }
 
-        // 2. 큐가 비었다면 예비 풀(Reserve Pool) 한계치 확인 후 추가 생성합니다.
         EnemyPoolSetting setting = null;
         foreach (var s in poolSettings) { if (s.type == type) { setting = s; break; } }
 
@@ -154,7 +166,6 @@ public class EnemyManager : MonoBehaviour
         {
             setting.currentReserveCount++;
 
-            // 프리팹을 즉석에서 하나 더 구워냅니다.
             GameObject obj = Instantiate(setting.prefab, poolParents[type]);
             obj.SetActive(false);
 
@@ -165,7 +176,6 @@ public class EnemyManager : MonoBehaviour
             return enemyScript;
         }
 
-        // 3. 예비치(maxReserveSize)까지 다 끌어 썼다면 더 이상 생성하지 않음(렉 방지)
         return null;
     }
 
@@ -176,11 +186,9 @@ public class EnemyManager : MonoBehaviour
     {
         if (poolSettings.Length == 0) return;
 
-        // 1. 이번 군집의 '메인 테마 몹'을 하나 뽑습니다.
         EnemyPoolSetting clusterTheme = GetRandomEnemySetting();
         if (clusterTheme == null) return;
 
-        // 2. 이 테마 몹이 단일 군집 전용인지 확인합니다.
         bool isPurePack = clusterTheme.spawnAsPurePack;
 
         Vector2 centerCircle = Random.insideUnitCircle.normalized * spawnRadius;
@@ -194,13 +202,10 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < spawnCount; i++)
         {
-            // 핵심 분기: 단일 팩이면 방금 뽑은 테마를 계속 쓰고, 혼합 팩이면 여기서 매번 새로 뽑습니다!
             EnemyPoolSetting targetSetting = isPurePack ? clusterTheme : GetRandomEnemySetting();
-
-            // 예비 풀 로직이 적용된 헬퍼 함수를 통해 몹을 가져옵니다.
             Enemy enemyToSpawn = GetEnemyFromPool(targetSetting.type);
 
-            if (enemyToSpawn == null) continue; // 풀 고갈 및 예비치 초과 시 이 마리만 스킵
+            if (enemyToSpawn == null) continue;
 
             Vector2 randomOffset = Random.insideUnitCircle * clusterRadius;
             Vector3 rayStartPos = new Vector3(
@@ -209,6 +214,7 @@ public class EnemyManager : MonoBehaviour
                 clusterCenterXZ.z + randomOffset.y
             );
 
+            // 기본 Physics.Raycast는 단일 검사이며 GC를 발생시키지 않으므로 스폰 단계에서는 그대로 두어도 매우 안전합니다.
             if (Physics.Raycast(rayStartPos, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
             {
                 enemyToSpawn.SpawnSetup(playerTransform, hit.point, this);
@@ -216,13 +222,11 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                // 지형을 못 찾았으면 생성했던 몹을 다시 풀로 돌려보냅니다.
                 ReturnToPool(enemyToSpawn);
             }
         }
     }
 
-    // ... (이하 ReturnToPool, UpdateGrid, GetSeparationForce 등은 기존과 완전히 동일하므로 유지) ...
     public void ReturnToPool(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
@@ -249,11 +253,17 @@ public class EnemyManager : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt(position.x / cellSize), Mathf.FloorToInt(position.z / cellSize));
     }
 
+    // ==========================================
+    // [최적화] 군집 분리 연산 제한
+    // ==========================================
     public Vector3 GetSeparationForce(Enemy targetEnemy, float radius)
     {
         Vector3 force = Vector3.zero;
         Vector2Int cell = GetCellPos(targetEnemy.transform.position);
         float sqrRadius = radius * radius;
+
+        int checkCount = 0;
+        const int MAX_CHECKS = 5; //  한 마리당 최대 5마리와만 거리 계산을 수행합니다.
 
         for (int x = -1; x <= 1; x++)
         {
@@ -265,6 +275,8 @@ public class EnemyManager : MonoBehaviour
                 {
                     for (int i = 0; i < neighbors.Count; i++)
                     {
+                        if (checkCount >= MAX_CHECKS) return force; // 연산 한계치 도달 시 즉시 종료 (렉 방지)
+
                         Enemy neighbor = neighbors[i];
                         if (neighbor == targetEnemy) continue;
 
@@ -272,7 +284,12 @@ public class EnemyManager : MonoBehaviour
                         diff.y = 0;
                         float sqrDist = diff.sqrMagnitude;
 
-                        if (sqrDist > 0 && sqrDist < sqrRadius) force += diff.normalized / Mathf.Sqrt(sqrDist);
+                        if (sqrDist > 0 && sqrDist < sqrRadius)
+                        {
+                            // 무거운 Sqrt 연산도 최대 5번만 실행됩니다.
+                            force += diff.normalized / Mathf.Sqrt(sqrDist);
+                            checkCount++;
+                        }
                     }
                 }
             }
