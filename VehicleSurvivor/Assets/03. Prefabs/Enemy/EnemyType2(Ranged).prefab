@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1532958470828112532}
   - component: {fileID: 3603261484497233054}
   - component: {fileID: 8046493170022611316}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: EnemyType2(Ranged)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -368,6 +368,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977081414176746022, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7572570623009411882, guid: 943278945ec0aa242aa81e644fda947f, type: 3}
