@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 8566303924165516245}
   - component: {fileID: 5290101143707185595}
   - component: {fileID: 2194332916609884697}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: EnemyType1_2(Noemal3)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -336,6 +336,10 @@ PrefabInstance:
     - target: {fileID: 7434309346468716454, guid: 34e41653e66f0d94fb4c4ada4a081bc4, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7882338921385605016, guid: 34e41653e66f0d94fb4c4ada4a081bc4, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7949125717517991724, guid: 34e41653e66f0d94fb4c4ada4a081bc4, type: 3}
       propertyPath: m_Layer

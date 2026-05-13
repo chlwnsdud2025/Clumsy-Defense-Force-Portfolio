@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7524874272596435483}
   - component: {fileID: 7780874195278849368}
   - component: {fileID: 1601937429978236860}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EnemyType5(Fiy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,6 +124,14 @@ PrefabInstance:
     - target: {fileID: 3031953954106517537, guid: d7f2e252a0b97a84eabea867b8d492a8, type: 3}
       propertyPath: m_Name
       value: Octopus_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3739034774485289717, guid: d7f2e252a0b97a84eabea867b8d492a8, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747626428613569, guid: d7f2e252a0b97a84eabea867b8d492a8, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6648468220332357371, guid: d7f2e252a0b97a84eabea867b8d492a8, type: 3}
       propertyPath: m_LocalScale.x
