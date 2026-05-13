@@ -289,8 +289,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         DropExpOrbs();
 
-        // RunManager 오류 방지 (있다면 주석 해제하여 사용하세요)
-        // RunManager.Instance.AddKill();
+        RunManager.Instance.AddKill();
 
         if (myManager != null)
         {
@@ -305,10 +304,9 @@ public class Enemy : MonoBehaviour, IDamageable
     private void DropExpOrbs()
     {
         Vector3 dropPos = transform.position;
-        dropPos.y += 0.5f;
+        dropPos.y += 0.05f;
 
-        // ExpManager 연동 (임시 주석 처리해 두었습니다. 맞게 수정하여 사용하세요)
-        /*
+        
         ExpType typeToDrop = ExpType.Small;
         if (expReward >= 50) typeToDrop = ExpType.Large;
         else if (expReward >= 10) typeToDrop = ExpType.Medium;
@@ -317,6 +315,6 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             ExpManager.Instance.SpawnExp(typeToDrop, dropPos, expReward);
         }
-        */
+        
     }
 }
