@@ -87,7 +87,8 @@ MonoBehaviour:
     m_Bits: 1024
   raycastStartHeight: 50
   raycastDistance: 100
-  climbSmoothness: 15
+  fastStepSpeed: 25
+  slowClimbSpeed: 3
   gravity: -20
   bulletPrefab: {fileID: 9221311787326238095, guid: eb8e9c86143f2494da1abe5d08b4a7e7, type: 3}
   firePoint: {fileID: 2256778290825846030}

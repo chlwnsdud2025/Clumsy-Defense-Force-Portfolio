@@ -204,7 +204,8 @@ MonoBehaviour:
     m_Bits: 1024
   raycastStartHeight: 50
   raycastDistance: 100
-  climbSmoothness: 15
+  fastStepSpeed: 25
+  slowClimbSpeed: 3
   gravity: -20
   fuseTime: 2
   explosionRadius: 2

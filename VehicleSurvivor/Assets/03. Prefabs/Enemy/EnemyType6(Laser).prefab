@@ -150,7 +150,8 @@ MonoBehaviour:
     m_Bits: 1024
   raycastStartHeight: 50
   raycastDistance: 100
-  climbSmoothness: 15
+  fastStepSpeed: 25
+  slowClimbSpeed: 3
   gravity: -20
   telegraphDuration: 1
   laserLength: 20
@@ -164,7 +165,7 @@ MonoBehaviour:
   warningCylinderParent: {fileID: 882634970091251148}
   warningCylinderMesh: {fileID: 4559858775019242308}
   laserCoreMesh: {fileID: 8970054999149239870}
-  coreRadius: 0.05
+  coreRadius: 0.1
 --- !u!1 &6462939995605175306
 GameObject:
   m_ObjectHideFlags: 0

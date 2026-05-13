@@ -202,7 +202,8 @@ MonoBehaviour:
     m_Bits: 1024
   raycastStartHeight: 50
   raycastDistance: 100
-  climbSmoothness: 15
+  fastStepSpeed: 25
+  slowClimbSpeed: 3
   gravity: -20
 --- !u!1001 &9159875081964182138
 PrefabInstance:
