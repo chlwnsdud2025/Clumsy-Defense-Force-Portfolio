@@ -956,6 +956,7 @@ MonoBehaviour:
   raycastStartHeight: 100
   raycastDistance: 200
   cellSize: 3
+  gridUpdateInterval: 0.15
 --- !u!4 &854809437
 Transform:
   m_ObjectHideFlags: 0
@@ -1049,6 +1050,7 @@ Transform:
   m_Children:
   - {fileID: 1387115154}
   - {fileID: 1234141522}
+  - {fileID: 2062732179}
   m_Father: {fileID: 866794476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &947834126 stripped
@@ -1483,7 +1485,7 @@ MonoBehaviour:
   currentLevel: 0
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   auraEffectPrefab: {fileID: 0}
 --- !u!1 &1387115153
 GameObject:
@@ -4429,6 +4431,62 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!1 &2062732178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2062732179}
+  - component: {fileID: 2062732180}
+  m_Layer: 6
+  m_Name: HomingMissileWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2062732179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062732178}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 942979447}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2062732180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062732178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2cf60b80121924a9c49261bed6d02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectileWeapon
+  weaponID: weapon
+  weaponName: Weapon
+  levelData:
+  - damage: 100
+    cooldown: 0.1
+    bulletSpeed: 50
+    projectileCount: 10
+    spreadAngle: 1
+    radius: 3
+  currentLevel: 0
+  homingBulletPrefab: {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
+  firePoint: {fileID: 630164135}
 --- !u!1001 &8598996962527908940
 PrefabInstance:
   m_ObjectHideFlags: 0

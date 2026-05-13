@@ -1,0 +1,70 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PiercingRaycastWeapon : WeaponBase
+{
+    [Header("관통 레이저 설정")]
+    public Transform firePoint;
+    public LayerMask enemyLayer;
+    public float range = 30f;
+
+    [Header("이펙트 설정")]
+    public LineRenderer lineRenderer;
+    public float lineShowTime = 0.05f;
+
+    protected override void Attack(WeaponLevelData data)
+    {
+        if (firePoint == null)
+            return;
+
+        Vector3 start = firePoint.position;
+        Vector3 direction = firePoint.forward;
+
+        RaycastHit[] hits = Physics.RaycastAll(
+            start,
+            direction,
+            range,
+            enemyLayer
+        );
+
+        List<Enemy> damagedEnemies = new List<Enemy>();
+
+        foreach (RaycastHit hit in hits)
+        {
+            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+
+            if (enemy == null)
+                continue;
+
+            if (damagedEnemies.Contains(enemy))
+                continue;
+
+            enemy.TakeDamage(GetFinalDamage(data.damage));
+            damagedEnemies.Add(enemy);
+        }
+
+        ShowLine(start, start + direction * range);
+    }
+
+    private void ShowLine(Vector3 start, Vector3 end)
+    {
+        if (lineRenderer == null)
+            return;
+
+        lineRenderer.enabled = true;
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0, start);
+        lineRenderer.SetPosition(1, end);
+
+        CancelInvoke(nameof(HideLine));
+        Invoke(nameof(HideLine), lineShowTime);
+    }
+
+    private void HideLine()
+    {
+        if (lineRenderer != null)
+        {
+            lineRenderer.enabled = false;
+        }
+    }
+}
