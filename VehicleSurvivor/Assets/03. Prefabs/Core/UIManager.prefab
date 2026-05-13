@@ -227,8 +227,8 @@ MonoBehaviour:
   _uiRegistry: {fileID: 11400000, guid: ba90452863e0bb44698198482318585a, type: 2}
   _sceneLayer: {fileID: 8313389212122195834}
   _popupLayer: {fileID: 4422009168007229774}
-  _loadingLayer: {fileID: 5209161709835098507}
-  _loadingUI: {fileID: 520781204984949890}
+  _loadingLayer: {fileID: 0}
+  _loadingUI: {fileID: 0}
 --- !u!1001 &157611608158695949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,17 +338,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c57ea89ba3181a4a8abdba8b10605cf, type: 3}
---- !u!114 &520781204984949890 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 366442293321080463, guid: 6c57ea89ba3181a4a8abdba8b10605cf, type: 3}
-  m_PrefabInstance: {fileID: 157611608158695949}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5979eb47d947c849b8017646a51610f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Loading
 --- !u!224 &3573641138240106949 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3726708085658534856, guid: 6c57ea89ba3181a4a8abdba8b10605cf, type: 3}
