@@ -1,0 +1,53 @@
+using UnityEngine;
+
+public abstract class MonoSceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
+{
+    private static T _instance;
+
+    public static T Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<T>();
+
+                if (_instance == null)
+                    Debug.LogError($"[{typeof(T).Name}] Instance를 찾을 수 없습니다. 현재 Scene에 {typeof(T).Name}을(를) 배치하세요.");
+            }
+
+            return _instance;
+        }
+    }
+
+    public static bool HasInstance => _instance != null;
+
+    protected virtual void Awake()
+    {
+        T current = this as T;
+
+        if (_instance == null)
+            _instance = current;
+
+        if (_instance == current)
+            return;
+
+        Debug.LogWarning($"[{typeof(T).Name}] '{gameObject.name}'에서 중복 Instance가 감지되어 중복 오브젝트를 제거합니다.");
+        Destroy(gameObject);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (_instance == this as T)
+            _instance = null;
+    }
+
+    public static bool TryGetInstance(out T instance)
+    {
+        if (_instance == null)
+            _instance = FindAnyObjectByType<T>();
+
+        instance = _instance;
+        return instance != null;
+    }
+}

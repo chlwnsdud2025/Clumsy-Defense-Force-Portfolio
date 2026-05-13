@@ -13,12 +13,14 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
                 _instance = FindAnyObjectByType<T>();
 
                 if (_instance == null)
-                    Debug.LogError($"[{typeof(T).Name}] Instance를 찾을 수 없습니다. 접근하기 전에 Scene에 {typeof(T).Name}을(를) 배치하세요.");
+                    Debug.LogError($"[{typeof(T).Name}] Instance를 찾을 수 없습니다. 현재 Scene에 {typeof(T).Name}을(를) 배치하세요.");
             }
 
             return _instance;
         }
     }
+
+    public static bool HasInstance => _instance != null;
 
     protected virtual void Awake()
     {
@@ -41,5 +43,14 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         if (_instance == this as T)
             _instance = null;
+    }
+
+    public static bool TryGetInstance(out T instance)
+    {
+        if (_instance == null)
+            _instance = FindAnyObjectByType<T>();
+
+        instance = _instance;
+        return instance != null;
     }
 }
