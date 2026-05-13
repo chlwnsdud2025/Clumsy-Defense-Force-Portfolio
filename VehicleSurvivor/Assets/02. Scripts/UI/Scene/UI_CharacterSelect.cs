@@ -101,7 +101,6 @@ public class UI_CharacterSelect : UIScene
             descriptionText.text = playerInfo.Description;
         }
     }
-
     public void OnClickStartGame()
     {
         if (_selectedPlayer == null)
@@ -110,7 +109,6 @@ public class UI_CharacterSelect : UIScene
             return;
         }
 
-        // 나중에 선택 캐릭터를 RunManager에 넘기기
-        GameManager.Instance.GoToInGameHUD();
+        TitleSceneManager.Instance.RequestStartGame();
     }
 }

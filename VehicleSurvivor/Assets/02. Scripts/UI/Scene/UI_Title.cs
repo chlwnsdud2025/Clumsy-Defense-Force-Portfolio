@@ -46,6 +46,9 @@ public class UI_Title : UIScene
     [SerializeField] private float startTextBlinkDuration = 0.6f;
     [SerializeField] private Ease startTextBlinkEase = Ease.InOutSine;
 
+
+
+
     private Tween startTextBlinkTween;
     private Sequence introSeq;
     private Tween idleTween;
@@ -135,7 +138,7 @@ public class UI_Title : UIScene
 
     public void OnClickStart()
     {
-        GameManager.Instance.GoToCharacterSelect();
+        TitleSceneManager.Instance.PlayTitleCutscene();
     }
     public void OnClickSetting()
     {
