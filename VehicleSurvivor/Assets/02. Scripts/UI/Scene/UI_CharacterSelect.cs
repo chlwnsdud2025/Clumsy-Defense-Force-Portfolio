@@ -21,7 +21,6 @@ public class UI_CharacterSelect : UIScene
     private PlayerInfo _selectedPlayer;
     private bool _isInitialized;
 
-
     public override void OnShow()
     {
         base.OnShow();
@@ -29,23 +28,32 @@ public class UI_CharacterSelect : UIScene
         if (_isInitialized)
         {
             return;
+
         }
 
         _isInitialized = InitItems();
+
         if (_isInitialized && playerDatabase.Players.Count > 0)
+        {
             SelectPlayer(playerDatabase.Players[0]);
-
+        }
     }
-
 
     private bool InitItems()
     {
-        if(playerDatabase == null)
+        if (playerDatabase == null)
         {
-            Debug.LogError("[UI_CharacterSelect] PlayerData가 할당되지 않았습니다.");
+            Debug.LogError("[UI_CharacterSelect] PlayerDatabase가 할당되지 않았습니다.");
             return false;
         }
-        if(content == null)
+
+        if (playerIconPrefab == null)
+        {
+            Debug.LogError("[UI_CharacterSelect] PlayerIconPrefab이 할당되지 않았습니다.");
+            return false;
+        }
+
+        if (content == null)
         {
             Debug.LogError("[UI_CharacterSelect] Content가 할당되지 않았습니다.");
             return false;
@@ -56,9 +64,10 @@ public class UI_CharacterSelect : UIScene
             UI_PlayerIcon icon = Instantiate(playerIconPrefab, content);
             icon.Initialize(playerInfo, SelectPlayer);
         }
-        return true;
 
+        return true;
     }
+
     private void SelectPlayer(PlayerInfo playerInfo)
     {
         _selectedPlayer = playerInfo;
@@ -68,19 +77,29 @@ public class UI_CharacterSelect : UIScene
     private void UpdateInfoPanel(PlayerInfo playerInfo)
     {
         if (portraitImage != null)
+        {
             portraitImage.sprite = playerInfo.Portrait;
+        }
 
         if (nameText != null)
+        {
             nameText.text = playerInfo.CharacterName;
+        }
 
         if (hpText != null)
+        {
             hpText.text = $"HP : {playerInfo.MaxHp}";
+        }
 
         if (speedText != null)
+        {
             speedText.text = $"Speed : {playerInfo.MoveSpeed}";
+        }
 
         if (descriptionText != null)
+        {
             descriptionText.text = playerInfo.Description;
+        }
     }
 
     public void OnClickStartGame()
@@ -91,10 +110,7 @@ public class UI_CharacterSelect : UIScene
             return;
         }
 
-        // 나중에 선택 캐릭터를 RunManager나 GameManager에 넘기면 됨
+        // 나중에 선택 캐릭터를 RunManager에 넘기기
         GameManager.Instance.GoToInGameHUD();
     }
-
-
-
 }

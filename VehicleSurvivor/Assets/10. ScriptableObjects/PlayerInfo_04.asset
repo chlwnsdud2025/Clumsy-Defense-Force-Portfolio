@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PlayerInfo_04
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInfo
   <CharacterName>k__BackingField: player_04
-  <Icon>k__BackingField: {fileID: 0}
-  <Portrait>k__BackingField: {fileID: 0}
-  <MaxHp>k__BackingField: 0
-  <MoveSpeed>k__BackingField: 0
+  <Icon>k__BackingField: {fileID: 21300000, guid: ad747883118aa4aefa7808b037d4564a, type: 3}
+  <Portrait>k__BackingField: {fileID: 21300000, guid: ad747883118aa4aefa7808b037d4564a, type: 3}
+  <MaxHp>k__BackingField: 444
+  <MoveSpeed>k__BackingField: 44
   <Description>k__BackingField: player_04 description
   <PlayerPrefab>k__BackingField: {fileID: 7978533538527925978, guid: 1be04c0a0da9b45429450931bfe0d0cc, type: 3}
