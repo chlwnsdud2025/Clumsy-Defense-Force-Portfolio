@@ -3,22 +3,15 @@ using UnityEngine;
 [System.Serializable]
 public class WeaponLevelData
 {
-    [Header("기본 공격 정보")]
-    public int damage = 10;
+    [Header("공통 스탯")]
+    public float damage = 10f;
     public float cooldown = 1f;
-    public float range = 5f;
 
-    [Header("파티클 / 이펙트")]
-    public GameObject attackParticlePrefab;
-
-    [Header("투사체 전용")]
-    public float projectileSpeed = 10f;
+    [Header("투사체 스탯")]
+    public float bulletSpeed = 20f;
     public int projectileCount = 1;
+    public float spreadAngle = 15f;
 
-    [Header("특수 옵션")]
-    public bool canPierce;
-    public int pierceCount = 0;
-
-    public bool canExplode;
-    public float explosionRadius = 0f;
+    [Header("범위 스탯")]
+    public float radius = 5f;
 }

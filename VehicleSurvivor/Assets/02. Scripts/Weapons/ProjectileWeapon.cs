@@ -2,53 +2,56 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("발사 위치")]
+    [Header("투사체 설정")]
+    public GameObject bulletPrefab;
     public Transform firePoint;
 
-    [Header("총알 프리팹")]
-    public GameObject projectilePrefab;
+    [Header("이펙트 설정")]
+    public ParticleSystem shootParticle;
 
-    protected override void Attack()
+    protected override void Attack(WeaponLevelData data)
     {
-        WeaponLevelData data = GetCurrentLevelData();
-
-        if (data == null)
+        if (bulletPrefab == null || firePoint == null)
             return;
 
-        int projectileCount = data.projectileCount;
-
-        float angleStep = 10f;
-        float startAngle = -(angleStep * (projectileCount - 1)) / 2f;
-
-        for (int i = 0; i < projectileCount; i++)
+        if (shootParticle != null)
         {
-            float currentAngle = startAngle + (angleStep * i);
+            shootParticle.Play();
+        }
 
-            Quaternion rotation =
-                firePoint.rotation *
-                Quaternion.Euler(0f, currentAngle, 0f);
+        int count = Mathf.Max(1, data.projectileCount);
 
-            GameObject bullet = Instantiate(
-                projectilePrefab,
-                firePoint.position,
-                rotation
-            );
+        for (int i = 0; i < count; i++)
+        {
+            float angle = 0f;
 
-            ProjectileBullet projectile =
-                bullet.GetComponent<ProjectileBullet>();
-
-            if (projectile != null)
+            if (count > 1)
             {
-                projectile.Setup(data);
+                float centerIndex = (count - 1) / 2f;
+                angle = (i - centerIndex) * data.spreadAngle;
             }
 
-            if (data.attackParticlePrefab != null)
+            Quaternion bulletRotation =
+                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                firePoint.position,
+                bulletRotation
+            );
+
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+            if (rb != null)
             {
-                Instantiate(
-                    data.attackParticlePrefab,
-                    firePoint.position,
-                    rotation
-                );
+                rb.linearVelocity = bulletRotation * Vector3.forward * data.bulletSpeed;
+            }
+
+            ProjectileBullet projectileBullet = bullet.GetComponent<ProjectileBullet>();
+
+            if (projectileBullet != null)
+            {
+                projectileBullet.damage = GetFinalDamage(data.damage);
             }
         }
     }
