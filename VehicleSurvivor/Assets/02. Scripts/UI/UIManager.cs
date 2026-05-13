@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoSingleton<UIManager>
@@ -14,6 +15,11 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("## 팝업 레이어")]
     [SerializeField] private Transform _popupLayer;
 
+    [Header("## 로딩 레이어")]
+    [SerializeField] private Transform _loadingLayer;
+
+    [SerializeField] private UI_Loading _loadingUI;
+
     private readonly Dictionary<ESceneUIType, UIScene> _sceneCache = new Dictionary<ESceneUIType, UIScene>();
     private readonly Dictionary<EPopupUIType, UIPopup> _popupCache = new Dictionary<EPopupUIType, UIPopup>();
 
@@ -24,6 +30,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     private bool _isInitialized = false;
     private bool _isInitializing = false;
+    private bool _isLoadingInitialized = false;
     private float _initializationProgress = 0f;
 
     private int _processedItems;
@@ -77,6 +84,8 @@ public class UIManager : MonoSingleton<UIManager>
 
             if (_uiRegistry.Popups != null)
                 initializeSucceeded &= await PreloadUIElementsAsync(_uiRegistry.Popups, _popupLayer, _popupCache, progress);
+
+            initializeSucceeded &= await InitializeLoadingAsync();
 
             if (!initializeSucceeded)
             {
@@ -327,6 +336,38 @@ public class UIManager : MonoSingleton<UIManager>
     public T GetCurrentPopup<T>() where T : UIPopup => _currentPopup as T;
     #endregion
 
+    #region Loading
+    public UI_Loading ShowLoading()
+    {
+        if (_loadingUI == null)
+        {
+            Debug.LogError("[UIManager] Loading UI가 할당되지 않았습니다.");
+            return null;
+        }
+
+        _loadingUI.Show();
+        _loadingUI.transform.SetAsLastSibling();
+        return _loadingUI;
+    }
+
+    public async UniTask<UI_Loading> ShowLoadingAsync()
+    {
+        UI_Loading loading = await EnsureLoadingAsync();
+        if (loading == null)
+            return null;
+
+        return ShowLoading();
+    }
+
+    public void HideLoading()
+    {
+        if (_loadingUI == null)
+            return;
+
+        _loadingUI.Hide();
+    }
+    #endregion
+
     private TBase ShowCommon<TBase, TEnum>(Dictionary<TEnum, TBase> cache, TEnum type, ref TBase current)
        where TBase : UIBase
        where TEnum : Enum
@@ -384,6 +425,18 @@ public class UIManager : MonoSingleton<UIManager>
             isValid = false;
         }
 
+        if (_loadingLayer == null)
+        {
+            Debug.LogError("[UIManager] Loading Layer가 할당되지 않았습니다.");
+            isValid = false;
+        }
+
+        if (_loadingUI == null)
+        {
+            Debug.LogError("[UIManager] Loading UI가 할당되지 않았습니다.");
+            isValid = false;
+        }
+
         return isValid;
     }
 
@@ -409,6 +462,12 @@ public class UIManager : MonoSingleton<UIManager>
         }
 
         return count;
+    }
+
+    private async UniTask<bool> InitializeLoadingAsync()
+    {
+        UI_Loading loading = await EnsureLoadingAsync();
+        return loading != null;
     }
 
     private async UniTask<bool> PreloadUIElementsAsync<TBase, TEnum, TEntry>(List<TEntry> entries, Transform layer, Dictionary<TEnum, TBase> cache, IProgress<float> progress = null)
@@ -489,6 +548,27 @@ public class UIManager : MonoSingleton<UIManager>
         }
 
         return succeeded;
+    }
+
+    private async UniTask<UI_Loading> EnsureLoadingAsync()
+    {
+        if (_loadingUI == null)
+        {
+            Debug.LogError("[UIManager] Loading UI가 할당되지 않았습니다.");
+            return null;
+        }
+
+        if (_loadingLayer != null && _loadingUI.transform.parent != _loadingLayer)
+            _loadingUI.transform.SetParent(_loadingLayer, false);
+
+        if (_isLoadingInitialized)
+            return _loadingUI;
+
+        _loadingUI.gameObject.SetActive(false);
+        await _loadingUI.InitializeAsync();
+
+        _isLoadingInitialized = true;
+        return _loadingUI;
     }
 
     private async UniTask<TBase> EnsureLoadedAsync<TBase, TEnum, TEntry>(List<TEntry> entries, Transform layer, Dictionary<TEnum, TBase> cache, TEnum type)

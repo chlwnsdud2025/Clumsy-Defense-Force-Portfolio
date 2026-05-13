@@ -14,4 +14,12 @@ public class WeaponLevelData
 
     [Header("범위 스탯")]
     public float radius = 5f;
+
+    [Header("체인 번개")]
+    public int chainCount = 3;
+    public float chainRadius = 5f;
+
+    [Header("메테오")]
+    public float explosionRadius = 5f;
+    public float meteorDelay = 1f;
 }
