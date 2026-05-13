@@ -1142,28 +1142,52 @@ PrefabInstance:
       value: BossEnemytype_1
       objectReference: {fileID: 0}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: coneRows
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: lineCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: moveSpeed
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: baseRadius
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: playerTarget
       value: 
       objectReference: {fileID: 437661143}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: trackingCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: attackCooltime
-      value: 5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: telegraphPrefab
       value: 
       objectReference: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: trackingInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: circleSideSpacing
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: rowForwardSpacing
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: telegraphDuration
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: timeBetweenPhases
@@ -1172,6 +1196,14 @@ PrefabInstance:
     - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: lineForwardSpacing
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400278059820215609, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
+      propertyPath: coneRowTelegraphDelay
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5413531643696276268, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
       propertyPath: m_LocalPosition.x
