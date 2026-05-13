@@ -20,6 +20,7 @@ public class ProjectileBullet : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
+            Debug.Log("damage: " + damage);
         }
 
         Destroy(gameObject);

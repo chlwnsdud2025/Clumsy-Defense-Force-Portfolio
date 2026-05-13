@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7573854827271506979}
   - component: {fileID: 607012844376555873}
   - component: {fileID: 8639022142627915349}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,5 +153,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c306f9c9e25d00c41a91c677101a31e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileBullet
-  damage: 10
+  damage: 999
   lifeTime: 3
