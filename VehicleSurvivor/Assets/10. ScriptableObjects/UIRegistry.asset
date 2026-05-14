@@ -43,7 +43,7 @@ MonoBehaviour:
   Popups:
   - _type: 1
     _prefabReference:
-      m_AssetGUID: 70d865d42f91f5c4ba61ddd8d0226fd3
+      m_AssetGUID: 1b3b5a65f9bee6049b78f5b997f7ca7d
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
@@ -52,11 +52,11 @@ MonoBehaviour:
     _releaseAssetOnClose: 0
   - _type: 2
     _prefabReference:
-      m_AssetGUID: 6f9bc07201c05224baaf3a8f9fe08cf6
+      m_AssetGUID: 7bc9bff1342989d44a5c22beb9928fc6
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
-      m_EditorAssetChanged: 0
+      m_EditorAssetChanged: 1
     _lifetimePolicy: 0
     _releaseAssetOnClose: 0
   - _type: 4

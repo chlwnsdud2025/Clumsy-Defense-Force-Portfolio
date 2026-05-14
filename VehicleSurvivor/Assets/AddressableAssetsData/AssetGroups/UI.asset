@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: 6bc17cb9f6e5c9c40a2cef9b88410355
   m_SerializeEntries:
+  - m_GUID: 1b3b5a65f9bee6049b78f5b997f7ca7d
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_Pause.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f0444a4554ec0540baba60c46a2c6f2
     m_Address: Assets/03. Prefabs/UI/Scene/UI_Title.prefab
     m_ReadOnly: 0
@@ -25,8 +30,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b120b8bd7a97554ab0ce9ef75687614
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_Setting.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e711aba1e4018340a0b0fc1c72a5385
     m_Address: Assets/03. Prefabs/UI/Scene/UI_CharacterSelect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7bc9bff1342989d44a5c22beb9928fc6
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_LevelUp.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
