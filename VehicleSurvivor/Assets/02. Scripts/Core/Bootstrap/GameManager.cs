@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -21,6 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private string inGameSceneName = "InGameScene";
 
     private bool _isBootCompleted;
+    private bool _isSceneChanging;
 
     public GameState CurrentState { get; private set; } = GameState.Title;
     public bool IsPlaying => CurrentState == GameState.Playing;
@@ -69,54 +69,58 @@ public class GameManager : MonoSingleton<GameManager>
 
     private async UniTask LoadInGameSceneAsync()
     {
-        // TODO 만약 SceneLoadService를 사용했다면
-        //if (!ServiceLocator.TryGet(out ISceneLoadService sceneLoadService))
-        //{
-        //    Debug.LogError("[GameManager] SceneLoadService가 등록되지 않아 InGameScene 씬을 로드할 수 없습니다.");
-        //    return;
-        //}
+        if (_isSceneChanging)
+            return;
 
-        //var loadComplete = await sceneLoadService.LoadSceneAsync(EGameScene.InGameScene, new SceneLoadOptions
-        //{
-        //    BeforeLoadAsync = () =>
-        //    {
-        //        ChangeState(GameState.Loading);
-        //        UIManager.Instance.CloseCurrentScene();
-        //        return UniTask.CompletedTask;
-        //    },
-        //    BeforeActivationAsync = () =>
-        //    {
-        //        ChangeState(GameState.Playing);
-        //        UIManager.Instance.ShowScene(ESceneUIType.InGameHUD);
-        //        return UniTask.CompletedTask;
-        //    }
-        //});
+        _isSceneChanging = true;
 
-        //if (!loadComplete)
-        //{
-        //    Debug.LogError("[GameManager] 씬 로드를 실패 하였습니다.");
-        //    return;
-        //}
-
-
-        ChangeState(GameState.Loading);
-        UIManager.Instance.ShowLoading();
-
-        AsyncOperation operation = SceneManager.LoadSceneAsync(inGameSceneName);
-        await operation.ToUniTask();
-
-        ChangeState(GameState.Playing);
-
-        UIManager.Instance.HideLoading();
-        UIManager.Instance.ShowScene(ESceneUIType.InGameHUD);
-
-        if (RunManager.TryGetInstance(out RunManager runManager))
+        try
         {
-            runManager.StartRun();
+            if (!ServiceLocator.TryGet(out ISceneLoadService sceneLoadService))
+            {
+                Debug.LogError("[GameManager] SceneLoadService가 등록되지 않아 InGameScene 씬을 로드할 수 없습니다.");
+                return;
+            }
+
+            ChangeState(GameState.Loading);
+
+            bool loaded = await sceneLoadService.LoadSceneAsync(inGameSceneName, new SceneLoadOptions
+            {
+                LoadingMessage = "Loading...",
+                BeforeLoadAsync = () =>
+                {
+                    UIManager.Instance.CloseCurrentScene();
+                    UIManager.Instance.CloseAllPopups();
+                    return UniTask.CompletedTask;
+                }
+            });
+
+            if (!loaded)
+            {
+                Debug.LogError("[GameManager] InGameScene 씬 로드에 실패했습니다.");
+
+                ChangeState(GameState.CharacterSelect);
+                UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
+                return;
+            }
+
+            ChangeState(GameState.Playing);
+
+            UI_InGameHUD hud = UIManager.Instance.ShowScene<UI_InGameHUD>(ESceneUIType.InGameHUD);
+            InitializeInGameHUD(hud);
+
+            if (RunManager.TryGetInstance(out RunManager runManager))
+            {
+                runManager.StartRun();
+            }
+            else
+            {
+                Debug.LogError("[GameManager] InGameScene에서 RunManager를 찾지 못했습니다.");
+            }
         }
-        else
+        finally
         {
-            Debug.LogError("[GameManager] InGameScene에서 RunManager를 찾지 못했습니다.");
+            _isSceneChanging = false;
         }
     }
 
@@ -127,16 +131,66 @@ public class GameManager : MonoSingleton<GameManager>
 
     private async UniTask LoadTitleSceneAsync()
     {
-        ChangeState(GameState.Loading);
-        UIManager.Instance.ShowLoading();
+        if (_isSceneChanging)
+            return;
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(titleSceneName);
-        await operation.ToUniTask();
+        _isSceneChanging = true;
 
-        ChangeState(GameState.Title);
+        try
+        {
+            if (!ServiceLocator.TryGet(out ISceneLoadService sceneLoadService))
+            {
+                Debug.LogError("[GameManager] SceneLoadService가 등록되지 않아 TitleScene 씬을 로드할 수 없습니다.");
+                return;
+            }
 
-        UIManager.Instance.HideLoading();
-        UIManager.Instance.ShowScene(ESceneUIType.Title);
+            ChangeState(GameState.Loading);
+
+            bool loaded = await sceneLoadService.LoadSceneAsync(titleSceneName, new SceneLoadOptions
+            {
+                LoadingMessage = "Loading...",
+                BeforeLoadAsync = () =>
+                {
+                    if (RunManager.TryGetInstance(out RunManager runManager))
+                        runManager.EndRun();
+
+                    UIManager.Instance.CloseCurrentScene();
+                    UIManager.Instance.CloseAllPopups();
+
+                    return UniTask.CompletedTask;
+                }
+            });
+
+            if (!loaded)
+            {
+                Debug.LogError("[GameManager] TitleScene 씬 로드에 실패했습니다.");
+                return;
+            }
+
+            ChangeState(GameState.Title);
+
+            // Title UI 표시는 TitleSceneManager.Start()에서 처리.
+            // 여기서 ShowScene(Title)을 또 호출하면 중복 호출 흐름이 생길 수 있음.
+        }
+        finally
+        {
+            _isSceneChanging = false;
+        }
+    }
+
+    private void InitializeInGameHUD(UI_InGameHUD hud)
+    {
+        if (hud == null)
+            return;
+
+        if (!ServiceLocator.TryGet(out ICharacterService characterService))
+        {
+            Debug.LogError("[GameManager] CharacterService를 찾지 못해 HUD 캐릭터 정보를 초기화할 수 없습니다.");
+            return;
+        }
+
+        CharacterDefinitionSO selectedCharacter = characterService.GetSelectedCharacter();
+        hud.InitializeForCharacter(selectedCharacter);
     }
 
     private async UniTask<bool> InitializeServicesAsync()

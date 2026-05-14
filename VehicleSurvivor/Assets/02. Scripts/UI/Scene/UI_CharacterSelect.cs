@@ -1,114 +1,220 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_CharacterSelect : UIScene
 {
-    [Header("Data")]
-    [SerializeField] private PlayerDatabase playerDatabase;
+    [Header("Character Slot Pool")]
+    [SerializeField] private Transform _contentRoot;
+    [SerializeField] private CharacterSlot _slotPrefab;
+    [Min(0)]
+    [SerializeField] private int _initialPoolSize = 0;
 
-    [Header("Icon List")]
-    [SerializeField] private UI_PlayerIcon playerIconPrefab;
-    [SerializeField] private Transform content;
+    [Header("Character Profile")]
+    [SerializeField] private Image _profileIconImage;
+    [SerializeField] private TMP_Text _playerNameText;
+    [SerializeField] private TMP_Text _descriptionText;
 
-    [Header("Right Info Panel")]
-    [SerializeField] private Image portraitImage;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI hpText;
-    [SerializeField] private TextMeshProUGUI speedText;
-    [SerializeField] private TextMeshProUGUI descriptionText;
+    private readonly List<CharacterSlot> _slotPool = new();
+    private CharacterDefinitionSO _selectedCharacter;
+    private CharacterSlot _selectedSlot;
 
-    private PlayerInfo _selectedPlayer;
-    private bool _isInitialized;
+    private ICharacterService characterService;
+
+    public Transform ContentRoot => _contentRoot;
+    public CharacterSlot SlotPrefab => _slotPrefab;
+    public int InitialPoolSize => _initialPoolSize;
 
     public override void OnShow()
     {
         base.OnShow();
 
-        if (_isInitialized)
-        {
+        if (characterService == null)
+            characterService = ServiceLocator.Get<ICharacterService>();
+
+        InitializeSlotPool();
+        RefreshCharacterSlots();
+    }
+
+    private void OnValidate()
+    {
+        _initialPoolSize = Mathf.Max(0, _initialPoolSize);
+    }
+
+    private void InitializeSlotPool()
+    {
+        if (_contentRoot == null || _slotPool.Count > 0)
             return;
 
-        }
+        _slotPool.Clear();
 
-        _isInitialized = InitItems();
-
-        if (_isInitialized && playerDatabase.Players.Count > 0)
+        for (int i = 0; i < _contentRoot.childCount; i++)
         {
-            SelectPlayer(playerDatabase.Players[0]);
+            Transform child = _contentRoot.GetChild(i);
+            CharacterSlot slot = child.GetComponent<CharacterSlot>();
+            if (slot == null)
+                slot = child.gameObject.AddComponent<CharacterSlot>();
+
+            slot.Clicked -= HandleSlotClicked;
+            slot.Clicked += HandleSlotClicked;
+            slot.Clear();
+            _slotPool.Add(slot);
         }
     }
 
-    private bool InitItems()
+    private void EnsureSlotPoolSize(int requiredCount)
     {
-        if (playerDatabase == null)
-        {
-            Debug.LogError("[UI_CharacterSelect] PlayerDatabase가 할당되지 않았습니다.");
-            return false;
-        }
+        if (_contentRoot == null || _slotPrefab == null)
+            return;
 
-        if (playerIconPrefab == null)
+        while (_slotPool.Count < requiredCount)
         {
-            Debug.LogError("[UI_CharacterSelect] PlayerIconPrefab이 할당되지 않았습니다.");
-            return false;
+            CharacterSlot slotInstance = Instantiate(_slotPrefab, _contentRoot);
+            slotInstance.Clicked -= HandleSlotClicked;
+            slotInstance.Clicked += HandleSlotClicked;
+            slotInstance.Clear();
+            _slotPool.Add(slotInstance);
         }
-
-        if (content == null)
-        {
-            Debug.LogError("[UI_CharacterSelect] Content가 할당되지 않았습니다.");
-            return false;
-        }
-
-        foreach (PlayerInfo playerInfo in playerDatabase.Players)
-        {
-            UI_PlayerIcon icon = Instantiate(playerIconPrefab, content);
-            icon.Initialize(playerInfo, SelectPlayer);
-        }
-
-        return true;
     }
 
-    private void SelectPlayer(PlayerInfo playerInfo)
+    private void RefreshCharacterSlots()
     {
-        _selectedPlayer = playerInfo;
-        UpdateInfoPanel(playerInfo);
+        IReadOnlyList<CharacterDefinitionSO> characters = characterService?.GetAllCharacters();
+        int characterCount = characters?.Count ?? 0;
+        int requiredSlotCount = Mathf.Max(_initialPoolSize, characterCount);
+
+        EnsureSlotPoolSize(requiredSlotCount);
+
+        CharacterDefinitionSO targetCharacter = GetInitialSelectedCharacter(characters);
+        _selectedCharacter = null;
+        _selectedSlot = null;
+
+        for (int i = 0; i < _slotPool.Count; i++)
+        {
+            CharacterSlot slot = _slotPool[i];
+            if (i < characterCount)
+            {
+                CharacterDefinitionSO character = characters[i];
+                slot.Bind(character);
+
+                bool isSelected = IsSameCharacter(character, targetCharacter);
+                slot.SetSelected(isSelected);
+
+                if (isSelected)
+                {
+                    _selectedCharacter = character;
+                    _selectedSlot = slot;
+                }
+
+                continue;
+            }
+
+            slot.Clicked -= HandleSlotClicked;
+            slot.Clicked += HandleSlotClicked;
+            slot.Clear();
+        }
+
+        if (_selectedCharacter == null && characterCount > 0)
+            SetSelectedCharacter(characters[0], _slotPool[0], true);
+        else
+        {
+            RefreshProfilePanel(_selectedCharacter);
+            RefreshCharacterVisual(_selectedCharacter);
+        }
     }
 
-    private void UpdateInfoPanel(PlayerInfo playerInfo)
+    private void HandleSlotClicked(CharacterSlot slot)
     {
-        if (portraitImage != null)
-        {
-            portraitImage.sprite = playerInfo.Portrait;
-        }
+        if (slot == null || !slot.HasCharacter)
+            return;
 
-        if (nameText != null)
-        {
-            nameText.text = playerInfo.CharacterName;
-        }
-
-        if (hpText != null)
-        {
-            hpText.text = $"HP : {playerInfo.MaxHp}";
-        }
-
-        if (speedText != null)
-        {
-            speedText.text = $"Speed : {playerInfo.MoveSpeed}";
-        }
-
-        if (descriptionText != null)
-        {
-            descriptionText.text = playerInfo.Description;
-        }
+        SetSelectedCharacter(slot.CharacterDefinition, slot);
     }
+
     public void OnClickStartGame()
     {
-        if (_selectedPlayer == null)
+        if (characterService == null)
+            characterService = ServiceLocator.Get<ICharacterService>();
+
+        if (_selectedCharacter == null)
         {
             Debug.LogWarning("[UI_CharacterSelect] 선택된 캐릭터가 없습니다.");
             return;
         }
 
-        TitleSceneManager.Instance.RequestStartGame();
+        characterService.SetSelectedCharacter(_selectedCharacter);
+
+        GameManager.Instance.LoadInGameScene();
+    }
+
+    private void SetSelectedCharacter(CharacterDefinitionSO characterDefinition, CharacterSlot selectedSlot, bool skipServiceUpdate = false)
+    {
+        if (_selectedSlot == selectedSlot && IsSameCharacter(_selectedCharacter, characterDefinition))
+            return;
+
+        CharacterSlot previousSelectedSlot = _selectedSlot;
+        _selectedCharacter = characterDefinition;
+        _selectedSlot = selectedSlot;
+
+        if (previousSelectedSlot != null && previousSelectedSlot != _selectedSlot)
+            previousSelectedSlot.SetSelected(false);
+
+        if (_selectedSlot != null)
+            _selectedSlot.SetSelected(true);
+
+        if (!skipServiceUpdate && characterService != null && _selectedCharacter != null)
+            characterService.SetSelectedCharacter(_selectedCharacter);
+
+        RefreshProfilePanel(_selectedCharacter);
+        RefreshCharacterVisual(_selectedCharacter);
+    }
+
+    private void RefreshProfilePanel(CharacterDefinitionSO characterDefinition)
+    {
+        if (_profileIconImage != null)
+            _profileIconImage.sprite = characterDefinition != null ? characterDefinition.Icon : null;
+
+        if (_playerNameText != null)
+            _playerNameText.text = characterDefinition != null ? characterDefinition.DisplayName : string.Empty;
+
+        if (_descriptionText != null)
+            _descriptionText.text = characterDefinition != null ? characterDefinition.Description : string.Empty;
+    }
+
+    private CharacterDefinitionSO GetInitialSelectedCharacter(IReadOnlyList<CharacterDefinitionSO> characters)
+    {
+        if (characters == null || characters.Count == 0)
+            return null;
+
+        CharacterDefinitionSO currentSelection = characterService?.GetSelectedCharacter();
+        if (currentSelection != null)
+        {
+            for (int i = 0; i < characters.Count; i++)
+            {
+                if (IsSameCharacter(characters[i], currentSelection))
+                    return characters[i];
+            }
+        }
+
+        return characters[0];
+    }
+
+    private void RefreshCharacterVisual(CharacterDefinitionSO characterDefinition)
+    {
+        // TODO 씬에 지정한 위치에 Visual Prefab을 변경하는 로직
+
+        //if (!TitleSceneManager.TryGetInstance(out TitleSceneManager titleSceneManager))
+        //    return;
+
+        //titleSceneManager.ShowCharacterVisual(characterDefinition);
+    }
+
+    private bool IsSameCharacter(CharacterDefinitionSO left, CharacterDefinitionSO right)
+    {
+        if (left == null || right == null)
+            return false;
+
+        return left.CharacterId == right.CharacterId;
     }
 }

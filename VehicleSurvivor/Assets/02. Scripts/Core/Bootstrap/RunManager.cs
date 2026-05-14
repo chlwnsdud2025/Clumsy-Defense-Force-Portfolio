@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RunManager : MonoSingleton<RunManager>
+public class RunManager : MonoSceneSingleton<RunManager>
 {
     private IEventBus _eventBus;
 
@@ -15,7 +15,9 @@ public class RunManager : MonoSingleton<RunManager>
     public void StartRun()
     {
         if (_eventBus == null)
+        {
             _eventBus = ServiceLocator.Get<IEventBus>();
+        }
         _killCount = 0;
         _gold = 0;
         _playTime = 0f;
@@ -29,8 +31,7 @@ public class RunManager : MonoSingleton<RunManager>
 
     private void Update()
     {
-        if (!_isPlaying)
-            return;
+        if (!_isPlaying) return;
 
         _playTime += Time.deltaTime;
 
@@ -47,7 +48,10 @@ public class RunManager : MonoSingleton<RunManager>
         if (!_isPlaying) return;
 
         if (_eventBus == null)
+        {
             _eventBus = ServiceLocator.Get<IEventBus>();
+
+        }
 
         _killCount++;
         _eventBus.Publish(new KillCountEvent(_killCount));
@@ -58,7 +62,9 @@ public class RunManager : MonoSingleton<RunManager>
         if (!_isPlaying) return;
 
         if (_eventBus == null)
+        {
             _eventBus = ServiceLocator.Get<IEventBus>();
+        }
 
         _gold += amount;
         _eventBus.Publish(new GoldChangedEvent(_gold));
