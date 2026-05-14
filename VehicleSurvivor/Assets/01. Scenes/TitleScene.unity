@@ -14489,6 +14489,14 @@ PrefabInstance:
       propertyPath: _loadingLayer
       value: 
       objectReference: {fileID: 1969058769}
+    - target: {fileID: 5994539108594410109, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 8.320068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5994539109630860912, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.119995
+      objectReference: {fileID: 0}
     - target: {fileID: 6008351654771818614, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
       propertyPath: m_Name
       value: UIManager
