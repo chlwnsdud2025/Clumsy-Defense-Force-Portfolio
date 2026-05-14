@@ -356,7 +356,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1527
+    m_Bits: 5623
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -653,7 +653,7 @@ PrefabInstance:
     - target: {fileID: 4805675904342687963, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: 'startWeaponPrefabs.Array.data[0]'
       value: 
-      objectReference: {fileID: 1301817069}
+      objectReference: {fileID: 0}
     - target: {fileID: 6970931791225896075, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Name
       value: ThidPersonPlayer Variant
@@ -665,10 +665,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9057876234890307290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1301817069}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1719f26313ba2649b9c78101940321a, type: 3}
 --- !u!1 &663870439
 GameObject:
@@ -966,41 +963,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
---- !u!1 &1301817066 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9057876234890307290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
-  m_PrefabInstance: {fileID: 603627533}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1301817069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301817066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  weaponID: weapon
-  weaponName: Weapon
-  levelData:
-  - damage: 50
-    cooldown: 0
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 10
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-  currentLevel: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  auraEffectPrefab: {fileID: 0}
 --- !u!4 &1325612289 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5660100289455387117, guid: c1719f26313ba2649b9c78101940321a, type: 3}

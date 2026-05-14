@@ -15,6 +15,10 @@ public class UI_CharacterSelect : UIScene
     [SerializeField] private Image _profileIconImage;
     [SerializeField] private TMP_Text _playerNameText;
     [SerializeField] private TMP_Text _descriptionText;
+    [Header("Character Preview")]
+    [SerializeField] private Transform _previewSpawnRoot;
+
+    private GameObject _currentPreview;
 
     private readonly List<CharacterSlot> _slotPool = new();
     private CharacterDefinitionSO _selectedCharacter;
@@ -26,6 +30,16 @@ public class UI_CharacterSelect : UIScene
     public CharacterSlot SlotPrefab => _slotPrefab;
     public int InitialPoolSize => _initialPoolSize;
 
+
+    public void SetPreviewSpawnRoot(Transform previewSpawnRoot)
+    {
+        _previewSpawnRoot = previewSpawnRoot;
+
+        if (_selectedCharacter != null)
+        {
+            RefreshCharacterVisual(_selectedCharacter);
+        }
+    }
     public override void OnShow()
     {
         base.OnShow();
@@ -202,12 +216,30 @@ public class UI_CharacterSelect : UIScene
 
     private void RefreshCharacterVisual(CharacterDefinitionSO characterDefinition)
     {
-        // TODO 씬에 지정한 위치에 Visual Prefab을 변경하는 로직
+        if (_previewSpawnRoot == null)
+        {
+            Debug.LogWarning("[UI_CharacterSelect] Preview Spawn Root가 할당되지 않았습니다.");
+            return;
+        }
 
-        //if (!TitleSceneManager.TryGetInstance(out TitleSceneManager titleSceneManager))
-        //    return;
+        if (_currentPreview != null)
+        {
+            Destroy(_currentPreview);
+        }
 
-        //titleSceneManager.ShowCharacterVisual(characterDefinition);
+        if (characterDefinition == null || characterDefinition.VisualPrefab == null)
+            return;
+
+        _currentPreview = Instantiate(
+            characterDefinition.VisualPrefab,
+            _previewSpawnRoot.position,
+            _previewSpawnRoot.rotation,
+            _previewSpawnRoot
+        );
+
+        _currentPreview.transform.localPosition = Vector3.zero;
+        _currentPreview.transform.localRotation = Quaternion.identity;
+        _currentPreview.transform.localScale = Vector3.one;
     }
 
     private bool IsSameCharacter(CharacterDefinitionSO left, CharacterDefinitionSO right)

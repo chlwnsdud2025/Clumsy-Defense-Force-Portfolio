@@ -18,7 +18,7 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: 9f35db904975f48b9b6673de8a13d323, type: 3}
   _portrait: {fileID: 21300000, guid: 9f35db904975f48b9b6673de8a13d323, type: 3}
   _characterPrefab: {fileID: 0}
-  _visualPrefab: {fileID: 0}
+  _visualPrefab: {fileID: 2710351248516479004, guid: 45a1d42caf0c4fe49b42a732e49cbba5, type: 3}
   _combat:
     MaxHealth: 111
     Defense: 11
