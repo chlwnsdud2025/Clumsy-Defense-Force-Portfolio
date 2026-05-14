@@ -24,7 +24,8 @@ public enum EPopupUIType
 {
     None = 0,
 
+    Pause,
+    LevelUp,
     SelectCard,
-    ChoiceSkill,
-    Pause
+    GameOver
 }
