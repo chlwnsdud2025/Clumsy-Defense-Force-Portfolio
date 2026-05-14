@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3360655138c63ee4d99778d9639cd4ee, type: 3}
   m_Name: CharacterDefinitionSO_Player_02
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
-  _characterId: character.default
-  _displayName: Default Survivor
-  _description: Default playable character.
-  _icon: {fileID: 0}
-  _portrait: {fileID: 0}
+  _characterId: character.Player_02
+  _displayName: Player_02
+  _description: Default playable character.Player_02
+  _icon: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
+  _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _characterPrefab: {fileID: 0}
   _visualPrefab: {fileID: 0}
   _combat:
-    MaxHealth: 100
-    Defense: 0
-    MoveSpeedMultiplier: 1
-    DamageMultiplier: 1
-    PickupRange: 1
+    MaxHealth: 222
+    Defense: 2
+    MoveSpeedMultiplier: 2
+    DamageMultiplier: 2
+    PickupRange: 2
   _loadout:
     StartingWeaponId: 
     UniqueTraitId: 

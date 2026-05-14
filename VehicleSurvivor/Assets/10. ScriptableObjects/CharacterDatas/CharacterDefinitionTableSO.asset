@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55f36b5b3bcfae4dbf30dbdaa83bd73, type: 3}
   m_Name: CharacterDefinitionTableSO
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionTableSO
-  _defaultCharacterId: character.default
+  _defaultCharacterId: character.Player_01
   _characters:
   - {fileID: 11400000, guid: a43eb92c71a8440418419911fd5482e9, type: 2}
   - {fileID: 11400000, guid: bc7c0fa976a3d144fb3ef5747ff6a106, type: 2}
