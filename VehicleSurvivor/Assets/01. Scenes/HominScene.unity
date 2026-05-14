@@ -127,6 +127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5994539108594410109, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 8.320068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5994539109630860912, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.119995
+      objectReference: {fileID: 0}
     - target: {fileID: 6008351654771818614, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
       propertyPath: m_Name
       value: UIManager
@@ -737,7 +745,7 @@ Transform:
   m_GameObject: {fileID: 854809434}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.11976, y: -0, z: 106.25791}
+  m_LocalPosition: {x: 1.11976, y: -3.1, z: 106.25791}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -790,68 +798,11 @@ MonoBehaviour:
   currentExp: 0
   needExp: 10
   isDead: 0
---- !u!1 &868626431
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 868626432}
-  - component: {fileID: 868626433}
-  m_Layer: 6
-  m_Name: ChainLightningWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &868626432
+--- !u!4 &868626432 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+  m_PrefabInstance: {fileID: 5631182110227897345}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 868626431}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 942979447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &868626433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 868626431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d76e59d075411d4583af7bb47e988e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChainLightningWeapon
-  weaponID: ChainLightning
-  weaponName: ChainLightning
-  levelData:
-  - damage: 50
-    cooldown: 1
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 0
-    chainCount: 5
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  currentLevel: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  detectRadius: 10
 --- !u!1 &942979446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,165 +974,22 @@ Transform:
   m_GameObject: {fileID: 1021947664}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.26811, y: -0, z: -6.72153}
+  m_LocalPosition: {x: 4.26811, y: 4.4, z: -6.72153}
   m_LocalScale: {x: 30, y: 1, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1234141521
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1234141522}
-  - component: {fileID: 1234141523}
-  m_Layer: 6
-  m_Name: MagneticAuraWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1234141522
+--- !u!4 &1234141522 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+  m_PrefabInstance: {fileID: 7153078457991745552}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1234141521}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 942979447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1234141523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1234141521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ad84baa37493845a78a508e27f21eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  weaponID: weapon
-  weaponName: Weapon
-  levelData:
-  - damage: 1
-    cooldown: 1
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 10
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  - damage: 2
-    cooldown: 1
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 15
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  - damage: 3
-    cooldown: 1
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 20
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  currentLevel: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  auraEffectPrefab: {fileID: 0}
---- !u!1 &1387115153
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1387115154}
-  - component: {fileID: 1387115155}
-  m_Layer: 6
-  m_Name: MachineGunWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1387115154
+--- !u!4 &1387115154 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+  m_PrefabInstance: {fileID: 6387411121302476370}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387115153}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 942979447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1387115155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387115153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a3b95f72f10ab4ca0138fd55d1817f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
-  weaponID: weapon
-  weaponName: Weapon
-  levelData:
-  - damage: 1
-    cooldown: 1
-    bulletSpeed: 20
-    projectileCount: 0
-    spreadAngle: 15
-    radius: 5
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  - damage: 2
-    cooldown: 2
-    bulletSpeed: 20
-    projectileCount: 0
-    spreadAngle: 15
-    radius: 5
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  currentLevel: 0
-  bulletPrefab: {fileID: 3412944509208217679, guid: ae937f5849b59af448fd83d95ea8677f, type: 3}
-  firePoint: {fileID: 630164135}
-  shootParticle: {fileID: 0}
 --- !u!1 &1507902626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3818,71 +3626,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 866794477}
   m_SourcePrefab: {fileID: 100100000, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
---- !u!1 &1681305866
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1681305867}
-  - component: {fileID: 1681305868}
-  m_Layer: 6
-  m_Name: LaserWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1681305867
+--- !u!4 &1681305867 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+  m_PrefabInstance: {fileID: 3964142105886217927}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681305866}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 942979447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1681305868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681305866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d518c67494b3964ab6bb277af0ce251, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PiercingRaycastWeapon
-  weaponID: piercing_laser
-  weaponName: Piercing Laser
-  levelData:
-  - damage: 500
-    cooldown: 5
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 0
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  currentLevel: 0
-  firePoint: {fileID: 630164135}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  range: 30
-  lineRenderer: {fileID: 0}
-  lineShowTime: 0.05
 --- !u!1001 &1727430797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3891,6 +3639,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3bea2f7802a30fc42a168a33ee0b7543, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bea2f7802a30fc42a168a33ee0b7543, type: 3}
       propertyPath: m_LocalPosition.x
       value: -26.144909
@@ -3943,37 +3695,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 947834127}
   m_SourcePrefab: {fileID: 100100000, guid: 3bea2f7802a30fc42a168a33ee0b7543, type: 3}
---- !u!1 &1761431093
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1761431094}
-  m_Layer: 6
-  m_Name: MeteorWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1761431094
+--- !u!4 &1761431094 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+  m_PrefabInstance: {fileID: 5290446493186456429}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761431093}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 942979447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1820332029
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,66 +3825,365 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
---- !u!1 &2062732178
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2062732179}
-  - component: {fileID: 2062732180}
-  m_Layer: 6
-  m_Name: HomingMissileWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2062732179
+--- !u!4 &2062732179 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+  m_PrefabInstance: {fileID: 7608464466360499068}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062732178}
+--- !u!1001 &3964142105886217927
+PrefabInstance:
+  m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 942979447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2062732180
-MonoBehaviour:
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 942979447}
+    m_Modifications:
+    - target: {fileID: 375296562663002994, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_Name
+      value: LaserWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362937110674697952, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1440430534777667966, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 630164135}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 292cccb4ee8b087409e8f0607d3a3e1f, type: 3}
+--- !u!1001 &5290446493186456429
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062732178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d2cf60b80121924a9c49261bed6d02b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectileWeapon
-  weaponID: weapon
-  weaponName: Weapon
-  levelData:
-  - damage: 100
-    cooldown: 0.1
-    bulletSpeed: 50
-    projectileCount: 10
-    spreadAngle: 1
-    radius: 3
-    chainCount: 3
-    chainRadius: 5
-    explosionRadius: 5
-    meteorDelay: 1
-  currentLevel: 0
-  homingBulletPrefab: {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
-  firePoint: {fileID: 630164135}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 942979447}
+    m_Modifications:
+    - target: {fileID: 3081079590315388895, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_Name
+      value: MeteorWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+--- !u!1001 &5631182110227897345
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 942979447}
+    m_Modifications:
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166244357231286302, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_Name
+      value: ChainLightningWeapon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+--- !u!1001 &6387411121302476370
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 942979447}
+    m_Modifications:
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292518278058284200, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 630164135}
+    - target: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_Name
+      value: MachineGunWeapon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+--- !u!1001 &7153078457991745552
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 942979447}
+    m_Modifications:
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_Name
+      value: MagneticAuraWeapon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+--- !u!1001 &7608464466360499068
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 942979447}
+    m_Modifications:
+    - target: {fileID: 2943622048117953587, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_Name
+      value: HomingMissileWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167533718939902803, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 630164135}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209390706583179795, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28a0d67053a50d84ba5d3619495ce146, type: 3}
 --- !u!1001 &8598996962527908940
 PrefabInstance:
   m_ObjectHideFlags: 0

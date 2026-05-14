@@ -47,6 +47,7 @@ public class AuraWeapon : WeaponBase
             if (enemy != null)
             {
                 enemy.TakeDamage(finalDamage);
+                Debug.Log("데미지를 주었습니다");
             }
         }
     }

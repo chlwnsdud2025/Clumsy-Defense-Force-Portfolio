@@ -10,6 +10,9 @@ public class MeteorWeapon : WeaponBase
     public float spawnRadius = 15f;
     public float spawnHeight = 20f;
 
+    [Header("바닥 설정")]
+    public float groundY = 0f;
+
     protected override void Attack(WeaponLevelData data)
     {
         if (meteorPrefab == null)
@@ -19,8 +22,10 @@ public class MeteorWeapon : WeaponBase
             Random.insideUnitCircle * spawnRadius;
 
         Vector3 targetPosition =
-            transform.position +
-            new Vector3(randomCircle.x, 0f, randomCircle.y);
+     transform.position +
+     new Vector3(randomCircle.x, 0f, randomCircle.y);
+
+        targetPosition.y = groundY;
 
         Vector3 spawnPosition =
             targetPosition + Vector3.up * spawnHeight;

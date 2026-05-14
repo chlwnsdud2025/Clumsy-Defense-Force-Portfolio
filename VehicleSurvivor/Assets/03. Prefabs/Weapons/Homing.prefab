@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1953922942411121744}
   - component: {fileID: 6529523592276359167}
-  - component: {fileID: 5194290361369901798}
-  - component: {fileID: 2243915954274280575}
   - component: {fileID: 4203999373852676697}
+  - component: {fileID: 624962005045473012}
   m_Layer: 11
   m_Name: Homing
   m_TagString: Untagged
@@ -42,8 +41,25 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2528133529004751048}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5194290361369901798
+  m_Mesh: {fileID: -5201138961992467968, guid: 29142504d9bc4344f8d557a78cdb8409, type: 3}
+--- !u!114 &4203999373852676697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2528133529004751048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a65091503c4d054d8db4eedbd4a15f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectileBullet
+  damage: 10
+  speed: 10
+  rotateSpeed: 10
+  lifeTime: 5
+  hitDistance: 1
+--- !u!23 &624962005045473012
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +84,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,41 +108,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2243915954274280575
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2528133529004751048}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4203999373852676697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2528133529004751048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a65091503c4d054d8db4eedbd4a15f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectileBullet
-  damage: 10
-  speed: 10
-  rotateSpeed: 10
-  lifeTime: 5
-  hitDistance: 1
