@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3360655138c63ee4d99778d9639cd4ee, type: 3}
+  m_Name: CharacterDefinitionSO_Player_01
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
+  _characterId: character.default
+  _displayName: Default Survivor
+  _description: Default playable character.
+  _icon: {fileID: 0}
+  _portrait: {fileID: 0}
+  _characterPrefab: {fileID: 0}
+  _visualPrefab: {fileID: 0}
+  _combat:
+    MaxHealth: 100
+    Defense: 0
+    MoveSpeedMultiplier: 1
+    DamageMultiplier: 1
+    PickupRange: 1
+  _loadout:
+    StartingWeaponId: 
+    UniqueTraitId: 
+    TraitDescription: 
+    PassiveIds: []
+  _meta:
+    IsDefaultUnlocked: 1
+    UnlockCost: 0
+    Rarity: 0
+    Tags: []
