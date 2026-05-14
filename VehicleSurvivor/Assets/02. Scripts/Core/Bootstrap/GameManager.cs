@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,29 +15,51 @@ public enum GameState
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    private readonly UniTaskCompletionSource _bootCompletionSource = new UniTaskCompletionSource();
+
     [SerializeField] private string titleSceneName = "TitleScene";
     [SerializeField] private string inGameSceneName = "InGameScene";
 
+    private bool _isBootCompleted;
+
     public GameState CurrentState { get; private set; } = GameState.Title;
     public bool IsPlaying => CurrentState == GameState.Playing;
+    public bool IsBootCompleted => _isBootCompleted;
+
+    private async void Start()
+    {
+        if (!ReferenceEquals(Instance, this))
+            return;
+
+        if (!await InitializeServicesAsync())
+        {
+            NotifyBootFailed(new InvalidOperationException("서비스 초기화에 실패했습니다."));
+            return;
+        }
+
+        if (!await InitializeGameUIAsync())
+        {
+            NotifyBootFailed(new InvalidOperationException("UI 초기화에 실패했습니다."));
+            return;
+        }
+
+        NotifyBootCompleted();
+        ChangeState(GameState.Title);
+
+        await UniTask.Yield();
+    }
+
+    public UniTask WaitForBootAsync()
+    {
+        if (_isBootCompleted)
+            return UniTask.CompletedTask;
+
+        return _bootCompletionSource.Task;
+    }
 
     public void ChangeState(GameState newState)
     {
         CurrentState = newState;
-    }
-
-    private async void Start()
-    {
-        if (!await InitializeServicesAsync())
-            return;
-
-        if (!await InitializeGameUIAsync())
-            return;
-
-        ChangeState(GameState.Title);
-        UIManager.Instance.ShowScene(ESceneUIType.Title);
-
-        await UniTask.Yield();
     }
 
     public async void LoadInGameScene()
@@ -46,6 +69,36 @@ public class GameManager : MonoSingleton<GameManager>
 
     private async UniTask LoadInGameSceneAsync()
     {
+        // TODO 만약 SceneLoadService를 사용했다면
+        //if (!ServiceLocator.TryGet(out ISceneLoadService sceneLoadService))
+        //{
+        //    Debug.LogError("[GameManager] SceneLoadService가 등록되지 않아 InGameScene 씬을 로드할 수 없습니다.");
+        //    return;
+        //}
+
+        //var loadComplete = await sceneLoadService.LoadSceneAsync(EGameScene.InGameScene, new SceneLoadOptions
+        //{
+        //    BeforeLoadAsync = () =>
+        //    {
+        //        ChangeState(GameState.Loading);
+        //        UIManager.Instance.CloseCurrentScene();
+        //        return UniTask.CompletedTask;
+        //    },
+        //    BeforeActivationAsync = () =>
+        //    {
+        //        ChangeState(GameState.Playing);
+        //        UIManager.Instance.ShowScene(ESceneUIType.InGameHUD);
+        //        return UniTask.CompletedTask;
+        //    }
+        //});
+
+        //if (!loadComplete)
+        //{
+        //    Debug.LogError("[GameManager] 씬 로드를 실패 하였습니다.");
+        //    return;
+        //}
+
+
         ChangeState(GameState.Loading);
         UIManager.Instance.ShowLoading();
 
@@ -107,5 +160,22 @@ public class GameManager : MonoSingleton<GameManager>
         }
 
         return true;
+    }
+
+    private void NotifyBootCompleted()
+    {
+        if (_isBootCompleted)
+            return;
+
+        _isBootCompleted = true;
+        _bootCompletionSource.TrySetResult();
+    }
+
+    private void NotifyBootFailed(Exception exception)
+    {
+        if (_isBootCompleted)
+            return;
+
+        _bootCompletionSource.TrySetException(exception);
     }
 }

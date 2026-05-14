@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public enum EGameScene
 {
-    Title = 0,
-    Run = 1,
+    TitleScene = 0,
+    InGameScene = 1,
 }
 
 public class SceneLoadService : ISceneLoadService
