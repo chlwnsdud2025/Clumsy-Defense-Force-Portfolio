@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8548543140267095818}
   - component: {fileID: 6867517290545493175}
   - component: {fileID: 9198964983872560280}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Basic_Normal_1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,8 +54,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.29
-  m_Center: {x: 0, y: 0.15, z: 0.03}
+  m_Radius: 0.64
+  m_Center: {x: 0, y: 0.45, z: 0.03}
 --- !u!54 &6867517290545493175
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   attackCooltime: 2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 1024
   raycastStartHeight: 50
   raycastDistance: 100
   fastStepSpeed: 25
@@ -120,6 +120,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4589921138243971212}
     m_Modifications:
+    - target: {fileID: 5202669104460366776, guid: 603596c2e740bf64493e6eb5a86c32a5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202669104460366776, guid: 603596c2e740bf64493e6eb5a86c32a5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202669104460366776, guid: 603596c2e740bf64493e6eb5a86c32a5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5202669104460366776, guid: 603596c2e740bf64493e6eb5a86c32a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

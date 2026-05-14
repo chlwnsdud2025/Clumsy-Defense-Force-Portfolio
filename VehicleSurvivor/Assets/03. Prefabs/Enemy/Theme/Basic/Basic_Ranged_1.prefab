@@ -69,10 +69,10 @@ MonoBehaviour:
   gravity: -20
   bulletPrefab: {fileID: 9221311787326238095, guid: eb8e9c86143f2494da1abe5d08b4a7e7, type: 3}
   firePoint: {fileID: 2256778290825846030}
-  bulletArcHeight: 2
-  bulletFlyTime: 1
+  bulletArcHeight: 10
+  bulletFlyTime: 3
   mortarDamage: 15
-  explosionRadius: 1.5
+  explosionRadius: 3
   targetIndicator: {fileID: 1509365444786983447}
 --- !u!54 &8046493170022611316
 Rigidbody:

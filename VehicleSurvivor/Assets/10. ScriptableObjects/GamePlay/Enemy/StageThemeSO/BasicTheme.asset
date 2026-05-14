@@ -14,6 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageThemeSO
   themeName: Basic
   enemyPools:
+  - {fileID: 11400000, guid: 1c36529eddbf5374dbb697d3cb821ece, type: 2}
   - {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
+  - {fileID: 11400000, guid: 2b8382a527fc93c438457d51a9d82920, type: 2}
+  - {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
+  - {fileID: 11400000, guid: bbc84bdb29087674d819ecbbbb9e76e0, type: 2}
+  - {fileID: 11400000, guid: 463eeae834a638a4d9d935cfe153b95b, type: 2}
+  - {fileID: 11400000, guid: 43b0063abd143704d877f2d6448d83ab, type: 2}
+  - {fileID: 11400000, guid: 6a824c3bd1961f84e8310af24f04c6e8, type: 2}
+  - {fileID: 11400000, guid: 40efff9f44df385498163590380f8d27, type: 2}
   waveDatas:
-  - {fileID: 11400000, guid: 8e8b685cf2888e848b024a5eea1d51b0, type: 2}
+  - {fileID: 11400000, guid: d5a72017d1d0b8e41bff8a3bdcb9d764, type: 2}
+  - {fileID: 11400000, guid: 5fcce8ff6fd67bd4c92d2e1444513609, type: 2}
+  - {fileID: 11400000, guid: 8609eb39d4e139c4fb2a8371c81b0335, type: 2}
+  - {fileID: 11400000, guid: ef59194500d289e42ada735a1636d5da, type: 2}
+  - {fileID: 11400000, guid: 076f09135bdaf7d48aef62c2688bcde0, type: 2}
