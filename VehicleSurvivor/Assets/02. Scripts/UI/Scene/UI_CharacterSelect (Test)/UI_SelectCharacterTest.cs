@@ -146,7 +146,7 @@ public class UI_SelectCharacterTest : UIScene
 
         UIManager.Instance.CloseCurrentScene();
 
-        bool loaded = await sceneLoadService.LoadSceneAsync(EGameScene.Run);
+        bool loaded = await sceneLoadService.LoadSceneAsync(EGameScene.InGameScene);
         if (!loaded)
             Debug.LogError("[UI_SelectCharacter] Run 씬 로딩에 실패했습니다.");
     }
