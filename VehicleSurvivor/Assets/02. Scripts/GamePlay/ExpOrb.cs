@@ -1,3 +1,4 @@
+using Unity.Entities;
 using UnityEngine;
 
 public enum ExpType { Small, Medium, Large }
@@ -75,6 +76,9 @@ public class ExpOrb : MonoBehaviour
     {
         if (maxStepDistance <= 0f)
             return;
+
+        if (isBouncing)
+            isBouncing = false;
 
         transform.position = Vector3.MoveTowards(transform.position, worldTarget, maxStepDistance);
     }
