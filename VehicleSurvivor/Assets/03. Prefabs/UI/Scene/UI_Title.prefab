@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CCCCClick to start
+  m_text: Click to start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ca247a3092b7b404dbaa6f4ab43e450c, type: 2}
   m_sharedMaterial: {fileID: -403277894513911722, guid: ca247a3092b7b404dbaa6f4ab43e450c, type: 2}
@@ -1353,4 +1353,3 @@ MonoBehaviour:
   startTextMinAlpha: 0.1
   startTextBlinkDuration: 1.2
   startTextBlinkEase: 4
-  titleCutscene: {fileID: 4166867993108749842, guid: 2227b470b7e3caa42b327679ff7104d9, type: 3}
