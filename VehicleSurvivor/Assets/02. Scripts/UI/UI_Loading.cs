@@ -8,7 +8,6 @@ public class UI_Loading : UIBase
 {
     [Header("Progress")]
     [SerializeField] private Slider _progressBar;
-    [SerializeField] private bool _hideProgressWhenInactive = true;
 
     [Header("Text")]
     [SerializeField] private TMP_Text _messageText;
