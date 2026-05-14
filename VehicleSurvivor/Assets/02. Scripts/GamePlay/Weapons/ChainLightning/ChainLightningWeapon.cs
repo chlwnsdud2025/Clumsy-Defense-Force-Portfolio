@@ -51,6 +51,9 @@ public class ChainLightningWeapon : WeaponBase
             return;
 
         currentEnemy.TakeDamage(damage);
+        Debug.Log(
+    $"체인 번개 데미지! 대상: {currentEnemy.name} / 데미지: {damage}"
+);
         hitEnemies.Add(currentEnemy);
 
         if (remainChain <= 0)
