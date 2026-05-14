@@ -595,8 +595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 524.3037, y: 1080}
+  m_AnchoredPosition: {x: -62, y: 0.000030518}
+  m_SizeDelta: {x: 524.3037, y: 887.7294}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &5049306163530989553
 GameObject:
@@ -1816,8 +1816,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 385.963, y: 0}
-  m_SizeDelta: {x: 771.9269, y: 1080}
+  m_AnchoredPosition: {x: 438, y: 0.000021935}
+  m_SizeDelta: {x: 735.3645, y: 974.0151}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6447939666769095342
 GameObject:
@@ -2076,6 +2076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9095455698841169574}
   - component: {fileID: 4662448138400454977}
+  - component: {fileID: 1134976431064951816}
   m_Layer: 5
   m_Name: UI_CharacterSelect
   m_TagString: Untagged
@@ -2113,7 +2114,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6679503148848777142}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbc6602237f637840b72e710c7494ef7, type: 3}
   m_Name: 
@@ -2126,6 +2127,24 @@ MonoBehaviour:
   hpText: {fileID: 417460877316225639}
   speedText: {fileID: 8955206278828343878}
   descriptionText: {fileID: 4074304546959366849}
+--- !u!114 &1134976431064951816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6679503148848777142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f9c4b401534814e8b162652a9f43a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SelectCharacterTest
+  _contentRoot: {fileID: 5163160208757173190}
+  _slotPrefab: {fileID: 0}
+  _initialPoolSize: 10
+  _profileIconImage: {fileID: 3256475090257291086}
+  _playerNameText: {fileID: 1251608163845113628}
+  _descriptionText: {fileID: 4074304546959366849}
 --- !u!1 &7040803858715974667
 GameObject:
   m_ObjectHideFlags: 0
