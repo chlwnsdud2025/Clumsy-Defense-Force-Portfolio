@@ -44,17 +44,27 @@ public class RunManager : MonoSingleton<RunManager>
 
     public void AddKill()
     {
+        if (!_isPlaying) return;
+
+        if (_eventBus == null)
+            _eventBus = ServiceLocator.Get<IEventBus>();
+
         _killCount++;
         _eventBus.Publish(new KillCountEvent(_killCount));
     }
 
     public void AddGold(int amount)
     {
+        if (!_isPlaying) return;
+
+        if (_eventBus == null)
+            _eventBus = ServiceLocator.Get<IEventBus>();
+
         _gold += amount;
         _eventBus.Publish(new GoldChangedEvent(_gold));
     }
 
-    public void EndSession()
+    public void EndRun()
     {
         _isPlaying = false;
     }
