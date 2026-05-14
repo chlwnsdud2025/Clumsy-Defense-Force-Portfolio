@@ -9,12 +9,21 @@ public class ChainLightningWeapon : WeaponBase
     [Header("시작 탐색 범위")]
     public float detectRadius = 10f;
 
+    [Header("이펙트 설정")]
+    public GameObject lightningEffectPrefab;
+    public float lineLifeTime = 0.1f;
+
     protected override void Attack(WeaponLevelData data)
     {
         Enemy firstTarget = FindClosestEnemy();
 
         if (firstTarget == null)
             return;
+
+        CreateLightningLine(
+            transform.position,
+            firstTarget.transform.position
+        );
 
         List<Enemy> hitEnemies = new List<Enemy>();
 
@@ -42,7 +51,9 @@ public class ChainLightningWeapon : WeaponBase
             return;
 
         currentEnemy.TakeDamage(damage);
-
+        Debug.Log(
+    $"체인 번개 데미지! 대상: {currentEnemy.name} / 데미지: {damage}"
+);
         hitEnemies.Add(currentEnemy);
 
         if (remainChain <= 0)
@@ -54,16 +65,44 @@ public class ChainLightningWeapon : WeaponBase
             hitEnemies
         );
 
-        if (nextEnemy != null)
+        if (nextEnemy == null)
+            return;
+
+        CreateLightningLine(
+            currentEnemy.transform.position,
+            nextEnemy.transform.position
+        );
+
+        ChainAttack(
+            nextEnemy,
+            hitEnemies,
+            remainChain - 1,
+            chainRadius,
+            damage
+        );
+    }
+
+    private void CreateLightningLine(Vector3 start, Vector3 end)
+    {
+        if (lightningEffectPrefab == null)
+            return;
+
+        GameObject effect = Instantiate(
+            lightningEffectPrefab,
+            start,
+            Quaternion.identity
+        );
+
+        LighteningScript lightning =
+            effect.GetComponentInChildren<LighteningScript>();
+
+        if (lightning != null)
         {
-            ChainAttack(
-                nextEnemy,
-                hitEnemies,
-                remainChain - 1,
-                chainRadius,
-                damage
-            );
+            lightning.SetTarget(start, end);
+            lightning.StartLightning();
         }
+
+        Destroy(effect, lineLifeTime);
     }
 
     private Enemy FindClosestEnemy()
@@ -75,7 +114,6 @@ public class ChainLightningWeapon : WeaponBase
         );
 
         Enemy closestEnemy = null;
-
         float closestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)
@@ -114,7 +152,6 @@ public class ChainLightningWeapon : WeaponBase
         );
 
         Enemy closestEnemy = null;
-
         float closestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)

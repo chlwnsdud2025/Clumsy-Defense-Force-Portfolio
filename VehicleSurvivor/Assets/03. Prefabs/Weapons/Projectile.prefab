@@ -150,7 +150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3412944509208217679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c306f9c9e25d00c41a91c677101a31e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 67a555abd489ab04f898fdf298b09f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileBullet
   damage: 999
