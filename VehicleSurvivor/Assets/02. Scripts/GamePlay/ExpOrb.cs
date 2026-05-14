@@ -22,6 +22,8 @@ public class ExpOrb : MonoBehaviour
     private bool isBouncing = false;
     private float targetGroundY; // 구슬이 착지해야 할 목표 Y 좌표
 
+    private bool consumed;
+
     [HideInInspector] public bool isMagnetized = false;
 
     public void Setup(ExpType type, ExpManager manager)
@@ -43,6 +45,7 @@ public class ExpOrb : MonoBehaviour
         Vector2 randomDir = Random.insideUnitCircle.normalized;
         currentVelocity = new Vector3(randomDir.x * scatterForce, bounceForce, randomDir.y * scatterForce);
         isBouncing = true;
+        consumed = false;
     }
 
     void Update()
@@ -66,5 +69,28 @@ public class ExpOrb : MonoBehaviour
     public void Collect()
     {
         myManager.ReturnToPool(this);
+    }
+
+    public void ApplyPullTowards(Vector3 worldTarget, float maxStepDistance)
+    {
+        if (maxStepDistance <= 0f)
+            return;
+
+        transform.position = Vector3.MoveTowards(transform.position, worldTarget, maxStepDistance);
+    }
+
+    public bool TryConsume(out int amount)
+    {
+        if (consumed)
+        {
+            amount = 0;
+            return false;
+        }
+
+        consumed = true;
+        amount = expValue;
+
+        Collect();
+        return true;
     }
 }

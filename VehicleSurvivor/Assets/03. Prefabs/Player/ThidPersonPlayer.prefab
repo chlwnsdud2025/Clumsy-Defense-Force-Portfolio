@@ -26493,6 +26493,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7429930991515267822}
+  - component: {fileID: 7063496194685437577}
   m_Layer: 0
   m_Name: ThidPersonPlayer
   m_TagString: Untagged
@@ -26518,6 +26519,25 @@ Transform:
   - {fileID: 1682977905999011415}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7063496194685437577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4137169524317950769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5027f1258afdd4f9553201513e177b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerExperiencePickupCollector
+  _origin: {fileID: 1682977905999011415}
+  _experienceMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  _magnetPullSpeed: 10
+  _contactAbsorbRadius: 0.45
+  _showPickupRangeGizmo: 1
 --- !u!1 &4138996222422021185
 GameObject:
   m_ObjectHideFlags: 0
@@ -54484,7 +54504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4449997
+      value: 0.44500005
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.z
