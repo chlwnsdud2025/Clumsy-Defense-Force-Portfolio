@@ -140,4 +140,5 @@ MonoBehaviour:
   bounceForce: 8
   scatterForce: 8
   gravity: 30
+  groundOffset: -1.5
   isMagnetized: 0

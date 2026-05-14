@@ -99,7 +99,7 @@ MonoBehaviour:
   moveSpeed: 7
   maxHealth: 10
   rotationSpeed: 2
-  expReward: 34
+  expReward: 1
   separationRadius: 1.5
   separationWeight: 0.5
   attackRange: 1

@@ -184,13 +184,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2708452179155178973, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: _loadingUI
+      value: 
+      objectReference: {fileID: 1843069649}
+    - target: {fileID: 2708452179155178973, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: _loadingLayer
+      value: 
+      objectReference: {fileID: 1577650748}
     - target: {fileID: 5994539108594410109, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 8.320068
       objectReference: {fileID: 0}
     - target: {fileID: 5994539109630860912, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2.119995
+      value: -2.1200256
       objectReference: {fileID: 0}
     - target: {fileID: 6008351654771818614, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
       propertyPath: m_Name
@@ -638,14 +646,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4805675904342687963, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: startWeaponPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805675904342687963, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: 'startWeaponPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1301817069}
     - target: {fileID: 6970931791225896075, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Name
       value: ThidPersonPlayer Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7972881668232278093, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: GroundLayers.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9057876234890307290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1301817069}
   m_SourcePrefab: {fileID: 100100000, guid: c1719f26313ba2649b9c78101940321a, type: 3}
 --- !u!1 &663870439
 GameObject:
@@ -692,7 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512eb5c7258dcfa4f9d785556007a3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1325612289}
   poolSettings:
   - type: 0
     prefab: {fileID: 5944618501675846902, guid: 4f77ee1a71a1d34478864f1434be83c4, type: 3}
@@ -883,6 +906,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: df3b5d5d89d032f42bedb7be98583aaa, type: 2}
     - target: {fileID: 4876908900278797462, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4876908900278797462, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4876908900278797462, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4876908900278797462, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -931,10 +966,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
+--- !u!1 &1301817066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9057876234890307290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+  m_PrefabInstance: {fileID: 603627533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1301817069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301817066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
+  weaponID: weapon
+  weaponName: Weapon
+  levelData:
+  - damage: 50
+    cooldown: 0
+    bulletSpeed: 0
+    projectileCount: 0
+    spreadAngle: 0
+    radius: 10
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 0
+    meteorDelay: 0
+  currentLevel: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  auraEffectPrefab: {fileID: 0}
+--- !u!4 &1325612289 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5660100289455387117, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+  m_PrefabInstance: {fileID: 603627533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1382219403 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5413531643696276268, guid: 23ea60a688b369f4cbc056e6835c3a1c, type: 3}
   m_PrefabInstance: {fileID: 2553904548647578602}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1577650748 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5209161709835098507, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+  m_PrefabInstance: {fileID: 252269420}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1640935738
 GameObject:
@@ -1015,6 +1095,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1843069649 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 520781204984949890, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+  m_PrefabInstance: {fileID: 252269420}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5979eb47d947c849b8017646a51610f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Loading
 --- !u!1 &1873301170
 GameObject:
   m_ObjectHideFlags: 0
