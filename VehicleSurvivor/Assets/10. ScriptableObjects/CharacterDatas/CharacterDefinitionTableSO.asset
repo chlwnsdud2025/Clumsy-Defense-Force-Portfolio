@@ -13,4 +13,11 @@ MonoBehaviour:
   m_Name: CharacterDefinitionTableSO
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionTableSO
   _defaultCharacterId: character.default
-  _characters: []
+  _characters:
+  - {fileID: 11400000, guid: a43eb92c71a8440418419911fd5482e9, type: 2}
+  - {fileID: 11400000, guid: bc7c0fa976a3d144fb3ef5747ff6a106, type: 2}
+  - {fileID: 11400000, guid: 4f650474b31cdc744bfc0c81cdad2914, type: 2}
+  - {fileID: 11400000, guid: 502b87f8df4de774cbffba2c979a27a0, type: 2}
+  - {fileID: 11400000, guid: 4fcf20fd03a6ac045ae4cdda99b99d06, type: 2}
+  - {fileID: 11400000, guid: a8926260b9eb94845ade54d6964c4a6d, type: 2}
+  - {fileID: 11400000, guid: dfed334c9103b1a43b9b5b97673d1079, type: 2}
