@@ -50,6 +50,7 @@ MonoBehaviour:
   bounceForce: 8
   scatterForce: 8
   gravity: 30
+  groundOffset: -1.5
   isMagnetized: 0
 --- !u!1 &7646245753762443021
 GameObject:

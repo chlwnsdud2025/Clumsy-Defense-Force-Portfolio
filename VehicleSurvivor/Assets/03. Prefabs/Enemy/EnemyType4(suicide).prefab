@@ -194,7 +194,7 @@ MonoBehaviour:
   moveSpeed: 15
   maxHealth: 50
   rotationSpeed: 2
-  expReward: 34
+  expReward: 1
   separationRadius: 1
   separationWeight: 1
   attackRange: 1.5
