@@ -5,7 +5,8 @@ public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
 {
     [Header("Cutscene")]
     [SerializeField] private TitleCutsceneController titleCutsceneController;
-
+    [Header("Character Preview")]
+    [SerializeField] private Transform previewSpawnRoot;
     private async void Start()
     {
         if (!GameManager.TryGetInstance(out GameManager gameManager))
@@ -48,7 +49,15 @@ public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
     private void GoToCharacterSelect()
     {
         GameManager.Instance.ChangeState(GameState.CharacterSelect);
-        UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
+
+        UI_CharacterSelect characterSelectUI =
+            UIManager.Instance.ShowScene<UI_CharacterSelect>(ESceneUIType.CharacterSelect);
+
+        if (characterSelectUI != null)
+        {
+            characterSelectUI.SetPreviewSpawnRoot(previewSpawnRoot);
+
+        }
     }
 
     public void RequestStartGame()
