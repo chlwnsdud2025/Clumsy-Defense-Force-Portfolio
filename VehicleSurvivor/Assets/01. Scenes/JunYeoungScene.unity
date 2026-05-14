@@ -657,7 +657,7 @@ PrefabInstance:
     - target: {fileID: 4805675904342687963, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: 'startWeaponPrefabs.Array.data[0]'
       value: 
-      objectReference: {fileID: 1301817069}
+      objectReference: {fileID: 0}
     - target: {fileID: 6970931791225896075, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Name
       value: ThidPersonPlayer Variant
@@ -673,10 +673,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9057876234890307290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1301817069}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1719f26313ba2649b9c78101940321a, type: 3}
 --- !u!1 &663870439
 GameObject:
@@ -723,69 +720,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512eb5c7258dcfa4f9d785556007a3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
+  currentTheme: {fileID: 11400000, guid: 90d05cf4e1351d34fa2a28f0b904457a, type: 2}
   playerTransform: {fileID: 1325612289}
-  poolSettings:
-  - type: 0
-    prefab: {fileID: 5944618501675846902, guid: 4f77ee1a71a1d34478864f1434be83c4, type: 3}
-    poolSize: 200
-    amountRate: 1
-    spawnAsPurePack: 0
-    maxReserveSize: 0
-    currentReserveCount: 0
-  - type: 1
-    prefab: {fileID: 7539001815701513887, guid: 9b079ac896a56334292a21f2ceee9502, type: 3}
-    poolSize: 0
-    amountRate: 0
-    spawnAsPurePack: 0
-    maxReserveSize: 0
-    currentReserveCount: 0
-  - type: 2
-    prefab: {fileID: 7539001815701513887, guid: 746c0e5d2bbbdaf4792c44bf4059d437, type: 3}
-    poolSize: 200
-    amountRate: 0
-    spawnAsPurePack: 0
-    maxReserveSize: 100
-    currentReserveCount: 0
-  - type: 3
-    prefab: {fileID: 3976847350399919973, guid: 28742cafc4f171748b2bdfd9775ff449, type: 3}
-    poolSize: 200
-    amountRate: 1
-    spawnAsPurePack: 0
-    maxReserveSize: 0
-    currentReserveCount: 0
-  - type: 4
-    prefab: {fileID: 5254603863205873838, guid: 688b91cce7d147d4fb5e2e9613af592c, type: 3}
-    poolSize: 0
-    amountRate: 0
-    spawnAsPurePack: 0
-    maxReserveSize: 0
-    currentReserveCount: 0
-  - type: 5
-    prefab: {fileID: 7539001815701513887, guid: e7612061d793fde48b683358da9b969f, type: 3}
-    poolSize: 200
-    amountRate: 1
-    spawnAsPurePack: 0
-    maxReserveSize: 0
-    currentReserveCount: 0
-  - type: 6
-    prefab: {fileID: 2387385977625573398, guid: e240e9ae72545a84aa4a6c4d35c66e0f, type: 3}
-    poolSize: 200
-    amountRate: 1
-    spawnAsPurePack: 1
-    maxReserveSize: 0
-    currentReserveCount: 0
-  - type: 7
-    prefab: {fileID: 2982710734541050597, guid: 523313c59b171cb499ac45d050ddb1c5, type: 3}
-    poolSize: 100
-    amountRate: 0
-    spawnAsPurePack: 0
-    maxReserveSize: 100
-    currentReserveCount: 0
   spawnRadius: 30
-  spawnInterval: 0.1
   clusterRadius: 15
-  minSpawnCount: 1
-  maxSpawnCount: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -974,41 +912,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f25d744ee9f4bc40815c9e035878b1b, type: 3}
---- !u!1 &1301817066 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9057876234890307290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
-  m_PrefabInstance: {fileID: 603627533}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1301817069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301817066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  weaponID: weapon
-  weaponName: Weapon
-  levelData:
-  - damage: 0
-    cooldown: 3
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 10
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-  currentLevel: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  auraEffectPrefab: {fileID: 0}
 --- !u!4 &1325612289 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5660100289455387117, guid: c1719f26313ba2649b9c78101940321a, type: 3}

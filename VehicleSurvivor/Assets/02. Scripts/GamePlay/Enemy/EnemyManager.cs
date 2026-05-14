@@ -1,43 +1,21 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
-[System.Serializable]
-public class EnemyPoolSetting
-{
-    public EnemyType type;
-    public GameObject prefab;
-    public int poolSize = 50;
-    public float amountRate = 1f;
-
-    [Header("Cluster Settings")]
-    [Tooltip("체크하면 이 몹이 당첨됐을 때 섞이지 않고 단일 몹 군집으로 나옵니다.")]
-    public bool spawnAsPurePack = false;
-
-    [Header("Dynamic Reserve Pool")]
-    [Tooltip("기본 풀이 고갈되었을 때, 추가로 생성(Instantiate)을 허락할 최대 예비 개수")]
-    public int maxReserveSize = 20;
-
-    // 에디터에는 안 보이지만 내부적으로 추가 생성된 개수를 추적하는 변수
-    [HideInInspector] public int currentReserveCount = 0;
-}
 
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance;
 
+    [Header("Current Stage Setting")]
+    [Tooltip("현재 맵에 해당하는 테마 SO를 할당하세요.")]
+    public StageThemeSO currentTheme;
+
     [Header("References")]
     public Transform playerTransform;
 
-    [Header("Pool Settings")]
-    public EnemyPoolSetting[] poolSettings;
-
     [Header("Cluster Spawn Settings")]
     public float spawnRadius = 50f;
-    public float spawnInterval = 2.0f;
     public float clusterRadius = 4f;
-    public int minSpawnCount = 3;
-    public int maxSpawnCount = 7;
-    private float spawnTimer = 0f;
 
     [Header("3D Spawn Settings")]
     public LayerMask groundLayer;
@@ -46,18 +24,25 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Grid & Separation Settings")]
     public float cellSize = 2f;
-    private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
+    public float gridUpdateInterval = 0.15f;
 
-    // ==========================================
-    // [최적화 추가] 그리드 업데이트 타이머 변수
-    // ==========================================
+    // 내부 타이머 및 상태
+    private float spawnTimer = 0f;
+    private float gameTimer = 0f;
     private float gridUpdateTimer = 0f;
-    public float gridUpdateInterval = 0.15f; // 0.15초마다 한 번씩만 그리드 갱신 (1초에 약 6번)
 
-    // 풀 관리용 Dictionary
-    private Dictionary<EnemyType, Queue<Enemy>> enemyPools;
-    private Dictionary<EnemyType, Transform> poolParents; // 예비 풀 생성 시 부모를 찾기 위한 딕셔너리
+    // ==========================================
+    // [변경됨] 데이터 관리 컬렉션: Enum 대신 SO 자체를 Key로 사용합니다.
+    // ==========================================
+    private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
+    private Dictionary<EnemyPoolDataSO, Queue<Enemy>> enemyPools = new Dictionary<EnemyPoolDataSO, Queue<Enemy>>();
+    private Dictionary<EnemyPoolDataSO, Transform> poolParents = new Dictionary<EnemyPoolDataSO, Transform>();
+    // 참고: SO 자체가 Key이므로 이제 poolSettings 딕셔너리는 필요 없습니다.
     private List<Enemy> activeEnemies = new List<Enemy>();
+
+    private List<WaveDataSO> sortedWaves;
+    private WaveDataSO currentWave;
+    private int currentWaveIndex = 0;
 
     void Awake()
     {
@@ -67,44 +52,93 @@ public class EnemyManager : MonoBehaviour
 
     void Start()
     {
-        InitializePool();
+        if (currentTheme != null)
+        {
+            ApplyTheme(currentTheme);
+        }
     }
 
-    private void InitializePool()
+    public void ApplyTheme(StageThemeSO theme)
     {
-        enemyPools = new Dictionary<EnemyType, Queue<Enemy>>();
-        poolParents = new Dictionary<EnemyType, Transform>();
+        currentTheme = theme;
+        gameTimer = 0f; // 테마 적용 시 게임 시간 초기화
 
-        foreach (var setting in poolSettings)
+        ClearAllPools();
+
+        // 풀 생성
+        foreach (EnemyPoolDataSO poolData in theme.enemyPools)
         {
+            if (poolData == null) continue;
+
+            poolData.currentReserveCount = 0; // 예비 카운트 초기화
+
             Queue<Enemy> pool = new Queue<Enemy>();
-            GameObject poolParent = new GameObject($"{setting.type} Pool");
-            poolParent.transform.SetParent(this.transform);
+            GameObject parentObj = new GameObject($"{poolData.name}_Pool"); // SO의 파일 이름을 부모 객체 이름으로 사용
+            parentObj.transform.SetParent(this.transform);
 
-            poolParents.Add(setting.type, poolParent.transform);
+            // Enum 대신 SO 객체를 Key로 등록
+            poolParents.Add(poolData, parentObj.transform);
 
-            for (int i = 0; i < setting.poolSize; i++)
+            for (int i = 0; i < poolData.poolSize; i++)
             {
-                GameObject obj = Instantiate(setting.prefab, poolParent.transform);
-                obj.SetActive(false);
-
-                Enemy enemyScript = obj.GetComponent<Enemy>();
-                enemyScript.myType = setting.type;
-
-                pool.Enqueue(enemyScript);
+                Enemy enemy = InstantiateEnemy(poolData, parentObj.transform);
+                pool.Enqueue(enemy);
             }
 
-            enemyPools.Add(setting.type, pool);
+            enemyPools.Add(poolData, pool);
         }
+
+        // 웨이브 스케줄 정렬
+        sortedWaves = theme.waveDatas.OrderBy(w => w.waveStartTime).ToList();
+        if (sortedWaves.Count > 0)
+        {
+            currentWave = sortedWaves[0];
+            currentWaveIndex = 0;
+        }
+
+        Debug.Log($"[Theme Applied] {theme.themeName} 테마 로딩 완료");
+    }
+
+    private Enemy InstantiateEnemy(EnemyPoolDataSO data, Transform parent)
+    {
+        GameObject obj = Instantiate(data.prefab, parent);
+        obj.SetActive(false);
+        Enemy enemy = obj.GetComponent<Enemy>();
+
+        // [변경됨] Enum 대신 자신이 태어난 SO(풀 데이터)를 기억하게 합니다.
+        enemy.originPool = data;
+
+        return enemy;
+    }
+
+    private void ClearAllPools()
+    {
+        foreach (var parent in poolParents.Values) Destroy(parent.gameObject);
+        enemyPools.Clear();
+        poolParents.Clear();
+        activeEnemies.Clear();
+        spatialGrid.Clear();
     }
 
     void Update()
     {
-        float dt = Time.deltaTime;
+        if (currentWave == null || playerTransform == null) return;
 
-        // ==========================================
-        // [최적화 적용] 그리드 갱신을 타이머로 분산
-        // ==========================================
+        float dt = Time.deltaTime;
+        gameTimer += dt;
+
+        // 1. 웨이브 교체 체크
+        if (currentWaveIndex + 1 < sortedWaves.Count)
+        {
+            if (gameTimer >= sortedWaves[currentWaveIndex + 1].waveStartTime)
+            {
+                currentWaveIndex++;
+                currentWave = sortedWaves[currentWaveIndex];
+                Debug.Log($"[Wave Changed] 새로운 웨이브 시작!");
+            }
+        }
+
+        // 2. 그리드 갱신 (최적화)
         gridUpdateTimer += dt;
         if (gridUpdateTimer >= gridUpdateInterval)
         {
@@ -112,85 +146,71 @@ public class EnemyManager : MonoBehaviour
             UpdateGrid();
         }
 
+        // 3. 활성화된 몹 업데이트
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             activeEnemies[i].ManagedUpdate(dt);
         }
 
+        // 4. 스폰 타이머
         spawnTimer += dt;
-        if (spawnTimer >= spawnInterval)
+        if (spawnTimer >= currentWave.spawnInterval)
         {
             spawnTimer = 0f;
             SpawnEnemyAtRandomCircle();
         }
     }
 
-    // ==========================================
-    // 확률 룰렛을 돌려 특정 몹의 세팅을 반환
-    // ==========================================
-    private EnemyPoolSetting GetRandomEnemySetting()
+    private WaveEnemyData GetRandomEnemyDataFromWave()
     {
-        float totalRate = 0f;
-        for (int i = 0; i < poolSettings.Length; i++) totalRate += poolSettings[i].amountRate;
+        if (currentWave.activeEnemies.Count == 0) return null;
 
-        if (totalRate <= 0f) return null;
+        float totalWeight = 0f;
+        for (int i = 0; i < currentWave.activeEnemies.Count; i++) totalWeight += currentWave.activeEnemies[i].spawnWeight;
 
-        float randomValue = Random.Range(0f, totalRate);
-        float cumulativeRate = 0f;
+        if (totalWeight <= 0f) return null;
 
-        for (int i = 0; i < poolSettings.Length; i++)
+        float randomValue = Random.Range(0f, totalWeight);
+        float cumulativeWeight = 0f;
+
+        for (int i = 0; i < currentWave.activeEnemies.Count; i++)
         {
-            cumulativeRate += poolSettings[i].amountRate;
-            if (randomValue <= cumulativeRate)
-            {
-                return poolSettings[i];
-            }
+            cumulativeWeight += currentWave.activeEnemies[i].spawnWeight;
+            if (randomValue <= cumulativeWeight) return currentWave.activeEnemies[i];
         }
-        return poolSettings[0];
+        return currentWave.activeEnemies[0];
     }
 
-    // ==========================================
-    // 예비 풀(동적 확장)을 포함한 몹 꺼내기 로직
-    // ==========================================
-    private Enemy GetEnemyFromPool(EnemyType type)
+    // [변경됨] 매개변수가 Enum이 아닌 SO 객체 자체를 받습니다.
+    private Enemy GetEnemyFromPool(EnemyPoolDataSO poolData)
     {
-        if (enemyPools[type].Count > 0)
+        if (poolData == null) return null;
+
+        if (enemyPools.ContainsKey(poolData) && enemyPools[poolData].Count > 0)
         {
-            return enemyPools[type].Dequeue();
+            return enemyPools[poolData].Dequeue();
         }
 
-        EnemyPoolSetting setting = null;
-        foreach (var s in poolSettings) { if (s.type == type) { setting = s; break; } }
-
-        if (setting != null && setting.currentReserveCount < setting.maxReserveSize)
+        // 동적 풀 확장 (poolSettings Dictionary를 찾을 필요 없이, 인자로 받은 poolData를 바로 사용)
+        if (poolData.currentReserveCount < poolData.maxReserveSize)
         {
-            setting.currentReserveCount++;
+            poolData.currentReserveCount++;
+            Debug.LogWarning($"[동적 풀 확장] {poolData.name} 추가 생성 (현재 추가량: {poolData.currentReserveCount}/{poolData.maxReserveSize})");
 
-            GameObject obj = Instantiate(setting.prefab, poolParents[type]);
-            obj.SetActive(false);
-
-            Enemy enemyScript = obj.GetComponent<Enemy>();
-            enemyScript.myType = type;
-
-            Debug.LogWarning($"[동적 풀 확장] {type} 풀 고갈! 임시로 1개 추가 생성했습니다. (현재 추가량: {setting.currentReserveCount}/{setting.maxReserveSize})");
-            return enemyScript;
+            // poolParents 딕셔너리에서 생성할 부모 트랜스폼을 찾습니다.
+            Transform parentTransform = poolParents.ContainsKey(poolData) ? poolParents[poolData] : this.transform;
+            return InstantiateEnemy(poolData, parentTransform);
         }
 
         return null;
     }
 
-    // ==========================================
-    // 단일 / 혼합 군집 스폰 로직
-    // ==========================================
     private void SpawnEnemyAtRandomCircle()
     {
-        if (poolSettings.Length == 0) return;
-
-        EnemyPoolSetting clusterTheme = GetRandomEnemySetting();
-        if (clusterTheme == null) return;
+        WaveEnemyData clusterTheme = GetRandomEnemyDataFromWave();
+        if (clusterTheme == null || clusterTheme.targetPool == null) return;
 
         bool isPurePack = clusterTheme.spawnAsPurePack;
-
         Vector2 centerCircle = Random.insideUnitCircle.normalized * spawnRadius;
         Vector3 clusterCenterXZ = new Vector3(
             playerTransform.position.x + centerCircle.x,
@@ -198,13 +218,15 @@ public class EnemyManager : MonoBehaviour
             playerTransform.position.z + centerCircle.y
         );
 
-        int spawnCount = Random.Range(minSpawnCount, maxSpawnCount + 1);
+        int spawnCount = Random.Range(currentWave.minSpawnCount, currentWave.maxSpawnCount + 1);
 
         for (int i = 0; i < spawnCount; i++)
         {
-            EnemyPoolSetting targetSetting = isPurePack ? clusterTheme : GetRandomEnemySetting();
-            Enemy enemyToSpawn = GetEnemyFromPool(targetSetting.type);
+            WaveEnemyData targetData = isPurePack ? clusterTheme : GetRandomEnemyDataFromWave();
+            if (targetData == null || targetData.targetPool == null) continue;
 
+            // [변경됨] SO 안에 있는 targetPool 자체를 넘겨줍니다.
+            Enemy enemyToSpawn = GetEnemyFromPool(targetData.targetPool);
             if (enemyToSpawn == null) continue;
 
             Vector2 randomOffset = Random.insideUnitCircle * clusterRadius;
@@ -214,7 +236,6 @@ public class EnemyManager : MonoBehaviour
                 clusterCenterXZ.z + randomOffset.y
             );
 
-            // 기본 Physics.Raycast는 단일 검사이며 GC를 발생시키지 않으므로 스폰 단계에서는 그대로 두어도 매우 안전합니다.
             if (Physics.Raycast(rayStartPos, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
             {
                 enemyToSpawn.SpawnSetup(playerTransform, hit.point, this);
@@ -231,7 +252,16 @@ public class EnemyManager : MonoBehaviour
     {
         enemy.gameObject.SetActive(false);
         activeEnemies.Remove(enemy);
-        enemyPools[enemy.myType].Enqueue(enemy);
+
+        // [변경됨] 몹이 기억하고 있는 originPool을 Key로 사용하여 풀에 반환합니다.
+        if (enemy.originPool != null && enemyPools.ContainsKey(enemy.originPool))
+        {
+            enemyPools[enemy.originPool].Enqueue(enemy);
+        }
+        else
+        {
+            Destroy(enemy.gameObject); // 비정상적인 경우 안전장치
+        }
     }
 
     private void UpdateGrid()
@@ -253,17 +283,13 @@ public class EnemyManager : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt(position.x / cellSize), Mathf.FloorToInt(position.z / cellSize));
     }
 
-    // ==========================================
-    // [최적화] 군집 분리 연산 제한
-    // ==========================================
     public Vector3 GetSeparationForce(Enemy targetEnemy, float radius)
     {
         Vector3 force = Vector3.zero;
         Vector2Int cell = GetCellPos(targetEnemy.transform.position);
         float sqrRadius = radius * radius;
-
         int checkCount = 0;
-        const int MAX_CHECKS = 5; //  한 마리당 최대 5마리와만 거리 계산을 수행합니다.
+        const int MAX_CHECKS = 5;
 
         for (int x = -1; x <= 1; x++)
         {
@@ -275,7 +301,7 @@ public class EnemyManager : MonoBehaviour
                 {
                     for (int i = 0; i < neighbors.Count; i++)
                     {
-                        if (checkCount >= MAX_CHECKS) return force; // 연산 한계치 도달 시 즉시 종료 (렉 방지)
+                        if (checkCount >= MAX_CHECKS) return force;
 
                         Enemy neighbor = neighbors[i];
                         if (neighbor == targetEnemy) continue;
@@ -286,7 +312,6 @@ public class EnemyManager : MonoBehaviour
 
                         if (sqrDist > 0 && sqrDist < sqrRadius)
                         {
-                            // 무거운 Sqrt 연산도 최대 5번만 실행됩니다.
                             force += diff.normalized / Mathf.Sqrt(sqrDist);
                             checkCount++;
                         }
