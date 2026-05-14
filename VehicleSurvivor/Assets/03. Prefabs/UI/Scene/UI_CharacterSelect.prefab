@@ -869,7 +869,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4662448138400454977}
+      - m_Target: {fileID: 5948969782810056483}
         m_TargetAssemblyTypeName: UI_CharacterSelect, Assembly-CSharp
         m_MethodName: OnClickStartGame
         m_Mode: 1
@@ -2075,8 +2075,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9095455698841169574}
-  - component: {fileID: 4662448138400454977}
-  - component: {fileID: 1134976431064951816}
+  - component: {fileID: 5948969782810056483}
   m_Layer: 5
   m_Name: UI_CharacterSelect
   m_TagString: Untagged
@@ -2107,27 +2106,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4662448138400454977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6679503148848777142}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc6602237f637840b72e710c7494ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  playerDatabase: {fileID: 11400000, guid: d26e864de36d31649bce2babd7664136, type: 2}
-  playerIconPrefab: {fileID: -2165429519951420359, guid: 8d145f99c178fa647b7afbc5e2b54ad7, type: 3}
-  content: {fileID: 5163160208757173190}
-  portraitImage: {fileID: 3256475090257291086}
-  nameText: {fileID: 1251608163845113628}
-  hpText: {fileID: 417460877316225639}
-  speedText: {fileID: 8955206278828343878}
-  descriptionText: {fileID: 4074304546959366849}
---- !u!114 &1134976431064951816
+--- !u!114 &5948969782810056483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2136,11 +2115,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6679503148848777142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5f9c4b401534814e8b162652a9f43a8, type: 3}
+  m_Script: {fileID: 11500000, guid: bbc6602237f637840b72e710c7494ef7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_SelectCharacterTest
+  m_EditorClassIdentifier: Assembly-CSharp::UI_CharacterSelect
   _contentRoot: {fileID: 5163160208757173190}
-  _slotPrefab: {fileID: 0}
+  _slotPrefab: {fileID: 1166767504788736422, guid: dd5e9e67a6d611a44bf5c54df7752a88, type: 3}
   _initialPoolSize: 10
   _profileIconImage: {fileID: 3256475090257291086}
   _playerNameText: {fileID: 1251608163845113628}

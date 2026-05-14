@@ -33,17 +33,42 @@ public static class ServiceBootstrapper
         }
     }
 
-    private static UniTask<bool> RegisterCoreServicesAsync()
+    //private static UniTask<bool> RegisterCoreServicesAsync()
+    //{
+    //    ServiceLocator.Clear();
+
+    //    IResourceService resourceService = new ResourceService();
+    //    IEventBus eventBus = new EventBus();
+    //    ISceneLoadService sceneLoadService = new SceneLoadService();
+    //    ICharacterService characterService = new CharacterService();
+    //    // 서비스 등록
+    //    ServiceLocator.Register<IResourceService>(resourceService);
+    //    ServiceLocator.Register<IEventBus>(eventBus);
+    //    ServiceLocator.Register<ISceneLoadService>(sceneLoadService);
+
+
+    //    return UniTask.FromResult(true);
+    //}
+    private static async UniTask<bool> RegisterCoreServicesAsync()
     {
         ServiceLocator.Clear();
 
         IResourceService resourceService = new ResourceService();
         IEventBus eventBus = new EventBus();
+        ISceneLoadService sceneLoadService = new SceneLoadService();
 
-        // 서비스 등록
+        ICharacterService characterService = new CharacterService();
+
         ServiceLocator.Register<IResourceService>(resourceService);
         ServiceLocator.Register<IEventBus>(eventBus);
+        ServiceLocator.Register<ISceneLoadService>(sceneLoadService);
 
-        return UniTask.FromResult(true);
+        bool characterInitialized = await characterService.InitializeAsync(resourceService);
+        if (!characterInitialized)
+            return false;
+
+        ServiceLocator.Register<ICharacterService>(characterService);
+
+        return true;
     }
 }
