@@ -1353,3 +1353,4 @@ MonoBehaviour:
   startTextMinAlpha: 0.1
   startTextBlinkDuration: 1.2
   startTextBlinkEase: 4
+  titleCutscene: {fileID: 4166867993108749842, guid: 2227b470b7e3caa42b327679ff7104d9, type: 3}
