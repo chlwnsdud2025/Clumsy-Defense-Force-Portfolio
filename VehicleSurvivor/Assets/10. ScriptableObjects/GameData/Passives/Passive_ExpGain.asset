@@ -12,25 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a945bb538c2ffd04d8d6cc2c5f0cfb55, type: 3}
   m_Name: Passive_ExpGain
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
-  passiveId: passive_attack_power
-  passiveName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  description: "\uACF5\uACA9\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveId: passive_exp_gain
+  passiveName: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD\uB7C9 \uC99D\uAC00"
+  description: "\uD68D\uB4DD\uD558\uB294 \uACBD\uD5D8\uCE58\uB7C9\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
-  statType: 1
+  statType: 10
   maxLevel: 5
   levelModifiers:
-  - statType: 1
+  - statType: 10
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 10
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 10
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 10
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 10
     value: 0.08
     isPercent: 1

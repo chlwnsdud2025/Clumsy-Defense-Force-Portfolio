@@ -12,25 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a945bb538c2ffd04d8d6cc2c5f0cfb55, type: 3}
   m_Name: Passive_ItemPickupRange
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
-  passiveId: passive_attack_power
-  passiveName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  description: "\uACF5\uACA9\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveId: passive_item_pickup_range
+  passiveName: "\uC544\uC774\uD15C \uD68D\uB4DD \uBC18\uACBD \uC99D\uAC00"
+  description: "\uACBD\uD5D8\uCE58 \uBCF4\uC11D\uACFC \uC544\uC774\uD15C\uC744 \uC90D\uB294
+    \uBC94\uC704\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
-  statType: 1
+  statType: 9
   maxLevel: 5
   levelModifiers:
-  - statType: 1
-    value: 0.08
+  - statType: 9
+    value: 0.2
     isPercent: 1
-  - statType: 1
-    value: 0.08
+  - statType: 9
+    value: 0.2
     isPercent: 1
-  - statType: 1
-    value: 0.08
+  - statType: 9
+    value: 0.2
     isPercent: 1
-  - statType: 1
-    value: 0.08
+  - statType: 9
+    value: 0.2
     isPercent: 1
-  - statType: 1
-    value: 0.08
+  - statType: 9
+    value: 0.2
     isPercent: 1

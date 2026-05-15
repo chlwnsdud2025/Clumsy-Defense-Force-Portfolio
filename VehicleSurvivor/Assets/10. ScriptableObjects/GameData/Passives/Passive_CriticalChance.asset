@@ -19,18 +19,18 @@ MonoBehaviour:
   statType: 6
   maxLevel: 5
   levelModifiers:
-  - statType: 1
+  - statType: 6
     value: 0.05
     isPercent: 1
-  - statType: 1
+  - statType: 6
     value: 0.05
     isPercent: 1
-  - statType: 1
+  - statType: 6
     value: 0.05
     isPercent: 1
-  - statType: 1
+  - statType: 6
     value: 0.05
     isPercent: 1
-  - statType: 1
+  - statType: 6
     value: 0.05
     isPercent: 1
