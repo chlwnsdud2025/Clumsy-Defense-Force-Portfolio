@@ -1,17 +1,5 @@
 using UnityEngine;
 
-public enum EnemyType
-{
-    Normal_A,
-    Normal_B,
-    Normal_C,
-    Ranged,
-    Dash,
-    Suicide,
-    Flying_A,
-    Raser
-}
-
 public interface IDamageable
 {
     void TakeDamage(float damage);
@@ -22,7 +10,7 @@ public class Enemy : MonoBehaviour, IDamageable
     protected Transform playerTarget;
     protected EnemyManager myManager;
 
-    public EnemyType myType;
+    [HideInInspector] public EnemyPoolDataSO originPool;
 
     [Header("Stat")]
     public float moveSpeed = 5f;
