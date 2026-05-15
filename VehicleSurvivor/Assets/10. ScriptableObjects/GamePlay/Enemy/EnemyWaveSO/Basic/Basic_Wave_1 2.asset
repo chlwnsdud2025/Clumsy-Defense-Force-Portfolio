@@ -18,14 +18,16 @@ MonoBehaviour:
   maxSpawnCount: 3
   activeEnemies:
   - targetPool: {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
-    spawnWeight: 1
-    spawnAsPurePack: 0
-  - targetPool: {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
-    spawnWeight: 1
+    spawnWeight: 3
     spawnAsPurePack: 0
   - targetPool: {fileID: 11400000, guid: 2b8382a527fc93c438457d51a9d82920, type: 2}
-    spawnWeight: 1
+    spawnWeight: 0.2
     spawnAsPurePack: 0
-  - targetPool: {fileID: 11400000, guid: bbc84bdb29087674d819ecbbbb9e76e0, type: 2}
-    spawnWeight: 1
-    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: 1c36529eddbf5374dbb697d3cb821ece, type: 2}
+    spawnWeight: 0.2
+    spawnAsPurePack: 1
+  midBossPrefabs:
+  - {fileID: 8873816221071621117, guid: 7cca06dbdd802c348a4670d6ddc3d1b6, type: 3}
+  - {fileID: 1497151622386116264, guid: 342d4cc300a95c2429b6e93ee9ea2e1b, type: 3}
+  - {fileID: 3988236483886274440, guid: ef9aa5f38d13d2e43bb7e908657dc420, type: 3}
+  midBossCount: 1

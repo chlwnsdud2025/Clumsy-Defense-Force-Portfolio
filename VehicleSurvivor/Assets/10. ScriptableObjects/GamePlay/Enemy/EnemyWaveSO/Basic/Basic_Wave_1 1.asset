@@ -18,7 +18,7 @@ MonoBehaviour:
   maxSpawnCount: 6
   activeEnemies:
   - targetPool: {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
-    spawnWeight: 2
+    spawnWeight: 5
     spawnAsPurePack: 0
   - targetPool: {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
     spawnWeight: 0.2

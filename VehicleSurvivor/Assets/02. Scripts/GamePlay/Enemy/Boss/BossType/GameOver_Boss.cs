@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 // 부모 클래스 BossEnemy를 상속받습니다.
-public class MecaBoss : BossEnemy
+public class GameOver_Boss : BossEnemy
 {
     [Header("Meca Boss Targeting")]
     public LayerMask playerLayerMask;
