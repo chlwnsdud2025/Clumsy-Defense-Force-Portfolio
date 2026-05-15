@@ -90,6 +90,7 @@ MonoBehaviour:
   telegraphDuration: 1
   trackingCount: 3
   trackingInterval: 1
+  explosionEffectPrefab: {fileID: 5550403049875251295, guid: a1ec5084af0426e4b8c0e48774636073, type: 3}
 --- !u!1001 &5633043895685716488
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,7 +8,10 @@ public class BossTelegraph : MonoBehaviour
     private float telegraphTime;
     private LayerMask targetLayer;
 
-    public Transform indicatorMesh; 
+    public Transform indicatorMesh;
+
+    // [핵심 추가] 보스에게서 넘겨받을 폭발 이펙트 프리팹
+    [HideInInspector] public GameObject explosionVfxPrefab;
 
     public void Initialize(float damage, float radius, float telegraphTime, LayerMask targetLayer)
     {
@@ -36,7 +39,6 @@ public class BossTelegraph : MonoBehaviour
                 float progress = timer / telegraphTime;
                 float currentSize = Mathf.Lerp(0f, radius * 2f, progress);
 
-                // 부모 스케일에 영향받지 않게 절대 크기 보정
                 if (indicatorMesh.parent != null)
                 {
                     Vector3 pScale = indicatorMesh.parent.lossyScale;
@@ -50,14 +52,21 @@ public class BossTelegraph : MonoBehaviour
             yield return null;
         }
 
-        // 2. 타격 판정
+        // 타격 판정
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, targetLayer);
         foreach (Collider hit in hits)
         {
             hit.GetComponent<IDamageable>()?.TakeDamage(damage);
         }
 
-        // 3. 폭발 연출 후 장판 삭제 (VFX가 있다면 여기서 재생)
+        // 데미지 판정과 완벽히 동일한 타이밍에 폭발 이펙트 생성!
+        if (explosionVfxPrefab != null)
+        {
+            // 장판의 위치(바닥)에 이펙트 생성
+            Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
+        }
+
+        // 4. 폭발 연출 후 장판 삭제
         if (indicatorMesh != null) indicatorMesh.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);

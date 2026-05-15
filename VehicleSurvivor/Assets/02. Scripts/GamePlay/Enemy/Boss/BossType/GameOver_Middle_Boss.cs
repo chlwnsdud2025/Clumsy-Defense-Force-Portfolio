@@ -20,6 +20,9 @@ public class GameOver_Middle_Boss : BossEnemy
     public float lineForwardSpacing = 4f;    // 장판 사이의 앞방향 간격
     public float lineTelegraphDelay = 0.2f;  // 장판이 연달아 나타나는 시간차
 
+    [Header("VFX")]
+    public GameObject explosionEffectPrefab;
+
     // 부모의 abstract 함수를 강제로 덮어써서 자신만의 패턴을 실행합니다.
     protected override void Attack()
     {
