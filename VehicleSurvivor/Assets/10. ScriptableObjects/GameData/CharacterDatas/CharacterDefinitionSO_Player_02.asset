@@ -17,8 +17,9 @@ MonoBehaviour:
   _description: Default playable character.Player_02
   _icon: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
-  _characterPrefab: {fileID: 0}
-  _visualPrefab: {fileID: 5695167922855731437, guid: 872209ba593d6f44fb3121e5bcd7b505, type: 3}
+  _previewPrefab: {fileID: 5695167922855731437, guid: 872209ba593d6f44fb3121e5bcd7b505, type: 3}
+  _visualPrefab: {fileID: 5695167922855731437, guid: e092765ecfbaa134cbc48f26d0f6c01e, type: 3}
+  uniqueSkill: {fileID: 0}
   _combat:
     MaxHealth: 222
     Defense: 2

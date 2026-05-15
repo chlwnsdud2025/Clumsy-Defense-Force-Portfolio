@@ -117,6 +117,12 @@ public class SceneLoadService : ISceneLoadService
             sceneLoadOperation.allowSceneActivation = true;
             await sceneLoadOperation.ToUniTask();
 
+            if (!await InvokeHookAsync(normalizedOptions.AfterSceneActivatedAsync, "씬 활성화 후"))
+            {
+                await HideLoadingAsync(loadingUI, normalizedOptions);
+                return false;
+            }
+
             await HideLoadingAsync(loadingUI, normalizedOptions);
             return true;
         }

@@ -46,7 +46,7 @@ public class CharacterDefinitionSO : ScriptableObject
     [TextArea][SerializeField] private string _description = "Default playable character.";
     [SerializeField] private Sprite _icon;
     [SerializeField] private Sprite _portrait;
-    [SerializeField] private GameObject _characterPrefab;
+    [SerializeField] private GameObject _previewPrefab;
     [SerializeField] private GameObject _visualPrefab;
     [SerializeField] private SkillDefinitionSO uniqueSkill;
 
@@ -87,11 +87,8 @@ public class CharacterDefinitionSO : ScriptableObject
     public string Description => _description;
     public Sprite Icon => _icon;
     public Sprite Portrait => _portrait;
-    public GameObject CharacterPrefab => _characterPrefab;
+    public GameObject PreviewPrefab => _previewPrefab;
     public GameObject VisualPrefab => _visualPrefab;
-
-    // TODO: CharacterService가 CharacterPrefab으로 완전히 전환되면 제거합니다.
-    public GameObject VehiclePrefab => _characterPrefab;
 
     public CharacterCombatStats Combat => _combat;
     public CharacterLoadoutData Loadout => _loadout;
