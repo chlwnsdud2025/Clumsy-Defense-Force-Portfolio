@@ -106,12 +106,22 @@ public class GameManager : MonoSingleton<GameManager>
 
             ChangeState(GameState.Playing);
 
+            CharacterDefinitionSO selectedCharacter = GetSelectedCharacter();
+            if (selectedCharacter == null)
+            {
+                Debug.LogError("[GameManager] 선택된 캐릭터가 없어 Run을 시작할 수 없습니다.");
+
+                ChangeState(GameState.CharacterSelect);
+                UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
+                return;
+            }
+
             UI_InGameHUD hud = UIManager.Instance.ShowScene<UI_InGameHUD>(ESceneUIType.InGameHUD);
-            InitializeInGameHUD(hud);
+            InitializeInGameHUD(hud, selectedCharacter);
 
             if (RunManager.TryGetInstance(out RunManager runManager))
             {
-                runManager.StartRun();
+                runManager.StartRun(selectedCharacter);
             }
             else
             {
@@ -178,19 +188,22 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    private void InitializeInGameHUD(UI_InGameHUD hud)
+    private void InitializeInGameHUD(UI_InGameHUD hud, CharacterDefinitionSO selectedCharacter)
     {
         if (hud == null)
             return;
 
+        hud.InitializeForCharacter(selectedCharacter);
+    }
+    private CharacterDefinitionSO GetSelectedCharacter()
+    {
         if (!ServiceLocator.TryGet(out ICharacterService characterService))
         {
-            Debug.LogError("[GameManager] CharacterService를 찾지 못해 HUD 캐릭터 정보를 초기화할 수 없습니다.");
-            return;
+            Debug.LogError("[GameManager] CharacterService를 찾지 못했습니다.");
+            return null;
         }
 
-        CharacterDefinitionSO selectedCharacter = characterService.GetSelectedCharacter();
-        hud.InitializeForCharacter(selectedCharacter);
+        return characterService.GetSelectedCharacter();
     }
 
     private async UniTask<bool> InitializeServicesAsync()

@@ -3,6 +3,7 @@ using UnityEngine;
 public class RunManager : MonoSceneSingleton<RunManager>
 {
     private IEventBus _eventBus;
+    private RunContext _runContext;
 
     private int _killCount;
     private int _gold;
@@ -10,20 +11,31 @@ public class RunManager : MonoSceneSingleton<RunManager>
     private int _lastDisplayedSecond = -1;
     private bool _isPlaying;
 
+    public RunContext RunContext => _runContext;
 
 
-    public void StartRun()
+    public void StartRun(CharacterDefinitionSO selectedCharacter)
     {
+        if (selectedCharacter == null)
+        {
+            Debug.LogError("[RunManager] 선택된 캐릭터가 없어 Run을 시작할 수 없습니다.");
+            return;
+        }
+
         if (_eventBus == null)
         {
             _eventBus = ServiceLocator.Get<IEventBus>();
         }
+
+        _runContext = new RunContext(selectedCharacter);
+
         _killCount = 0;
         _gold = 0;
         _playTime = 0f;
         _lastDisplayedSecond = -1;
         _isPlaying = true;
 
+        _eventBus.Publish(new HpChangedEvent(_runContext.CurrentHp, _runContext.MaxHp));
         _eventBus.Publish(new KillCountEvent(_killCount));
         _eventBus.Publish(new GoldChangedEvent(_gold));
         _eventBus.Publish(new TimeChangeEvent(_playTime));
@@ -73,5 +85,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
     public void EndRun()
     {
         _isPlaying = false;
+        _runContext = null;
+
     }
 }
