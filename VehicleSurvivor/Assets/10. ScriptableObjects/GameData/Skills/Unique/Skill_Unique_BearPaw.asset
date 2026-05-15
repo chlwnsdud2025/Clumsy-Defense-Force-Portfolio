@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5c9d5eafcb60f49a88cc4d8b3aae5c, type: 3}
+  m_Name: Skill_Unique_BearPaw
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDefinitionSO
+  skillId: skill_unique_bear_paw
+  skillName: "\uACF0\uBC1C\uBC14\uB2E5"
+  description: "\uAC00\uAE4C\uC6B4 \uC801\uC744 \uD5A5\uD574 \uAC70\uB300\uD55C \uBC1C\uBC14\uB2E5
+    \uCDA9\uACA9\uD30C\uB97C \uB0A0\uB824 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+  skillCategory: 0
+  tags: 131072
+  icon: {fileID: 0}
+  maxLevel: 5
+  levelDataList:
+  - level: 1
+    description: "\uAE30\uBCF8 \uCDA9\uACA9\uD30C"
+    damage: 1
+    cooldown: 1
+    range: 0
+    duration: 0
+    size: 1
+    speed: 0
+    projectileCount: 0
+    pierceCount: 0
+    statModifiers: []
+  - level: 2
+    description: "\uD53C\uD574\uB7C9 \uC99D\uAC00"
+    damage: 1.5
+    cooldown: 1
+    range: 0
+    duration: 0
+    size: 1
+    speed: 0
+    projectileCount: 0
+    pierceCount: 0
+    statModifiers: []
+  - level: 3
+    description: "\uCDA9\uACA9\uD30C \uD06C\uAE30 \uC99D\uAC00"
+    damage: 1.5
+    cooldown: 1
+    range: 0
+    duration: 0
+    size: 1.5
+    speed: 0
+    projectileCount: 0
+    pierceCount: 0
+    statModifiers: []
+  - level: 4
+    description: "\uD53C\uD574\uB7C9 \uC99D\uAC00"
+    damage: 1.5
+    cooldown: 1
+    range: 0
+    duration: 0
+    size: 2
+    speed: 0
+    projectileCount: 0
+    pierceCount: 0
+    statModifiers: []
+  - level: 5
+    description: "\uCDA9\uACA9\uD30C \uD06C\uAE30 \uC99D\uAC00"
+    damage: 1.5
+    cooldown: 1
+    range: 0
+    duration: 0
+    size: 3
+    speed: 0
+    projectileCount: 0
+    pierceCount: 0
+    statModifiers: []
+  canEvolve: 1
+  evolvedSkillName: "\uBCA0\uC5B4 \uD018\uC774\uD06C"
+  evolvedDescription: "\uBC1C\uBC14\uB2E5\uC758 \uD53C\uD574\uB7C9\uC774 \uC99D\uAC00\uD558\uACE0,
+    \uCDA9\uACA9\uD30C\uAC00 \uC5F0\uC1C4\uC801\uC73C\uB85C \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
+  requiredPassiveStatType: 8
+  skillPrefab: {fileID: 0}
+  evolvedSkillDefinition: {fileID: 0}
