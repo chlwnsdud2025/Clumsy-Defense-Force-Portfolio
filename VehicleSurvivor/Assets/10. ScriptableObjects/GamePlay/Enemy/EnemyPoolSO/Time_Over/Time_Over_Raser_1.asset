@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dd6cd62e12f7d44b9fbc8dc4da261c4, type: 3}
-  m_Name: Base_Normal_2
+  m_Name: Time_Over_Raser_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
-  prefab: {fileID: 6743300894795504222, guid: a134bea5c03b03340aa7eb0742f67896, type: 3}
+  prefab: {fileID: 2982710734541050597, guid: 523313c59b171cb499ac45d050ddb1c5, type: 3}
   poolSize: 200
-  maxReserveSize: 100
+  maxReserveSize: 0
   currentReserveCount: 0

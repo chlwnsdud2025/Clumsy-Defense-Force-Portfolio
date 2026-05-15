@@ -29,4 +29,11 @@ public class WaveDataSO : ScriptableObject
     [Header("Enemy Roster")]
     [Tooltip("이 시간대에 스폰될 적의 종류와 확률 세팅")]
     public List<WaveEnemyData> activeEnemies;
+
+    [Header("Mid-Boss Spawn (Direct Instantiate)")]
+    [Tooltip("소환할 보스 프리팹들을 직접 넣어주세요.")]
+    public List<GameObject> midBossPrefabs;
+
+    [Tooltip("몇 마리를 소환할지 정합니다.")]
+    public int midBossCount = 1;
 }

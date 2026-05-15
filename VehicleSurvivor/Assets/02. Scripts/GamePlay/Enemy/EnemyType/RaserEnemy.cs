@@ -70,7 +70,6 @@ public class LaserEnemy : Enemy
             // 4. [새로 추가됨] 핵심 레이저 선은 정해진 얇은 굵기(coreRadius)로 고정
             SetCylinderScale(laserCoreMesh, coreRadius);
         }
-
     }
 
     protected override void ExecuteBehavior(float deltaTime, out Vector3 desiredVelocity)
@@ -92,8 +91,6 @@ public class LaserEnemy : Enemy
                 // 반지름이 큰 수치(startRadius)에서 핵심 선 크기(endRadius)까지 수축
                 float currentRadius = Mathf.Lerp(startRadius, endRadius, progress);
                 SetCylinderScale(warningCylinderMesh, currentRadius);
-
-                // laserCoreMesh는 Attack()에서 고정된 크기로 켜졌으므로 여기서 따로 크기를 건드리지 않습니다.
             }
 
             // 차징 시간이 끝나면 발사
@@ -131,5 +128,41 @@ public class LaserEnemy : Enemy
         }
     }
 
-    private void FireLaser() { Debug.Log("레이저 쾅!"); /* 기존과 동일한 OverlapBox 타격 로직... */ }
+    private void FireLaser()
+    {
+        Debug.Log("레이저 쾅! 데미지 판정 시작");
+
+        // 레이저 판정 박스의 중심점 (보스 위치에서 방향을 따라 레이저 길이의 절반만큼 앞으로 이동한 위치)
+        Vector3 boxCenter = transform.position + Vector3.up * heightOffset + (lockedDirection * (laserLength / 2f));
+
+        // 박스의 절반 크기 (Half Extents). Z축이 레이저 길이의 절반입니다.
+        Vector3 halfExtents = new Vector3(endRadius, endRadius, laserLength / 2f);
+
+        // Physics.OverlapBox를 이용해 직육면체 형태의 타격 판정을 만듭니다.
+        Collider[] hits = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.LookRotation(lockedDirection), playerLayer);
+
+        foreach (Collider hit in hits)
+        {
+            // 플레이어(또는 IDamageable)를 찾아서 데미지를 입힙니다.
+            IDamageable target = hit.GetComponent<IDamageable>();
+            if (target != null)
+            {
+                target.TakeDamage(laserDamage);
+            }
+        }
+    }
+
+    // 개발자용: 에디터에서 레이저 타격 범위를 시각적으로 확인하기 위한 기즈모
+    private void OnDrawGizmosSelected()
+    {
+        if (Application.isPlaying && isCharging)
+        {
+            Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+            Vector3 boxCenter = transform.position + Vector3.up * heightOffset + (lockedDirection * (laserLength / 2f));
+            Vector3 halfExtents = new Vector3(endRadius, endRadius, laserLength / 2f);
+
+            Gizmos.matrix = Matrix4x4.TRS(boxCenter, Quaternion.LookRotation(lockedDirection), Vector3.one);
+            Gizmos.DrawCube(Vector3.zero, halfExtents * 2f);
+        }
+    }
 }
