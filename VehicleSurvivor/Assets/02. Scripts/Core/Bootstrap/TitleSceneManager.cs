@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
 {
-    [Header("Cutscene")]
+    [Header("Cutscene Controller")]
     [SerializeField] private TitleCutsceneController titleCutsceneController;
+
     [Header("Character Preview")]
-    [SerializeField] private Transform previewSpawnRoot;
+    [SerializeField] private Transform previewSpawnPoint;
+
+    private GameObject spawnedPreviewCharacter;
+
+    public bool IsSceneInitialized { get; private set; }
+
     private async void Start()
     {
         if (!GameManager.TryGetInstance(out GameManager gameManager))
@@ -32,6 +38,13 @@ public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
         }
 
         UIManager.Instance.ShowScene(ESceneUIType.Title);
+        IsSceneInitialized = true;
+    }
+
+    protected override void OnDestroy()
+    {
+        ClearCharacterVisual();
+        base.OnDestroy();
     }
 
     public void PlayTitleCutscene()
@@ -46,22 +59,50 @@ public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
         titleCutsceneController.Play(GoToCharacterSelect);
     }
 
-    private void GoToCharacterSelect()
+    public void ShowCharacterVisual(CharacterDefinitionSO characterDefinition)
     {
-        GameManager.Instance.ChangeState(GameState.CharacterSelect);
+        ClearCharacterVisual();
 
-        UI_CharacterSelect characterSelectUI =
-            UIManager.Instance.ShowScene<UI_CharacterSelect>(ESceneUIType.CharacterSelect);
+        if (characterDefinition == null)
+            return;
 
-        if (characterSelectUI != null)
+        if (previewSpawnPoint == null)
         {
-            characterSelectUI.SetPreviewSpawnRoot(previewSpawnRoot);
-
+            Debug.LogWarning("[TitleSceneManager] 캐릭터 프리뷰 SpawnPoint가 할당되지 않았습니다.");
+            return;
         }
+
+        GameObject selectedCharacterPrefab = characterDefinition.PreviewPrefab;
+        if (selectedCharacterPrefab == null)
+        {
+            Debug.LogWarning($"[TitleSceneManager] '{characterDefinition.DisplayName}'의 PreviewPrefab이 비어 있습니다.");
+            return;
+        }
+
+        spawnedPreviewCharacter = Instantiate(
+            selectedCharacterPrefab,
+            previewSpawnPoint.position,
+            previewSpawnPoint.rotation,
+            previewSpawnPoint);
     }
 
     public void RequestStartGame()
     {
         GameManager.Instance.LoadInGameScene();
+    }
+
+    private void GoToCharacterSelect()
+    {
+        GameManager.Instance.ChangeState(GameState.CharacterSelect);
+        UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
+    }
+
+    private void ClearCharacterVisual()
+    {
+        if (spawnedPreviewCharacter == null)
+            return;
+
+        Destroy(spawnedPreviewCharacter);
+        spawnedPreviewCharacter = null;
     }
 }

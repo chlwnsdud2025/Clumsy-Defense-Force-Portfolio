@@ -67,6 +67,11 @@ public class GameManager : MonoSingleton<GameManager>
         await LoadInGameSceneAsync();
     }
 
+    public async void LoadTitleScene()
+    {
+        await LoadTitleSceneAsync();
+    }
+
     private async UniTask LoadInGameSceneAsync()
     {
         if (_isSceneChanging)
@@ -86,12 +91,15 @@ public class GameManager : MonoSingleton<GameManager>
 
             bool loaded = await sceneLoadService.LoadSceneAsync(inGameSceneName, new SceneLoadOptions
             {
-                LoadingMessage = "Loading...",
                 BeforeLoadAsync = () =>
                 {
-                    UIManager.Instance.CloseCurrentScene();
-                    UIManager.Instance.CloseAllPopups();
+                    UIManager.Instance.CloseCurrentSceneAndAllPopups();
                     return UniTask.CompletedTask;
+                },
+                AfterSceneActivatedAsync = async () =>
+                {
+                    if (InGameSceneManager.TryGetInstance(out InGameSceneManager inGameSceneManager))
+                        await inGameSceneManager.InitializeSceneAsync();
                 }
             });
 
@@ -106,37 +114,12 @@ public class GameManager : MonoSingleton<GameManager>
 
             ChangeState(GameState.Playing);
 
-            CharacterDefinitionSO selectedCharacter = GetSelectedCharacter();
-            if (selectedCharacter == null)
-            {
-                Debug.LogError("[GameManager] 선택된 캐릭터가 없어 Run을 시작할 수 없습니다.");
-
-                ChangeState(GameState.CharacterSelect);
-                UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
-                return;
-            }
-
-            UI_InGameHUD hud = UIManager.Instance.ShowScene<UI_InGameHUD>(ESceneUIType.InGameHUD);
-            InitializeInGameHUD(hud, selectedCharacter);
-
-            if (RunManager.TryGetInstance(out RunManager runManager))
-            {
-                runManager.StartRun(selectedCharacter);
-            }
-            else
-            {
-                Debug.LogError("[GameManager] InGameScene에서 RunManager를 찾지 못했습니다.");
-            }
+            // 인게임 초기화는 InGameSceneManager.InitializeSceneAsync(Start + AfterSceneActivated)에서 처리합니다.
         }
         finally
         {
             _isSceneChanging = false;
         }
-    }
-
-    public async void LoadTitleScene()
-    {
-        await LoadTitleSceneAsync();
     }
 
     private async UniTask LoadTitleSceneAsync()
@@ -164,8 +147,7 @@ public class GameManager : MonoSingleton<GameManager>
                     if (RunManager.TryGetInstance(out RunManager runManager))
                         runManager.EndRun();
 
-                    UIManager.Instance.CloseCurrentScene();
-                    UIManager.Instance.CloseAllPopups();
+                    UIManager.Instance.CloseCurrentSceneAndAllPopups();
 
                     return UniTask.CompletedTask;
                 }
@@ -186,24 +168,6 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _isSceneChanging = false;
         }
-    }
-
-    private void InitializeInGameHUD(UI_InGameHUD hud, CharacterDefinitionSO selectedCharacter)
-    {
-        if (hud == null)
-            return;
-
-        hud.InitializeForCharacter(selectedCharacter);
-    }
-    private CharacterDefinitionSO GetSelectedCharacter()
-    {
-        if (!ServiceLocator.TryGet(out ICharacterService characterService))
-        {
-            Debug.LogError("[GameManager] CharacterService를 찾지 못했습니다.");
-            return null;
-        }
-
-        return characterService.GetSelectedCharacter();
     }
 
     private async UniTask<bool> InitializeServicesAsync()

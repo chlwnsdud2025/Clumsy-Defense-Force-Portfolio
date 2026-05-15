@@ -2343,7 +2343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769232172014, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.44500017
+      value: 1.375
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769693057581, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
@@ -2451,15 +2451,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7429930991515267822, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.539097
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7429930991515267822, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.78
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7429930991515267822, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -34.254387
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7429930991515267822, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2940,16 +2940,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e4b9fc1135fca4abc480c48c0e299c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  maxHP: 100
-  currentHP: 0
-  attackPowerMultiplier: 1
-  attackSpeedMultiplier: 1
-  bonusProjectileCount: 0
-  moveSpeedMultiplier: 1
-  boostPowerMultiplier: 1
+  snapshot:
+    MaxHealth: 0
+    HealthRegenPerSecond: 0
+    ShieldMax: 0
+    Armor: 0
+    DodgeChance: 0
+    LifeSteal: 0
+    DamageMultiplier: 0
+    CriticalChance: 0
+    CriticalDamageMultiplier: 0
+    AttackSpeedMultiplier: 0
+    BonusProjectileCount: 0
+    ProjectileSizeMultiplier: 0
+    ProjectileSpeedMultiplier: 0
+    KnockbackMultiplier: 0
+    MoveSpeedMultiplier: 0
+    JumpHeightMultiplier: 0
+    Luck: 0
+    PickupRadius: 0
+    ExperienceGainMultiplier: 0
+    GoldGainMultiplier: 0
+  visualRoot: {fileID: 0}
+  animator: {fileID: 0}
   level: 1
   currentExp: 0
   needExp: 10
+  currentHP: 0
   isDead: 0
 --- !u!114 &4805675904342687963
 MonoBehaviour:
