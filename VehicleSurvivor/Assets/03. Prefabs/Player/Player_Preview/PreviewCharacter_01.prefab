@@ -1550,7 +1550,7 @@ GameObject:
   - component: {fileID: 6253406552409846871}
   - component: {fileID: 7925701558232856232}
   m_Layer: 0
-  m_Name: TitleCharacter_01
+  m_Name: PreviewCharacter_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1583,7 +1583,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2710351248516479004}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b5941d2edbcc2bd4e916b4b731138afe, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 8bc6d2565c8252b4a9a94542162cbaf0, type: 3}
   m_Controller: {fileID: 9100000, guid: c94bc9f239c77634b901533596f58f87, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0

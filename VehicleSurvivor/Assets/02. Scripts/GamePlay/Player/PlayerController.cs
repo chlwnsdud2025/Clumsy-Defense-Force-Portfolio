@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
     [Tooltip("지면으로 취급할 레이어")]
     public LayerMask GroundLayers;
 
+    [Header("카메라")]
+    [Tooltip("이동 방향 기준으로 사용합니다.")]
+    [SerializeField]
+    private GameObject _mainCamera;
+
     [Header("시네머신")]
     [Tooltip("가상 카메라가 추적할 타깃 오브젝트")]
     public GameObject CinemachineCameraTarget;
@@ -109,7 +114,6 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private CharacterController _controller;
     private PlayerInputs _input;
-    private GameObject _mainCamera;
 
     private bool _hasAnimator;
 
@@ -128,11 +132,20 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // MainCamera 태그로 메인 카메라 참조
+        ResolveMainCamera();
+    }
+
+    private void ResolveMainCamera()
+    {
+        if (_mainCamera != null)
+            return;
+
+        GameObject tagged = GameObject.FindGameObjectWithTag("MainCamera");
+        if (tagged != null)
+            _mainCamera = tagged;
+
         if (_mainCamera == null)
-        {
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        }
+            Debug.LogWarning("[PlayerController] Main Camera가 인스펙터에 할당되지 않았고 MainCamera 태그 오브젝트도 없습니다.", this);
     }
 
     private void Start()
@@ -202,6 +215,9 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (_mainCamera == null)
+            return;
+
         // 이동·달리기 입력에 따른 목표 속도
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
