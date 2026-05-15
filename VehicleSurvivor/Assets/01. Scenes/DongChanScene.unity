@@ -9769,7 +9769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &186093184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14493,6 +14493,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6008351654771818614, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6601520530931770959, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -16162,7 +16166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &302587092
 Transform:
   m_ObjectHideFlags: 0
@@ -25337,7 +25341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &496426878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44184,7 +44188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &832575518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51831,7 +51835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &987537297
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -64265,7 +64269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1206306019
 Transform:
   m_ObjectHideFlags: 0
@@ -81842,7 +81846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1566066939
 Transform:
   m_ObjectHideFlags: 0
@@ -83184,6 +83188,10 @@ PrefabInstance:
     - target: {fileID: 3856894034797771392, guid: 0985bb916f135ee41bb5f0fcbec8d609, type: 3}
       propertyPath: m_Name
       value: RunManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856894034797771392, guid: 0985bb916f135ee41bb5f0fcbec8d609, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -84912,7 +84920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1640935739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87509,7 +87517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1673490810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106322,7 +106330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2043404434
 Transform:
   m_ObjectHideFlags: 0
@@ -348431,6 +348439,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleCutsceneController
       objectReference: {fileID: 0}
+    - target: {fileID: 7432958304064262477, guid: 2227b470b7e3caa42b327679ff7104d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -403025,6 +403037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3159807320896695210, guid: eb76ec5e76a127949bc997a0c7aec7a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -419181,6 +419197,10 @@ PrefabInstance:
     - target: {fileID: 7225569771731038840, guid: 14ed6553f6d952040943f666bdd84289, type: 3}
       propertyPath: m_Name
       value: TitleSceneManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225569771731038840, guid: 14ed6553f6d952040943f666bdd84289, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7409507304820863730, guid: 14ed6553f6d952040943f666bdd84289, type: 3}
       propertyPath: titleCutsceneController
