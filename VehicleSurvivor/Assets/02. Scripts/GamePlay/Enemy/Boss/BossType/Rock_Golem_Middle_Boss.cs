@@ -18,7 +18,10 @@ public class Rock_Golem_Middle_Boss : BossEnemy
     public int trackingCount = 3;         // 쫓아가는 횟수 (중간보스라 횟수를 줄임)
     public float trackingInterval = 1.0f; // 생성 간격
 
-    // 부모(BossEnemy)의 공격 함수를 덮어씁니다. 랜덤 돌릴 필요 없이 무조건 추적 장판만 실행!
+    [Header("VFX")]
+    public GameObject explosionEffectPrefab;
+
+
     protected override void Attack()
     {
         if (isCastingPattern) return;
@@ -50,6 +53,12 @@ public class Rock_Golem_Middle_Boss : BossEnemy
 
         GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity);
         BossTelegraph script = go.GetComponent<BossTelegraph>();
-        if (script != null) script.Initialize(baseDamage, baseRadius, telegraphDuration, playerLayerMask);
+        if (script != null)
+        {
+            // [핵심 추가] 보스가 설정한 폭발 이펙트를 장판에게 쥐여줍니다!
+            script.explosionVfxPrefab = explosionEffectPrefab;
+
+            script.Initialize(baseDamage, baseRadius, telegraphDuration, playerLayerMask);
+        }
     }
 }
