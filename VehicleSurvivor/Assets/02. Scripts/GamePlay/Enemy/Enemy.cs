@@ -36,6 +36,9 @@ public class Enemy : MonoBehaviour, IDamageable
     public float fastStepSpeed = 25f;      // 평지, 계단, 작은 돌멩이를 밟고 지나가는 빠른 속도
     public float slowClimbSpeed = 5f;      // 절벽, 다리 기둥 등을 천천히 기어오르는 속도
 
+    [Header("Attack")]
+    public float contactDamage = 10f;
+
     public float gravity = -20f; // 중력
 
     protected bool isTrackingPlayer = true;

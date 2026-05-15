@@ -31,13 +31,10 @@ public class EnemyManager : MonoBehaviour
     private float gameTimer = 0f;
     private float gridUpdateTimer = 0f;
 
-    // ==========================================
-    // [변경됨] 데이터 관리 컬렉션: Enum 대신 SO 자체를 Key로 사용합니다.
-    // ==========================================
+    // 데이터 관리 컬렉션
     private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
     private Dictionary<EnemyPoolDataSO, Queue<Enemy>> enemyPools = new Dictionary<EnemyPoolDataSO, Queue<Enemy>>();
     private Dictionary<EnemyPoolDataSO, Transform> poolParents = new Dictionary<EnemyPoolDataSO, Transform>();
-    // 참고: SO 자체가 Key이므로 이제 poolSettings 딕셔너리는 필요 없습니다.
     private List<Enemy> activeEnemies = new List<Enemy>();
 
     private List<WaveDataSO> sortedWaves;
@@ -73,7 +70,7 @@ public class EnemyManager : MonoBehaviour
             poolData.currentReserveCount = 0; // 예비 카운트 초기화
 
             Queue<Enemy> pool = new Queue<Enemy>();
-            GameObject parentObj = new GameObject($"{poolData.name}_Pool"); // SO의 파일 이름을 부모 객체 이름으로 사용
+            GameObject parentObj = new GameObject($"{poolData.name}_Pool");
             parentObj.transform.SetParent(this.transform);
 
             // Enum 대신 SO 객체를 Key로 등록
@@ -94,6 +91,12 @@ public class EnemyManager : MonoBehaviour
         {
             currentWave = sortedWaves[0];
             currentWaveIndex = 0;
+
+            // [추가됨] 0초(게임 시작) 웨이브에도 보스가 있다면 즉시 소환
+            if (currentWave.midBossPrefabs != null && currentWave.midBossPrefabs.Count > 0)
+            {
+                SpawnBossDirectly(currentWave);
+            }
         }
 
         Debug.Log($"[Theme Applied] {theme.themeName} 테마 로딩 완료");
@@ -105,7 +108,6 @@ public class EnemyManager : MonoBehaviour
         obj.SetActive(false);
         Enemy enemy = obj.GetComponent<Enemy>();
 
-        // [변경됨] Enum 대신 자신이 태어난 SO(풀 데이터)를 기억하게 합니다.
         enemy.originPool = data;
 
         return enemy;
@@ -135,6 +137,14 @@ public class EnemyManager : MonoBehaviour
                 currentWaveIndex++;
                 currentWave = sortedWaves[currentWaveIndex];
                 Debug.Log($"[Wave Changed] 새로운 웨이브 시작!");
+
+               
+                //새로운 웨이브 시작 시 보스 소환 체크
+                
+                if (currentWave.midBossPrefabs != null && currentWave.midBossPrefabs.Count > 0)
+                {
+                    SpawnBossDirectly(currentWave);
+                }
             }
         }
 
@@ -161,6 +171,44 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    // ==========================================
+    // [추가됨] 보스 직접 소환 로직
+    // ==========================================
+    private void SpawnBossDirectly(WaveDataSO wave)
+    {
+        // 1. 후보 리스트 중 하나를 무작위로 선택
+        GameObject bossPrefab = wave.midBossPrefabs[Random.Range(0, wave.midBossPrefabs.Count)];
+        if (bossPrefab == null) return;
+
+        for (int i = 0; i < wave.midBossCount; i++)
+        {
+            // 2. 플레이어 주변 원형 바운더리 안에서 랜덤 위치 계산
+            Vector2 randomCircle = Random.insideUnitCircle.normalized * spawnRadius;
+            Vector3 spawnPosXZ = new Vector3(
+                playerTransform.position.x + randomCircle.x,
+                0f,
+                playerTransform.position.z + randomCircle.y
+            );
+
+            // 3. 레이캐스트를 이용해 해당 위치의 정확한 지형 높이(y)를 찾음
+            Vector3 rayStart = spawnPosXZ + Vector3.up * raycastStartHeight;
+            if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
+            {
+                // 오브젝트 풀링을 사용하지 않고 즉시 Instantiate 처리
+                GameObject bossObj = Instantiate(bossPrefab, hit.point, Quaternion.identity);
+
+                // 생성된 보스의 타겟을 플레이어로 즉시 할당
+                BossEnemy bossScript = bossObj.GetComponent<BossEnemy>();
+                if (bossScript != null)
+                {
+                    bossScript.playerTarget = this.playerTransform;
+                }
+
+                Debug.Log($"[Boss Spawned] 중간 보스 '{bossPrefab.name}' 출현!");
+            }
+        }
+    }
+
     private WaveEnemyData GetRandomEnemyDataFromWave()
     {
         if (currentWave.activeEnemies.Count == 0) return null;
@@ -181,7 +229,6 @@ public class EnemyManager : MonoBehaviour
         return currentWave.activeEnemies[0];
     }
 
-    // [변경됨] 매개변수가 Enum이 아닌 SO 객체 자체를 받습니다.
     private Enemy GetEnemyFromPool(EnemyPoolDataSO poolData)
     {
         if (poolData == null) return null;
@@ -191,13 +238,11 @@ public class EnemyManager : MonoBehaviour
             return enemyPools[poolData].Dequeue();
         }
 
-        // 동적 풀 확장 (poolSettings Dictionary를 찾을 필요 없이, 인자로 받은 poolData를 바로 사용)
         if (poolData.currentReserveCount < poolData.maxReserveSize)
         {
             poolData.currentReserveCount++;
             Debug.LogWarning($"[동적 풀 확장] {poolData.name} 추가 생성 (현재 추가량: {poolData.currentReserveCount}/{poolData.maxReserveSize})");
 
-            // poolParents 딕셔너리에서 생성할 부모 트랜스폼을 찾습니다.
             Transform parentTransform = poolParents.ContainsKey(poolData) ? poolParents[poolData] : this.transform;
             return InstantiateEnemy(poolData, parentTransform);
         }
@@ -225,7 +270,6 @@ public class EnemyManager : MonoBehaviour
             WaveEnemyData targetData = isPurePack ? clusterTheme : GetRandomEnemyDataFromWave();
             if (targetData == null || targetData.targetPool == null) continue;
 
-            // [변경됨] SO 안에 있는 targetPool 자체를 넘겨줍니다.
             Enemy enemyToSpawn = GetEnemyFromPool(targetData.targetPool);
             if (enemyToSpawn == null) continue;
 
@@ -253,14 +297,13 @@ public class EnemyManager : MonoBehaviour
         enemy.gameObject.SetActive(false);
         activeEnemies.Remove(enemy);
 
-        // [변경됨] 몹이 기억하고 있는 originPool을 Key로 사용하여 풀에 반환합니다.
         if (enemy.originPool != null && enemyPools.ContainsKey(enemy.originPool))
         {
             enemyPools[enemy.originPool].Enqueue(enemy);
         }
         else
         {
-            Destroy(enemy.gameObject); // 비정상적인 경우 안전장치
+            Destroy(enemy.gameObject);
         }
     }
 
