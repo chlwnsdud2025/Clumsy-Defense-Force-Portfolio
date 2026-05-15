@@ -48,7 +48,9 @@ public class CharacterDefinitionSO : ScriptableObject
     [SerializeField] private Sprite _portrait;
     [SerializeField] private GameObject _characterPrefab;
     [SerializeField] private GameObject _visualPrefab;
+    [SerializeField] private SkillDefinitionSO uniqueSkill;
 
+    public SkillDefinitionSO UniqueSkill => uniqueSkill;
     [Header("Combat")]
     [SerializeField]
     private CharacterCombatStats _combat = new CharacterCombatStats
