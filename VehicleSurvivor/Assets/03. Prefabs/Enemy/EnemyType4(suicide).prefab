@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4938597d38be52b48b9647c35f9fccb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SuicideEnemy
-  myType: 5
+  originPool: {fileID: 0}
   moveSpeed: 15
   maxHealth: 50
   rotationSpeed: 2
@@ -183,6 +183,7 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
+  contactDamage: 10
   gravity: -20
   fuseTime: 2
   explosionRadius: 3.5
@@ -192,6 +193,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  explosionEffectPrefab: {fileID: 4654283702912762952, guid: 74916a7c657acf645b5695fadf960f42, type: 3}
 --- !u!135 &8161555342933045766
 SphereCollider:
   m_ObjectHideFlags: 0
