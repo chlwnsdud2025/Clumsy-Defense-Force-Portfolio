@@ -68,6 +68,7 @@ MonoBehaviour:
   lineCount: 6
   lineForwardSpacing: 4
   lineTelegraphDelay: 0.2
+  explosionEffectPrefab: {fileID: 4014780428814847390, guid: abfbe67255c4922459899910bce7553e, type: 3}
 --- !u!1001 &5549120414832283464
 PrefabInstance:
   m_ObjectHideFlags: 0

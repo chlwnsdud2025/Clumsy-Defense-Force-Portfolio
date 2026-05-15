@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe7610657f609c4f8d53c1a30229ed4, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
+  waveStartTime: 0
+  spawnInterval: 2
+  minSpawnCount: 1
+  maxSpawnCount: 2
+  activeEnemies:
+  - targetPool: {fileID: 11400000, guid: 3cb5a669b764efd40857c3fe5217b8c0, type: 2}
+    spawnWeight: 1
+    spawnAsPurePack: 0
+  midBossPrefabs: []
+  midBossCount: 1

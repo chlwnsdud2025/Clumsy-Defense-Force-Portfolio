@@ -3,6 +3,7 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     [Header("Mortar Specifics")]
+    [Tooltip("이 몹이 발사할 투사체 프리팹 (투사체마다 다른 메쉬 사용 가능)")]
     public GameObject bulletPrefab;
     public Transform firePoint;
 
@@ -12,8 +13,11 @@ public class RangedEnemy : Enemy
     public float mortarDamage = 15f;
     public float explosionRadius = 3.0f;
 
+    [Header("VFX")]
+    [Tooltip("이 몹의 투사체가 터질 때 사용할 폭발 이펙트")]
+    public GameObject explosionVfxPrefab;
+
     [Header("3D Telegraph Settings")]
-    // [변경됨] Transform 대신 프리팹을 직접 받습니다.
     public GameObject indicatorPrefab;
 
     private bool isWaitingForHit = false;
@@ -42,10 +46,10 @@ public class RangedEnemy : Enemy
 
         lockedTargetPos = playerTarget.position;
 
-        // 1. 투사체 발사
+        // 1. 투사체 발사 (이펙트 정보 전달 포함)
         FireMortar();
 
-        // 2. [변경됨] 독립된 장판 프리팹 생성 및 초기화
+        // 2. 장판 생성
         if (indicatorPrefab != null)
         {
             GameObject indicatorObj = Instantiate(indicatorPrefab, lockedTargetPos, Quaternion.identity);
@@ -53,12 +57,9 @@ public class RangedEnemy : Enemy
 
             if (indicatorScript != null)
             {
-                // 장판에게 최종 크기와 체공 시간을 넘겨주어 스스로 커지게 만듭니다.
                 indicatorScript.Initialize(explosionRadius, bulletFlyTime);
             }
         }
-
-        Debug.Log("포물선 투사체 발사 및 독립형 3D 구체 예고 시작!");
     }
 
     protected override void ExecuteBehavior(float deltaTime, out Vector3 desiredVelocity)
@@ -69,12 +70,9 @@ public class RangedEnemy : Enemy
         }
         else
         {
-            desiredVelocity = Vector3.zero; // 제자리 정지
+            desiredVelocity = Vector3.zero;
             flightTimer -= deltaTime;
 
-            // [변경됨] 장판 크기를 조작하던 코드가 삭제되었습니다. (TargetIndicator.cs가 대신 처리함)
-
-            // 투사체 착탄 시간이 지나면 몹의 상태만 기본으로 복귀시킵니다.
             if (flightTimer <= 0f)
             {
                 isWaitingForHit = false;
@@ -88,12 +86,22 @@ public class RangedEnemy : Enemy
     {
         if (bulletPrefab != null && firePoint != null)
         {
+            // 이 몹 전용 투사체 프리팹 생성
             GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             EnemyBullet bullet = bulletObj.GetComponent<EnemyBullet>();
 
             if (bullet != null)
             {
-                bullet.InitializeParabolic(firePoint.position, lockedTargetPos, bulletArcHeight, mortarDamage, bulletFlyTime, explosionRadius);
+                // [핵심] 투사체에게 이펙트(explosionVfxPrefab) 정보까지 함께 넘겨줍니다.
+                bullet.InitializeParabolic(
+                    firePoint.position,
+                    lockedTargetPos,
+                    bulletArcHeight,
+                    mortarDamage,
+                    bulletFlyTime,
+                    explosionRadius,
+                    explosionVfxPrefab
+                );
             }
         }
     }

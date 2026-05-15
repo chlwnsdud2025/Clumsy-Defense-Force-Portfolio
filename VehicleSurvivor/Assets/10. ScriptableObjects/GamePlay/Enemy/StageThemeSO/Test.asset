@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7e81538f786274a9394a99fb305caf, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: Assembly-CSharp::StageThemeSO
+  themeName: 
+  enemyPools:
+  - {fileID: 11400000, guid: 3cb5a669b764efd40857c3fe5217b8c0, type: 2}
+  waveDatas:
+  - {fileID: 11400000, guid: 86099a4ca52f0f14b99ca993152e77d0, type: 2}

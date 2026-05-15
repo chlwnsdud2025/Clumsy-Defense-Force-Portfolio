@@ -72,7 +72,12 @@ public class GameOver_Middle_Boss : BossEnemy
 
         GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity);
         BossTelegraph script = go.GetComponent<BossTelegraph>();
-        if (script != null) script.Initialize(baseDamage, baseRadius, telegraphDuration, playerLayerMask);
+        if (script != null)
+        {
+            script.explosionVfxPrefab = explosionEffectPrefab;
+
+            script.Initialize(baseDamage, baseRadius, telegraphDuration, playerLayerMask);
+        }
     }
 
     

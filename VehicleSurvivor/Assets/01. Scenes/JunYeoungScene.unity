@@ -1312,7 +1312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3448046989475750413, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4091219671986093140, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1444,7 +1444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512eb5c7258dcfa4f9d785556007a3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  currentTheme: {fileID: 11400000, guid: 90d05cf4e1351d34fa2a28f0b904457a, type: 2}
+  currentTheme: {fileID: 11400000, guid: 2dc8a0b3122d918458b6f18772545299, type: 2}
   playerTransform: {fileID: 1325612289}
   spawnRadius: 30
   clusterRadius: 15
@@ -2744,7 +2744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1497151622386116264, guid: 342d4cc300a95c2429b6e93ee9ea2e1b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3859525244222614361, guid: 342d4cc300a95c2429b6e93ee9ea2e1b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2805,7 +2805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3988236483886274440, guid: ef9aa5f38d13d2e43bb7e908657dc420, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4975999289088061503, guid: ef9aa5f38d13d2e43bb7e908657dc420, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2942,7 +2942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 882954445130657337, guid: f5464ebe6a23b5247b2759bf1a1edb29, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6058744020942859213, guid: f5464ebe6a23b5247b2759bf1a1edb29, type: 3}
       propertyPath: m_LocalPosition.x

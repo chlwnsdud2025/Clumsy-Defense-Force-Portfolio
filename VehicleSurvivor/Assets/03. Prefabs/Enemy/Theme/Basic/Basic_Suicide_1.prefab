@@ -183,6 +183,7 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
+  contactDamage: 10
   gravity: -20
   fuseTime: 2
   explosionRadius: 3.5
@@ -192,6 +193,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  explosionEffectPrefab: {fileID: 4764377679742672062, guid: 59711b5d3c51d0040ae1ab10e03b2b26, type: 3}
 --- !u!135 &8161555342933045766
 SphereCollider:
   m_ObjectHideFlags: 0

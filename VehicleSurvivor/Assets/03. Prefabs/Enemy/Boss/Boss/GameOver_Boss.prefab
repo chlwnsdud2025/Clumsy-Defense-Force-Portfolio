@@ -67,6 +67,7 @@ MonoBehaviour:
   baseDamage: 30
   baseRadius: 3.5
   telegraphDuration: 0.7
+  explosionEffectPrefab: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
   timeBetweenPhases: 0.7
   trackingCount: 10
   trackingInterval: 0.5
