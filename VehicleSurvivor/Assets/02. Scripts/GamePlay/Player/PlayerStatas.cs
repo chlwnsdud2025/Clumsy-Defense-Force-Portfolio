@@ -22,6 +22,22 @@ public class PlayerStats : MonoBehaviour
 
     public bool isDead;
 
+    [Header("Knockback")]
+    public float knockbackPower = 5f;
+    public float knockbackDuration = 0.15f;
+
+    private Vector3 knockbackVelocity;
+    private float knockbackTimer;
+
+    private void Update()
+    {
+        if (knockbackTimer > 0f)
+        {
+            transform.position += knockbackVelocity * Time.deltaTime;
+            knockbackTimer -= Time.deltaTime;
+        }
+    }
+
     private void Awake()
     {
         currentHP = maxHP;
@@ -74,6 +90,25 @@ public class PlayerStats : MonoBehaviour
     {
         isDead = true;
         Debug.Log("플레이어 사망");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Enemy")) return;
+
+        Enemy enemy = other.GetComponentInParent<Enemy>();
+
+        if (enemy == null) return;
+
+        TakeDamage(enemy.contactDamage);
+
+        Vector3 pushDir = transform.position - enemy.transform.position;
+        pushDir.y = 0f;
+
+        knockbackVelocity = pushDir.normalized * knockbackPower;
+        knockbackTimer = knockbackDuration;
+
+        Debug.Log($"플레이어 피격! 데미지: {enemy.contactDamage}");
     }
 
     public float GetFinalDamage(float weaponDamage)
