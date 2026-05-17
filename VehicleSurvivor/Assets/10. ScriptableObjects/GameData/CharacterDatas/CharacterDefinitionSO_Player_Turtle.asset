@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3360655138c63ee4d99778d9639cd4ee, type: 3}
+  m_Name: CharacterDefinitionSO_Player_Turtle
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
+  _characterId: character.Player_Turtle
+  _displayName: Player_Turtle
+  _description: Player_Turtle
+  _icon: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
+  _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
+  _previewPrefab: {fileID: 5741818621203534110, guid: cb9e7735b0edd7b4fadc49c62a906a07, type: 3}
+  _visualPrefab: {fileID: 5741818621203534110, guid: b353fbc623f586a448f34e5d17023952, type: 3}
+  uniqueSkill: {fileID: 0}
+  _combat:
+    MaxHealth: 222
+    Defense: 2
+    MoveSpeedMultiplier: 2
+    DamageMultiplier: 2
+    PickupRange: 2
+  _loadout:
+    StartingWeaponId: 
+    UniqueTraitId: 
+    TraitDescription: 
+    PassiveIds: []
+  _meta:
+    IsDefaultUnlocked: 1
+    UnlockCost: 0
+    Rarity: 0
+    Tags: []
