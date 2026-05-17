@@ -19,6 +19,7 @@ public sealed class SceneLoadOptions
     public float FadeDuration { get; set; } = 1f;
     public Func<UniTask> BeforeLoadAsync { get; set; }
     public Func<UniTask> BeforeActivationAsync { get; set; }
+    public Func<UniTask> AfterSceneActivatedAsync { get; set; }
 }
 
 public interface ISceneLoadService

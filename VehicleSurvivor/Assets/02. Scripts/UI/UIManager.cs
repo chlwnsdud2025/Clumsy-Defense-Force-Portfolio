@@ -159,6 +159,13 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void CloseCurrentScene() => CloseCommon(ref _currentScene, _uiRegistry?.Scenes, _sceneCache);
 
+    /// <summary>씬 전환 전에 현재 씬 UI와 모든 팝업을 함께 닫습니다.</summary>
+    public void CloseCurrentSceneAndAllPopups()
+    {
+        CloseCurrentScene();
+        CloseAllPopups();
+    }
+
     public T GetCurrentScene<T>() where T : UIScene => _currentScene as T;
     #endregion
 
