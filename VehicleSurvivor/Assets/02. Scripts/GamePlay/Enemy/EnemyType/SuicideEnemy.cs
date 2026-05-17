@@ -88,7 +88,6 @@ public class SuicideEnemy : Enemy
 
     private void Explode()
     {
-        Debug.Log("자폭 쾅!");
 
         if (warningSphere != null)
         {
@@ -97,12 +96,15 @@ public class SuicideEnemy : Enemy
 
         Vector3 explosionCenter = transform.position + Vector3.up * sphereHeightOffset;
 
-        // ==========================================
-        // [핵심 추가] 데미지 판정 직전, 터지는 타이밍에 이펙트 소환!
-        // ==========================================
+        // 터지는 타이밍에 이펙트 소환
         if (explosionEffectPrefab != null)
         {
-            Instantiate(explosionEffectPrefab, explosionCenter, Quaternion.identity);
+            // fxParent 하위에 생성
+            Transform parent = EnemyManager.Instance != null ? EnemyManager.Instance.FxParent : null;
+            GameObject vfxInstance = Instantiate(explosionEffectPrefab, explosionCenter, Quaternion.identity, parent);
+
+            // 3초 뒤 자동 삭제 예약
+            Destroy(vfxInstance, 3.0f);
         }
 
         Collider[] hitColliders = Physics.OverlapSphere(explosionCenter, explosionRadius, playerLayer);

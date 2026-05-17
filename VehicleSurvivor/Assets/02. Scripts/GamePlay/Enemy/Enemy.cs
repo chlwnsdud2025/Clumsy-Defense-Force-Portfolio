@@ -3,6 +3,7 @@ using UnityEngine;
 public interface IDamageable
 {
     void TakeDamage(float damage);
+    float ContactDamage { get; }
 }
 
 public class Enemy : MonoBehaviour, IDamageable
@@ -38,6 +39,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("Attack")]
     public float contactDamage = 10f;
+    public float ContactDamage => contactDamage;
 
     public float gravity = -20f; // 중력
 

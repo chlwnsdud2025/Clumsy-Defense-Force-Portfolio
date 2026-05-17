@@ -25,9 +25,13 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [Header("Knockback")]
     public float knockbackPower = 5f;
     public float knockbackDuration = 0.15f;
+    public float ContactDamage => 1;
+
 
     private Vector3 knockbackVelocity;
     private float knockbackTimer;
+
+    public bool IsKnockback => knockbackTimer > 0f;
 
     private void Update()
     {
@@ -49,7 +53,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         currentHP -= damage;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
-
+        Debug.Log("Player 데미지 입음:" +  damage);
         if (currentHP <= 0)
         {
             Die();
@@ -92,23 +96,32 @@ public class PlayerStats : MonoBehaviour, IDamageable
         Debug.Log("플레이어 사망");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Enemy")) return;
+        if (knockbackTimer > 0f) return;
 
-        Enemy enemy = other.GetComponentInParent<Enemy>();
+        // 잡몹이든 보스든 IDamageable 인터페이스로 한 번에 가져옵니다.
+        IDamageable damageable = other.GetComponent<IDamageable>() ?? other.GetComponentInParent<IDamageable>();
 
-        if (enemy == null) return;
+        if (damageable == null) return;
 
-        TakeDamage(enemy.contactDamage);
+        // 인터페이스를 통해 상대방의 접촉 데미지를 가져옵니다.
+        float damage = damageable.ContactDamage;
 
-        Vector3 pushDir = transform.position - enemy.transform.position;
+        TakeDamage(damage);
+
+        // 밀려날 방향 계산 (상대방의 Transform 위치 기반)
+        Component enemyComponent = (Component)damageable; // 위치 값을 알기 위해 Component로 캐스팅
+        Vector3 pushDir = transform.position - enemyComponent.transform.position;
         pushDir.y = 0f;
+
+        if (pushDir == Vector3.zero) pushDir = -transform.forward;
 
         knockbackVelocity = pushDir.normalized * knockbackPower;
         knockbackTimer = knockbackDuration;
 
-        Debug.Log($"플레이어 피격! 데미지: {enemy.contactDamage}");
+        Debug.Log($"플레이어 피격! 데미지: {damage}");
     }
 
     public float GetFinalDamage(float weaponDamage)

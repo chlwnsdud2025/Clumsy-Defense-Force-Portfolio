@@ -46,10 +46,15 @@ public class EnemyBullet : MonoBehaviour
 
     private void Explode()
     {
-        // [수정됨] 넘겨받은 이펙트가 있다면 생성
+        // 넘겨받은 이펙트가 있다면 생성
         if (explosionVfx != null)
         {
-            Instantiate(explosionVfx, transform.position, Quaternion.identity);
+            // 3번째 인자로 EnemyManager의 fxParent를 넘겨주어 그 하위에 생성되도록 합니다.
+            Transform parent = EnemyManager.Instance != null ? EnemyManager.Instance.FxParent : null;
+            GameObject vfxInstance = Instantiate(explosionVfx, transform.position, Quaternion.identity, parent);
+
+            // 이전 질문에서 처리한 3초 뒤 자동 삭제 로직도 함께 유지합니다.
+            Destroy(vfxInstance, 3.0f);
         }
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer);

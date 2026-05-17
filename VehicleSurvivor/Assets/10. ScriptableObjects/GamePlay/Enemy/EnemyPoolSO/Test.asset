@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd6cd62e12f7d44b9fbc8dc4da261c4, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
-  prefab: {fileID: 7539001815701513887, guid: 767739718667d0b4a88fddb9fd433f41, type: 3}
-  poolSize: 100
+  prefab: {fileID: 3976847350399919973, guid: 0a86ae853bbb77343803873b6bfd9177, type: 3}
+  poolSize: 1
   maxReserveSize: 0
   currentReserveCount: 0

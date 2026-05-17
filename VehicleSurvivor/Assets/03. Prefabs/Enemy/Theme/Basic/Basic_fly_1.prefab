@@ -102,8 +102,8 @@ MonoBehaviour:
   expReward: 34
   separationRadius: 1.5
   separationWeight: 0.5
-  attackRange: 2
-  attackCooltime: 2
+  attackRange: 0
+  attackCooltime: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024

@@ -26,6 +26,10 @@ public class EnemyManager : MonoBehaviour
     public float cellSize = 2f;
     public float gridUpdateInterval = 0.15f;
 
+    [Header("VFX Management")]
+    private Transform fxParent;
+    public Transform FxParent => fxParent;
+
     // 내부 타이머 및 상태
     private float spawnTimer = 0f;
     private float gameTimer = 0f;
@@ -45,6 +49,10 @@ public class EnemyManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        // 이펙트들을 담을 부모 빈 오브젝트 생성
+        GameObject fxParentObj = new GameObject("Runtime_VFX_Container");
+        fxParent = fxParentObj.transform;
     }
 
     void Start()

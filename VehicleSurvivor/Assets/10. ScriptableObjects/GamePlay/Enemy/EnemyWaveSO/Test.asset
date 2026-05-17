@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe7610657f609c4f8d53c1a30229ed4, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
-  waveStartTime: 0
-  spawnInterval: 2
+  waveStartTime: 1
+  spawnInterval: 1
   minSpawnCount: 1
   maxSpawnCount: 2
   activeEnemies:

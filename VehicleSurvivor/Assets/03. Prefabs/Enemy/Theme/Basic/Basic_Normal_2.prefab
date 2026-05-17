@@ -102,7 +102,7 @@ MonoBehaviour:
   expReward: 34
   separationRadius: 1.5
   separationWeight: 0.5
-  attackRange: 2
+  attackRange: 0
   attackCooltime: 2
   groundLayer:
     serializedVersion: 2
@@ -111,6 +111,7 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 5
+  contactDamage: 10
   gravity: -20
 --- !u!1001 &1670680111502152192
 PrefabInstance:

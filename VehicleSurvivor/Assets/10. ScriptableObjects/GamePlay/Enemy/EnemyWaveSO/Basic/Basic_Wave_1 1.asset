@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe7610657f609c4f8d53c1a30229ed4, type: 3}
   m_Name: Basic_Wave_1 1
   m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
-  waveStartTime: 10
+  waveStartTime: 30
   spawnInterval: 2
   minSpawnCount: 3
   maxSpawnCount: 6
@@ -20,6 +20,8 @@ MonoBehaviour:
   - targetPool: {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
     spawnWeight: 5
     spawnAsPurePack: 0
-  - targetPool: {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
+  - targetPool: {fileID: 11400000, guid: 2b8382a527fc93c438457d51a9d82920, type: 2}
     spawnWeight: 0.2
     spawnAsPurePack: 0
+  midBossPrefabs: []
+  midBossCount: 1
