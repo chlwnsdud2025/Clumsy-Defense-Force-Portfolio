@@ -32,7 +32,7 @@ public class ChainLightningWeapon : WeaponBase
             hitEnemies,
             data.chainCount,
             data.chainRadius,
-            GetFinalDamage(data.damage)
+            GetFinalDamage(data.Damage)
         );
     }
 

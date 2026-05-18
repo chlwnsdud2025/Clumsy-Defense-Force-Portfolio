@@ -35,7 +35,7 @@ public class AuraWeapon : WeaponBase
             enemyLayer
         );
 
-        float finalDamage = GetFinalDamage(data.damage);
+        float finalDamage = GetFinalDamage(data.Damage);
 
         foreach (Collider hit in hits)
         {

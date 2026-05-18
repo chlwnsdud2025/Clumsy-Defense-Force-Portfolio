@@ -39,7 +39,7 @@ public class PiercingRaycastWeapon : WeaponBase
             if (damagedEnemies.Contains(enemy))
                 continue;
 
-            enemy.TakeDamage(GetFinalDamage(data.damage));
+            enemy.TakeDamage(GetFinalDamage(data.Damage));
             damagedEnemies.Add(enemy);
         }
 

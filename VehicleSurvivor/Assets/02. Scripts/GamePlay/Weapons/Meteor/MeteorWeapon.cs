@@ -42,7 +42,7 @@ public class MeteorWeapon : WeaponBase
         if (meteorProjectile != null)
         {
             meteorProjectile.Init(
-                GetFinalDamage(data.damage),
+                GetFinalDamage(data.Damage),
                 data.explosionRadius,
                 data.meteorDelay,
                 enemyLayer,
