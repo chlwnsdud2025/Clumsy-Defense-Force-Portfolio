@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55f36b5b3bcfae4dbf30dbdaa83bd73, type: 3}
   m_Name: CharacterDefinitionTableSO
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionTableSO
-  _defaultCharacterId: character.Player_01
+  _defaultCharacterId: character.Player_Rabbit
   _characters:
   - {fileID: 11400000, guid: a43eb92c71a8440418419911fd5482e9, type: 2}
   - {fileID: 11400000, guid: bc7c0fa976a3d144fb3ef5747ff6a106, type: 2}
@@ -21,3 +21,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4fcf20fd03a6ac045ae4cdda99b99d06, type: 2}
   - {fileID: 11400000, guid: a8926260b9eb94845ade54d6964c4a6d, type: 2}
   - {fileID: 11400000, guid: dfed334c9103b1a43b9b5b97673d1079, type: 2}
+  - {fileID: 11400000, guid: b8ebfbb44de643142846078aa61a7169, type: 2}

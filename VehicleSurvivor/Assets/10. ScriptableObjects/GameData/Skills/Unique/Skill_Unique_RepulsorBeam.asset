@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5c9d5eafcb60f49a88cc4d8b3aae5c, type: 3}
+  m_Name: Skill_Unique_RepulsorBeam
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDefinitionSO
+  skillId: skill_unique_repulsor_beam
+  skillName: "\uB9AC\uD384\uC11C \uBE54"
+  description: "\uC77C\uC815 \uC2DC\uAC04\uB9C8\uB2E4 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0
+    \uAD00\uD1B5\uD558\uB294 \uB9AC\uD384\uC11C \uBE54\uC744 \uBC1C\uC0AC\uD574 \uC801\uC5D0\uAC8C
+    \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+  skillCategory: 0
+  tags: 67584
+  icon: {fileID: 0}
+  maxLevel: 5
+  levelDataList:
+  - level: 1
+    description: "\uBE54 1\uAC1C"
+    damage: 0
+    cooldown: 0
+    range: 0
+    duration: 0
+    size: 0
+    speed: 0
+    projectileCount: 1
+    pierceCount: 999
+    statModifiers: []
+  - level: 2
+    description: "\uD53C\uD574\uB7C9 \uC99D\uAC00\n"
+    damage: 0
+    cooldown: 0
+    range: 0
+    duration: 0
+    size: 0
+    speed: 0
+    projectileCount: 1
+    pierceCount: 999
+    statModifiers: []
+  - level: 3
+    description: "\uBE54 +1"
+    damage: 0
+    cooldown: 0
+    range: 0
+    duration: 0
+    size: 0
+    speed: 0
+    projectileCount: 2
+    pierceCount: 999
+    statModifiers: []
+  - level: 4
+    description: "\uD53C\uD574\uB7C9 \uC99D\uAC00"
+    damage: 0
+    cooldown: 0
+    range: 0
+    duration: 0
+    size: 0
+    speed: 0
+    projectileCount: 2
+    pierceCount: 999
+    statModifiers: []
+  - level: 5
+    description: "\uBE54 +1"
+    damage: 0
+    cooldown: 0
+    range: 0
+    duration: 0
+    size: 0
+    speed: 0
+    projectileCount: 3
+    pierceCount: 999
+    statModifiers: []
+  canEvolve: 1
+  evolvedSkillName: "\uC544\uD06C \uC624\uBC84\uB4DC\uB77C\uC774\uBE0C"
+  evolvedDescription: "\uB9AC\uD384\uC11C \uBE54\uC774 \uCFE8\uD0C0\uC784 \uC5C6\uC774
+    \uC9C0\uC18D\uC801\uC73C\uB85C \uBC1C\uC0AC\uB418\uBA70, \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC744
+    \uD68C\uC804\uD569\uB2C8\uB2E4."
+  requiredPassiveStatType: 4
+  skillPrefab: {fileID: 0}
+  evolvedSkillDefinition: {fileID: 0}
