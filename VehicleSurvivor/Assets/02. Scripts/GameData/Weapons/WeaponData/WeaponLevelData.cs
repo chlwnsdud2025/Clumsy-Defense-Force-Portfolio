@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[Serializable]
+[Serializable] //이 클래스를 Unity 인스펙터에서 보이게 하고, 저장 가능하게 만드는 표시
 public class WeaponLevelData
 {
     [Header("공통 스탯")]
@@ -25,14 +25,14 @@ public class WeaponLevelData
     public float meteorDelay = 1f;
 
 
-    [Header("Display")]
-    [TextArea]
-    [SerializeField] private string description;
+    [Header("UI")]
+    [TextArea] //string 입력칸을 여러 줄 입력 가능한 텍스트 박스로 보여주는 속성
+    [SerializeField] private string currentDescription;
 
     [TextArea]
     [SerializeField] private string nextLevelDescription;
 
-    [Header("Common Combat Values")]
+    [Header("Combat")]
     [Min(0.1f)]
     [SerializeField] private float cooldown = 1f;
 
@@ -57,7 +57,7 @@ public class WeaponLevelData
     [Min(0.1f)]
     [SerializeField] private float range = 1f;
 
-    public string Description => description;
+    public string Description => currentDescription;
     public string NextLevelDescription => nextLevelDescription;
 
     public float Cooldown => cooldown;

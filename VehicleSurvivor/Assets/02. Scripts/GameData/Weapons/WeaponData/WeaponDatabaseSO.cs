@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "WeaponDatabase",
-    menuName = "TeamProject/Weapon/Weapon Database"
+    menuName = "GameData/Weapon/Weapon Database"
 )]
 public class WeaponDatabaseSO : ScriptableObject
 {
@@ -43,7 +43,9 @@ public class WeaponDatabaseSO : ScriptableObject
     public bool TryGetWeapon(string weaponId, out WeaponDefinitionSO weapon)
     {
         if (_cache == null)
+        {
             BuildCache();
+        }
 
         return _cache.TryGetValue(weaponId, out weapon);
     }
