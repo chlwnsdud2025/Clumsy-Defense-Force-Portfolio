@@ -19,7 +19,7 @@ public class ProjectileWeapon : WeaponBase
             shootParticle.Play();
         }
 
-        int count = Mathf.Max(1, data.projectileCount);
+        int count = Mathf.Max(1, data.ProjectileCount);
 
         for (int i = 0; i < count; i++)
         {
@@ -51,7 +51,7 @@ public class ProjectileWeapon : WeaponBase
 
             if (projectileBullet != null)
             {
-                projectileBullet.damage = GetFinalDamage(data.damage);
+                projectileBullet.damage = GetFinalDamage(data.Damage);
             }
         }
     }

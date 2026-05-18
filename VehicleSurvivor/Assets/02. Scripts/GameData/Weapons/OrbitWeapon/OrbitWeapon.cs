@@ -20,7 +20,7 @@ public class OrbitWeapon : WeaponBase
     protected override void Update()
     {
         base.Update();
-        RotateOrbitObjects();
+        RotateOrbitObjects();//TODO : 이거 attack에 합쳐도 될듯?
     }
 
     protected override void Attack(WeaponLevelData data)
@@ -33,7 +33,7 @@ public class OrbitWeapon : WeaponBase
         if (data == null || orbitPrefab == null)
             return;
 
-        int targetCount = Mathf.Max(1, data.projectileCount);
+        int targetCount = Mathf.Max(1, data.ProjectileCount);
 
         while (orbitObjects.Count < targetCount)
         {
@@ -51,7 +51,7 @@ public class OrbitWeapon : WeaponBase
                 hitbox = orbitObject.AddComponent<OrbitHitbox>();
             }
 
-            hitbox.Init(GetFinalDamage(data.damage), hitCooldown);
+            hitbox.Init(GetFinalDamage(data.Damage), hitCooldown);
 
             orbitObjects.Add(orbitObject);
         }
