@@ -14,7 +14,6 @@ public class MeteorProjectile : MonoBehaviour
     private float meteorDelay;
 
     private LayerMask enemyLayer;
-
     private Vector3 targetPosition;
 
     private bool isFalling;
@@ -31,6 +30,7 @@ public class MeteorProjectile : MonoBehaviour
         explosionRadius = newExplosionRadius;
         meteorDelay = newMeteorDelay;
         enemyLayer = newEnemyLayer;
+
         targetPosition = newTargetPosition;
     }
 
@@ -78,19 +78,23 @@ public class MeteorProjectile : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
-                Debug.Log("메테오 데미지를 주었습니다");
+
+                Debug.Log($"[Meteor] {enemy.name} 피격 / 데미지: {damage}");
             }
         }
+
         if (explosionEffectPrefab != null)
         {
-            Vector3 effectPos = targetPosition;
-            effectPos.y += 0.2f;
+            Vector3 effectPosition = targetPosition;
+            effectPosition.y += 0.2f;
 
-            Instantiate(
+            GameObject effect = Instantiate(
                 explosionEffectPrefab,
-                effectPos,
-                Quaternion.identity          
+                effectPosition,
+                Quaternion.identity
             );
+
+            Destroy(effect, 3f);
         }
 
         Destroy(gameObject);

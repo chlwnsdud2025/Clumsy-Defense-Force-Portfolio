@@ -5,8 +5,6 @@ public class ChainLightningWeapon : WeaponBase
 {
     [Header("체인 번개 설정")]
     public LayerMask enemyLayer;
-
-    [Header("시작 탐색 범위")]
     public float detectRadius = 10f;
 
     [Header("이펙트 설정")]
@@ -32,7 +30,7 @@ public class ChainLightningWeapon : WeaponBase
             hitEnemies,
             data.chainCount,
             data.chainRadius,
-            GetFinalDamage(data.Damage)
+            GetFinalDamage(data.damage)
         );
     }
 
@@ -51,10 +49,9 @@ public class ChainLightningWeapon : WeaponBase
             return;
 
         currentEnemy.TakeDamage(damage);
-        Debug.Log(
-    $"체인 번개 데미지! 대상: {currentEnemy.name} / 데미지: {damage}"
-);
         hitEnemies.Add(currentEnemy);
+
+        Debug.Log($"[ChainLightning] {currentEnemy.name} 피격 / 데미지: {damage}");
 
         if (remainChain <= 0)
             return;

@@ -19,7 +19,7 @@ public class ProjectileWeapon : WeaponBase
             shootParticle.Play();
         }
 
-        int count = Mathf.Max(1, data.ProjectileCount);
+        int count = Mathf.Max(1, GetFinalProjectileCount(data.projectileCount));
 
         for (int i = 0; i < count; i++)
         {
@@ -27,7 +27,7 @@ public class ProjectileWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex = (count - 1) / 2f;
+                float centerIndex = (count - 1) * 0.5f;
                 angle = (i - centerIndex) * data.spreadAngle;
             }
 
@@ -40,18 +40,26 @@ public class ProjectileWeapon : WeaponBase
                 bulletRotation
             );
 
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                rb.linearVelocity = bulletRotation * Vector3.forward * data.bulletSpeed;
-            }
-
-            ProjectileBullet projectileBullet = bullet.GetComponent<ProjectileBullet>();
+            ProjectileBullet projectileBullet =
+                bullet.GetComponent<ProjectileBullet>();
 
             if (projectileBullet != null)
             {
-                projectileBullet.damage = GetFinalDamage(data.Damage);
+                projectileBullet.Init(
+                    GetFinalDamage(data.damage),
+                    data.bulletSpeed,
+                    bulletRotation * Vector3.forward
+                );
+            }
+            else
+            {
+                Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+                if (rb != null)
+                {
+                    rb.linearVelocity =
+                        bulletRotation * Vector3.forward * data.bulletSpeed;
+                }
             }
         }
     }

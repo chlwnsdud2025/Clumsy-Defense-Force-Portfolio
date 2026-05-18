@@ -11,7 +11,7 @@ public class HomingProjectileWeapon : WeaponBase
         if (homingBulletPrefab == null || firePoint == null)
             return;
 
-        int count = Mathf.Max(1, data.ProjectileCount);
+        int count = Mathf.Max(1, data.projectileCount);
 
         for (int i = 0; i < count; i++)
         {
@@ -27,7 +27,7 @@ public class HomingProjectileWeapon : WeaponBase
             if (homingBullet != null)
             {
                 homingBullet.Init(
-                    GetFinalDamage(data.Damage),
+                    GetFinalDamage(data.damage),
                     data.bulletSpeed
                 );
             }
