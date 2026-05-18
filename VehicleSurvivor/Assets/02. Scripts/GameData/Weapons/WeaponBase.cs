@@ -29,7 +29,7 @@ public abstract class WeaponBase : MonoBehaviour
 
         attackTimer += Time.deltaTime;
 
-        if (attackTimer >= data.cooldown)
+        if (attackTimer >= data.Cooldown)
         {
             Attack(data);
             attackTimer = 0f;
