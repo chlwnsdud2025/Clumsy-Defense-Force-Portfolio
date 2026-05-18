@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
-  m_Name: CarrotCannon
+  m_Name: WD_CarrotCannon
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: CarrotCannon_IDIDIDIDID
   weaponName: CarrotCannon
