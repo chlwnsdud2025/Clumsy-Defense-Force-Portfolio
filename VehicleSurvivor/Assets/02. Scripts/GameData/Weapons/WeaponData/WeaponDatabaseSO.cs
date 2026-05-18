@@ -1,59 +1,69 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(
-    fileName = "WeaponDatabase",
-    menuName = "TeamProject/Weapon/Weapon Database"
+    fileName = "SO_WeaponData",
+    menuName = "Weapon/Weapon Data"
 )]
-public class WeaponDatabaseSO : ScriptableObject
+public class WeaponDataSO : ScriptableObject
 {
-    [SerializeField] private List<WeaponDefinitionSO> weapons = new();
+    [Header("무기 기본 정보")]
+    [Tooltip("무기 고유 ID. 예: carrot_cannon, shell_spin, forest_friend")]
+    public string weaponID;
 
-    private Dictionary<string, WeaponDefinitionSO> _cache;
+    [Tooltip("인게임 표시 이름. 예: 당근 캐논, 쉘 스핀")]
+    public string weaponName;
 
-    private void OnEnable()
-    {
-        BuildCache();
-    }
+    [TextArea]
+    [Tooltip("무기 설명")]
+    public string description;
 
-    private void BuildCache()
-    {
-        _cache = new Dictionary<string, WeaponDefinitionSO>();
 
-        foreach (WeaponDefinitionSO weapon in weapons)
-        {
-            if (weapon == null) continue;
+    [Header("무기 분류")]
+    [Tooltip("캐릭터 고유무기인지 공용무기인지 구분용")]
+    public WeaponCategory weaponCategory;
 
-            if (string.IsNullOrWhiteSpace(weapon.WeaponId))
-            {
-                Debug.LogError($"[WeaponDatabaseSO] WeaponId가 비어 있는 무기가 있습니다: {weapon.name}");
-                continue;
-            }
+    [Tooltip("무기 공격 방식 구분용")]
+    public WeaponAttackType attackType;
 
-            if (_cache.ContainsKey(weapon.WeaponId))
-            {
-                Debug.LogError($"[WeaponDatabaseSO] 중복 WeaponId 발견: {weapon.WeaponId}");
-                continue;
-            }
 
-            _cache.Add(weapon.WeaponId, weapon);
-        }
-    }
+    [Header("진화 정보")]
+    [Tooltip("진화 전 기본 무기인지 여부")]
+    public bool canEvolve = true;
 
-    public bool TryGetWeapon(string weaponId, out WeaponDefinitionSO weapon)
-    {
-        if (_cache == null)
-            BuildCache();
+    [Tooltip("진화 무기 이름")]
+    public string evolutionWeaponName;
 
-        return _cache.TryGetValue(weaponId, out weapon);
-    }
+    [Tooltip("진화 조건 설명. 예: 공격력 증가, 체력 증가")]
+    public string evolutionCondition;
 
-    public WeaponDefinitionSO GetWeaponOrNull(string weaponId)
-    {
-        if (TryGetWeapon(weaponId, out WeaponDefinitionSO weapon))
-            return weapon;
 
-        Debug.LogError($"[WeaponDatabaseSO] WeaponId를 찾을 수 없습니다: {weaponId}");
-        return null;
-    }
+    [Header("레벨 데이터")]
+    [Tooltip("Lv1부터 순서대로 입력")]
+    public WeaponLevelData[] levelData;
+}
+
+public enum WeaponCategory
+{
+    CharacterUnique,
+    Common
+}
+
+public enum WeaponAttackType
+{
+    Projectile,
+    Orbit,
+    GroundDot,
+    Drone,
+    Meteor,
+    Laser,
+    Shockwave,
+    Aura,
+    ChainLightning,
+    Boomerang,
+    BouncyProjectile,
+    Sweep,
+    FullScreenExplosion,
+    Shield,
+    Trap,
+    Swarm
 }
