@@ -88,13 +88,15 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
+  contactDamage: 10
   gravity: -20
-  bulletPrefab: {fileID: 9221311787326238095, guid: eb8e9c86143f2494da1abe5d08b4a7e7, type: 3}
+  bulletPrefab: {fileID: 8987020003840325061, guid: c9e9fd46fdb29a84683905f5f1bbf4c7, type: 3}
   firePoint: {fileID: 2256778290825846030}
   bulletArcHeight: 2
   bulletFlyTime: 1
   mortarDamage: 15
   explosionRadius: 1.5
+  explosionVfxPrefab: {fileID: 2758864802102029923, guid: c03035e6780b1d149bb0caa57451a0f4, type: 3}
   indicatorPrefab: {fileID: 511868054423288398, guid: 845c34deffa4234408f9e878ee2c8c37, type: 3}
 --- !u!54 &8046493170022611316
 Rigidbody:

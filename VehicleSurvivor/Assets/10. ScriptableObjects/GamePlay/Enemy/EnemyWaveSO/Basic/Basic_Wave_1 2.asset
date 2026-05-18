@@ -12,22 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe7610657f609c4f8d53c1a30229ed4, type: 3}
   m_Name: Basic_Wave_1 2
   m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
-  waveStartTime: 30
+  waveStartTime: 50
   spawnInterval: 2
   minSpawnCount: 1
   maxSpawnCount: 3
   activeEnemies:
   - targetPool: {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
-    spawnWeight: 3
+    spawnWeight: 0.2
     spawnAsPurePack: 0
   - targetPool: {fileID: 11400000, guid: 2b8382a527fc93c438457d51a9d82920, type: 2}
     spawnWeight: 0.2
     spawnAsPurePack: 0
-  - targetPool: {fileID: 11400000, guid: 1c36529eddbf5374dbb697d3cb821ece, type: 2}
-    spawnWeight: 0.2
+  - targetPool: {fileID: 11400000, guid: e68def14dee892a4ca818449e20148e6, type: 2}
+    spawnWeight: 2
     spawnAsPurePack: 1
-  midBossPrefabs:
-  - {fileID: 8873816221071621117, guid: 7cca06dbdd802c348a4670d6ddc3d1b6, type: 3}
-  - {fileID: 1497151622386116264, guid: 342d4cc300a95c2429b6e93ee9ea2e1b, type: 3}
-  - {fileID: 3988236483886274440, guid: ef9aa5f38d13d2e43bb7e908657dc420, type: 3}
+  midBossPrefabs: []
   midBossCount: 1

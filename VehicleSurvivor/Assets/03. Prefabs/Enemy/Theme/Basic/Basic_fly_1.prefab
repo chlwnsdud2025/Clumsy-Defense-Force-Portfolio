@@ -54,8 +54,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.45
-  m_Center: {x: 0, y: 0.77, z: 0}
+  m_Radius: 0.63
+  m_Center: {x: 0, y: 0.17, z: -0.12}
 --- !u!54 &6867517290545493175
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -102,8 +102,8 @@ MonoBehaviour:
   expReward: 34
   separationRadius: 1.5
   separationWeight: 0.5
-  attackRange: 2
-  attackCooltime: 2
+  attackRange: 0
+  attackCooltime: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -111,6 +111,7 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 5
+  contactDamage: 10
   gravity: -20
   flyingHeightOffset: 1.2
 --- !u!1001 &2710811228412180413
@@ -126,12 +127,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.334
       objectReference: {fileID: 0}
     - target: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.158
       objectReference: {fileID: 0}
     - target: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
       propertyPath: m_LocalPosition.z

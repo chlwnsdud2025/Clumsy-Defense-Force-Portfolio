@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe7610657f609c4f8d53c1a30229ed4, type: 3}
   m_Name: TimeOver_1
   m_EditorClassIdentifier: Assembly-CSharp::WaveDataSO
-  waveStartTime: 2.5
-  spawnInterval: 0.1
+  waveStartTime: 200
+  spawnInterval: 0.5
   minSpawnCount: 5
   maxSpawnCount: 10
   activeEnemies:
@@ -38,3 +38,6 @@ MonoBehaviour:
   - targetPool: {fileID: 11400000, guid: 42c5f4aeab5a7b04a883417e28d8c5fb, type: 2}
     spawnWeight: 1
     spawnAsPurePack: 0
+  midBossPrefabs:
+  - {fileID: 5357981929756136816, guid: 6515b1ec4a5c05b41b7299e64e4acf2d, type: 3}
+  midBossCount: 1

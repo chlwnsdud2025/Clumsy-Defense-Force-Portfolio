@@ -12,6 +12,10 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float moveSpeed = 3f;
     public float rotationSpeed = 3f;
 
+    [Header("Combat Base")]
+    public float contactDamage = 30f; 
+    public float ContactDamage => contactDamage;
+
     [Header("Terrain & Movement (스마트 지형 추적)")]
     public LayerMask groundLayer;
     public float raycastStartHeight = 50f;
