@@ -17,7 +17,10 @@ public class WeaponRuntimeData
     public bool TryLevelUp()
     {
         if (IsMaxLevel)
+        {
             return false;
+
+        }
 
         CurrentLevel++;
         return true;

@@ -27,8 +27,7 @@ public class OrbitWeapon : WeaponBase
     protected override void Update()
     {
         base.Update();
-
-        RotateOrbitObjects();
+        RotateOrbitObjects();//TODO : 이거 attack에 합쳐도 될듯?
     }
 
     protected override void Attack(
