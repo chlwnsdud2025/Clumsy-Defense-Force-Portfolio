@@ -797,55 +797,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512eb5c7258dcfa4f9d785556007a3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
+  currentTheme: {fileID: 0}
   playerTransform: {fileID: 866794476}
-  poolSettings:
-  - type: 0
-    prefab: {fileID: 5944618501675846902, guid: 4f77ee1a71a1d34478864f1434be83c4, type: 3}
-    poolSize: 500
-    amountRate: 70
-    spawnAsPurePack: 0
-    maxReserveSize: 20
-    currentReserveCount: 0
-  - type: 1
-    prefab: {fileID: 7539001815701513887, guid: 9b079ac896a56334292a21f2ceee9502, type: 3}
-    poolSize: 100
-    amountRate: 20
-    spawnAsPurePack: 0
-    maxReserveSize: 20
-    currentReserveCount: 0
-  - type: 2
-    prefab: {fileID: 7539001815701513887, guid: 746c0e5d2bbbdaf4792c44bf4059d437, type: 3}
-    poolSize: 200
-    amountRate: 10
-    spawnAsPurePack: 0
-    maxReserveSize: 20
-    currentReserveCount: 0
-  - type: 3
-    prefab: {fileID: 3976847350399919973, guid: 28742cafc4f171748b2bdfd9775ff449, type: 3}
-    poolSize: 100
-    amountRate: 1
-    spawnAsPurePack: 0
-    maxReserveSize: 20
-    currentReserveCount: 0
-  - type: 4
-    prefab: {fileID: 5254603863205873838, guid: 688b91cce7d147d4fb5e2e9613af592c, type: 3}
-    poolSize: 100
-    amountRate: 1
-    spawnAsPurePack: 0
-    maxReserveSize: 20
-    currentReserveCount: 0
-  - type: 5
-    prefab: {fileID: 7539001815701513887, guid: e7612061d793fde48b683358da9b969f, type: 3}
-    poolSize: 100
-    amountRate: 1
-    spawnAsPurePack: 0
-    maxReserveSize: 20
-    currentReserveCount: 0
   spawnRadius: 70
-  spawnInterval: 0.1
   clusterRadius: 4
-  minSpawnCount: 3
-  maxSpawnCount: 7
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -904,19 +859,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e4b9fc1135fca4abc480c48c0e299c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  maxHP: 100
-  currentHP: 0
-  attackPowerMultiplier: 1
-  attackSpeedMultiplier: 1
-  bonusProjectileCount: 0
-  moveSpeedMultiplier: 1
-  boostPowerMultiplier: 1
+  visualRoot: {fileID: 0}
+  animator: {fileID: 0}
   level: 1
   currentExp: 0
   needExp: 10
+  currentHP: 0
   isDead: 0
-  knockbackPower: 5
-  knockbackDuration: 0.15
 --- !u!64 &866794485
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2123,7 +2072,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3591599009962953744, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.44500005
+      value: 1.3750001
       objectReference: {fileID: 0}
     - target: {fileID: 3591599009962953744, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3099,7 +3048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769232172014, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.44500005
+      value: 1.3750001
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769232172014, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4174,7 +4123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
