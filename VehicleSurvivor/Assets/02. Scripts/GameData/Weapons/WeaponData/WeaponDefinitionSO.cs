@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "WeaponDefinition",
-    menuName = "TeamProject/Weapon/Weapon Definition"
+    menuName = "GameData/Weapon/Weapon Definition"
 )]
 public class WeaponDefinitionSO : ScriptableObject
 {
