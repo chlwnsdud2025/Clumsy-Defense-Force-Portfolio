@@ -10,11 +10,9 @@ public sealed class RunContext
     public int CurrentHp { get; private set; }
     public int MaxHp => Mathf.RoundToInt(Stats.MaxHealth);
 
-    private readonly Dictionary<string, int> _skillLevels = new();
     private readonly Dictionary<string, int> _passiveLevels = new();
     private readonly HashSet<string> _ownedItems = new();
 
-    public IReadOnlyDictionary<string, int> SkillLevels => _skillLevels;
     public IReadOnlyDictionary<string, int> PassiveLevels => _passiveLevels;
     public IReadOnlyCollection<string> OwnedItems => _ownedItems;
 
@@ -30,28 +28,28 @@ public sealed class RunContext
         return !string.IsNullOrWhiteSpace(passiveId)
             && _passiveLevels.ContainsKey(passiveId);
     }
-
-    public int GetSkillLevel(string skillId)
+    public int GetPassiveLevel(string passiveId)
     {
-        return _skillLevels.TryGetValue(skillId, out int level) ? level : 0;
+        if(string.IsNullOrWhiteSpace(passiveId))
+            return 0;
+        return _passiveLevels.TryGetValue(passiveId, out int level) ? level : 0;
     }
-
-    public void SetSkillLevel(string skillId, int level)
+   
+    public void AddPassiveLevel(string passiveId, int amount = 1)
     {
-        if (string.IsNullOrWhiteSpace(skillId))
+        if (string.IsNullOrWhiteSpace(passiveId))
             return;
-
-        _skillLevels[skillId] = Mathf.Max(0, level);
+        int currentLevel = GetPassiveLevel(passiveId);
+        _passiveLevels[passiveId] = Mathf.Max(0, currentLevel + amount);
+        //_passiveLevels[passiveId] = level;
     }
-
-    public void AddPassiveLevel(string passiveId, int level)
+    public void SetPassiveLevel(string passiveId, int level)
     {
         if (string.IsNullOrWhiteSpace(passiveId))
             return;
 
-        _passiveLevels[passiveId] = level;
+        _passiveLevels[passiveId] = Mathf.Max(0, level);
     }
-
     public bool AddOwnedItem(string itemId)
     {
         if (string.IsNullOrWhiteSpace(itemId))

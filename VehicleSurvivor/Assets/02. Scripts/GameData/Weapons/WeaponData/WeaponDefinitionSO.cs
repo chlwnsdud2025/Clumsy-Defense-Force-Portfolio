@@ -40,7 +40,7 @@ public class WeaponDefinitionSO : ScriptableObject
     public string EvolutionWeaponId => evolutionWeaponId;
     public string RequiredPassiveId => requiredPassiveId;
 
-    public int MaxLevel => levelDataList.Count;
+    public int MaxLevel => levelDataList?.Count ?? 0;
 
     public WeaponLevelData GetLevelData(int level)
     {
@@ -50,8 +50,39 @@ public class WeaponDefinitionSO : ScriptableObject
             return null;
         }
 
-        int index = Mathf.Clamp(level - 1, 0, levelDataList.Count - 1);
+        if (level < 1 || level > levelDataList.Count)
+        {
+            Debug.LogError($"[WeaponDefinitionSO] {weaponName}의 잘못된 레벨 요청: {level} / MaxLevel: {MaxLevel}");
+            return null;
+        }
+
+        int index = level - 1;
         return levelDataList[index];
+    }
+
+    public string GetCurrentDescription(int currentLevel)
+    {
+        WeaponLevelData currentData = GetLevelData(currentLevel);
+
+        if (currentData == null)
+            return string.Empty;
+
+        return currentData.Description;
+    }
+
+    public string GetNextLevelDescription(int currentLevel)
+    {
+        int nextLevel = currentLevel + 1;
+
+        if (nextLevel > MaxLevel)
+            return "최대 레벨입니다.";
+
+        WeaponLevelData nextData = GetLevelData(nextLevel);
+
+        if (nextData == null)
+            return string.Empty;
+
+        return nextData.Description;
     }
 
     public bool HasEvolution()
