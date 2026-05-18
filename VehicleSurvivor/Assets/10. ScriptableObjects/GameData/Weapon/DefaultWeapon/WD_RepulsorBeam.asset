@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_RepulsorBeam
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_unique_repulsorbeam
+  weaponName: Repulsor Beam
+  description: Repulsor Beam
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 0}
+  weaponType: 0
+  tags: []
+  levelDataList:
+  - bulletSpeed: 0
+    spreadAngle: 0
+    radius: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 0
+    meteorDelay: 0
+    description: 
+    cooldown: 0
+    damage: 0
+    projectileSpeed: 0
+    duration: 0
+    size: 0
+    projectileCount: 0
+    tickInterval: 0
+    range: 0
+  - bulletSpeed: 0
+    spreadAngle: 0
+    radius: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 0
+    meteorDelay: 0
+    description: 
+    cooldown: 0
+    damage: 0
+    projectileSpeed: 0
+    duration: 0
+    size: 0
+    projectileCount: 0
+    tickInterval: 0
+    range: 0
+  - bulletSpeed: 0
+    spreadAngle: 0
+    radius: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 0
+    meteorDelay: 0
+    description: 
+    cooldown: 0
+    damage: 0
+    projectileSpeed: 0
+    duration: 0
+    size: 0
+    projectileCount: 0
+    tickInterval: 0
+    range: 0
+  - bulletSpeed: 0
+    spreadAngle: 0
+    radius: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 0
+    meteorDelay: 0
+    description: 
+    cooldown: 0
+    damage: 0
+    projectileSpeed: 0
+    duration: 0
+    size: 0
+    projectileCount: 0
+    tickInterval: 0
+    range: 0
+  - bulletSpeed: 0
+    spreadAngle: 0
+    radius: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 0
+    meteorDelay: 0
+    description: 
+    cooldown: 0
+    damage: 0
+    projectileSpeed: 0
+    duration: 0
+    size: 0
+    projectileCount: 0
+    tickInterval: 0
+    range: 0
+  evolutionWeaponId: 
+  requiredPassiveId: 
