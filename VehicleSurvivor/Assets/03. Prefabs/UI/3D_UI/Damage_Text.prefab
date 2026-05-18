@@ -110,7 +110,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7137805b022d44869b12d93cb388c588, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_renderer: {fileID: 3545598318866539410}
   m_maskType: 0
 --- !u!114 &167581936490973790
@@ -208,4 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageText
   textMesh: {fileID: 5618812455092548728}
-  lifeTime: 0.5
+  moveDistance: 1.5
+  duration: 0.6
+  spawnOffsetRange: 0.3
+  targetOffsetRange: 0.5
