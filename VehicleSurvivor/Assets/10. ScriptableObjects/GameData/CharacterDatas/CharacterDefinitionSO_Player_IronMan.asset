@@ -15,7 +15,7 @@ MonoBehaviour:
   _characterId: character.Player_IronMan
   _displayName: Player_05
   _description: Player_IronMan
-  _icon: {fileID: 21300000, guid: ea0d15c8ad5814d68ba5d1f53bae6247, type: 3}
+  _icon: {fileID: 21300000, guid: bacd97d57d611a1489724c70508bd167, type: 3}
   _portrait: {fileID: 21300000, guid: ea0d15c8ad5814d68ba5d1f53bae6247, type: 3}
   _previewPrefab: {fileID: 5335225805418909871, guid: aab57869a149cca478fe05ddc9f5e8bd, type: 3}
   _visualPrefab: {fileID: 5335225805418909871, guid: 6e131544f2f0efa448e706a5f29ba33e, type: 3}

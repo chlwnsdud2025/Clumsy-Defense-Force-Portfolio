@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3578470475727838928}
-  - component: {fileID: 1932363947617695337}
+  - component: {fileID: -4077047666620677948}
   m_Layer: 6
   m_Name: ChainLightningWeapon
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1932363947617695337
+--- !u!114 &-4077047666620677948
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,23 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d76e59d075411d4583af7bb47e988e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChainLightningWeapon
-  weaponID: ChainLightning
-  weaponName: ChainLightning
-  levelData:
-  - damage: 100
-    cooldown: 0.5
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 0
-    chainCount: 10
-    chainRadius: 10
-    explosionRadius: 0
-    meteorDelay: 0
+  weaponData: {fileID: 11400000, guid: 8927715495f3b694b88a8779581b8af5, type: 2}
   currentLevel: 0
-  enemyLayer:
+  chainData: {fileID: 0}
+  targetLayer:
     serializedVersion: 2
     m_Bits: 2048
-  detectRadius: 20
-  lightningEffectPrefab: {fileID: 173764, guid: 9b074812fdafc4540b8f613127a77505, type: 3}
-  lineLifeTime: 2
+  damage: 10
+  cooldown: 1
+  detectRadius: 10
+  chainCount: 3
+  chainRadius: 5
+  lineLifeTime: 0.1

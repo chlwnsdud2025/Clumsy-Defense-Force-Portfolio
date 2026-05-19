@@ -15,7 +15,7 @@ MonoBehaviour:
   _characterId: character.Player_Bear
   _displayName: Player_Bear
   _description: Player_Bear
-  _icon: {fileID: 21300000, guid: de2c99074df7847c1b046dc971c29818, type: 3}
+  _icon: {fileID: 21300000, guid: b3d3452851671a0479c3d900a33c843e, type: 3}
   _portrait: {fileID: 21300000, guid: de2c99074df7847c1b046dc971c29818, type: 3}
   _previewPrefab: {fileID: 7945152250932536411, guid: a5b0dff04b9b2574196566d03d28f740, type: 3}
   _visualPrefab: {fileID: 7945152250932536411, guid: 72f7bf2a24321cc4eabca43c5264d9f5, type: 3}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1414212942567932185}
-  - component: {fileID: 1759620039876437791}
+  - component: {fileID: -6524408752427016921}
   m_Layer: 6
   m_Name: MagneticAuraWeapon
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1759620039876437791
+--- !u!114 &-6524408752427016921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,21 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  weaponID: Aura
-  weaponName: Aura
-  levelData:
-  - damage: 100
-    cooldown: 0.5
-    bulletSpeed: 0
-    projectileCount: 0
-    spreadAngle: 0
-    radius: 5
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
+  weaponData: {fileID: 0}
   currentLevel: 0
+  auraData: {fileID: 11400000, guid: e40482680dc112c4fb5ece8e2a10f2bf, type: 2}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
-  auraEffectPrefab: {fileID: 0}
+  damage: 10
+  cooldown: 0.5
+  radius: 2

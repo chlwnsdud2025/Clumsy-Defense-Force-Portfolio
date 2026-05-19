@@ -50,11 +50,11 @@ public class WeaponInventory : MonoBehaviour
 
         GameObject weaponObject = Instantiate(prefab, parent);
 
-        if (weaponObject.TryGetComponent(out WeaponBase weaponBase))
-        {
-            weaponBase.Initialize(owner, runtimeData);
-        }
-        else
+      //  if (weaponObject.TryGetComponent(out WeaponBase weaponBase))
+      //  {
+      //      weaponBase.Initialize(owner, runtimeData);
+      //  }
+      //  else
         {
             Debug.LogError($"[WeaponInventory] {prefab.name}에 WeaponBase가 없습니다.");
         }

@@ -3,63 +3,108 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [Header("Weapon Holder")]
+    [Header("무기 장착 위치")]
     public Transform weaponHolder;
 
-    [Header("Start Weapons")]
-    public List<WeaponBase> startWeaponPrefabs = new List<WeaponBase>();
+    [Header("시작 무기")]
+    public List<WeaponBase> startWeaponPrefabs =
+        new List<WeaponBase>();
 
-    private readonly List<WeaponBase> currentWeapons = new List<WeaponBase>();
+    private readonly List<WeaponBase>
+        currentWeapons =
+        new List<WeaponBase>();
 
     private void Start()
     {
-        foreach (WeaponBase weaponPrefab in startWeaponPrefabs)
+        foreach (
+            WeaponBase weaponPrefab
+            in startWeaponPrefabs
+        )
         {
-            AddOrUpgradeWeapon(weaponPrefab);
+            AddOrUpgradeWeapon(
+                weaponPrefab
+            );
         }
     }
 
-    public void AddOrUpgradeWeapon(WeaponBase weaponPrefab)
+    public void AddOrUpgradeWeapon(
+        WeaponBase weaponPrefab
+    )
     {
-        if (weaponPrefab == null)
+        if (
+            weaponPrefab
+            == null
+        )
         {
-            Debug.LogWarning("무기 프리팹이 비어있습니다.");
+            Debug.LogWarning(
+                "무기 프리팹이 비어있습니다."
+            );
+
             return;
         }
 
-        WeaponBase existingWeapon = FindWeapon(weaponPrefab.weaponID);
+        WeaponBase existingWeapon =
+            FindWeapon(
+                weaponPrefab
+                .GetWeaponID()
+            );
 
-        if (existingWeapon != null)
+        if (
+            existingWeapon
+            != null
+        )
         {
-            existingWeapon.LevelUpWeapon();
+            existingWeapon
+                .LevelUpWeapon();
         }
         else
         {
-            AddWeapon(weaponPrefab);
+            AddWeapon(
+                weaponPrefab
+            );
         }
     }
 
-    private void AddWeapon(WeaponBase weaponPrefab)
+    private void AddWeapon(
+        WeaponBase weaponPrefab
+    )
     {
-        Transform parent = weaponHolder != null ? weaponHolder : transform;
+        Transform parent =
+            weaponHolder != null
+            ? weaponHolder
+            : transform;
 
-        WeaponBase newWeapon = Instantiate(
-            weaponPrefab,
-            parent.position,
-            parent.rotation,
-            parent
+        WeaponBase newWeapon =
+            Instantiate(
+                weaponPrefab,
+                parent.position,
+                parent.rotation,
+                parent
+            );
+
+        currentWeapons.Add(
+            newWeapon
         );
 
-        currentWeapons.Add(newWeapon);
-
-        Debug.Log($"{newWeapon.weaponName} 추가 완료");
+        Debug.Log(
+            $"{newWeapon.GetWeaponName()} 추가 완료"
+        );
     }
 
-    private WeaponBase FindWeapon(string weaponID)
+    private WeaponBase FindWeapon(
+        string weaponID
+    )
     {
-        foreach (WeaponBase weapon in currentWeapons)
+        foreach (
+            WeaponBase weapon
+            in currentWeapons
+        )
         {
-            if (weapon.weaponID == weaponID)
+            if (
+                weapon
+                .GetWeaponID()
+                == weaponID
+            )
             {
                 return weapon;
             }

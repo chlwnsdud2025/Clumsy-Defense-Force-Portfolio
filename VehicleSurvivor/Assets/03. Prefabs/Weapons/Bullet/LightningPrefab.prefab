@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc1635563f7a9704ebcc191cb89ec0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LighteningScript
-  target: {fileID: 0}
+  target: {fileID: 427044}
   mat: {fileID: 2100000, guid: a92a56e10b7a0414b871a899cf62477f, type: 2}
   columns: 2
   rows: 8

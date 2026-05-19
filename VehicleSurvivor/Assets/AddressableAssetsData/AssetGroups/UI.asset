@@ -36,7 +36,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e711aba1e4018340a0b0fc1c72a5385
-    m_Address: Assets/03. Prefabs/UI/Scene/UI_CharacterSelect.prefab
+    m_Address: Assets/03. Prefabs/UI/Scene/UI_CharacterSelect/UI_CharacterSelect.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
