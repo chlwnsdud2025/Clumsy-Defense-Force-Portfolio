@@ -3,92 +3,156 @@ using UnityEngine;
 
 public class ChainLightningWeapon : WeaponBase
 {
-    [Header("체인 번개 설정")]
-    public LayerMask enemyLayer;
+    [Header("체인 번개 데이터")]
+    public ChainLightningWeaponDataSO chainData;
 
-    [Header("시작 탐색 범위")]
+    [Header("레이어 설정")]
+    public LayerMask targetLayer;
+
+    [Header("임시 테스트 스탯")]
+    public float damage = 10f;
+    public float cooldown = 1f;
     public float detectRadius = 10f;
+    public int chainCount = 3;
+    public float chainRadius = 5f;
 
     [Header("이펙트 설정")]
-    public GameObject lightningEffectPrefab;
     public float lineLifeTime = 0.1f;
 
-    protected override void Attack(WeaponLevelData data)
+    private float attackTimer;
+
+    private void Update()
     {
-        Enemy firstTarget = FindClosestEnemy();
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= GetFinalCooldown(cooldown))
+        {
+            Attack();
+            attackTimer = 0f;
+        }
+    }
+
+    private void Attack()
+    {
+        Transform firstTarget = FindClosestTarget(transform.position, detectRadius, null);
 
         if (firstTarget == null)
             return;
 
-        CreateLightningLine(
-            transform.position,
-            firstTarget.transform.position
-        );
+        CreateLightningLine(transform.position, firstTarget.position);
 
-        List<Enemy> hitEnemies = new List<Enemy>();
+        List<Transform> hitTargets = new List<Transform>();
 
         ChainAttack(
             firstTarget,
-            hitEnemies,
-            data.chainCount,
-            data.chainRadius,
-            GetFinalDamage(data.Damage)
+            hitTargets,
+            chainCount,
+            chainRadius,
+            GetFinalDamage(damage)
         );
     }
 
     private void ChainAttack(
-        Enemy currentEnemy,
-        List<Enemy> hitEnemies,
+        Transform currentTarget,
+        List<Transform> hitTargets,
         int remainChain,
-        float chainRadius,
-        float damage
+        float searchRadius,
+        float finalDamage
     )
     {
-        if (currentEnemy == null)
+        if (currentTarget == null)
             return;
 
-        if (hitEnemies.Contains(currentEnemy))
+        if (hitTargets.Contains(currentTarget))
             return;
 
-        currentEnemy.TakeDamage(damage);
-        Debug.Log(
-    $"체인 번개 데미지! 대상: {currentEnemy.name} / 데미지: {damage}"
-);
-        hitEnemies.Add(currentEnemy);
+        IDamageable damageable =
+            currentTarget.GetComponentInParent<IDamageable>();
+
+        if (damageable != null)
+        {
+            damageable.TakeDamage(finalDamage);
+            Debug.Log($"[ChainLightning] 데미지: {finalDamage}");
+        }
+
+        hitTargets.Add(currentTarget);
 
         if (remainChain <= 0)
             return;
 
-        Enemy nextEnemy = FindNextEnemy(
-            currentEnemy.transform.position,
-            chainRadius,
-            hitEnemies
-        );
+        Transform nextTarget =
+            FindClosestTarget(currentTarget.position, searchRadius, hitTargets);
 
-        if (nextEnemy == null)
+        if (nextTarget == null)
             return;
 
-        CreateLightningLine(
-            currentEnemy.transform.position,
-            nextEnemy.transform.position
-        );
+        CreateLightningLine(currentTarget.position, nextTarget.position);
 
         ChainAttack(
-            nextEnemy,
-            hitEnemies,
+            nextTarget,
+            hitTargets,
             remainChain - 1,
-            chainRadius,
-            damage
+            searchRadius,
+            finalDamage
         );
+    }
+
+    private Transform FindClosestTarget(
+        Vector3 center,
+        float radius,
+        List<Transform> ignoreTargets
+    )
+    {
+        Collider[] hits = Physics.OverlapSphere(
+            center,
+            radius,
+            targetLayer
+        );
+
+        Transform closestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider hit in hits)
+        {
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
+                continue;
+
+            Transform targetTransform =
+                hit.GetComponentInParent<Transform>();
+
+            if (targetTransform == null)
+                continue;
+
+            if (ignoreTargets != null &&
+                ignoreTargets.Contains(targetTransform))
+                continue;
+
+            float distance =
+                (targetTransform.position - center).sqrMagnitude;
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestTarget = targetTransform;
+            }
+        }
+
+        return closestTarget;
     }
 
     private void CreateLightningLine(Vector3 start, Vector3 end)
     {
-        if (lightningEffectPrefab == null)
+        if (chainData == null)
+            return;
+
+        if (chainData.lightningEffectPrefab == null)
             return;
 
         GameObject effect = Instantiate(
-            lightningEffectPrefab,
+            chainData.lightningEffectPrefab,
             start,
             Quaternion.identity
         );
@@ -103,81 +167,6 @@ public class ChainLightningWeapon : WeaponBase
         }
 
         Destroy(effect, lineLifeTime);
-    }
-
-    private Enemy FindClosestEnemy()
-    {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            detectRadius,
-            enemyLayer
-        );
-
-        Enemy closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider hit in hits)
-        {
-            if (!hit.CompareTag("Enemy"))
-                continue;
-
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
-
-            if (enemy == null)
-                continue;
-
-            float distance =
-                (enemy.transform.position - transform.position).sqrMagnitude;
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
-    }
-
-    private Enemy FindNextEnemy(
-        Vector3 center,
-        float radius,
-        List<Enemy> hitEnemies
-    )
-    {
-        Collider[] hits = Physics.OverlapSphere(
-            center,
-            radius,
-            enemyLayer
-        );
-
-        Enemy closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider hit in hits)
-        {
-            if (!hit.CompareTag("Enemy"))
-                continue;
-
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
-
-            if (enemy == null)
-                continue;
-
-            if (hitEnemies.Contains(enemy))
-                continue;
-
-            float distance =
-                (enemy.transform.position - center).sqrMagnitude;
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
     }
 
     private void OnDrawGizmosSelected()

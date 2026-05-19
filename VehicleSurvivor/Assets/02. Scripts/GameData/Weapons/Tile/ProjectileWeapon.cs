@@ -2,21 +2,59 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("투사체 설정")]
-    public GameObject bulletPrefab;
+    [Header("투사체 데이터")]
+    public ProjectileWeaponDataSO projectileData;
+
+    [Header("발사 위치")]
     public Transform firePoint;
 
-    [Header("이펙트 설정")]
-    public ParticleSystem shootParticle;
+    [Header("임시 테스트 스탯")]
+    public float damage = 10f;
+    public float cooldown = 1f;
+    public float bulletSpeed = 20f;
+    public int projectileCount = 1;
+    public float spreadAngle = 15f;
 
-    protected override void Attack(WeaponLevelData data)
+    private float attackTimer;
+
+    private void Update()
     {
-        if (bulletPrefab == null || firePoint == null)
-            return;
+        attackTimer += Time.deltaTime;
 
-        if (shootParticle != null)
+        if (attackTimer >= GetFinalCooldown(cooldown))
         {
-            shootParticle.Play();
+            Attack();
+            attackTimer = 0f;
+        }
+    }
+
+    private void Attack()
+    {
+        if (projectileData == null)
+        {
+            Debug.LogWarning("Projectile Data가 비어있습니다.");
+            return;
+        }
+
+        if (projectileData.projectilePrefab == null)
+        {
+            Debug.LogWarning("Projectile Prefab이 비어있습니다.");
+            return;
+        }
+
+        if (firePoint == null)
+        {
+            Debug.LogWarning("Fire Point가 비어있습니다.");
+            return;
+        }
+
+        if (projectileData.shootParticlePrefab != null)
+        {
+            Instantiate(
+                projectileData.shootParticlePrefab,
+                firePoint.position,
+                firePoint.rotation
+            );
         }
 
         int count = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
@@ -27,31 +65,39 @@ public class ProjectileWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex = (count - 1) / 2f;
-                angle = (i - centerIndex) * data.spreadAngle;
+                float centerIndex =
+                    (count - 1) * 0.5f;
+
+                angle =
+                    (i - centerIndex)
+                    * spreadAngle;
             }
 
             Quaternion bulletRotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+                firePoint.rotation *
+                Quaternion.Euler(
+                    0f,
+                    angle,
+                    0f
+                );
 
-            GameObject bullet = Instantiate(
-                bulletPrefab,
-                firePoint.position,
-                bulletRotation
-            );
+            GameObject bulletObject =
+                Instantiate(
+                    projectileData.projectilePrefab,
+                    firePoint.position,
+                    bulletRotation
+                );
 
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            ProjectileBullet bullet =
+                bulletObject.GetComponent<ProjectileBullet>();
 
-            if (rb != null)
+            if (bullet != null)
             {
-                rb.linearVelocity = bulletRotation * Vector3.forward * data.bulletSpeed;
-            }
-
-            ProjectileBullet projectileBullet = bullet.GetComponent<ProjectileBullet>();
-
-            if (projectileBullet != null)
-            {
-                projectileBullet.damage = GetFinalDamage(data.Damage);
+                bullet.Init(
+                    GetFinalDamage(damage),
+                    bulletSpeed,
+                    bulletRotation * Vector3.forward
+                );
             }
         }
     }

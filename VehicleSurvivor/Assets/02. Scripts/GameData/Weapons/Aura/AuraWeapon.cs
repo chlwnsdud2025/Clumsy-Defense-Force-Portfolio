@@ -2,86 +2,105 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
+    [Header("오라 데이터")]
+    public AuraWeaponDataSO auraData;
+
     [Header("오라 설정")]
     public LayerMask enemyLayer;
 
-    [Header("이펙트 설정")]
-    public GameObject auraEffectPrefab;
+    [Header("임시 테스트 스탯")]
+    public float damage = 10f;
+    public float cooldown = 0.5f;
+    public float radius = 5f;
 
+    private float attackTimer;
     private GameObject auraEffect;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        if (auraEffectPrefab != null)
-        {
-            auraEffect = Instantiate(
-                auraEffectPrefab,
-                transform.position,
-                Quaternion.identity,
-                transform
-            );
-
-            auraEffect.transform.localPosition = Vector3.zero;
-        }
-    }
-
-    protected override void Attack(WeaponLevelData data)
-    {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            data.radius,
-            enemyLayer
-        );
-
-        float finalDamage = GetFinalDamage(data.Damage);
-
-        foreach (Collider hit in hits)
-        {
-            if (!hit.CompareTag("Enemy"))
-                continue;
-
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(finalDamage);
-                Debug.Log("데미지를 주었습니다");
-            }
-        }
-    }
-
-    protected override void OnWeaponLevelUp()
-    {
-        base.OnWeaponLevelUp();
-        UpdateAuraEffectScale();
-    }
 
     private void Start()
     {
-        UpdateAuraEffectScale();
+        CreateAuraEffect();
     }
 
-    private void UpdateAuraEffectScale()
+    private void Update()
     {
-        WeaponLevelData data = GetCurrentLevelData();
+        attackTimer += Time.deltaTime;
 
-        if (data == null || auraEffect == null)
+        if (attackTimer >= GetFinalCooldown(cooldown))
+        {
+            Attack();
+            attackTimer = 0f;
+        }
+
+        UpdateAuraScale();
+    }
+
+    private void Attack()
+    {
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                radius,
+                enemyLayer
+            );
+
+        foreach (Collider hit in hits)
+        {
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
+                continue;
+
+            damageable.TakeDamage(
+                GetFinalDamage(damage)
+            );
+
+            Debug.Log(
+                $"[Aura] 데미지 : {GetFinalDamage(damage)}"
+            );
+        }
+    }
+
+    private void CreateAuraEffect()
+    {
+        if (auraData == null)
             return;
 
+        if (auraData.auraEffectPrefab == null)
+            return;
+
+        auraEffect = Instantiate(
+            auraData.auraEffectPrefab,
+            transform
+        );
+
+        auraEffect.transform.localPosition =
+            Vector3.zero;
+    }
+
+    private void UpdateAuraScale()
+    {
+        if (auraEffect == null)
+            return;
+
+        float size = radius * 2f;
+
         auraEffect.transform.localScale =
-            new Vector3(data.radius * 2f, 0.1f, data.radius * 2f);
+            new Vector3(
+                size,
+                1f,
+                size
+            );
     }
 
     private void OnDrawGizmosSelected()
     {
-        WeaponLevelData data = GetCurrentLevelData();
+        Gizmos.color =
+            Color.cyan;
 
-        if (data == null)
-            return;
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, data.radius);
+        Gizmos.DrawWireSphere(
+            transform.position,
+            radius
+        );
     }
 }

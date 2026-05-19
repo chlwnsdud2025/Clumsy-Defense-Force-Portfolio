@@ -1,28 +1,34 @@
 using UnityEngine;
 
-public class HomingProjectileBullet : MonoBehaviour
+public class DroneHomingProjectile : MonoBehaviour
 {
     [Header("유도탄 설정")]
     public float damage = 10f;
-    public float speed = 10f;
+    public float speed = 15f;
     public float rotateSpeed = 10f;
     public float lifeTime = 5f;
-    public float hitDistance = 1f;
+    public float hitDistance = 0.8f;
+    public float retargetRadius = 10f;
+
+    [Header("레이어 설정")]
+    public LayerMask enemyLayer;
 
     private Transform target;
 
     private void Start()
     {
-        FindTarget();
         Destroy(gameObject, lifeTime);
     }
 
     private void Update()
     {
+        if (target == null || !target.gameObject.activeInHierarchy)
+        {
+            FindNewTarget();
+        }
+
         if (target == null)
         {
-            FindTarget();
-
             transform.position += transform.forward * speed * Time.deltaTime;
             return;
         }
@@ -36,7 +42,8 @@ public class HomingProjectileBullet : MonoBehaviour
             return;
         }
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+        Quaternion targetRotation =
+            Quaternion.LookRotation(direction.normalized);
 
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
@@ -47,21 +54,40 @@ public class HomingProjectileBullet : MonoBehaviour
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    public void Init(float newDamage, float newSpeed)
+    public void Init(
+        Transform firstTarget,
+        float newDamage,
+        float newSpeed,
+        LayerMask newEnemyLayer
+    )
     {
+        target = firstTarget;
         damage = newDamage;
         speed = newSpeed;
+        enemyLayer = newEnemyLayer;
     }
 
-    private void FindTarget()
+    private void FindNewTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position,
+            retargetRadius,
+            enemyLayer
+        );
 
-        float closestDistance = Mathf.Infinity;
         Transform closestTarget = null;
+        float closestDistance = Mathf.Infinity;
 
-        foreach (GameObject enemy in enemies)
+        foreach (Collider hit in hits)
         {
+            if (!hit.CompareTag("Enemy"))
+                continue;
+
+            Enemy enemy = hit.GetComponentInParent<Enemy>();
+
+            if (enemy == null)
+                continue;
+
             float distance =
                 (enemy.transform.position - transform.position).sqrMagnitude;
 

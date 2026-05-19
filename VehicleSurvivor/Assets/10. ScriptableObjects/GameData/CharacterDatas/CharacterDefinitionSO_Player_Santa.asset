@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Santa
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Santa
-  _displayName: "산타"
-  _description: "선물 폭탄을 던져 범위 피해를 누적하는 투척형 캐릭터입니다."
-  _icon: {fileID: 21300000, guid: 570d4d98fb522499bb37d3e66815a325, type: 3}
+  _displayName: Player_Santa
+  _description: Player_Santa
+  _icon: {fileID: 21300000, guid: ec2dd0dcb27114348ab3cb99c0ee4608, type: 3}
   _portrait: {fileID: 21300000, guid: 570d4d98fb522499bb37d3e66815a325, type: 3}
   _previewPrefab: {fileID: 3656048780541344294, guid: 17440382c49f27e4a9eb19d5add5d6fb, type: 3}
   _visualPrefab: {fileID: 3656048780541344294, guid: 21b760ea4f49400448809bd2afda07d0, type: 3}
