@@ -2,14 +2,14 @@ using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
-public enum GameState
+public enum EGameFlowState
 {
     Title,
     CharacterSelect,
     Loading,
-    Playing,
-    Paused,
-    GameOver
+    InGame,
+    Result
+
 }
 
 public class GameManager : MonoSingleton<GameManager>
@@ -22,8 +22,8 @@ public class GameManager : MonoSingleton<GameManager>
     private bool _isBootCompleted;
     private bool _isSceneChanging;
 
-    public GameState CurrentState { get; private set; } = GameState.Title;
-    public bool IsPlaying => CurrentState == GameState.Playing;
+    public EGameFlowState CurrentState { get; private set; } = EGameFlowState.Title;
+    public bool IsPlaying => CurrentState == EGameFlowState.InGame;
     public bool IsBootCompleted => _isBootCompleted;
 
     private async void Start()
@@ -44,7 +44,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
 
         NotifyBootCompleted();
-        ChangeState(GameState.Title);
+        ChangeState(EGameFlowState.Title);
 
         await UniTask.Yield();
     }
@@ -57,7 +57,7 @@ public class GameManager : MonoSingleton<GameManager>
         return _bootCompletionSource.Task;
     }
 
-    public void ChangeState(GameState newState)
+    public void ChangeState(EGameFlowState newState)
     {
         CurrentState = newState;
     }
@@ -87,7 +87,7 @@ public class GameManager : MonoSingleton<GameManager>
                 return;
             }
 
-            ChangeState(GameState.Loading);
+            ChangeState(EGameFlowState.Loading);
 
             bool loaded = await sceneLoadService.LoadSceneAsync(inGameSceneName, new SceneLoadOptions
             {
@@ -107,12 +107,12 @@ public class GameManager : MonoSingleton<GameManager>
             {
                 Debug.LogError("[GameManager] InGameScene 씬 로드에 실패했습니다.");
 
-                ChangeState(GameState.CharacterSelect);
+                ChangeState(EGameFlowState.CharacterSelect);
                 UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
                 return;
             }
 
-            ChangeState(GameState.Playing);
+            ChangeState(EGameFlowState.InGame);
 
             // 인게임 초기화는 InGameSceneManager.InitializeSceneAsync(Start + AfterSceneActivated)에서 처리합니다.
         }
@@ -137,7 +137,7 @@ public class GameManager : MonoSingleton<GameManager>
                 return;
             }
 
-            ChangeState(GameState.Loading);
+            ChangeState(EGameFlowState.Loading);
 
             bool loaded = await sceneLoadService.LoadSceneAsync(titleSceneName, new SceneLoadOptions
             {
@@ -159,7 +159,7 @@ public class GameManager : MonoSingleton<GameManager>
                 return;
             }
 
-            ChangeState(GameState.Title);
+            ChangeState(EGameFlowState.Title);
 
             // Title UI 표시는 TitleSceneManager.Start()에서 처리.
             // 여기서 ShowScene(Title)을 또 호출하면 중복 호출 흐름이 생길 수 있음.

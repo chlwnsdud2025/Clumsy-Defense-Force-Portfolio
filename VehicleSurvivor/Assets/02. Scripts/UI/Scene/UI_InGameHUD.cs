@@ -99,6 +99,7 @@ public class UI_InGameHUD : UIScene
             _eventBus = ServiceLocator.Get<IEventBus>();
 
         _eventBus.Subscribe<HpChangedEvent>(OnHpChanged);
+        _eventBus.Subscribe<ExpChangedEvent>(OnExpChanged);
         _eventBus.Subscribe<KillCountEvent>(OnKillChanged);
         _eventBus.Subscribe<TimeChangeEvent>(OnTimeChanged);
         _eventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
@@ -114,6 +115,7 @@ public class UI_InGameHUD : UIScene
         if (_eventBus != null)
         {
             _eventBus.Unsubscribe<HpChangedEvent>(OnHpChanged);
+            _eventBus.Unsubscribe<ExpChangedEvent>(OnExpChanged);
             _eventBus.Unsubscribe<KillCountEvent>(OnKillChanged);
             _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
             _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
@@ -202,6 +204,11 @@ public class UI_InGameHUD : UIScene
     private void OnHpChanged(HpChangedEvent e)
     {
         UpdateHpGauge(e.Current, e.Max);
+    }
+
+    private void OnExpChanged(ExpChangedEvent e)
+    {
+        UpdateExpGauge(e.Current, e.Required);
     }
 
     private void OnKillChanged(KillCountEvent e)

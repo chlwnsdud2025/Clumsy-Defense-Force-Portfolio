@@ -33,7 +33,7 @@ public class OrbitWeapon : WeaponBase
         if (data == null || orbitPrefab == null)
             return;
 
-        int targetCount = Mathf.Max(1, data.ProjectileCount);
+        int targetCount = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
 
         while (orbitObjects.Count < targetCount)
         {
