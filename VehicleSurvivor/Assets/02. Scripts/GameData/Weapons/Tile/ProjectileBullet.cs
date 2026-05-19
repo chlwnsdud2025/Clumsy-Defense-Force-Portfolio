@@ -11,15 +11,17 @@ public class ProjectileBullet : MonoBehaviour
 
     private void Start()
     {
+        if (moveDirection == Vector3.zero)
+        {
+            moveDirection = transform.forward;
+        }
+
         Destroy(gameObject, lifeTime);
     }
 
     private void Update()
     {
-        transform.position +=
-            moveDirection *
-            speed *
-            Time.deltaTime;
+        transform.position += moveDirection * speed * Time.deltaTime;
     }
 
     public void Init(
@@ -35,38 +37,21 @@ public class ProjectileBullet : MonoBehaviour
         if (moveDirection != Vector3.zero)
         {
             transform.rotation =
-                Quaternion.LookRotation(
-                    moveDirection
-                );
+                Quaternion.LookRotation(moveDirection);
         }
     }
 
-    private void OnTriggerEnter(
-        Collider other
-    )
+    private void OnTriggerEnter(Collider other)
     {
-        if (
-            !other.CompareTag(
-                "Enemy"
-            )
-        )
+        IDamageable damageable =
+            other.GetComponentInParent<IDamageable>();
+
+        if (damageable == null)
             return;
 
-        Enemy enemy =
-            other
-            .GetComponentInParent
-            <Enemy>();
+        damageable.TakeDamage(damage);
 
-        if (enemy != null)
-        {
-            enemy.TakeDamage(
-                damage
-            );
-
-            Debug.Log(
-                $"Projectile Damage : {damage}"
-            );
-        }
+        Debug.Log($"[Projectile] 데미지: {damage}");
 
         Destroy(gameObject);
     }
