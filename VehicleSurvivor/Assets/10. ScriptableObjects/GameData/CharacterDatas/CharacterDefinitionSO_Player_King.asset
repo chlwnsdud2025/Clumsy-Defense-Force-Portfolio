@@ -15,7 +15,7 @@ MonoBehaviour:
   _characterId: character.Player_King
   _displayName: Player_King
   _description: Player_King
-  _icon: {fileID: 21300000, guid: cc8d84ca581ba449293a44a011efb99b, type: 3}
+  _icon: {fileID: 21300000, guid: b6c09f12ffe94dd4396b05cc0e7a5c83, type: 3}
   _portrait: {fileID: 21300000, guid: cc8d84ca581ba449293a44a011efb99b, type: 3}
   _previewPrefab: {fileID: 5382548778612334277, guid: 36b950a0fd9b1a44ea92371843877ef0, type: 3}
   _visualPrefab: {fileID: 5382548778612334277, guid: 5ecd9ddef845a0646ae289d48898d609, type: 3}
