@@ -15,7 +15,7 @@ MonoBehaviour:
   _characterId: character.Player_Dinosaur
   _displayName: Player_Dinosaur
   _description: Player_Dinosaur
-  _icon: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
+  _icon: {fileID: 21300000, guid: 931e2465fbc475748b37c7e62c9fd947, type: 3}
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _previewPrefab: {fileID: 4134642201842911355, guid: baf1fa295a7c0c0429568f42e3337afd, type: 3}
   _visualPrefab: {fileID: 4134642201842911355, guid: 89ae5657752edd44a9871081f0680b8f, type: 3}

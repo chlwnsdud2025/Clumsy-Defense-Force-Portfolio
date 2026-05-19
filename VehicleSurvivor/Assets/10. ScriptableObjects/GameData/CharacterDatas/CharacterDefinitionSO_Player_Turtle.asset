@@ -15,7 +15,7 @@ MonoBehaviour:
   _characterId: character.Player_Turtle
   _displayName: Player_Turtle
   _description: Player_Turtle
-  _icon: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
+  _icon: {fileID: 21300000, guid: 889e76d46895d0746a9976b4e2baaeef, type: 3}
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _previewPrefab: {fileID: 5741818621203534110, guid: cb9e7735b0edd7b4fadc49c62a906a07, type: 3}
   _visualPrefab: {fileID: 5741818621203534110, guid: b353fbc623f586a448f34e5d17023952, type: 3}
