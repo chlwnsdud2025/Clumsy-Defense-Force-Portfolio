@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1953922942411121744}
   - component: {fileID: 6529523592276359167}
-  - component: {fileID: 4203999373852676697}
   - component: {fileID: 624962005045473012}
+  - component: {fileID: 640927664562162626}
   m_Layer: 11
   m_Name: Homing
   m_TagString: Untagged
@@ -42,23 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2528133529004751048}
   m_Mesh: {fileID: -6657874992054359402, guid: 8bae9661e0bd60e4d8eb11a3d58633bf, type: 3}
---- !u!114 &4203999373852676697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2528133529004751048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a65091503c4d054d8db4eedbd4a15f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectileBullet
-  damage: 10
-  speed: 10
-  rotateSpeed: 10
-  lifeTime: 5
-  hitDistance: 1
 --- !u!23 &624962005045473012
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -108,3 +91,21 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &640927664562162626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2528133529004751048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527b142a102411040851cf8409c75aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectile
+  damage: 10
+  speed: 15
+  rotateSpeed: 10
+  lifeTime: 5
+  hitDistance: 0.8
+  retargetRadius: 10

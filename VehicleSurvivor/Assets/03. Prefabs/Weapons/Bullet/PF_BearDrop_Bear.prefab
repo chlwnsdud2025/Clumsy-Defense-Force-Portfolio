@@ -75,5 +75,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 82944fce4ab9cd4438026aaeb9cda90c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6629172086048626655}
   m_SourcePrefab: {fileID: 100100000, guid: 82944fce4ab9cd4438026aaeb9cda90c, type: 3}
+--- !u!1 &2047154712773428394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 82944fce4ab9cd4438026aaeb9cda90c, type: 3}
+  m_PrefabInstance: {fileID: 1200664002626959867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6629172086048626655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047154712773428394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364400b0e406fbd44931bbb135a69dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeteorProjectile
+  explosionEffectPrefab: {fileID: 2732002116272200169, guid: fd99e45aebd1ec84f910406ae20cf5f6, type: 3}
+  damage: 40
+  explosionRadius: 5
+  fallSpeed: 25
