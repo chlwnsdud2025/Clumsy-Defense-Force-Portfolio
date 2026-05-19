@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class MeteorProjectile : MonoBehaviour
 {
-    [Header("이펙트 설정")]
+    [Header("폭발 이펙트")]
     public GameObject explosionEffectPrefab;
 
     [Header("메테오 설정")]
-    public float damage;
-    public float explosionRadius;
+    public float damage = 40f;
+    public float explosionRadius = 5f;
     public float fallSpeed = 25f;
 
     private float delayTimer;
@@ -30,7 +30,6 @@ public class MeteorProjectile : MonoBehaviour
         explosionRadius = newExplosionRadius;
         meteorDelay = newMeteorDelay;
         enemyLayer = newEnemyLayer;
-
         targetPosition = newTargetPosition;
     }
 
@@ -54,7 +53,7 @@ public class MeteorProjectile : MonoBehaviour
             fallSpeed * Time.deltaTime
         );
 
-        if (Vector3.Distance(transform.position, targetPosition) < 0.2f)
+        if (Vector3.Distance(transform.position, targetPosition) <= 0.2f)
         {
             Explode();
         }
@@ -73,13 +72,12 @@ public class MeteorProjectile : MonoBehaviour
             if (!hit.CompareTag("Enemy"))
                 continue;
 
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
+            IDamageable damageable =
+                  hit.GetComponentInParent<IDamageable>();
 
-            if (enemy != null)
+            if (damageable != null)
             {
-                enemy.TakeDamage(damage);
-
-                Debug.Log($"[Meteor] {enemy.name} 피격 / 데미지: {damage}");
+                damageable.TakeDamage(damage);
             }
         }
 
