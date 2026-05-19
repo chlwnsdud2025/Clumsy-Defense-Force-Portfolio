@@ -142,7 +142,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.35, y: 1.26, z: 2.83}
+  m_Size: {x: 1.48, y: 1.41, z: 3}
   m_Center: {x: -0.0016540289, y: 0.19, z: -0.18}
 --- !u!135 &277685667088410363
 SphereCollider:
@@ -163,8 +163,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.14
-  m_Center: {x: -0.08, y: 0.12, z: 0.65}
+  m_Radius: 1.22
+  m_Center: {x: -0.08, y: 0.03, z: 0.65}
 --- !u!114 &-879874509939013427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +186,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3359995717455247423}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 037900d1d087607438c8911dc0fae03d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -198,7 +198,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.11
+  m_Radius: 1.05
   m_Center: {x: -0.0016540289, y: 0.010445893, z: 0.57}
 --- !u!65 &3361385195658851626
 BoxCollider:
@@ -219,5 +219,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.25, y: 0.99, z: 1.98}
+  m_Size: {x: 1.13, y: 0.99, z: 1.98}
   m_Center: {x: -0.0016540289, y: 0.19, z: -0.58}

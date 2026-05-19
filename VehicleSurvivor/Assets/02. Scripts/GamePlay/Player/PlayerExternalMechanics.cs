@@ -24,11 +24,15 @@ public class PlayerExternalMechanics : MonoBehaviour
 
     void Update()
     {
-        // 1. 점프대 같은 순간적인 관성 힘 처리 (서서히 줄어듦)
         if (_externalImpact.magnitude > 0.2f)
         {
             _controller.Move(_externalImpact * Time.deltaTime);
-            _externalImpact = Vector3.Lerp(_externalImpact, Vector3.zero, 5f * Time.deltaTime);
+
+            // [핵심 변경점] 원본 스크립트의 Grounded 상태를 읽어와서 마찰력을 다르게 적용합니다!
+            // 땅에 있을 땐 마찰력 5 (빨리 멈춤), 공중에 있을 땐 마찰력 1 (포물선 유지)
+            float friction = _playerController != null && _playerController.Grounded ? 5f : 1f;
+
+            _externalImpact = Vector3.Lerp(_externalImpact, Vector3.zero, friction * Time.deltaTime);
         }
         else
         {
