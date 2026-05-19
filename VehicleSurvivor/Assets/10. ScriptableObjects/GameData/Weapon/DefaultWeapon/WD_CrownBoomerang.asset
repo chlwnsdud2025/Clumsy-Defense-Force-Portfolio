@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_CrownBoomerang
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_crownboomerang
-  weaponName: Crown Boomerang
-  description: Crown Boomerang
+  weaponName: "크라운 부메랑"
+  description: "왕관 부메랑이 왕복하며 적에게 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 0
-  tags: []
+  tags:
+  - "투사체"
+  - "왕복"
+  - "왕실"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 10
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "기본 왕복 공격"
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1.2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 7
+  - bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 10.5
+    duration: 1.2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 7
+  - bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 0
+    radius: 8
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "사거리 증가"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 10.5
+    duration: 1.2
+    size: 1.1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 8
+  - bulletSpeed: 11
     spreadAngle: 0
-    radius: 0
+    radius: 8
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "크기 증가"
+    cooldown: 0.9
+    damage: 14
+    projectileSpeed: 11
+    duration: 1.2
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 8
+  - bulletSpeed: 11
     spreadAngle: 0
-    radius: 0
+    radius: 8.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.85
+    damage: 16
+    projectileSpeed: 11
+    duration: 1.2
+    size: 1.25
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 8.5
+  evolutionWeaponId: weapon_evolved_royal_road
+  requiredPassiveId: passive_max_hp

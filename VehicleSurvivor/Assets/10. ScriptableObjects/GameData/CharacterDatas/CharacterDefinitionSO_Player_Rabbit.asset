@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Rabbit
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Rabbit
-  _displayName: Player_Rabbit
-  _description: Player_Rabbit
+  _displayName: "토끼 인형탈"
+  _description: "가까운 적을 향해 당근 캐논을 활용하는 장난감 계열 캐릭터입니다."
   _icon: {fileID: 21300000, guid: 9f35db904975f48b9b6673de8a13d323, type: 3}
   _portrait: {fileID: 21300000, guid: 9f35db904975f48b9b6673de8a13d323, type: 3}
   _previewPrefab: {fileID: 3985054355110936385, guid: 87967e1108ca8594b9c1ca5b16d458ba, type: 3}
   _visualPrefab: {fileID: 3985054355110936385, guid: e3694f81a083dfc44b8e62a497e11bcc, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_carrotannon
   _combat:
     MaxHealth: 111
     Defense: 11
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 1
     PickupRange: 1
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_carrotannon
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

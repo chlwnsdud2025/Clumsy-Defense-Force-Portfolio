@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_ToySatellite
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_common_toysatellite
-  weaponName: ToySatellite
-  description: ToySatellite
+  weaponName: "장난감 위성"
+  description: "무작위 적에게 위성포를 발사합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
-  weaponType: 0
-  tags: []
+  weaponType: 6
+  tags:
+  - "폭격"
+  - "랜덤타겟"
+  - "범위"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 9
     spreadAngle: 0
-    radius: 0
+    radius: 6
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.8
+    meteorDelay: 1
+    description: "기본 위성포"
+    cooldown: 1.2
+    damage: 11
+    projectileSpeed: 9
+    duration: 0.8
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 9.5
     spreadAngle: 0
-    radius: 0
+    radius: 6
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.8
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 1.15
+    damage: 13
+    projectileSpeed: 9.5
+    duration: 0.8
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 9.5
     spreadAngle: 0
-    radius: 0
+    radius: 6.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.8
+    meteorDelay: 1
+    description: "범위 증가"
+    cooldown: 1.1
+    damage: 13
+    projectileSpeed: 9.5
+    duration: 0.8
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6.5
+  - bulletSpeed: 10
     spreadAngle: 0
-    radius: 0
+    radius: 6.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.8
+    meteorDelay: 1
+    description: "쿨타임 감소"
+    cooldown: 1
+    damage: 15
+    projectileSpeed: 10
+    duration: 0.8
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 6.5
+  - bulletSpeed: 10
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 0.8
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.95
+    damage: 18
+    projectileSpeed: 10
+    duration: 0.8
+    size: 1.3
+    projectileCount: 2
+    tickInterval: 0.45
+    range: 7
+  evolutionWeaponId: weapon_evolved_space_chaos
+  requiredPassiveId: passive_cooldown_reduction

@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_RepulsorBeam
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_repulsorbeam
-  weaponName: Repulsor Beam
-  description: Repulsor Beam
+  weaponName: "리펄서 빔"
+  description: "관통 빔을 발사해 직선상의 적을 공격합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
-  weaponType: 0
-  tags: []
+  weaponType: 4
+  tags:
+  - "빔"
+  - "관통"
+  - "회전"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "기본 빔 1줄"
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 7
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 7
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 7.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "빔 +1"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1
+    projectileCount: 2
+    tickInterval: 0.5
+    range: 7.5
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 7.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.9
+    damage: 14
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1.1
+    projectileCount: 2
+    tickInterval: 0.45
+    range: 7.5
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 8
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "빔 +1"
+    cooldown: 0.85
+    damage: 16
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1.1
+    projectileCount: 3
+    tickInterval: 0.45
+    range: 8
+  evolutionWeaponId: weapon_evolved_arc_overdrive
+  requiredPassiveId: passive_cooldown_reduction

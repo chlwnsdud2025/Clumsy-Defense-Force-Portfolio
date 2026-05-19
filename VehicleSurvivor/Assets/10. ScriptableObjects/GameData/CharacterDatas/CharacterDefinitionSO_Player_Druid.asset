@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Druid
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Druid
-  _displayName: Player_Druid
-  _description: Player_Druid
+  _displayName: "드루이드"
+  _description: "숲친구를 소환해 자동 공격을 펼치는 자연 계열 캐릭터입니다."
   _icon: {fileID: 21300000, guid: 049d1403ca0954c6e8c805419a41f803, type: 3}
   _portrait: {fileID: 21300000, guid: 049d1403ca0954c6e8c805419a41f803, type: 3}
   _previewPrefab: {fileID: 4476796615752694500, guid: 204117511c32ee5488184b1fb7d13bc6, type: 3}
   _visualPrefab: {fileID: 4476796615752694500, guid: 0e725edc53ed4e5418e7fd566d245e88, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_forestfriend
   _combat:
     MaxHealth: 444
     Defense: 4
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 4
     PickupRange: 4
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_forestfriend
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

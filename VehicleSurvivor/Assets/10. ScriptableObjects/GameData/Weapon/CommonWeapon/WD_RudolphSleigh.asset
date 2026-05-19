@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_RudolphSleigh
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_common_rudolphsleigh
-  weaponName: RudolphSleigh
-  description: RudolphSleigh
+  weaponName: "루돌프 썰매"
+  description: "썰매가 맵을 가로지르며 경로 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
-  weaponType: 0
-  tags: []
+  weaponType: 6
+  tags:
+  - "범위"
+  - "라인"
+  - "횡단"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 12
     spreadAngle: 0
-    radius: 0
+    radius: 10
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "기본 경로 돌진"
+    cooldown: 4
+    damage: 14
+    projectileSpeed: 12
+    duration: 1.2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 10
+  - bulletSpeed: 12.5
     spreadAngle: 0
-    radius: 0
+    radius: 10
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 3.8
+    damage: 16
+    projectileSpeed: 12.5
+    duration: 1.2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 10
+  - bulletSpeed: 12.5
     spreadAngle: 0
-    radius: 0
+    radius: 10.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "크기 증가"
+    cooldown: 3.6
+    damage: 16
+    projectileSpeed: 12.5
+    duration: 1.2
+    size: 1.15
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 10.5
+  - bulletSpeed: 13
     spreadAngle: 0
-    radius: 0
+    radius: 10.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "쿨타임 감소"
+    cooldown: 3.3
+    damage: 18
+    projectileSpeed: 13
+    duration: 1.2
+    size: 1.15
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 10.5
+  - bulletSpeed: 13.5
     spreadAngle: 0
-    radius: 0
+    radius: 11
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 3
+    damage: 21
+    projectileSpeed: 13.5
+    duration: 1.2
+    size: 1.3
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 11
+  evolutionWeaponId: weapon_evolved_rudolph_rush
+  requiredPassiveId: passive_move_speed

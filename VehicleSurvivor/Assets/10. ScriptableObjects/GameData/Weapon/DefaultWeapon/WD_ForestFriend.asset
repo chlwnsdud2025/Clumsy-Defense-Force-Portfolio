@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_ForestFriend
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_forestfriend
-  weaponName: Forest Friend
-  description: Forest Friend
+  weaponName: "숲친구"
+  description: "숲친구가 주변 적을 자동 공격합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
-  weaponType: 0
-  tags: []
+  weaponType: 3
+  tags:
+  - "소환"
+  - "자동공격"
+  - "자연"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 6
     spreadAngle: 0
-    radius: 0
+    radius: 5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 2
+    meteorDelay: 1
+    description: "기본 소환 1체"
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 6
+    duration: 2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 5
+  - bulletSpeed: 6.5
     spreadAngle: 0
-    radius: 0
+    radius: 5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 2
+    meteorDelay: 1
+    description: "공격속도 증가"
+    cooldown: 0.9
+    damage: 10
+    projectileSpeed: 6.5
+    duration: 2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 5
+  - bulletSpeed: 6.5
     spreadAngle: 0
-    radius: 0
+    radius: 5.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 2
+    meteorDelay: 1
+    description: "소환 수 +1"
+    cooldown: 0.9
+    damage: 11
+    projectileSpeed: 6.5
+    duration: 2
+    size: 1
+    projectileCount: 2
+    tickInterval: 0.5
+    range: 5.5
+  - bulletSpeed: 7
     spreadAngle: 0
-    radius: 0
+    radius: 5.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 2
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.85
+    damage: 13
+    projectileSpeed: 7
+    duration: 2
+    size: 1.1
+    projectileCount: 2
+    tickInterval: 0.45
+    range: 5.5
+  - bulletSpeed: 7.5
     spreadAngle: 0
-    radius: 0
+    radius: 6
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 2
+    meteorDelay: 1
+    description: "공격속도 증가"
+    cooldown: 0.8
+    damage: 15
+    projectileSpeed: 7.5
+    duration: 2
+    size: 1.1
+    projectileCount: 2
+    tickInterval: 0.4
+    range: 6
+  evolutionWeaponId: weapon_evolved_forest_march
+  requiredPassiveId: passive_item_pickup_range

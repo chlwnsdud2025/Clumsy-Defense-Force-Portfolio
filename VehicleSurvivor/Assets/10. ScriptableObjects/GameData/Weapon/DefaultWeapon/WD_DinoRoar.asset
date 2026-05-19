@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_DinoRoar
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_dinoroar
-  weaponName: Dino Roar
-  description: Dino Roar
+  weaponName: "다이노 포효"
+  description: "전방 부채꼴 범위에 포효 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
-  weaponType: 0
-  tags: []
+  weaponType: 2
+  tags:
+  - "전방"
+  - "범위"
+  - "포효"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 4
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "기본 포효"
+    cooldown: 1.2
+    damage: 10
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 4
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 4
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 1.2
+    damage: 12
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 4
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 4.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "범위 증가"
+    cooldown: 1.1
+    damage: 12
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1.15
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 4.5
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "거리 증가"
+    cooldown: 1.05
+    damage: 14
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 5
+  - bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 0
+    radius: 5.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 0.5
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 1
+    damage: 16
+    projectileSpeed: 0.1
+    duration: 0.5
+    size: 1.25
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 5.5
+  evolutionWeaponId: weapon_evolved_jurassic_roar
+  requiredPassiveId: passive_skill_size

@@ -13,92 +13,95 @@ MonoBehaviour:
   m_Name: WD_PaperAirplane
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_common_paperairplane
-  weaponName: PaperAirplane
-  description: PaperAirplane
+  weaponName: "종이비행기"
+  description: "종이비행기가 무작위 방향으로 날아갑니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 0
-  tags: []
+  tags:
+  - "투사체"
+  - "랜덤방향"
+  - "다발"
   levelDataList:
-  - bulletSpeed: 0
+  - bulletSpeed: 10
     spreadAngle: 0
-    radius: 0
+    radius: 6
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "기본 발사 1개"
+    cooldown: 1
+    damage: 9
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 0
+    radius: 6
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.95
+    damage: 11
+    projectileSpeed: 10.5
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 0
+    radius: 6.5
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "발사 수 +1"
+    cooldown: 0.95
+    damage: 11
+    projectileSpeed: 10.5
+    duration: 1
+    size: 1
+    projectileCount: 2
+    tickInterval: 0.5
+    range: 6.5
+  - bulletSpeed: 11
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  - bulletSpeed: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "거리 증가"
+    cooldown: 0.9
+    damage: 13
+    projectileSpeed: 11
+    duration: 1
+    size: 1.1
+    projectileCount: 2
+    tickInterval: 0.45
+    range: 7
+  - bulletSpeed: 11.5
     spreadAngle: 0
-    radius: 0
+    radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 0
-    meteorDelay: 0
-    description: 
-    cooldown: 0
-    damage: 0
-    projectileSpeed: 0
-    duration: 0
-    size: 0
-    projectileCount: 0
-    tickInterval: 0
-    range: 0
-  evolutionWeaponId: 
-  requiredPassiveId: 
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.85
+    damage: 15
+    projectileSpeed: 11.5
+    duration: 1
+    size: 1.1
+    projectileCount: 3
+    tickInterval: 0.45
+    range: 7
+  evolutionWeaponId: weapon_evolved_paperfold_master
+  requiredPassiveId: passive_move_speed
