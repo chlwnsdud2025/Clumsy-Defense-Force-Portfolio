@@ -1,40 +1,73 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ChainLightningWeapon : WeaponBase
 {
-    [Header("체인 번개 데이터")]
+    [Header("Chain Lightning Data")]
+    [FormerlySerializedAs("weaponData")]
     public ChainLightningWeaponDataSO chainData;
 
-    [Header("레이어 설정")]
+    [Header("Target Settings")]
     public LayerMask targetLayer;
 
-    [Header("임시 테스트 스탯")]
+    [Header("Legacy Stats")]
     public float damage = 10f;
     public float cooldown = 1f;
     public float detectRadius = 10f;
     public int chainCount = 3;
     public float chainRadius = 5f;
 
-    [Header("이펙트 설정")]
+    [Header("Effect Settings")]
     public float lineLifeTime = 0.1f;
 
     private float attackTimer;
 
-    private void Update()
+    protected override void Update()
     {
+        if (HasConfiguredLevelData())
+        {
+            base.Update();
+            return;
+        }
+
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= GetFinalCooldown(cooldown))
         {
-            Attack();
+            AttackLegacy();
             attackTimer = 0f;
         }
     }
 
-    private void Attack()
+    protected override void Attack(WeaponLevelData data)
     {
-        Transform firstTarget = FindClosestTarget(transform.position, detectRadius, null);
+        ChainAttackFromPosition(
+            GetDetectRadius(data),
+            Mathf.Max(0, data.chainCount),
+            data.chainRadius > 0f ? data.chainRadius : GetDetectRadius(data),
+            GetFinalDamage(data.Damage)
+        );
+    }
+
+    private void AttackLegacy()
+    {
+        ChainAttackFromPosition(
+            detectRadius,
+            chainCount,
+            chainRadius,
+            GetFinalDamage(damage)
+        );
+    }
+
+    private void ChainAttackFromPosition(
+        float detectRange,
+        int remainingChainCount,
+        float searchRadius,
+        float finalDamage
+    )
+    {
+        Transform firstTarget = FindClosestTarget(transform.position, detectRange, null);
 
         if (firstTarget == null)
             return;
@@ -46,9 +79,9 @@ public class ChainLightningWeapon : WeaponBase
         ChainAttack(
             firstTarget,
             hitTargets,
-            chainCount,
-            chainRadius,
-            GetFinalDamage(damage)
+            remainingChainCount,
+            searchRadius,
+            finalDamage
         );
     }
 
@@ -60,19 +93,15 @@ public class ChainLightningWeapon : WeaponBase
         float finalDamage
     )
     {
-        if (currentTarget == null)
+        if (currentTarget == null || hitTargets.Contains(currentTarget))
             return;
 
-        if (hitTargets.Contains(currentTarget))
-            return;
-
-        IDamageable damageable =
-            currentTarget.GetComponentInParent<IDamageable>();
+        IDamageable damageable = currentTarget.GetComponentInParent<IDamageable>();
 
         if (damageable != null)
         {
             damageable.TakeDamage(finalDamage);
-            Debug.Log($"[ChainLightning] 데미지: {finalDamage}");
+            Debug.Log($"[ChainLightning] damage: {finalDamage}");
         }
 
         hitTargets.Add(currentTarget);
@@ -80,8 +109,7 @@ public class ChainLightningWeapon : WeaponBase
         if (remainChain <= 0)
             return;
 
-        Transform nextTarget =
-            FindClosestTarget(currentTarget.position, searchRadius, hitTargets);
+        Transform nextTarget = FindClosestTarget(currentTarget.position, searchRadius, hitTargets);
 
         if (nextTarget == null)
             return;
@@ -103,35 +131,27 @@ public class ChainLightningWeapon : WeaponBase
         List<Transform> ignoreTargets
     )
     {
-        Collider[] hits = Physics.OverlapSphere(
-            center,
-            radius,
-            targetLayer
-        );
+        Collider[] hits = Physics.OverlapSphere(center, radius, targetLayer);
 
         Transform closestTarget = null;
         float closestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
-            Transform targetTransform =
-                hit.GetComponentInParent<Transform>();
+            Transform targetTransform = hit.GetComponentInParent<Transform>();
 
             if (targetTransform == null)
                 continue;
 
-            if (ignoreTargets != null &&
-                ignoreTargets.Contains(targetTransform))
+            if (ignoreTargets != null && ignoreTargets.Contains(targetTransform))
                 continue;
 
-            float distance =
-                (targetTransform.position - center).sqrMagnitude;
+            float distance = (targetTransform.position - center).sqrMagnitude;
 
             if (distance < closestDistance)
             {
@@ -145,10 +165,7 @@ public class ChainLightningWeapon : WeaponBase
 
     private void CreateLightningLine(Vector3 start, Vector3 end)
     {
-        if (chainData == null)
-            return;
-
-        if (chainData.lightningEffectPrefab == null)
+        if (chainData == null || chainData.lightningEffectPrefab == null)
             return;
 
         GameObject effect = Instantiate(
@@ -157,8 +174,7 @@ public class ChainLightningWeapon : WeaponBase
             Quaternion.identity
         );
 
-        LighteningScript lightning =
-            effect.GetComponentInChildren<LighteningScript>();
+        LighteningScript lightning = effect.GetComponentInChildren<LighteningScript>();
 
         if (lightning != null)
         {
@@ -173,5 +189,13 @@ public class ChainLightningWeapon : WeaponBase
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
+    }
+
+    private float GetDetectRadius(WeaponLevelData data)
+    {
+        if (data == null)
+            return detectRadius;
+
+        return data.Range > 0f ? data.Range : detectRadius;
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "쉘 스핀"
   description: "등껍질이 캐릭터 주변을 회전하며 피해를 줍니다."
   icon: {fileID: 0}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
   weaponType: 6
   tags:
   - "회전"

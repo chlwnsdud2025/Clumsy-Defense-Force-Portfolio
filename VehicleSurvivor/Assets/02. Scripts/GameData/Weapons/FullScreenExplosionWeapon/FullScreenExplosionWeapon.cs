@@ -31,11 +31,11 @@ public class FullScreenExplosionWeapon : WeaponBase
                 continue;
 
             enemy.TakeDamage(
-                GetFinalDamage(data.damage)
+                GetFinalDamage(data.Damage)
             );
 
             Debug.Log(
-                $"[FullScreenExplosion] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.damage)}"
+                $"[FullScreenExplosion] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.Damage)}"
             );
         }
 

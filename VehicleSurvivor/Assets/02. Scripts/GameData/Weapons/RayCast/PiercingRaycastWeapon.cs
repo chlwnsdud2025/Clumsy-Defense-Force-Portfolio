@@ -46,13 +46,13 @@ public class PiercingRaycastWeapon : WeaponBase
                 continue;
 
             enemy.TakeDamage(
-                GetFinalDamage(data.damage)
+                GetFinalDamage(data.Damage)
             );
 
             damagedEnemies.Add(enemy);
 
             Debug.Log(
-                $"[Laser] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.damage)}"
+                $"[Laser] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.Damage)}"
             );
         }
 

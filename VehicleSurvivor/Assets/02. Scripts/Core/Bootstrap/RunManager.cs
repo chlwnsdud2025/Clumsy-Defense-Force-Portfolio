@@ -24,7 +24,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
     {
         if (selectedCharacter == null)
         {
-            Debug.LogError("[RunManager] selectedCharacter이 null입니다");
+            Debug.LogError("[RunManager] selectedCharacter is null.");
             return;
         }
 
@@ -43,10 +43,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
         Time.timeScale = 1f;
 
         ResolvePlayerInstance();
-        EquipDefaultWeapon(selectedCharacter);
 
         PlayerRuntime playerRuntime = new PlayerRuntime(selectedCharacter);
         _runContext = new RunContext(playerRuntime);
+
+        EquipDefaultWeapon(selectedCharacter, playerRuntime);
 
         BindRunContext(_runContext);
         BindPlayerRuntime(playerRuntime);
@@ -70,45 +71,69 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         if (playerInstance == null)
         {
-            Debug.LogError("[RunManager] Scene에서 Player 오브젝트를 찾지 못했습니다.");
+            Debug.LogError("[RunManager] Player object was not found in the scene.");
         }
     }
 
-    private void EquipDefaultWeapon(CharacterDefinitionSO character)
+    private void EquipDefaultWeapon(CharacterDefinitionSO character, PlayerRuntime playerRuntime)
     {
-        if (playerInstance == null)
+        if (playerRuntime == null)
         {
-            Debug.LogError("[RunManager] Player가 생성되지 않아 기본 무기를 장착할 수 없습니다.");
             return;
         }
 
         if (weaponDatabase == null)
         {
-            Debug.LogError("[RunManager] WeaponDatabaseSO가 연결되지 않았습니다.");
+            Debug.LogError("[RunManager] WeaponDatabaseSO is not assigned.");
             return;
         }
 
-        string defaultWeaponId = character.DefaultWeaponId;
+        string startingWeaponId = ResolveStartingWeaponId(character);
 
-        if (string.IsNullOrWhiteSpace(defaultWeaponId))
+        if (string.IsNullOrWhiteSpace(startingWeaponId))
         {
-            Debug.LogError($"[RunManager] {character.DisplayName}의 DefaultWeaponId가 비어 있습니다.");
+            Debug.LogError($"[RunManager] Starting weapon id is empty: {character.DisplayName}");
             return;
         }
 
-        WeaponDefinitionSO defaultWeapon = weaponDatabase.GetWeaponOrNull(defaultWeaponId);
+        WeaponDefinitionSO defaultWeapon = weaponDatabase.GetWeaponOrNull(startingWeaponId);
 
         if (defaultWeapon == null)
+        {
             return;
+        }
 
-        WeaponInventory weaponInventory = playerInstance.GetComponent<WeaponInventory>();
+        playerRuntime.Inventory.AddOrLevelUpWeapon(defaultWeapon);
+
+        if (playerInstance == null)
+        {
+            Debug.LogError("[RunManager] Player was not spawned, so the starting weapon visual cannot be created.");
+            return;
+        }
+
+        WeaponInventory weaponInventory = playerInstance.GetComponentInChildren<WeaponInventory>(true);
         if (weaponInventory == null)
         {
-            Debug.LogError("[RunManager] PlayerPrefab에 WeaponInventory가 없습니다.");
+            Debug.LogError("[RunManager] WeaponInventory was not found under the spawned player visual.");
             return;
         }
 
         weaponInventory.TryAddWeapon(defaultWeapon, playerInstance.transform);
+    }
+
+    private static string ResolveStartingWeaponId(CharacterDefinitionSO character)
+    {
+        if (character == null)
+        {
+            return string.Empty;
+        }
+
+        if (!string.IsNullOrWhiteSpace(character.DefaultWeaponId))
+        {
+            return character.DefaultWeaponId.Trim();
+        }
+
+        return character.Loadout.StartingWeaponId?.Trim() ?? string.Empty;
     }
 
     private void Update()

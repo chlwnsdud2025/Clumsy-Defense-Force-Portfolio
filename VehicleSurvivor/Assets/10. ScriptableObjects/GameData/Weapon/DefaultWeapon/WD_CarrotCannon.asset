@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "당근 캐논"
   description: "가까운 적에게 당근 투사체를 발사합니다."
   icon: {fileID: 0}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
   weaponType: 0
   tags:
   - "투사체"

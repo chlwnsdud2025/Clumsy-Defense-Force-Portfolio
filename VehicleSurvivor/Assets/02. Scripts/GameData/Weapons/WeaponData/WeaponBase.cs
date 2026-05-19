@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class WeaponBase : MonoBehaviour
+public class WeaponBase : MonoBehaviour
 {
     protected Transform Owner { get; private set; }
     protected WeaponRuntimeData RuntimeData { get; private set; }
@@ -9,11 +9,24 @@ public abstract class WeaponBase : MonoBehaviour
 
     public void Initialize(Transform owner, WeaponRuntimeData runtimeData)
     {
+        if (RuntimeData != null)
+        {
+            RuntimeData.LevelChanged -= HandleRuntimeLevelChanged;
+        }
+
         Owner = owner;
         RuntimeData = runtimeData;
         attackTimer = 0f;
 
+        if (RuntimeData != null)
+        {
+            RuntimeData.LevelChanged += HandleRuntimeLevelChanged;
+            weaponID = RuntimeData.Definition.WeaponId;
+            weaponName = RuntimeData.Definition.WeaponName;
+        }
+
         OnInitialized();
+        OnLevelDataChanged(GetCurrentLevelData());
     }
 
     protected virtual void OnInitialized()
@@ -22,10 +35,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (RuntimeData == null)
-            return;
-
-        WeaponLevelData data = RuntimeData.CurrentLevelData;
+        WeaponLevelData data = GetCurrentLevelData();
         if (data == null)
             return;
 
@@ -38,7 +48,13 @@ public abstract class WeaponBase : MonoBehaviour
         Attack(data);
     }
 
-    protected abstract void Attack(WeaponLevelData data);
+    protected virtual void Attack(WeaponLevelData data)
+    {
+    }
+
+    protected virtual void OnLevelDataChanged(WeaponLevelData data)
+    {
+    }
 
     [Header("Weapon Info")]
     public string weaponID = "weapon";
@@ -66,7 +82,12 @@ public abstract class WeaponBase : MonoBehaviour
         return levelData[currentLevel];
     }
 
-    public void LevelUpWeapon()
+    protected bool HasConfiguredLevelData()
+    {
+        return RuntimeData != null || (levelData != null && levelData.Length > 0);
+    }
+
+    public virtual void LevelUpWeapon()
     {
         if (RuntimeData != null)
         {
@@ -83,6 +104,7 @@ public abstract class WeaponBase : MonoBehaviour
         {
             currentLevel++;
             OnWeaponLevelUp();
+            OnLevelDataChanged(GetCurrentLevelData());
         }
     }
 
@@ -90,6 +112,16 @@ public abstract class WeaponBase : MonoBehaviour
     {
         int level = RuntimeData != null ? RuntimeData.CurrentLevel : currentLevel + 1;
         Debug.Log($"{weaponName} level up: {level}");
+    }
+
+    public string GetWeaponID()
+    {
+        return weaponID;
+    }
+
+    public string GetWeaponName()
+    {
+        return weaponName;
     }
 
     protected float GetFinalDamage(float baseDamage)
@@ -127,5 +159,18 @@ public abstract class WeaponBase : MonoBehaviour
             return null;
 
         return runManager.RunContext?.Player;
+    }
+
+    private void HandleRuntimeLevelChanged(int _)
+    {
+        OnLevelDataChanged(GetCurrentLevelData());
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (RuntimeData != null)
+        {
+            RuntimeData.LevelChanged -= HandleRuntimeLevelChanged;
+        }
     }
 }

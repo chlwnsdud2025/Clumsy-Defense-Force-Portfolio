@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
-    [Header("오라 데이터")]
+    [Header("Aura Data")]
     public AuraWeaponDataSO auraData;
 
-    [Header("오라 설정")]
+    [Header("Aura Settings")]
     public LayerMask enemyLayer;
 
-    [Header("임시 테스트 스탯")]
+    [Header("Legacy Stats")]
     public float damage = 10f;
     public float cooldown = 0.5f;
     public float radius = 5f;
@@ -21,86 +21,91 @@ public class AuraWeapon : WeaponBase
         CreateAuraEffect();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        if (HasConfiguredLevelData())
+        {
+            base.Update();
+            UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
+            return;
+        }
+
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= GetFinalCooldown(cooldown))
         {
-            Attack();
+            AttackLegacy();
             attackTimer = 0f;
         }
 
-        UpdateAuraScale();
+        UpdateAuraScale(radius);
     }
 
-    private void Attack()
+    protected override void Attack(WeaponLevelData data)
     {
-        Collider[] hits =
-            Physics.OverlapSphere(
-                transform.position,
-                radius,
-                enemyLayer
-            );
+        DealAuraDamage(
+            GetFinalDamage(data.Damage),
+            GetAuraRadius(data)
+        );
+    }
+
+    private void AttackLegacy()
+    {
+        DealAuraDamage(
+            GetFinalDamage(damage),
+            radius
+        );
+    }
+
+    private void DealAuraDamage(float finalDamage, float attackRadius)
+    {
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position,
+            attackRadius,
+            enemyLayer
+        );
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
-            damageable.TakeDamage(
-                GetFinalDamage(damage)
-            );
-
-            Debug.Log(
-                $"[Aura] 데미지 : {GetFinalDamage(damage)}"
-            );
+            damageable.TakeDamage(finalDamage);
+            Debug.Log($"[Aura] damage: {finalDamage}");
         }
     }
 
     private void CreateAuraEffect()
     {
-        if (auraData == null)
+        if (auraData == null || auraData.auraEffectPrefab == null)
             return;
 
-        if (auraData.auraEffectPrefab == null)
-            return;
-
-        auraEffect = Instantiate(
-            auraData.auraEffectPrefab,
-            transform
-        );
-
-        auraEffect.transform.localPosition =
-            Vector3.zero;
+        auraEffect = Instantiate(auraData.auraEffectPrefab, transform);
+        auraEffect.transform.localPosition = Vector3.zero;
     }
 
-    private void UpdateAuraScale()
+    private void UpdateAuraScale(float attackRadius)
     {
         if (auraEffect == null)
             return;
 
-        float size = radius * 2f;
-
-        auraEffect.transform.localScale =
-            new Vector3(
-                size,
-                1f,
-                size
-            );
+        float size = attackRadius * 2f;
+        auraEffect.transform.localScale = new Vector3(size, 1f, size);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color =
-            Color.cyan;
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, GetAuraRadius(GetCurrentLevelData()));
+    }
 
-        Gizmos.DrawWireSphere(
-            transform.position,
-            radius
-        );
+    private float GetAuraRadius(WeaponLevelData data)
+    {
+        if (data == null)
+            return radius;
+
+        return data.Range > 0f ? data.Range : data.radius;
     }
 }

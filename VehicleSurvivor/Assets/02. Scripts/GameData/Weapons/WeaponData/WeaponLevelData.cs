@@ -17,6 +17,9 @@ public class WeaponLevelData
     [Header("범위 스탯")]
     public float radius = 5f;
 
+    [Header("Bouncy Projectile")]
+    public int bounceCount = 3;
+
     [Header("체인 번개")]
     public int chainCount = 3;
     public float chainRadius = 5f;
@@ -24,6 +27,16 @@ public class WeaponLevelData
     [Header("메테오")]
     public float explosionRadius = 5f;
     public float meteorDelay = 1f;
+
+    [Header("Ground Dot")]
+    public float dotDuration = 3f;
+    public float dotTickInterval = 0.5f;
+    public float dotWidth = 2f;
+    public float dotLength = 5f;
+
+    [Header("Shockwave")]
+    public float shockwaveRange = 5f;
+    public float shockwaveAngle = 90f;
     //-------------------------------------
 
     [Header("UI")]
