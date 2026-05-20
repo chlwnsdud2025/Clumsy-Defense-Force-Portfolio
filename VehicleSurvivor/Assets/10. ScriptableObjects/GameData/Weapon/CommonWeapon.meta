@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VehicleSurvivor/Assets/SmartVAT/SmartVATShadersURP.unitypackage.meta
+guid: 3983dc8c72354ec43a63946c7f3a57df
+========
 guid: 5154176982eb45d4985ba35323898023
 folderAsset: yes
+>>>>>>>> feedback:VehicleSurvivor/Assets/10. ScriptableObjects/GameData/Weapon/CommonWeapon.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

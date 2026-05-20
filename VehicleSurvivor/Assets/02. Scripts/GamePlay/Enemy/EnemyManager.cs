@@ -1,14 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance;
-
-    [Header("Current Stage Setting")]
-    [Tooltip("현재 맵에 해당하는 테마 SO를 할당하세요.")]
-    public StageThemeSO currentTheme;
 
     [Header("References")]
     public Transform playerTransform;
@@ -30,10 +25,13 @@ public class EnemyManager : MonoBehaviour
     private Transform fxParent;
     public Transform FxParent => fxParent;
 
-    // 내부 타이머 및 상태
+    // 내부 상태
     private float spawnTimer = 0f;
-    private float gameTimer = 0f;
     private float gridUpdateTimer = 0f;
+
+    // [핵심 추가] 웨이브와 페이즈가 바뀌는 순간을 감지하기 위한 기억 장치
+    private WaveEnemy_DataSO lastWave = null;
+    private int lastPhaseIndex = -1;
 
     // 데이터 관리 컬렉션
     private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
@@ -41,47 +39,30 @@ public class EnemyManager : MonoBehaviour
     private Dictionary<EnemyPoolDataSO, Transform> poolParents = new Dictionary<EnemyPoolDataSO, Transform>();
     private List<Enemy> activeEnemies = new List<Enemy>();
 
-    private List<WaveDataSO> sortedWaves;
-    private WaveDataSO currentWave;
-    private int currentWaveIndex = 0;
-
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        // 이펙트들을 담을 부모 빈 오브젝트 생성
         GameObject fxParentObj = new GameObject("Runtime_VFX_Container");
         fxParent = fxParentObj.transform;
+
+        fxParent.SetParent(this.transform);
     }
 
-    void Start()
+    public void ApplyTheme(StageTheme_SO theme)
     {
-        if (currentTheme != null)
-        {
-            ApplyTheme(currentTheme);
-        }
-    }
-
-    public void ApplyTheme(StageThemeSO theme)
-    {
-        currentTheme = theme;
-        gameTimer = 0f; // 테마 적용 시 게임 시간 초기화
-
         ClearAllPools();
 
-        // 풀 생성
+        // 풀 생성 로직
         foreach (EnemyPoolDataSO poolData in theme.enemyPools)
         {
             if (poolData == null) continue;
-
-            poolData.currentReserveCount = 0; // 예비 카운트 초기화
+            poolData.currentReserveCount = 0;
 
             Queue<Enemy> pool = new Queue<Enemy>();
             GameObject parentObj = new GameObject($"{poolData.name}_Pool");
             parentObj.transform.SetParent(this.transform);
-
-            // Enum 대신 SO 객체를 Key로 등록
             poolParents.Add(poolData, parentObj.transform);
 
             for (int i = 0; i < poolData.poolSize; i++)
@@ -89,25 +70,14 @@ public class EnemyManager : MonoBehaviour
                 Enemy enemy = InstantiateEnemy(poolData, parentObj.transform);
                 pool.Enqueue(enemy);
             }
-
             enemyPools.Add(poolData, pool);
         }
 
-        // 웨이브 스케줄 정렬
-        sortedWaves = theme.waveDatas.OrderBy(w => w.waveStartTime).ToList();
-        if (sortedWaves.Count > 0)
-        {
-            currentWave = sortedWaves[0];
-            currentWaveIndex = 0;
+        // 테마가 바뀌면 기억 장치 초기화
+        lastWave = null;
+        lastPhaseIndex = -1;
 
-            // [추가됨] 0초(게임 시작) 웨이브에도 보스가 있다면 즉시 소환
-            if (currentWave.midBossPrefabs != null && currentWave.midBossPrefabs.Count > 0)
-            {
-                SpawnBossDirectly(currentWave);
-            }
-        }
-
-        Debug.Log($"[Theme Applied] {theme.themeName} 테마 로딩 완료");
+        Debug.Log($"[EnemyManager] {theme.themeName} 테마 풀링 완료");
     }
 
     private Enemy InstantiateEnemy(EnemyPoolDataSO data, Transform parent)
@@ -115,9 +85,7 @@ public class EnemyManager : MonoBehaviour
         GameObject obj = Instantiate(data.prefab, parent);
         obj.SetActive(false);
         Enemy enemy = obj.GetComponent<Enemy>();
-
         enemy.originPool = data;
-
         return enemy;
     }
 
@@ -132,31 +100,27 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        if (currentWave == null || playerTransform == null) return;
+        if (playerTransform == null || StageRunManager.Instance == null) return;
 
-        float dt = Time.deltaTime;
-        gameTimer += dt;
-
-        // 1. 웨이브 교체 체크
-        if (currentWaveIndex + 1 < sortedWaves.Count)
+        // 1. 페이즈(스테이지 클리어)가 바뀌었는지 감지
+        if (StageRunManager.Instance.currentPhaseIndex != lastPhaseIndex)
         {
-            if (gameTimer >= sortedWaves[currentWaveIndex + 1].waveStartTime)
-            {
-                currentWaveIndex++;
-                currentWave = sortedWaves[currentWaveIndex];
-                Debug.Log($"[Wave Changed] 새로운 웨이브 시작!");
-
-               
-                //새로운 웨이브 시작 시 보스 소환 체크
-                
-                if (currentWave.midBossPrefabs != null && currentWave.midBossPrefabs.Count > 0)
-                {
-                    SpawnBossDirectly(currentWave);
-                }
-            }
+            lastPhaseIndex = StageRunManager.Instance.currentPhaseIndex;
+            lastWave = null; // 페이즈가 바뀌면 이전 웨이브 기억을 지워서 새 페이즈의 첫 웨이브를 무조건 인식하게 함
         }
 
-        // 2. 그리드 갱신 (최적화)
+        WaveEnemy_DataSO currentWave = StageRunManager.Instance.GetCurrentWave();
+        if (currentWave == null) return;
+
+        // 2. 웨이브가 바뀌는 순간(진입 시점) 1회만 실행되는 로직
+        if (currentWave != lastWave)
+        {
+            lastWave = currentWave;
+            OnWaveStarted(currentWave);
+        }
+
+        float dt = Time.deltaTime;
+
         gridUpdateTimer += dt;
         if (gridUpdateTimer >= gridUpdateInterval)
         {
@@ -164,33 +128,39 @@ public class EnemyManager : MonoBehaviour
             UpdateGrid();
         }
 
-        // 3. 활성화된 몹 업데이트
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             activeEnemies[i].ManagedUpdate(dt);
         }
 
-        // 4. 스폰 타이머
         spawnTimer += dt;
         if (spawnTimer >= currentWave.spawnInterval)
         {
             spawnTimer = 0f;
-            SpawnEnemyAtRandomCircle();
+            SpawnEnemyAtRandomCircle(currentWave);
         }
     }
 
     // ==========================================
-    // [추가됨] 보스 직접 소환 로직
+    // [부활한 로직] 웨이브 시작 시 1회성 미니 보스 소환
     // ==========================================
-    private void SpawnBossDirectly(WaveDataSO wave)
+    private void OnWaveStarted(WaveEnemy_DataSO newWave)
     {
-        // 1. 후보 리스트 중 하나를 무작위로 선택
-        GameObject bossPrefab = wave.midBossPrefabs[Random.Range(0, wave.midBossPrefabs.Count)];
+        Debug.Log($"[Wave Start] 새로운 웨이브('{newWave.name}') 시작!");
+
+        if (newWave.miniBossPrefabs != null && newWave.miniBossPrefabs.Count > 0)
+        {
+            SpawnMiniBossDirectly(newWave);
+        }
+    }
+
+    private void SpawnMiniBossDirectly(WaveEnemy_DataSO wave)
+    {
+        GameObject bossPrefab = wave.miniBossPrefabs[Random.Range(0, wave.miniBossPrefabs.Count)];
         if (bossPrefab == null) return;
 
-        for (int i = 0; i < wave.midBossCount; i++)
+        for (int i = 0; i < wave.miniBossCount; i++)
         {
-            // 2. 플레이어 주변 원형 바운더리 안에서 랜덤 위치 계산
             Vector2 randomCircle = Random.insideUnitCircle.normalized * spawnRadius;
             Vector3 spawnPosXZ = new Vector3(
                 playerTransform.position.x + randomCircle.x,
@@ -198,37 +168,31 @@ public class EnemyManager : MonoBehaviour
                 playerTransform.position.z + randomCircle.y
             );
 
-            // 3. 레이캐스트를 이용해 해당 위치의 정확한 지형 높이(y)를 찾음
             Vector3 rayStart = spawnPosXZ + Vector3.up * raycastStartHeight;
             if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
             {
-                // 오브젝트 풀링을 사용하지 않고 즉시 Instantiate 처리
+                // 미니 보스 즉시 생성 (풀링 미사용)
                 GameObject bossObj = Instantiate(bossPrefab, hit.point, Quaternion.identity);
 
-                // 생성된 보스의 타겟을 플레이어로 즉시 할당
+                // (선택) 보스 스크립트가 있다면 타겟 할당
                 BossEnemy bossScript = bossObj.GetComponent<BossEnemy>();
-                if (bossScript != null)
-                {
-                    bossScript.playerTarget = this.playerTransform;
-                }
+                if (bossScript != null) bossScript.playerTarget = this.playerTransform;
 
-                Debug.Log($"[Boss Spawned] 중간 보스 '{bossPrefab.name}' 출현!");
+                Debug.Log($"[Mini-Boss Spawn] 웨이브 미니 보스 '{bossPrefab.name}' 출현!");
             }
         }
     }
+    // ==========================================
 
-    private WaveEnemyData GetRandomEnemyDataFromWave()
+    private WaveEnemy_Data GetRandomEnemyDataFromWave(WaveEnemy_DataSO currentWave)
     {
         if (currentWave.activeEnemies.Count == 0) return null;
-
         float totalWeight = 0f;
         for (int i = 0; i < currentWave.activeEnemies.Count; i++) totalWeight += currentWave.activeEnemies[i].spawnWeight;
-
         if (totalWeight <= 0f) return null;
 
         float randomValue = Random.Range(0f, totalWeight);
         float cumulativeWeight = 0f;
-
         for (int i = 0; i < currentWave.activeEnemies.Count; i++)
         {
             cumulativeWeight += currentWave.activeEnemies[i].spawnWeight;
@@ -240,42 +204,33 @@ public class EnemyManager : MonoBehaviour
     private Enemy GetEnemyFromPool(EnemyPoolDataSO poolData)
     {
         if (poolData == null) return null;
-
-        if (enemyPools.ContainsKey(poolData) && enemyPools[poolData].Count > 0)
-        {
-            return enemyPools[poolData].Dequeue();
-        }
+        if (enemyPools.ContainsKey(poolData) && enemyPools[poolData].Count > 0) return enemyPools[poolData].Dequeue();
 
         if (poolData.currentReserveCount < poolData.maxReserveSize)
         {
             poolData.currentReserveCount++;
-            Debug.LogWarning($"[동적 풀 확장] {poolData.name} 추가 생성 (현재 추가량: {poolData.currentReserveCount}/{poolData.maxReserveSize})");
-
             Transform parentTransform = poolParents.ContainsKey(poolData) ? poolParents[poolData] : this.transform;
             return InstantiateEnemy(poolData, parentTransform);
         }
-
         return null;
     }
 
-    private void SpawnEnemyAtRandomCircle()
+    private void SpawnEnemyAtRandomCircle(WaveEnemy_DataSO currentWave)
     {
-        WaveEnemyData clusterTheme = GetRandomEnemyDataFromWave();
+        WaveEnemy_Data clusterTheme = GetRandomEnemyDataFromWave(currentWave);
         if (clusterTheme == null || clusterTheme.targetPool == null) return;
 
         bool isPurePack = clusterTheme.spawnAsPurePack;
         Vector2 centerCircle = Random.insideUnitCircle.normalized * spawnRadius;
         Vector3 clusterCenterXZ = new Vector3(
-            playerTransform.position.x + centerCircle.x,
-            0f,
-            playerTransform.position.z + centerCircle.y
+            playerTransform.position.x + centerCircle.x, 0f, playerTransform.position.z + centerCircle.y
         );
 
         int spawnCount = Random.Range(currentWave.minSpawnCount, currentWave.maxSpawnCount + 1);
 
         for (int i = 0; i < spawnCount; i++)
         {
-            WaveEnemyData targetData = isPurePack ? clusterTheme : GetRandomEnemyDataFromWave();
+            WaveEnemy_Data targetData = isPurePack ? clusterTheme : GetRandomEnemyDataFromWave(currentWave);
             if (targetData == null || targetData.targetPool == null) continue;
 
             Enemy enemyToSpawn = GetEnemyFromPool(targetData.targetPool);
@@ -283,9 +238,7 @@ public class EnemyManager : MonoBehaviour
 
             Vector2 randomOffset = Random.insideUnitCircle * clusterRadius;
             Vector3 rayStartPos = new Vector3(
-                clusterCenterXZ.x + randomOffset.x,
-                playerTransform.position.y + raycastStartHeight,
-                clusterCenterXZ.z + randomOffset.y
+                clusterCenterXZ.x + randomOffset.x, playerTransform.position.y + raycastStartHeight, clusterCenterXZ.z + randomOffset.y
             );
 
             if (Physics.Raycast(rayStartPos, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
@@ -304,26 +257,17 @@ public class EnemyManager : MonoBehaviour
     {
         enemy.gameObject.SetActive(false);
         activeEnemies.Remove(enemy);
-
-        if (enemy.originPool != null && enemyPools.ContainsKey(enemy.originPool))
-        {
-            enemyPools[enemy.originPool].Enqueue(enemy);
-        }
-        else
-        {
-            Destroy(enemy.gameObject);
-        }
+        if (enemy.originPool != null && enemyPools.ContainsKey(enemy.originPool)) enemyPools[enemy.originPool].Enqueue(enemy);
+        else Destroy(enemy.gameObject);
     }
 
     private void UpdateGrid()
     {
         foreach (var list in spatialGrid.Values) list.Clear();
-
         for (int i = 0; i < activeEnemies.Count; i++)
         {
             Enemy enemy = activeEnemies[i];
             Vector2Int cell = GetCellPos(enemy.transform.position);
-
             if (!spatialGrid.ContainsKey(cell)) spatialGrid[cell] = new List<Enemy>(10);
             spatialGrid[cell].Add(enemy);
         }
@@ -347,20 +291,17 @@ public class EnemyManager : MonoBehaviour
             for (int y = -1; y <= 1; y++)
             {
                 Vector2Int checkCell = new Vector2Int(cell.x + x, cell.y + y);
-
                 if (spatialGrid.TryGetValue(checkCell, out List<Enemy> neighbors))
                 {
                     for (int i = 0; i < neighbors.Count; i++)
                     {
                         if (checkCount >= MAX_CHECKS) return force;
-
                         Enemy neighbor = neighbors[i];
                         if (neighbor == targetEnemy) continue;
 
                         Vector3 diff = targetEnemy.transform.position - neighbor.transform.position;
                         diff.y = 0;
                         float sqrDist = diff.sqrMagnitude;
-
                         if (sqrDist > 0 && sqrDist < sqrRadius)
                         {
                             force += diff.normalized / Mathf.Sqrt(sqrDist);
