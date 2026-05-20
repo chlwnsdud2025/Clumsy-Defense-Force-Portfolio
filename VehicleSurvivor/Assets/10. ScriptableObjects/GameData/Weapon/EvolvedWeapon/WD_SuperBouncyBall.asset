@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_SuperBouncyBall
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_evolved_super_bouncy_ball
+  weaponName: "슈퍼 탱탱볼"
+  description: "탱탱볼의 크기와 반사 성능이 강화됩니다."
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 0}
+  weaponType: 0
+  tags: []
+  levelDataList:
+  - bulletSpeed: 12
+    spreadAngle: 0
+    radius: 7
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "진화 완료"
+    cooldown: 0.8
+    damage: 20
+    projectileSpeed: 12
+    duration: 1.2
+    size: 1.5
+    projectileCount: 2
+    tickInterval: 0.4
+    range: 7
+  evolutionWeaponId: 
+  requiredPassiveId: 

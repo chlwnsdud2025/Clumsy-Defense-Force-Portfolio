@@ -20,6 +20,7 @@ MonoBehaviour:
   _previewPrefab: {fileID: 3656048780541344294, guid: 17440382c49f27e4a9eb19d5add5d6fb, type: 3}
   _visualPrefab: {fileID: 3656048780541344294, guid: 21b760ea4f49400448809bd2afda07d0, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_giftbomb
   _combat:
     MaxHealth: 333
     Defense: 3
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 3
     PickupRange: 3
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_giftbomb
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

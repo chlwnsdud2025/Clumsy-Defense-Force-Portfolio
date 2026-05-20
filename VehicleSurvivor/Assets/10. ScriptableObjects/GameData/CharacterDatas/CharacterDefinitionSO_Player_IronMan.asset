@@ -20,6 +20,7 @@ MonoBehaviour:
   _previewPrefab: {fileID: 5335225805418909871, guid: aab57869a149cca478fe05ddc9f5e8bd, type: 3}
   _visualPrefab: {fileID: 5335225805418909871, guid: 6e131544f2f0efa448e706a5f29ba33e, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_repulsorbeam
   _combat:
     MaxHealth: 555
     Defense: 5
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 5
     PickupRange: 5
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_repulsorbeam
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

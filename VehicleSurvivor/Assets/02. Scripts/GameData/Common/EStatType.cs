@@ -3,17 +3,19 @@ public enum EStatType
     None,
 
     AttackPower,
-    MaxHp,
+    MaxHealth,
     Defense,
     CooldownReduction,
-    MoveSpeed,
+    MoveSpeedMultiplier,
     CriticalChance,
     ProjectileCount,
-    SkillSize,
-    ItemPickupRange,
+    SkillSizeMultiplier,
+    ExpGainMultiplier,
     ExpGain,
-
-    MagicDamage,
-    CriticalDamage,
+    DamageMultiplier,
+    MagicDamageMultiplier,
+    CritChance,
+    CritDamageMultiplier,
+    PickupRangeMultiplier,
     EvolvedSkillDamage
 }

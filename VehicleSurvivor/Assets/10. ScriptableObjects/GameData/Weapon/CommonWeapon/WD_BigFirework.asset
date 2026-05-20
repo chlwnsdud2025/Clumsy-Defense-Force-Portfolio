@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_BigFirework
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_common_bigfirework
+  weaponName: "대왕 폭죽"
+  description: "모든 일반 적을 처치하고 정예에게 큰 피해를 줍니다."
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 0}
+  weaponType: 6
+  tags:
+  - "전체공격"
+  - "폭발"
+  - "긴쿨타임"
+  levelDataList:
+  - bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 10
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "기본 폭죽 발동"
+    cooldown: 10
+    damage: 30
+    projectileSpeed: 0.1
+    duration: 1
+    size: 1.5
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 10
+  - bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 10
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "정예 피해 증가"
+    cooldown: 9.5
+    damage: 35
+    projectileSpeed: 0.1
+    duration: 1
+    size: 1.5
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 10
+  - bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 10
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "쿨타임 감소"
+    cooldown: 9
+    damage: 35
+    projectileSpeed: 0.1
+    duration: 1
+    size: 1.6
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 10
+  - bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 11
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "정예 피해 증가"
+    cooldown: 8.5
+    damage: 40
+    projectileSpeed: 0.1
+    duration: 1
+    size: 1.6
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 11
+  - bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 11
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "쿨타임 감소"
+    cooldown: 8
+    damage: 50
+    projectileSpeed: 0.1
+    duration: 1
+    size: 1.75
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 11
+  evolutionWeaponId: weapon_evolved_festival_blast
+  requiredPassiveId: passive_exp_gain

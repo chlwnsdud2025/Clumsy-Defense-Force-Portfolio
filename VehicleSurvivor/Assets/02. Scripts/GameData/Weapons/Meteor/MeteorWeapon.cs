@@ -2,45 +2,73 @@ using UnityEngine;
 
 public class MeteorWeapon : WeaponBase
 {
-    [Header("메테오 데이터")]
+    [Header("Meteor Data")]
     public MeteorWeaponDataSO meteorData;
 
-    [Header("레이어 설정")]
+    [Header("Target Settings")]
     public LayerMask enemyLayer;
 
-    [Header("임시 테스트 스탯")]
+    [Header("Legacy Stats")]
     public float damage = 40f;
     public float cooldown = 3f;
     public float explosionRadius = 5f;
     public float meteorDelay = 0.3f;
 
-    [Header("생성 위치 설정")]
+    [Header("Spawn Settings")]
     public float spawnRadius = 15f;
     public float spawnHeight = 12f;
     public float groundY = 0f;
 
-    [Header("안전 거리")]
+    [Header("Safe Distance")]
     public float safeRadius = 7f;
     public int maxTryCount = 20;
 
-    [Header("대각선 낙하")]
+    [Header("Fall Direction")]
     public float diagonalOffset = 12f;
     public float randomAngleRange = 20f;
 
     private float attackTimer;
 
-    private void Update()
+    protected override void Update()
     {
+        if (HasConfiguredLevelData())
+        {
+            base.Update();
+            return;
+        }
+
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= GetFinalCooldown(cooldown))
         {
-            Attack();
+            AttackLegacy();
             attackTimer = 0f;
         }
     }
 
-    private void Attack()
+    protected override void Attack(WeaponLevelData data)
+    {
+        SpawnMeteor(
+            GetFinalDamage(data.Damage),
+            GetExplosionRadius(data),
+            GetMeteorDelay(data)
+        );
+    }
+
+    private void AttackLegacy()
+    {
+        SpawnMeteor(
+            GetFinalDamage(damage),
+            explosionRadius,
+            meteorDelay
+        );
+    }
+
+    private void SpawnMeteor(
+        float finalDamage,
+        float finalExplosionRadius,
+        float finalMeteorDelay
+    )
     {
         if (meteorData == null || meteorData.meteorPrefab == null)
             return;
@@ -54,15 +82,14 @@ public class MeteorWeapon : WeaponBase
             Quaternion.identity
         );
 
-        MeteorProjectile projectile =
-            meteor.GetComponent<MeteorProjectile>();
+        MeteorProjectile projectile = meteor.GetComponent<MeteorProjectile>();
 
         if (projectile != null)
         {
             projectile.Init(
-                GetFinalDamage(damage),
-                explosionRadius,
-                meteorDelay,
+                finalDamage,
+                finalExplosionRadius,
+                finalMeteorDelay,
                 enemyLayer,
                 targetPosition
             );
@@ -95,17 +122,27 @@ public class MeteorWeapon : WeaponBase
     private Vector3 GetDiagonalSpawnPosition(Vector3 targetPosition)
     {
         Vector3 baseDirection = new Vector3(-1f, 0f, 1f).normalized;
-
-        float randomAngle = Random.Range(
-            -randomAngleRange,
-            randomAngleRange
-        );
-
-        Vector3 finalDirection =
-            Quaternion.Euler(0f, randomAngle, 0f) * baseDirection;
+        float randomAngle = Random.Range(-randomAngleRange, randomAngleRange);
+        Vector3 finalDirection = Quaternion.Euler(0f, randomAngle, 0f) * baseDirection;
 
         return targetPosition
                + finalDirection * diagonalOffset
                + Vector3.up * spawnHeight;
+    }
+
+    private float GetExplosionRadius(WeaponLevelData data)
+    {
+        if (data == null)
+            return explosionRadius;
+
+        return data.explosionRadius > 0f ? data.explosionRadius : explosionRadius;
+    }
+
+    private float GetMeteorDelay(WeaponLevelData data)
+    {
+        if (data == null)
+            return meteorDelay;
+
+        return data.meteorDelay > 0f ? data.meteorDelay : meteorDelay;
     }
 }

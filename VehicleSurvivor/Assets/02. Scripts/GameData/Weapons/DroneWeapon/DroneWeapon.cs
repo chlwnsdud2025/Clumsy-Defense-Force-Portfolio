@@ -43,7 +43,7 @@ public class DroneWeapon : WeaponBase
 
         int targetCount = Mathf.Max(
             1,
-            GetFinalProjectileCount(data.projectileCount)
+            GetFinalProjectileCount(data.ProjectileCount)
         );
 
         while (drones.Count < targetCount)
@@ -92,8 +92,8 @@ public class DroneWeapon : WeaponBase
                 transform,
                 homingProjectilePrefab,
                 enemyLayer,
-                GetFinalDamage(data.damage),
-                data.cooldown,
+                GetFinalDamage(data.Damage),
+                data.Cooldown,
                 data.bulletSpeed,
                 offset,
                 detectRadius

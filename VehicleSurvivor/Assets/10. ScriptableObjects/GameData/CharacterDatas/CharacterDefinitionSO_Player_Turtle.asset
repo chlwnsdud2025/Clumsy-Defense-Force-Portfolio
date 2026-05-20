@@ -20,6 +20,7 @@ MonoBehaviour:
   _previewPrefab: {fileID: 5741818621203534110, guid: cb9e7735b0edd7b4fadc49c62a906a07, type: 3}
   _visualPrefab: {fileID: 5741818621203534110, guid: b353fbc623f586a448f34e5d17023952, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_shellspin
   _combat:
     MaxHealth: 222
     Defense: 2
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 2
     PickupRange: 2
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_shellspin
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

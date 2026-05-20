@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
+  m_Name: Item_Special_Hook
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
+  itemId: item_special_hook_captain_hook
+  itemName: "후크선장의 갈고리"
+  description: "체력이 낮은 적에게 추가 피해를 주고 처치 시 추가 골드를 획득할 수 있습니다."
+  itemCategory: 1
+  rarity: 0
+  icon: {fileID: 0}
+  isOneTimeUse: 0
+  statModifiers: []

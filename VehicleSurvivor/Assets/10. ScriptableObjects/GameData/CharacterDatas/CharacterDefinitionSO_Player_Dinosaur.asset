@@ -20,6 +20,7 @@ MonoBehaviour:
   _previewPrefab: {fileID: 4134642201842911355, guid: baf1fa295a7c0c0429568f42e3337afd, type: 3}
   _visualPrefab: {fileID: 4134642201842911355, guid: 89ae5657752edd44a9871081f0680b8f, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_dinoroar
   _combat:
     MaxHealth: 222
     Defense: 2
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 2
     PickupRange: 2
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_dinoroar
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

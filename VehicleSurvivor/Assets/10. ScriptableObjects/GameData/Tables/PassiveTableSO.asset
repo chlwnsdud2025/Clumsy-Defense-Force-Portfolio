@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367e408f3be72f84fb68ce9ee618b6df, type: 3}
+  m_Name: PassiveTableSO
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveTableSO
+  passives:
+  - {fileID: 11400000, guid: 0cf080f834a4e8342ba0054c54df5a5a, type: 2}
+  - {fileID: 11400000, guid: b9a92798c4be7cd40a9f4445eb2a7d17, type: 2}
+  - {fileID: 11400000, guid: f060bf1d7d626824e96a3f00e863da8d, type: 2}
+  - {fileID: 11400000, guid: 3d2213a234c36504a8892f43439f0fba, type: 2}
+  - {fileID: 11400000, guid: 3c895d7bded8b4e429403ec13a928088, type: 2}
+  - {fileID: 11400000, guid: 66d0cfa85e9aabc4a81199db623db008, type: 2}
+  - {fileID: 11400000, guid: dfa306b7968f64142a4aa8f618c53355, type: 2}
+  - {fileID: 11400000, guid: 002f9ee2158f14b43adb3bc6ca8aebe1, type: 2}
+  - {fileID: 11400000, guid: 24d3c1a15e621ed4eb1533b16deba421, type: 2}
+  - {fileID: 11400000, guid: ae4d920816f59c74faac2f1952723921, type: 2}

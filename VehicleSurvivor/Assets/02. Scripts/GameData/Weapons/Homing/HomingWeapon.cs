@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class HomingWeapon : WeaponBase
 {
-    [Header("유도 무기 데이터")]
+    [Header("Homing Data")]
     public HomingWeaponDataSO homingData;
 
-    [Header("발사 위치")]
+    [Header("Fire Point")]
     public Transform firePoint;
 
-    [Header("레이어 설정")]
+    [Header("Target Settings")]
     public LayerMask targetLayer;
 
-    [Header("임시 테스트 스탯")]
+    [Header("Legacy Stats")]
     public float damage = 10f;
     public float cooldown = 1f;
     public float bulletSpeed = 15f;
@@ -21,18 +21,52 @@ public class HomingWeapon : WeaponBase
 
     private float attackTimer;
 
-    private void Update()
+    protected override void Update()
     {
+        if (HasConfiguredLevelData())
+        {
+            base.Update();
+            return;
+        }
+
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= GetFinalCooldown(cooldown))
         {
-            Attack();
+            AttackLegacy();
             attackTimer = 0f;
         }
     }
 
-    private void Attack()
+    protected override void Attack(WeaponLevelData data)
+    {
+        FireHomingProjectiles(
+            GetFinalDamage(data.Damage),
+            GetProjectileSpeed(data),
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
+            data.spreadAngle,
+            GetDetectRadius(data)
+        );
+    }
+
+    private void AttackLegacy()
+    {
+        FireHomingProjectiles(
+            GetFinalDamage(damage),
+            bulletSpeed,
+            Mathf.Max(1, GetFinalProjectileCount(projectileCount)),
+            spreadAngle,
+            detectRadius
+        );
+    }
+
+    private void FireHomingProjectiles(
+        float finalDamage,
+        float projectileSpeed,
+        int count,
+        float spreadAngleValue,
+        float detectRange
+    )
     {
         if (homingData == null || homingData.homingProjectilePrefab == null)
             return;
@@ -40,7 +74,7 @@ public class HomingWeapon : WeaponBase
         if (firePoint == null)
             return;
 
-        Transform target = FindClosestTarget();
+        Transform target = FindClosestTarget(detectRange);
 
         if (target == null)
             return;
@@ -54,11 +88,6 @@ public class HomingWeapon : WeaponBase
             );
         }
 
-        int count = Mathf.Max(
-            1,
-            GetFinalProjectileCount(projectileCount)
-        );
-
         for (int i = 0; i < count; i++)
         {
             float angle = 0f;
@@ -66,7 +95,7 @@ public class HomingWeapon : WeaponBase
             if (count > 1)
             {
                 float centerIndex = (count - 1) * 0.5f;
-                angle = (i - centerIndex) * spreadAngle;
+                angle = (i - centerIndex) * spreadAngleValue;
             }
 
             Quaternion rotation =
@@ -78,15 +107,14 @@ public class HomingWeapon : WeaponBase
                 rotation
             );
 
-            HomingProjectile homing =
-                projectile.GetComponent<HomingProjectile>();
+            HomingProjectile homing = projectile.GetComponent<HomingProjectile>();
 
             if (homing != null)
             {
                 homing.Init(
                     target,
-                    GetFinalDamage(damage),
-                    bulletSpeed,
+                    finalDamage,
+                    projectileSpeed,
                     targetLayer,
                     homingData.hitEffectPrefab
                 );
@@ -94,11 +122,11 @@ public class HomingWeapon : WeaponBase
         }
     }
 
-    private Transform FindClosestTarget()
+    private Transform FindClosestTarget(float detectRange)
     {
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
-            detectRadius,
+            detectRange,
             targetLayer
         );
 
@@ -107,16 +135,13 @@ public class HomingWeapon : WeaponBase
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
             Transform targetTransform = hit.transform;
-
-            float distance =
-                (targetTransform.position - transform.position).sqrMagnitude;
+            float distance = (targetTransform.position - transform.position).sqrMagnitude;
 
             if (distance < closestDistance)
             {
@@ -126,5 +151,21 @@ public class HomingWeapon : WeaponBase
         }
 
         return closestTarget;
+    }
+
+    private float GetProjectileSpeed(WeaponLevelData data)
+    {
+        if (data == null)
+            return bulletSpeed;
+
+        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.bulletSpeed;
+    }
+
+    private float GetDetectRadius(WeaponLevelData data)
+    {
+        if (data == null)
+            return detectRadius;
+
+        return data.Range > 0f ? data.Range : detectRadius;
     }
 }

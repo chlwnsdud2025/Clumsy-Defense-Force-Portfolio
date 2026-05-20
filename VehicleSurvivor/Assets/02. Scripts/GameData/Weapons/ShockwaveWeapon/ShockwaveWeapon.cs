@@ -49,11 +49,11 @@ public class ShockwaveWeapon : WeaponBase
             if (angle <= data.shockwaveAngle * 0.5f)
             {
                 enemy.TakeDamage(
-                    GetFinalDamage(data.damage)
+                    GetFinalDamage(data.Damage)
                 );
 
                 Debug.Log(
-                    $"[Shockwave] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.damage)}"
+                    $"[Shockwave] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.Damage)}"
                 );
             }
         }
