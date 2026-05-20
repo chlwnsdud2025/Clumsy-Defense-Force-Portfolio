@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("Projectile Data")]
-    public ProjectileWeaponDataSO projectileData;
+    [Header("Projectile References")]
+    public GameObject projectilePrefab;
+    public ParticleSystem shootParticlePrefab;
 
     [Header("Fire Point")]
     public Transform firePoint;
@@ -60,13 +61,7 @@ public class ProjectileWeapon : WeaponBase
         float spreadAngleValue
     )
     {
-        if (projectileData == null)
-        {
-            Debug.LogWarning("Projectile data is missing.");
-            return;
-        }
-
-        if (projectileData.projectilePrefab == null)
+        if (projectilePrefab == null)
         {
             Debug.LogWarning("Projectile prefab is missing.");
             return;
@@ -78,10 +73,10 @@ public class ProjectileWeapon : WeaponBase
             return;
         }
 
-        if (projectileData.shootParticlePrefab != null)
+        if (shootParticlePrefab != null)
         {
             Instantiate(
-                projectileData.shootParticlePrefab,
+                shootParticlePrefab,
                 firePoint.position,
                 firePoint.rotation
             );
@@ -102,7 +97,7 @@ public class ProjectileWeapon : WeaponBase
                 Quaternion.Euler(0f, angle, 0f);
 
             GameObject bulletObject = Instantiate(
-                projectileData.projectilePrefab,
+                projectilePrefab,
                 firePoint.position,
                 bulletRotation
             );

@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class OrbitWeapon : WeaponBase
 {
-    [Header("Orbit Data")]
-    public OrbitWeaponDataSO orbitData;
+    [Header("Orbit References")]
+    public GameObject orbitPrefab;
+    public GameObject hitEffectPrefab;
 
     [Header("Legacy Stats")]
     public float damage = 10f;
@@ -59,7 +60,7 @@ public class OrbitWeapon : WeaponBase
 
     private void SyncOrbitObjects()
     {
-        if (orbitData == null || orbitData.orbitPrefab == null)
+        if (orbitPrefab == null)
             return;
 
         int targetCount = Mathf.Max(1, currentOrbitCount);
@@ -67,7 +68,7 @@ public class OrbitWeapon : WeaponBase
         while (orbitObjects.Count < targetCount)
         {
             GameObject orbitObject = Instantiate(
-                orbitData.orbitPrefab,
+                orbitPrefab,
                 transform.position,
                 Quaternion.identity,
                 transform
@@ -110,7 +111,7 @@ public class OrbitWeapon : WeaponBase
             hitbox.Init(
                 currentDamage,
                 currentHitCooldown,
-                orbitData.hitEffectPrefab
+                hitEffectPrefab
             );
         }
     }

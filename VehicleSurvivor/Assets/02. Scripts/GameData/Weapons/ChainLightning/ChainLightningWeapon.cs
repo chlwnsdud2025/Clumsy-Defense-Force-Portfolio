@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ChainLightningWeapon : WeaponBase
 {
-    [Header("Chain Lightning Data")]
-    [FormerlySerializedAs("weaponData")]
-    public ChainLightningWeaponDataSO chainData;
+    [Header("Chain Lightning References")]
+    public GameObject lightningEffectPrefab;
 
     [Header("Target Settings")]
     public LayerMask targetLayer;
@@ -164,11 +162,11 @@ public class ChainLightningWeapon : WeaponBase
 
     private void CreateLightningLine(Vector3 start, Vector3 end)
     {
-        if (chainData == null || chainData.lightningEffectPrefab == null)
+        if (lightningEffectPrefab == null)
             return;
 
         GameObject effect = Instantiate(
-            chainData.lightningEffectPrefab,
+            lightningEffectPrefab,
             start,
             Quaternion.identity
         );
