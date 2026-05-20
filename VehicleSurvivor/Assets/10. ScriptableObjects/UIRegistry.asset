@@ -52,11 +52,11 @@ MonoBehaviour:
     _releaseAssetOnClose: 0
   - _type: 2
     _prefabReference:
-      m_AssetGUID: 7bc9bff1342989d44a5c22beb9928fc6
+      m_AssetGUID: d16cd2cd6a548db4385c7c30b4b557b3
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
     _lifetimePolicy: 0
     _releaseAssetOnClose: 0
   - _type: 4
