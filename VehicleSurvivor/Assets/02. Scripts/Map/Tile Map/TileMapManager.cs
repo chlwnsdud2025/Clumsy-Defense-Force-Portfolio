@@ -14,6 +14,12 @@ public class TileMapManager : MonoBehaviour
 
     private GameObject[,] tileGrid;
 
+    [Header("Clear Condition")]
+    public DoorController targetDoor;
+
+    private int totalTrueTiles = 0;
+    private int steppedTrueTiles = 0;
+
     void Start()
     {
         // 만약 에디터에서 SpawnPoint를 깜빡하고 안 넣었다면, 이 스크립트가 달린 오브젝트를 기준으로 삼음 (안전장치)
@@ -24,6 +30,8 @@ public class TileMapManager : MonoBehaviour
 
         GenerateTileMap();
         GenerateTruePath();
+
+        CountTotalTrueTiles();
     }
 
     // 1. 전체 타일을 격자 형태로 생성
@@ -86,6 +94,32 @@ public class TileMapManager : MonoBehaviour
 
             // 테스트용: 게임 시작 시 진짜 길을 노란색으로 보고 싶다면 아래 주석 해제
             // tileGrid[x,z].GetComponent<Renderer>().material.color = Color.yellow;
+        }
+    }
+
+    private void CountTotalTrueTiles()
+    {
+        totalTrueTiles = 0;
+        foreach (GameObject tileObj in tileGrid)
+        {
+            if (tileObj != null && tileObj.GetComponent<PuzzleTile>().isTruePath)
+            {
+                totalTrueTiles++;
+            }
+        }
+        Debug.Log($"총 찾아야 할 진짜 타일 개수: {totalTrueTiles}");
+    }
+
+    // PuzzleTile 스크립트에서 진짜를 밟았을 때 이 함수를 호출합니다!
+    public void OnTrueTileFound()
+    {
+        steppedTrueTiles++;
+        Debug.Log($"타일 찾음! 진행도: {steppedTrueTiles} / {totalTrueTiles}");
+
+        if (steppedTrueTiles >= totalTrueTiles)
+        {
+            Debug.Log("모든 진짜 타일을 찾았습니다! 문 개방!");
+            if (targetDoor != null) targetDoor.OpenDoor();
         }
     }
 }
