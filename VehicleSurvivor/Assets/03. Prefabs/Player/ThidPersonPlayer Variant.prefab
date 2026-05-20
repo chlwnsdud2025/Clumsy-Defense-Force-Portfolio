@@ -1930,7 +1930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769232172014, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.20000076
+      value: 0.20000005
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769232172014, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2499,12 +2499,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8425136241475389345}
+    - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6021075331710064371}
   m_SourcePrefab: {fileID: 100100000, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
---- !u!4 &5660100289455387117 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1682977905999011415, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
-  m_PrefabInstance: {fileID: 6473806011595763642}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8177667092822737817 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
@@ -2524,3 +2522,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageReceiver
   knockbackPower: 5
   knockbackDuration: 0.15
+--- !u!114 &6021075331710064371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177667092822737817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79d24373aba1614d9cb30655aeed021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerExternalMechanics

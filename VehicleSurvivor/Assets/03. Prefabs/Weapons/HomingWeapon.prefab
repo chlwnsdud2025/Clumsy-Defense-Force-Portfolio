@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2cf60b80121924a9c49261bed6d02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HomingWeapon
-  weaponData: {fileID: 0}
   currentLevel: 0
-  homingData: {fileID: 11400000, guid: 2949712098fbae84d930e2fc79acc68c, type: 2}
+  homingProjectilePrefab: {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
+  shootParticlePrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
   firePoint: {fileID: 0}
   targetLayer:
     serializedVersion: 2

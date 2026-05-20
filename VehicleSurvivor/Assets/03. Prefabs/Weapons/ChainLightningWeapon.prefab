@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d76e59d075411d4583af7bb47e988e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChainLightningWeapon
-  weaponData: {fileID: 11400000, guid: 8927715495f3b694b88a8779581b8af5, type: 2}
   currentLevel: 0
-  chainData: {fileID: 0}
+  lightningEffectPrefab: {fileID: 173764, guid: 9b074812fdafc4540b8f613127a77505, type: 3}
   targetLayer:
     serializedVersion: 2
     m_Bits: 2048

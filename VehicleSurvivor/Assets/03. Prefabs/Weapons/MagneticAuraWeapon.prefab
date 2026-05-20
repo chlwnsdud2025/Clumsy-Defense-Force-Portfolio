@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  weaponData: {fileID: 0}
   currentLevel: 0
-  auraData: {fileID: 11400000, guid: e40482680dc112c4fb5ece8e2a10f2bf, type: 2}
+  auraEffectPrefab: {fileID: 6063518424537689786, guid: bad5794a53f5c3645bb444b3a040ba01, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
