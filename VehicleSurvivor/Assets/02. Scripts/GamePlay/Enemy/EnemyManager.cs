@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("Current Stage Setting")]
     [Tooltip("현재 맵에 해당하는 테마 SO를 할당하세요.")]
-    public StageThemeSO currentTheme;
+    public StageThemeData currentTheme;
 
     [Header("References")]
     public Transform playerTransform;
@@ -63,7 +63,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void ApplyTheme(StageThemeSO theme)
+    public void ApplyTheme(StageThemeData theme)
     {
         currentTheme = theme;
         gameTimer = 0f; // 테마 적용 시 게임 시간 초기화
