@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VehicleSurvivor/Assets/SmartVAT/SmartVATShadersHDRP.unitypackage.meta
+guid: e6ded13201b28f540aa9f2a8f8d0062a
+========
 guid: d174d11c43e11f942b9ecb31817779ed
 folderAsset: yes
+>>>>>>>> feedback:VehicleSurvivor/Assets/02. Scripts/GamePlay/Runtime/DongChanTestScripts.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

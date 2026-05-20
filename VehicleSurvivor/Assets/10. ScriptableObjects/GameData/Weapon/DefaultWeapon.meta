@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VehicleSurvivor/Assets/01. Scenes/TestMap.unity.meta
+guid: b30f64750ae644249a243eccb8b78878
+========
 guid: 858327b46c8c133458bd11fa5ceaefbe
 folderAsset: yes
+>>>>>>>> feedback:VehicleSurvivor/Assets/10. ScriptableObjects/GameData/Weapon/DefaultWeapon.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
