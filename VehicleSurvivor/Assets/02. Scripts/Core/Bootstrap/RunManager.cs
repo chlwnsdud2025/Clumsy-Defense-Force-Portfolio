@@ -65,11 +65,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         _gold = 0;
         _lastDisplayedSecond = -1;
 
-        PublishHpChanged(playerRuntime.Health.CurrentHp, playerRuntime.Health.MaxHp);
-        PublishExpChanged(playerRuntime.Level.CurrentExp, playerRuntime.Level.RequiredExp);
-        _eventBus.Publish(new KillCountEvent(_killCount));
-        _eventBus.Publish(new GoldChangedEvent(_gold));
-        _eventBus.Publish(new TimeChangeEvent(_runContext.RunTime));
+        PublishInitialRunEvents(playerRuntime);
     }
 
     private void EquipDefaultWeapon(CharacterDefinitionSO character, PlayerRuntime playerRuntime)
@@ -184,7 +180,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         if (currentSecond != _lastDisplayedSecond)
         {
             _lastDisplayedSecond = currentSecond;
-            _eventBus.Publish(new TimeChangeEvent(_runContext.RunTime));
+            PublishTimeChanged(_runContext.RunTime);
         }
     }
 
@@ -199,7 +195,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         }
 
         _killCount++;
-        _eventBus.Publish(new KillCountEvent(_killCount));
+        PublishKillCountChanged();
     }
 
     public void AddGold(int amount)
@@ -213,7 +209,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         }
 
         _gold += amount;
-        _eventBus.Publish(new GoldChangedEvent(_gold));
+        PublishGoldChanged();
     }
 
     public void EndRun()
@@ -291,6 +287,30 @@ public class RunManager : MonoSceneSingleton<RunManager>
     private void PublishExpChanged(int currentExp, int requiredExp)
     {
         _eventBus.Publish(new ExpChangedEvent(currentExp, requiredExp));
+    }
+
+    private void PublishInitialRunEvents(PlayerRuntime playerRuntime)
+    {
+        PublishHpChanged(playerRuntime.Health.CurrentHp, playerRuntime.Health.MaxHp);
+        PublishExpChanged(playerRuntime.Level.CurrentExp, playerRuntime.Level.RequiredExp);
+        PublishKillCountChanged();
+        PublishGoldChanged();
+        PublishTimeChanged(_runContext.RunTime);
+    }
+
+    private void PublishKillCountChanged()
+    {
+        _eventBus.Publish(new KillCountEvent(_killCount));
+    }
+
+    private void PublishGoldChanged()
+    {
+        _eventBus.Publish(new GoldChangedEvent(_gold));
+    }
+
+    private void PublishTimeChanged(float runTime)
+    {
+        _eventBus.Publish(new TimeChangeEvent(runTime));
     }
 
     private void HandlePlayerDied()
