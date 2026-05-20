@@ -8,6 +8,9 @@ public class RunManager : MonoSceneSingleton<RunManager>
     [SerializeField] private PassiveTableSO passiveTable;
     [SerializeField] private int rewardOptionCount = 3;
 
+    [Header("Temporary Toggles")]
+    [SerializeField] private bool enableLevelUpRewardPopup = false;
+
     private IEventBus _eventBus;
     private RunContext _runContext;
     private RewardSystem rewardSystem;
@@ -330,6 +333,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
             return;
         }
 
+        if (!enableLevelUpRewardPopup)
+        {
+            return;
+        }
+
         _runContext.EnterRewardSelection();
     }
 
@@ -357,7 +365,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         {
             UI_LevelUp rewardPopup = uiManager.ShowPopup<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
             if (rewardPopup != null)
-                rewardPopup.ShowRewards(this, GenerateRewardOptions());
+                //rewardPopup.ShowRewards(this, GenerateRewardOptions());
 
             return;
         }
