@@ -178,6 +178,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
+        StageRunManager.Instance.OnMidBossDefeated();
         Destroy(gameObject);
     }
 }

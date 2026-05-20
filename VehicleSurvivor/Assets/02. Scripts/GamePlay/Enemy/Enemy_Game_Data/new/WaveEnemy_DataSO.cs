@@ -18,4 +18,11 @@ public class WaveEnemy_DataSO : ScriptableObject
     public int minSpawnCount = 3;
     public int maxSpawnCount = 7;
     public List<WaveEnemy_Data> activeEnemies;
+
+    [Header("Mini-Boss Spawn (Wave Spike)")]
+    [Tooltip("이 웨이브가 시작될 때 1회성으로 즉시 스폰할 '미니 보스' 프리팹들")]
+    public List<GameObject> miniBossPrefabs;
+
+    [Tooltip("몇 마리의 미니 보스를 한 번에 소환할지")]
+    public int miniBossCount = 1;
 }

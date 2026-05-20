@@ -26,6 +26,11 @@ public class StageRunManager : MonoBehaviour
 
     private void Start()
     {
+        if (EnemyManager.Instance != null && currentTheme != null)
+        {
+            EnemyManager.Instance.ApplyTheme(currentTheme);
+        }
+
         StartPhase(0);
     }
 
