@@ -13,24 +13,32 @@ MonoBehaviour:
   m_Name: WD_ShellSpin
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_shellspin
-  weaponName: "쉘 스핀"
-  description: "등껍질이 캐릭터 주변을 회전하며 피해를 줍니다."
+  weaponName: "\uC258 \uC2A4\uD540"
+  description: "\uB4F1\uAECD\uC9C8\uC774 \uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC744 \uD68C\uC804\uD558\uBA70
+    \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
   weaponType: 6
   tags:
-  - "회전"
-  - "주변공격"
-  - "방어형"
+  - "\uD68C\uC804"
+  - "\uC8FC\uBCC0\uACF5\uACA9"
+  - "\uBC29\uC5B4\uD615"
   levelDataList:
   - bulletSpeed: 8
     spreadAngle: 0
     radius: 2.5
+    bounceCount: 3
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "기본 회전 공격"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+    description: "\uAE30\uBCF8 \uD68C\uC804 \uACF5\uACA9"
     cooldown: 1
     damage: 10
     projectileSpeed: 8
@@ -42,11 +50,18 @@ MonoBehaviour:
   - bulletSpeed: 8
     spreadAngle: 0
     radius: 2.5
+    bounceCount: 3
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "회전 속도 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+    description: "\uD68C\uC804 \uC18D\uB3C4 \uC99D\uAC00"
     cooldown: 0.95
     damage: 11
     projectileSpeed: 8
@@ -58,11 +73,18 @@ MonoBehaviour:
   - bulletSpeed: 8
     spreadAngle: 0
     radius: 2.8
+    bounceCount: 3
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "등껍질 +1"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+    description: "\uB4F1\uAECD\uC9C8 +1"
     cooldown: 0.95
     damage: 11
     projectileSpeed: 8
@@ -74,11 +96,18 @@ MonoBehaviour:
   - bulletSpeed: 8.5
     spreadAngle: 0
     radius: 2.8
+    bounceCount: 3
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "피해량 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+    description: "\uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.9
     damage: 13
     projectileSpeed: 8.5
@@ -90,11 +119,18 @@ MonoBehaviour:
   - bulletSpeed: 9
     spreadAngle: 0
     radius: 3
+    bounceCount: 3
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "회전 속도 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+    description: "\uD68C\uC804 \uC18D\uB3C4 \uC99D\uAC00"
     cooldown: 0.85
     damage: 15
     projectileSpeed: 9
