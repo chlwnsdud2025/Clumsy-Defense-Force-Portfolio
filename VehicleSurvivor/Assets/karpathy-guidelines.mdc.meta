@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:VehicleSurvivor/Assets/SmartVAT/SmartVATShadersBiRP.unitypackage.meta
+guid: 8dbd41d9922c66649abaab6b8d4a3049
+========
 guid: 44dafbd91256b8241a6f7faa046beb0f
+>>>>>>>> feedback:VehicleSurvivor/Assets/karpathy-guidelines.mdc.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

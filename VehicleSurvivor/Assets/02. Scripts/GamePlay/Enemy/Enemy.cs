@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour, IDamageable
     protected Transform playerTarget;
     protected EnemyManager myManager;
 
+    [Header("UI")]
+    public Transform damageTextSpawnpoint;
+
     [HideInInspector] public EnemyPoolDataSO originPool;
 
     [Header("Stat")]
@@ -271,8 +274,12 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        GameObject textObj = DamageTextPool.Instance.GetDamageText();
+        textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
+
         if (currentHealth <= 0)
         {
+
             currentHealth = 0;
             Die();
         }

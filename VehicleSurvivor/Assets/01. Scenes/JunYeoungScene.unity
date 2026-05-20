@@ -751,11 +751,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 925973066330639482, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: levelData.Array.data[0].damage
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 925973066330639482, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: levelData.Array.data[0].cooldown
-      value: 1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1272674287055619290, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_IsActive
@@ -875,7 +875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3448046989475750413, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3857249898880340049, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1432,13 +1432,14 @@ GameObject:
   - component: {fileID: 663870440}
   - component: {fileID: 663870441}
   - component: {fileID: 663870442}
+  - component: {fileID: 663870443}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &663870440
 Transform:
   m_ObjectHideFlags: 0
@@ -1495,6 +1496,20 @@ MonoBehaviour:
   smallPoolSize: 1000
   mediumPoolSize: 200
   largePoolSize: 100
+--- !u!114 &663870443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663870439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0ac5a099c14324bbcaff6ef045c8c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageTextPool
+  damageTextPrefab: {fileID: 3090353740957691235, guid: 4c78ef31e4f91fa4b9f26b6496861996, type: 3}
+  poolSize: 100
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

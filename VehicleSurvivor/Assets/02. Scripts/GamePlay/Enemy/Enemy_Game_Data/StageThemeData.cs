@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewStageTheme", menuName = "Survivor/Stage Theme")]
-public class StageThemeSO : ScriptableObject
+public class StageThemeData : ScriptableObject
 {
     public string themeName;
 
