@@ -93,7 +93,7 @@ public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
 
     private void GoToCharacterSelect()
     {
-        GameManager.Instance.ChangeState(GameState.CharacterSelect);
+        GameManager.Instance.ChangeState(EGameFlowState.CharacterSelect);
         UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
     }
 

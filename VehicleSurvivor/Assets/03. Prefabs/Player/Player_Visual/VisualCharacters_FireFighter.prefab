@@ -35662,6 +35662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6756258500333866278}
+  - component: {fileID: -1863765777683379858}
   m_Layer: 0
   m_Name: VisualCharacters_FireFighter
   m_TagString: Untagged
@@ -35682,11 +35683,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5556267100296445897}
   - {fileID: 7177774581917147383}
   - {fileID: 8508217737039815693}
   - {fileID: 7655040995304851046}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1863765777683379858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6235477654505346972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247e0c4e9282ba4f82888ecc140f27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponInventory
+  weaponRoot: {fileID: 5556267100296445897}
 --- !u!1 &6250908760653647747
 GameObject:
   m_ObjectHideFlags: 0
@@ -41267,6 +41282,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.22862424, y: -0.01855506, z: 0.00000012665987}
     m_Extent: {x: 0.27274108, y: 0.21601433, z: 0.23171616}
   m_DirtyAABB: 0
+--- !u!1 &7406845752424933241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5556267100296445897}
+  m_Layer: 0
+  m_Name: WeaponRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5556267100296445897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7406845752424933241}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6756258500333866278}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7439750057769369001
 GameObject:
   m_ObjectHideFlags: 0

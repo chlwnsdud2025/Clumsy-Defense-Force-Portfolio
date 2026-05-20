@@ -18,13 +18,13 @@ public class WeaponInventory : MonoBehaviour
     {
         if (definition == null)
         {
-            Debug.LogError("[WeaponInventory] 추가하려는 WeaponDefinitionSO가 null입니다.");
+            Debug.LogError("[WeaponInventory] WeaponDefinitionSO is null.");
             return false;
         }
 
         if (HasWeapon(definition.WeaponId))
         {
-            Debug.LogWarning($"[WeaponInventory] 이미 보유 중인 무기입니다: {definition.WeaponId}");
+            Debug.LogWarning($"[WeaponInventory] Weapon already owned: {definition.WeaponId}");
             return false;
         }
 
@@ -36,28 +36,26 @@ public class WeaponInventory : MonoBehaviour
         return true;
     }
 
-    private void SpawnWeapon(WeaponRuntimeData runtimeData, Transform owner)//무기는 보통 플레이어 위치를 기준으로 동작
+    private void SpawnWeapon(WeaponRuntimeData runtimeData, Transform owner)
     {
         GameObject prefab = runtimeData.Definition.WeaponPrefab;
 
         if (prefab == null)
         {
-            Debug.LogError($"[WeaponInventory] {runtimeData.Definition.WeaponName}의 WeaponPrefab이 비어 있습니다.");
+            Debug.LogError($"[WeaponInventory] WeaponPrefab is missing: {runtimeData.Definition.WeaponName}");
             return;
         }
 
         Transform parent = weaponRoot != null ? weaponRoot : transform;
-
         GameObject weaponObject = Instantiate(prefab, parent);
 
         if (weaponObject.TryGetComponent(out WeaponBase weaponBase))
         {
             weaponBase.Initialize(owner, runtimeData);
+            return;
         }
-        else
-        {
-            Debug.LogError($"[WeaponInventory] {prefab.name}에 WeaponBase가 없습니다.");
-        }
+
+        Debug.LogError($"[WeaponInventory] WeaponBase is missing on prefab: {prefab.name}");
     }
 
     public bool TryLevelUpWeapon(string weaponId)
@@ -66,7 +64,7 @@ public class WeaponInventory : MonoBehaviour
 
         if (weapon == null)
         {
-            Debug.LogWarning($"[WeaponInventory] 레벨업할 무기를 찾지 못했습니다: {weaponId}");
+            Debug.LogWarning($"[WeaponInventory] Weapon not found for level up: {weaponId}");
             return false;
         }
 

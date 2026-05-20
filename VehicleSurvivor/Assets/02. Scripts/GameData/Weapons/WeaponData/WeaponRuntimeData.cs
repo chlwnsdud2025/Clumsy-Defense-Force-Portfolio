@@ -1,7 +1,11 @@
+using System;
+
 public class WeaponRuntimeData
 {
     public WeaponDefinitionSO Definition { get; }
     public int CurrentLevel { get; private set; }
+
+    public event Action<int> LevelChanged;
 
     public int MaxLevel => Definition.MaxLevel;
     public bool IsMaxLevel => CurrentLevel >= MaxLevel;
@@ -19,10 +23,10 @@ public class WeaponRuntimeData
         if (IsMaxLevel)
         {
             return false;
-
         }
 
         CurrentLevel++;
+        LevelChanged?.Invoke(CurrentLevel);
         return true;
     }
 }

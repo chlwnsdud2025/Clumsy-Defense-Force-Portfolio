@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_ShellSpin
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_unique_shellspin
+  weaponName: "쉘 스핀"
+  description: "등껍질이 캐릭터 주변을 회전하며 피해를 줍니다."
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+  weaponType: 6
+  tags:
+  - "회전"
+  - "주변공격"
+  - "방어형"
+  levelDataList:
+  - bulletSpeed: 8
+    spreadAngle: 0
+    radius: 2.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "기본 회전 공격"
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 8
+    duration: 1.2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 2.5
+  - bulletSpeed: 8
+    spreadAngle: 0
+    radius: 2.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "회전 속도 증가"
+    cooldown: 0.95
+    damage: 11
+    projectileSpeed: 8
+    duration: 1.2
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 2.5
+  - bulletSpeed: 8
+    spreadAngle: 0
+    radius: 2.8
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "등껍질 +1"
+    cooldown: 0.95
+    damage: 11
+    projectileSpeed: 8
+    duration: 1.2
+    size: 1
+    projectileCount: 2
+    tickInterval: 0.5
+    range: 2.8
+  - bulletSpeed: 8.5
+    spreadAngle: 0
+    radius: 2.8
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.9
+    damage: 13
+    projectileSpeed: 8.5
+    duration: 1.2
+    size: 1.1
+    projectileCount: 2
+    tickInterval: 0.45
+    range: 2.8
+  - bulletSpeed: 9
+    spreadAngle: 0
+    radius: 3
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    description: "회전 속도 증가"
+    cooldown: 0.85
+    damage: 15
+    projectileSpeed: 9
+    duration: 1.2
+    size: 1.1
+    projectileCount: 3
+    tickInterval: 0.45
+    range: 3
+  evolutionWeaponId: weapon_evolved_turtle_tornado
+  requiredPassiveId: passive_defense

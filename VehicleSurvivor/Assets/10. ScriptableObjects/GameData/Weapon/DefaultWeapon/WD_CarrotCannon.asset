@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_CarrotCannon
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_unique_carrotannon
+  weaponName: "당근 캐논"
+  description: "가까운 적에게 당근 투사체를 발사합니다."
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+  weaponType: 0
+  tags:
+  - "투사체"
+  - "단일타겟"
+  - "장난감"
+  levelDataList:
+  - bulletSpeed: 10
+    spreadAngle: 0
+    radius: 6
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "기본 투사체 1개"
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 10.5
+    spreadAngle: 0
+    radius: 6
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 1
+    damage: 12
+    projectileSpeed: 10.5
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 10.5
+    spreadAngle: 0
+    radius: 6.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "투사체 +1"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 10.5
+    duration: 1
+    size: 1
+    projectileCount: 2
+    tickInterval: 0.5
+    range: 6.5
+  - bulletSpeed: 11
+    spreadAngle: 0
+    radius: 6.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.9
+    damage: 15
+    projectileSpeed: 11
+    duration: 1
+    size: 1.1
+    projectileCount: 2
+    tickInterval: 0.5
+    range: 6.5
+  - bulletSpeed: 11
+    spreadAngle: 0
+    radius: 7
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "투사체 +1"
+    cooldown: 0.85
+    damage: 15
+    projectileSpeed: 11
+    duration: 1
+    size: 1.1
+    projectileCount: 3
+    tickInterval: 0.5
+    range: 7
+  evolutionWeaponId: weapon_evolved_rabbit_strike
+  requiredPassiveId: passive_attack_power

@@ -20,6 +20,7 @@ MonoBehaviour:
   _previewPrefab: {fileID: 7945152250932536411, guid: a5b0dff04b9b2574196566d03d28f740, type: 3}
   _visualPrefab: {fileID: 7945152250932536411, guid: 72f7bf2a24321cc4eabca43c5264d9f5, type: 3}
   uniqueSkill: {fileID: 0}
+  defaultWeaponId: weapon_unique_bearpaw
   _combat:
     MaxHealth: 666
     Defense: 6
@@ -27,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 6
     PickupRange: 6
   _loadout:
-    StartingWeaponId: 
+    StartingWeaponId: weapon_unique_bearpaw
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

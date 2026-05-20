@@ -3,42 +3,71 @@ using UnityEngine;
 
 public class OrbitWeapon : WeaponBase
 {
-    [Header("회전 무기 설정")]
-    public GameObject orbitPrefab;
-    public LayerMask enemyLayer;
+    [Header("Orbit Data")]
+    public OrbitWeaponDataSO orbitData;
 
-    [Header("타격 설정")]
+    [Header("Legacy Stats")]
+    public float damage = 10f;
+    public float radius = 3f;
+    public float rotateSpeed = 120f;
+    public int orbitCount = 1;
     public float hitCooldown = 0.3f;
 
     private readonly List<GameObject> orbitObjects = new List<GameObject>();
 
+    private float currentDamage;
+    private float currentRadius;
+    private float currentRotateSpeed;
+    private int currentOrbitCount;
+    private float currentHitCooldown;
+
     private void Start()
     {
-        SyncOrbitObjects(GetCurrentLevelData());
+        ApplyOrbitSettings(GetCurrentLevelData());
+        SyncOrbitObjects();
     }
 
     protected override void Update()
     {
-        base.Update();
-        RotateOrbitObjects();//TODO : 이거 attack에 합쳐도 될듯?
+        RotateOrbitObjects();
     }
 
-    protected override void Attack(WeaponLevelData data)
+    protected override void OnLevelDataChanged(WeaponLevelData data)
     {
-        SyncOrbitObjects(data);
+        ApplyOrbitSettings(data);
+        SyncOrbitObjects();
     }
 
-    private void SyncOrbitObjects(WeaponLevelData data)
+    private void ApplyOrbitSettings(WeaponLevelData data)
     {
-        if (data == null || orbitPrefab == null)
+        if (data == null)
+        {
+            currentDamage = GetFinalDamage(damage);
+            currentRadius = radius;
+            currentRotateSpeed = rotateSpeed;
+            currentOrbitCount = Mathf.Max(1, GetFinalProjectileCount(orbitCount));
+            currentHitCooldown = hitCooldown;
+            return;
+        }
+
+        currentDamage = GetFinalDamage(data.Damage);
+        currentRadius = data.Range > 0f ? data.Range : data.radius;
+        currentRotateSpeed = data.ProjectileSpeed > 0f ? data.ProjectileSpeed : rotateSpeed;
+        currentOrbitCount = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
+        currentHitCooldown = data.TickInterval > 0f ? data.TickInterval : hitCooldown;
+    }
+
+    private void SyncOrbitObjects()
+    {
+        if (orbitData == null || orbitData.orbitPrefab == null)
             return;
 
-        int targetCount = Mathf.Max(1, data.ProjectileCount);
+        int targetCount = Mathf.Max(1, currentOrbitCount);
 
         while (orbitObjects.Count < targetCount)
         {
             GameObject orbitObject = Instantiate(
-                orbitPrefab,
+                orbitData.orbitPrefab,
                 transform.position,
                 Quaternion.identity,
                 transform
@@ -51,8 +80,6 @@ public class OrbitWeapon : WeaponBase
                 hitbox = orbitObject.AddComponent<OrbitHitbox>();
             }
 
-            hitbox.Init(GetFinalDamage(data.Damage), hitCooldown);
-
             orbitObjects.Add(orbitObject);
         }
 
@@ -62,25 +89,46 @@ public class OrbitWeapon : WeaponBase
             orbitObjects.RemoveAt(orbitObjects.Count - 1);
             Destroy(removeTarget);
         }
+
+        RefreshOrbitHitboxes();
+    }
+
+    private void RefreshOrbitHitboxes()
+    {
+        for (int i = 0; i < orbitObjects.Count; i++)
+        {
+            GameObject orbitObject = orbitObjects[i];
+
+            if (orbitObject == null)
+                continue;
+
+            OrbitHitbox hitbox = orbitObject.GetComponent<OrbitHitbox>();
+
+            if (hitbox == null)
+                continue;
+
+            hitbox.Init(
+                currentDamage,
+                currentHitCooldown,
+                orbitData.hitEffectPrefab
+            );
+        }
     }
 
     private void RotateOrbitObjects()
     {
-        WeaponLevelData data = GetCurrentLevelData();
-
-        if (data == null)
+        if (orbitObjects.Count == 0)
             return;
 
         int count = orbitObjects.Count;
-
-        if (count == 0)
-            return;
-
         float angleStep = 360f / count;
-        float currentAngle = Time.time * data.bulletSpeed;
+        float currentAngle = Time.time * currentRotateSpeed;
 
         for (int i = 0; i < count; i++)
         {
+            if (orbitObjects[i] == null)
+                continue;
+
             float angle = currentAngle + angleStep * i;
             float radian = angle * Mathf.Deg2Rad;
 
@@ -88,51 +136,9 @@ public class OrbitWeapon : WeaponBase
                 Mathf.Cos(radian),
                 0f,
                 Mathf.Sin(radian)
-            ) * data.radius;
+            ) * currentRadius;
 
             orbitObjects[i].transform.position = transform.position + offset;
         }
-    }
-}
-
-public class OrbitHitbox : MonoBehaviour
-{
-    private float damage;
-    private float hitCooldown;
-
-    private readonly Dictionary<Enemy, float> hitTimers =
-        new Dictionary<Enemy, float>();
-
-    public void Init(float newDamage, float newHitCooldown)
-    {
-        damage = newDamage;
-        hitCooldown = newHitCooldown;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!other.CompareTag("Enemy"))
-            return;
-
-        Enemy enemy = other.GetComponentInParent<Enemy>();
-
-        if (enemy == null)
-            return;
-
-        if (hitTimers.ContainsKey(enemy))
-        {
-            if (Time.time < hitTimers[enemy])
-                return;
-
-            hitTimers[enemy] = Time.time + hitCooldown;
-        }
-        else
-        {
-            hitTimers.Add(enemy, Time.time + hitCooldown);
-        }
-
-        enemy.TakeDamage(damage);
-
-        Debug.Log($"[Orbit] {enemy.name} 피격 / 데미지: {damage}");
     }
 }

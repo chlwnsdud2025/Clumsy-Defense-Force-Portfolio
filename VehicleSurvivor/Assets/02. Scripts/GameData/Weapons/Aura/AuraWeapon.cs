@@ -2,86 +2,110 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
-    [Header("오라 설정")]
+    [Header("Aura Data")]
+    public AuraWeaponDataSO auraData;
+
+    [Header("Aura Settings")]
     public LayerMask enemyLayer;
 
-    [Header("이펙트 설정")]
-    public GameObject auraEffectPrefab;
+    [Header("Legacy Stats")]
+    public float damage = 10f;
+    public float cooldown = 0.5f;
+    public float radius = 5f;
 
+    private float attackTimer;
     private GameObject auraEffect;
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
+        CreateAuraEffect();
+    }
 
-        if (auraEffectPrefab != null)
+    protected override void Update()
+    {
+        if (HasConfiguredLevelData())
         {
-            auraEffect = Instantiate(
-                auraEffectPrefab,
-                transform.position,
-                Quaternion.identity,
-                transform
-            );
-
-            auraEffect.transform.localPosition = Vector3.zero;
+            base.Update();
+            UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
+            return;
         }
+
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= GetFinalCooldown(cooldown))
+        {
+            AttackLegacy();
+            attackTimer = 0f;
+        }
+
+        UpdateAuraScale(radius);
     }
 
     protected override void Attack(WeaponLevelData data)
     {
+        DealAuraDamage(
+            GetFinalDamage(data.Damage),
+            GetAuraRadius(data)
+        );
+    }
+
+    private void AttackLegacy()
+    {
+        DealAuraDamage(
+            GetFinalDamage(damage),
+            radius
+        );
+    }
+
+    private void DealAuraDamage(float finalDamage, float attackRadius)
+    {
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
-            data.radius,
+            attackRadius,
             enemyLayer
         );
 
-        float finalDamage = GetFinalDamage(data.Damage);
-
         foreach (Collider hit in hits)
         {
-            if (!hit.CompareTag("Enemy"))
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
                 continue;
 
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(finalDamage);
-                Debug.Log("데미지를 주었습니다");
-            }
+            damageable.TakeDamage(finalDamage);
+            Debug.Log($"[Aura] damage: {finalDamage}");
         }
     }
 
-    protected override void OnWeaponLevelUp()
+    private void CreateAuraEffect()
     {
-        base.OnWeaponLevelUp();
-        UpdateAuraEffectScale();
-    }
-
-    private void Start()
-    {
-        UpdateAuraEffectScale();
-    }
-
-    private void UpdateAuraEffectScale()
-    {
-        WeaponLevelData data = GetCurrentLevelData();
-
-        if (data == null || auraEffect == null)
+        if (auraData == null || auraData.auraEffectPrefab == null)
             return;
 
-        auraEffect.transform.localScale =
-            new Vector3(data.radius * 2f, 0.1f, data.radius * 2f);
+        auraEffect = Instantiate(auraData.auraEffectPrefab, transform);
+        auraEffect.transform.localPosition = Vector3.zero;
+    }
+
+    private void UpdateAuraScale(float attackRadius)
+    {
+        if (auraEffect == null)
+            return;
+
+        float size = attackRadius * 2f;
+        auraEffect.transform.localScale = new Vector3(size, 1f, size);
     }
 
     private void OnDrawGizmosSelected()
     {
-        WeaponLevelData data = GetCurrentLevelData();
-
-        if (data == null)
-            return;
-
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, data.radius);
+        Gizmos.DrawWireSphere(transform.position, GetAuraRadius(GetCurrentLevelData()));
+    }
+
+    private float GetAuraRadius(WeaponLevelData data)
+    {
+        if (data == null)
+            return radius;
+
+        return data.Range > 0f ? data.Range : data.radius;
     }
 }

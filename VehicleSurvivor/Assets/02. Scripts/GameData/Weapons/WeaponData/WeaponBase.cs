@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class WeaponBase : MonoBehaviour
+public class WeaponBase : MonoBehaviour
 {
     protected Transform Owner { get; private set; }
     protected WeaponRuntimeData RuntimeData { get; private set; }
@@ -9,78 +9,72 @@ public abstract class WeaponBase : MonoBehaviour
 
     public void Initialize(Transform owner, WeaponRuntimeData runtimeData)
     {
+        if (RuntimeData != null)
+        {
+            RuntimeData.LevelChanged -= HandleRuntimeLevelChanged;
+        }
+
         Owner = owner;
         RuntimeData = runtimeData;
         attackTimer = 0f;
 
+        if (RuntimeData != null)
+        {
+            RuntimeData.LevelChanged += HandleRuntimeLevelChanged;
+            weaponID = RuntimeData.Definition.WeaponId;
+            weaponName = RuntimeData.Definition.WeaponName;
+        }
+
         OnInitialized();
+        OnLevelDataChanged(GetCurrentLevelData());
     }
 
     protected virtual void OnInitialized()
     {
     }
 
-    protected virtual void Update() // TODO : private void Update()?? 로 바꾸는게 더 나은지?
-
+    protected virtual void Update()
     {
-        if (RuntimeData == null)
-            return;
-
-        WeaponLevelData data = RuntimeData.CurrentLevelData;
-
+        WeaponLevelData data = GetCurrentLevelData();
         if (data == null)
             return;
 
         attackTimer += Time.deltaTime;
 
-        if (attackTimer < data.Cooldown)
+        if (attackTimer < GetFinalCooldown(data.Cooldown))
             return;
 
         attackTimer = 0f;
-
         Attack(data);
     }
-    protected abstract void Attack(WeaponLevelData data);
 
+    protected virtual void Attack(WeaponLevelData data)
+    {
+    }
 
-    //<기존 코드> - TODO : 나중에 병합과정에서 수정필요
+    protected virtual void OnLevelDataChanged(WeaponLevelData data)
+    {
+    }
 
-    [Header("무기 정보")]
+    [Header("Weapon Info")]
     public string weaponID = "weapon";
     public string weaponName = "Weapon";
 
-    [Header("레벨 데이터")]
+    [Header("Legacy Level Data")]
     public WeaponLevelData[] levelData;
 
-    [Header("현재 상태")]
+    [Header("Legacy State")]
     [SerializeField] protected int currentLevel = 0;
-
-    //protected float attackTimer;
-    protected PlayerStats playerStats;
 
     protected virtual void Awake()
     {
-        playerStats = GetComponentInParent<PlayerStats>();
     }
-
-    //protected virtual void Update()
-    //{
-    //    WeaponLevelData data = GetCurrentLevelData();
-
-    //    if (data == null)
-    //        return;
-
-    //    attackTimer += Time.deltaTime;
-
-    //    if (attackTimer >= data.Cooldown)
-    //    {
-    //        Attack(data);
-    //        attackTimer = 0f;
-    //    }
-    //}
 
     protected WeaponLevelData GetCurrentLevelData()
     {
+        if (RuntimeData != null)
+            return RuntimeData.CurrentLevelData;
+
         if (levelData == null || levelData.Length == 0)
             return null;
 
@@ -88,8 +82,21 @@ public abstract class WeaponBase : MonoBehaviour
         return levelData[currentLevel];
     }
 
-    public void LevelUpWeapon()
+    protected bool HasConfiguredLevelData()
     {
+        return RuntimeData != null || (levelData != null && levelData.Length > 0);
+    }
+
+    public virtual void LevelUpWeapon()
+    {
+        if (RuntimeData != null)
+        {
+            if (RuntimeData.TryLevelUp())
+                OnWeaponLevelUp();
+
+            return;
+        }
+
         if (levelData == null || levelData.Length == 0)
             return;
 
@@ -97,21 +104,73 @@ public abstract class WeaponBase : MonoBehaviour
         {
             currentLevel++;
             OnWeaponLevelUp();
+            OnLevelDataChanged(GetCurrentLevelData());
         }
     }
 
     protected virtual void OnWeaponLevelUp()
     {
-        Debug.Log($"{weaponName} 레벨업! 현재 레벨: {currentLevel + 1}");
+        int level = RuntimeData != null ? RuntimeData.CurrentLevel : currentLevel + 1;
+        Debug.Log($"{weaponName} level up: {level}");
+    }
+
+    public string GetWeaponID()
+    {
+        return weaponID;
+    }
+
+    public string GetWeaponName()
+    {
+        return weaponName;
     }
 
     protected float GetFinalDamage(float baseDamage)
     {
-        if (playerStats == null)
+        PlayerRuntime playerRuntime = GetOwnerRuntime();
+        if (playerRuntime == null)
             return baseDamage;
 
-        return playerStats.GetFinalDamage(baseDamage);
+        return baseDamage * playerRuntime.Stats.GetValue(EStatType.DamageMultiplier);
     }
 
-    //protected abstract void Attack(WeaponLevelData data);
+    protected float GetFinalCooldown(float weaponCooldown)
+    {
+        PlayerRuntime playerRuntime = GetOwnerRuntime();
+        if (playerRuntime == null)
+            return weaponCooldown;
+
+        float cooldownReduction = playerRuntime.Stats.GetValue(EStatType.CooldownReduction);
+        return Mathf.Max(0.01f, weaponCooldown * Mathf.Max(0f, 1f - cooldownReduction));
+    }
+
+    protected int GetFinalProjectileCount(int weaponProjectileCount)
+    {
+        PlayerRuntime playerRuntime = GetOwnerRuntime();
+        if (playerRuntime == null)
+            return weaponProjectileCount;
+
+        int projectileBonus = Mathf.RoundToInt(playerRuntime.Stats.GetValue(EStatType.ProjectileCount));
+        return weaponProjectileCount + projectileBonus;
+    }
+
+    private static PlayerRuntime GetOwnerRuntime()
+    {
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+            return null;
+
+        return runManager.RunContext?.Player;
+    }
+
+    private void HandleRuntimeLevelChanged(int _)
+    {
+        OnLevelDataChanged(GetCurrentLevelData());
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (RuntimeData != null)
+        {
+            RuntimeData.LevelChanged -= HandleRuntimeLevelChanged;
+        }
+    }
 }

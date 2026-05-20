@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class PiercingRaycastWeapon : WeaponBase
 {
-    [Header("관통 레이저 설정")]
+    [Header("레이저 설정")]
     public Transform firePoint;
     public LayerMask enemyLayer;
-    public float range = 30f;
 
     [Header("이펙트 설정")]
     public LineRenderer lineRenderer;
@@ -20,6 +19,8 @@ public class PiercingRaycastWeapon : WeaponBase
         Vector3 start = firePoint.position;
         Vector3 direction = firePoint.forward;
 
+        float range = data.radius;
+
         RaycastHit[] hits = Physics.RaycastAll(
             start,
             direction,
@@ -27,11 +28,16 @@ public class PiercingRaycastWeapon : WeaponBase
             enemyLayer
         );
 
-        List<Enemy> damagedEnemies = new List<Enemy>();
+        List<Enemy> damagedEnemies =
+            new List<Enemy>();
 
         foreach (RaycastHit hit in hits)
         {
-            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+            if (!hit.collider.CompareTag("Enemy"))
+                continue;
+
+            Enemy enemy =
+                hit.collider.GetComponentInParent<Enemy>();
 
             if (enemy == null)
                 continue;
@@ -39,20 +45,34 @@ public class PiercingRaycastWeapon : WeaponBase
             if (damagedEnemies.Contains(enemy))
                 continue;
 
-            enemy.TakeDamage(GetFinalDamage(data.Damage));
+            enemy.TakeDamage(
+                GetFinalDamage(data.Damage)
+            );
+
             damagedEnemies.Add(enemy);
+
+            Debug.Log(
+                $"[Laser] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.Damage)}"
+            );
         }
 
-        ShowLine(start, start + direction * range);
+        ShowLine(
+            start,
+            start + direction * range
+        );
     }
 
-    private void ShowLine(Vector3 start, Vector3 end)
+    private void ShowLine(
+        Vector3 start,
+        Vector3 end
+    )
     {
         if (lineRenderer == null)
             return;
 
         lineRenderer.enabled = true;
         lineRenderer.positionCount = 2;
+
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
 

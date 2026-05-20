@@ -3,40 +3,59 @@ using UnityEngine;
 
 public class DroneWeapon : WeaponBase
 {
-    [Header("드론 설정")]
-    public GameObject dronePrefab;
+    [Header("드론 프리팹 설정")]
+    public GameObject[] dronePrefabs;
+
+    [Header("유도탄 설정")]
+    public GameObject homingProjectilePrefab;
+
+    [Header("레이어 설정")]
     public LayerMask enemyLayer;
 
-    [Header("탐지 범위")]
-    public float detectRadius = 15f;
+    [Header("드론 위치 설정")]
+    public Vector3 droneOffset = new Vector3(0f, 2.5f, -2f);
+    public float droneSpacing = 1.5f;
 
-    [Header("이펙트 설정")]
-    public GameObject hitEffectPrefab;
+    [Header("탐지 설정")]
+    public float detectRadius = 15f;
 
     private readonly List<DroneUnit> drones = new List<DroneUnit>();
 
     private void Start()
     {
-        SyncDrones(GetCurrentLevelData());
+        UpdateDrones();
     }
 
     protected override void Attack(WeaponLevelData data)
     {
-        SyncDrones(data);
+        UpdateDrones();
     }
 
-    private void SyncDrones(WeaponLevelData data)
+    private void UpdateDrones()
     {
-        if (data == null || dronePrefab == null)
+        WeaponLevelData data = GetCurrentLevelData();
+
+        if (data == null)
             return;
 
-        int targetCount = Mathf.Max(1,data.ProjectileCount
+        if (dronePrefabs == null || dronePrefabs.Length == 0)
+            return;
+
+        int targetCount = Mathf.Max(
+            1,
+            GetFinalProjectileCount(data.ProjectileCount)
         );
 
         while (drones.Count < targetCount)
         {
+            int prefabIndex = Mathf.Clamp(
+                drones.Count,
+                0,
+                dronePrefabs.Length - 1
+            );
+
             GameObject droneObject = Instantiate(
-                dronePrefab,
+                dronePrefabs[prefabIndex],
                 transform.position,
                 Quaternion.identity,
                 transform
@@ -61,17 +80,22 @@ public class DroneWeapon : WeaponBase
 
         for (int i = 0; i < drones.Count; i++)
         {
-            float angle = (360f / drones.Count) * i;
+            Vector3 offset =
+                droneOffset +
+                new Vector3(
+                    (i - (targetCount - 1) * 0.5f) * droneSpacing,
+                    0f,
+                    0f
+                );
 
             drones[i].Init(
                 transform,
+                homingProjectilePrefab,
                 enemyLayer,
-                hitEffectPrefab,
                 GetFinalDamage(data.Damage),
                 data.Cooldown,
-                data.radius,
                 data.bulletSpeed,
-                angle,
+                offset,
                 detectRadius
             );
         }
@@ -81,38 +105,36 @@ public class DroneWeapon : WeaponBase
 public class DroneUnit : MonoBehaviour
 {
     private Transform owner;
+    private GameObject homingProjectilePrefab;
     private LayerMask enemyLayer;
-    private GameObject hitEffectPrefab;
 
     private float damage;
     private float attackCooldown;
-    private float orbitRadius;
-    private float orbitSpeed;
-    private float startAngle;
+    private float projectileSpeed;
     private float detectRadius;
+
+    private Vector3 offset;
     private float attackTimer;
 
     public void Init(
         Transform newOwner,
+        GameObject newHomingProjectilePrefab,
         LayerMask newEnemyLayer,
-        GameObject newHitEffectPrefab,
         float newDamage,
-        float newAttackCooldown,
-        float newOrbitRadius,
-        float newOrbitSpeed,
-        float newStartAngle,
+        float newCooldown,
+        float newProjectileSpeed,
+        Vector3 newOffset,
         float newDetectRadius
     )
     {
         owner = newOwner;
+        homingProjectilePrefab = newHomingProjectilePrefab;
         enemyLayer = newEnemyLayer;
-        hitEffectPrefab = newHitEffectPrefab;
 
         damage = newDamage;
-        attackCooldown = newAttackCooldown;
-        orbitRadius = newOrbitRadius;
-        orbitSpeed = newOrbitSpeed;
-        startAngle = newStartAngle;
+        attackCooldown = newCooldown;
+        projectileSpeed = newProjectileSpeed;
+        offset = newOffset;
         detectRadius = newDetectRadius;
     }
 
@@ -121,22 +143,15 @@ public class DroneUnit : MonoBehaviour
         if (owner == null)
             return;
 
-        OrbitAroundOwner();
+        FollowPlayer();
         TryAttack();
     }
 
-    private void OrbitAroundOwner()
+    private void FollowPlayer()
     {
-        float angle = startAngle + Time.time * orbitSpeed;
-        float radian = angle * Mathf.Deg2Rad;
+        Vector3 worldOffset = owner.TransformDirection(offset);
 
-        Vector3 offset = new Vector3(
-            Mathf.Cos(radian),
-            0f,
-            Mathf.Sin(radian)
-        ) * orbitRadius;
-
-        transform.position = owner.position + offset;
+        transform.position = owner.position + worldOffset;
     }
 
     private void TryAttack()
@@ -161,33 +176,31 @@ public class DroneUnit : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(direction.normalized);
 
-        if (Physics.Raycast(
+        FireHomingProjectile(target, direction.normalized);
+    }
+
+    private void FireHomingProjectile(Enemy target, Vector3 direction)
+    {
+        if (homingProjectilePrefab == null)
+            return;
+
+        GameObject projectile = Instantiate(
+            homingProjectilePrefab,
             transform.position,
-            direction.normalized,
-            out RaycastHit hit,
-            detectRadius,
-            enemyLayer
-        ))
+            Quaternion.LookRotation(direction)
+        );
+
+        DroneHomingProjectile homing =
+            projectile.GetComponent<DroneHomingProjectile>();
+
+        if (homing != null)
         {
-            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-
-                if (hitEffectPrefab != null)
-                {
-                    GameObject effect = Instantiate(
-                        hitEffectPrefab,
-                        hit.point,
-                        Quaternion.identity
-                    );
-
-                    Destroy(effect, 2f);
-                }
-
-                Debug.Log($"드론 공격 성공: {enemy.name}");
-            }
+            homing.Init(
+                target.transform,
+                damage,
+                projectileSpeed,
+                enemyLayer
+            );
         }
     }
 
@@ -212,9 +225,8 @@ public class DroneUnit : MonoBehaviour
             if (enemy == null)
                 continue;
 
-            float distance = (
-                enemy.transform.position - transform.position
-            ).sqrMagnitude;
+            float distance =
+                (enemy.transform.position - transform.position).sqrMagnitude;
 
             if (distance < closestDistance)
             {
@@ -224,11 +236,5 @@ public class DroneUnit : MonoBehaviour
         }
 
         return closestEnemy;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
 }

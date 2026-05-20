@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4252956048526557536}
-  - component: {fileID: 1023364920008455287}
+  - component: {fileID: -1884008635537541073}
   m_Layer: 6
   m_Name: MeteorWeapon
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1023364920008455287
+--- !u!114 &-1884008635537541073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,14 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0c317108c865e4fa94a2417c517257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorWeapon
-  weaponID: Meteor
-  weaponName: Meteor
-  levelData: []
+  weaponData: {fileID: 0}
   currentLevel: 0
-  meteorPrefab: {fileID: 6876450579885272701, guid: 21690f4f6611b67438964918b6c62b95, type: 3}
+  meteorData: {fileID: 11400000, guid: 30377c62c489f8544918e55f033a09d0, type: 2}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
+  damage: 40
+  cooldown: 3
+  explosionRadius: 5
+  meteorDelay: 0.3
   spawnRadius: 15
-  spawnHeight: 20
+  spawnHeight: 12
   groundY: 0
+  safeRadius: 7
+  maxTryCount: 20
+  diagonalOffset: 12
+  randomAngleRange: 20

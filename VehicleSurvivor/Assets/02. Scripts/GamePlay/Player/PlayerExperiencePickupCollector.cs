@@ -9,13 +9,13 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
     [SerializeField] private Transform _origin;
     [SerializeField] private LayerMask _experienceMask;
 
-    [Tooltip("자석 범위 안에서 경험치 오브가 플레이어 방향으로 이동하는 속도(유닛/초)")]
+    [Tooltip("자석 범위 안에 있는 경험치 오브가 플레이어 방향으로 이동하는 속도(유닛/초)")]
     [SerializeField][Min(0.01f)] private float _magnetPullSpeed = 10f;
 
-    [Tooltip("이 거리 이하로 가까워지면 경험치 획득")]
+    [Tooltip("이 거리 이하로 가까워지면 경험치 흡수")]
     [SerializeField][Min(0.01f)] private float _contactAbsorbRadius = 0.45f;
 
-    [Tooltip("Scene 뷰에서 획득 반경 기즈모(와이어 구체) 표시 여부")]
+    [Tooltip("Scene 뷰에서 흡수 반경 기준 표시 여부")]
     [SerializeField] private bool _showPickupRangeGizmo = true;
 
     private Collider[] _overlapBuffer;
@@ -27,7 +27,7 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
 
     private void Update()
     {
-        float magnetRange = FallbackPickupRange;
+        float magnetRange = FallbackPickupRange * GetPickupRangeMultiplier();
         if (magnetRange <= 0f)
             return;
 
@@ -60,9 +60,7 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
                 continue;
 
             if (pickup.TryConsume(out int amount))
-            {
-                // TODO 경험치 획득 처리
-            }
+                AddExperience(amount);
         }
     }
 
@@ -72,7 +70,6 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
             return;
 
         float range = FallbackPickupRange;
-;
         if (range <= 0f)
             return;
 
@@ -85,5 +82,44 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
             Gizmos.color = new Color(1f, 0.65f, 0.2f, 1f);
             Gizmos.DrawWireSphere(center, _contactAbsorbRadius);
         }
+    }
+
+    private void AddExperience(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
+            return;
+
+        float expMultiplier = Mathf.Max(0f, playerRuntime.Stats.GetValue(EStatType.ExpGainMultiplier));
+        int finalAmount = Mathf.Max(0, Mathf.RoundToInt(amount * expMultiplier));
+        if (finalAmount <= 0)
+            return;
+
+        playerRuntime.Level.AddExp(finalAmount);
+    }
+
+    private float GetPickupRangeMultiplier()
+    {
+        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
+            return 1f;
+
+        return Mathf.Max(0f, playerRuntime.Stats.GetValue(EStatType.PickupRangeMultiplier));
+    }
+
+    private static bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)
+    {
+        playerRuntime = null;
+
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+            return false;
+
+        RunContext runContext = runManager.RunContext;
+        if (runContext == null)
+            return false;
+
+        playerRuntime = runContext.Player;
+        return playerRuntime != null;
     }
 }

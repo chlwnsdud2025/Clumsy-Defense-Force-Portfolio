@@ -2,24 +2,91 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("투사체 설정")]
-    public GameObject bulletPrefab;
+    [Header("Projectile Data")]
+    public ProjectileWeaponDataSO projectileData;
+
+    [Header("Fire Point")]
     public Transform firePoint;
 
-    [Header("이펙트 설정")]
-    public ParticleSystem shootParticle;
+    [Header("Legacy Stats")]
+    public float damage = 10f;
+    public float cooldown = 1f;
+    public float bulletSpeed = 20f;
+    public int projectileCount = 1;
+    public float spreadAngle = 15f;
+
+    private float attackTimer;
+
+    protected override void Update()
+    {
+        if (HasConfiguredLevelData())
+        {
+            base.Update();
+            return;
+        }
+
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= GetFinalCooldown(cooldown))
+        {
+            AttackLegacy();
+            attackTimer = 0f;
+        }
+    }
 
     protected override void Attack(WeaponLevelData data)
     {
-        if (bulletPrefab == null || firePoint == null)
-            return;
+        FireProjectiles(
+            GetFinalDamage(data.Damage),
+            GetProjectileSpeed(data),
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
+            data.spreadAngle
+        );
+    }
 
-        if (shootParticle != null)
+    private void AttackLegacy()
+    {
+        FireProjectiles(
+            GetFinalDamage(damage),
+            bulletSpeed,
+            Mathf.Max(1, GetFinalProjectileCount(projectileCount)),
+            spreadAngle
+        );
+    }
+
+    private void FireProjectiles(
+        float finalDamage,
+        float projectileSpeed,
+        int count,
+        float spreadAngleValue
+    )
+    {
+        if (projectileData == null)
         {
-            shootParticle.Play();
+            Debug.LogWarning("Projectile data is missing.");
+            return;
         }
 
-        int count = Mathf.Max(1, data.ProjectileCount);
+        if (projectileData.projectilePrefab == null)
+        {
+            Debug.LogWarning("Projectile prefab is missing.");
+            return;
+        }
+
+        if (firePoint == null)
+        {
+            Debug.LogWarning("Fire point is missing.");
+            return;
+        }
+
+        if (projectileData.shootParticlePrefab != null)
+        {
+            Instantiate(
+                projectileData.shootParticlePrefab,
+                firePoint.position,
+                firePoint.rotation
+            );
+        }
 
         for (int i = 0; i < count; i++)
         {
@@ -27,32 +94,38 @@ public class ProjectileWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex = (count - 1) / 2f;
-                angle = (i - centerIndex) * data.spreadAngle;
+                float centerIndex = (count - 1) * 0.5f;
+                angle = (i - centerIndex) * spreadAngleValue;
             }
 
             Quaternion bulletRotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+                firePoint.rotation *
+                Quaternion.Euler(0f, angle, 0f);
 
-            GameObject bullet = Instantiate(
-                bulletPrefab,
+            GameObject bulletObject = Instantiate(
+                projectileData.projectilePrefab,
                 firePoint.position,
                 bulletRotation
             );
 
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            ProjectileBullet bullet = bulletObject.GetComponent<ProjectileBullet>();
 
-            if (rb != null)
+            if (bullet != null)
             {
-                rb.linearVelocity = bulletRotation * Vector3.forward * data.bulletSpeed;
-            }
-
-            ProjectileBullet projectileBullet = bullet.GetComponent<ProjectileBullet>();
-
-            if (projectileBullet != null)
-            {
-                projectileBullet.damage = GetFinalDamage(data.Damage);
+                bullet.Init(
+                    finalDamage,
+                    projectileSpeed,
+                    bulletRotation * Vector3.forward
+                );
             }
         }
+    }
+
+    private float GetProjectileSpeed(WeaponLevelData data)
+    {
+        if (data == null)
+            return bulletSpeed;
+
+        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.bulletSpeed;
     }
 }

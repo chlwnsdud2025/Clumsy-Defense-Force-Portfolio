@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_GiftBomb
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_unique_giftbomb
+  weaponName: "선물 폭탄"
+  description: "선물 상자를 던져 폭발 피해를 줍니다."
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 0}
+  weaponType: 0
+  tags:
+  - "투척"
+  - "폭발"
+  - "범위"
+  levelDataList:
+  - bulletSpeed: 9
+    spreadAngle: 0
+    radius: 5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "기본 폭탄 투척"
+    cooldown: 1.2
+    damage: 12
+    projectileSpeed: 9
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 5
+  - bulletSpeed: 9.5
+    spreadAngle: 0
+    radius: 5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "쿨타임 감소"
+    cooldown: 1.05
+    damage: 12
+    projectileSpeed: 9.5
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 5
+  - bulletSpeed: 9.5
+    spreadAngle: 0
+    radius: 5.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "폭발 범위 증가"
+    cooldown: 1.05
+    damage: 13
+    projectileSpeed: 9.5
+    duration: 1
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 5.5
+  - bulletSpeed: 10
+    spreadAngle: 0
+    radius: 5.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 1
+    damage: 15
+    projectileSpeed: 10
+    duration: 1
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 5.5
+  - bulletSpeed: 10
+    spreadAngle: 0
+    radius: 6
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    description: "쿨타임 감소"
+    cooldown: 0.9
+    damage: 18
+    projectileSpeed: 10
+    duration: 1
+    size: 1.35
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 6
+  evolutionWeaponId: weapon_evolved_merry_critiboom
+  requiredPassiveId: passive_move_speed
