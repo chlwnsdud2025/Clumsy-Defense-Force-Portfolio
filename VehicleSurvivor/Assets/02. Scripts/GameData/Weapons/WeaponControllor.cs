@@ -54,8 +54,9 @@ public class WeaponController : MonoBehaviour
             != null
         )
         {
-            existingWeapon
-                .LevelUpWeapon();
+            Debug.LogWarning(
+                "Weapon level-up is handled by PlayerInventory and WeaponInstance in the runtime flow."
+            );
         }
         else
         {

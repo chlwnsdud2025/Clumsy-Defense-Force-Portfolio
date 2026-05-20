@@ -3,11 +3,11 @@ using UnityEngine;
 public class WeaponBase : MonoBehaviour
 {
     protected Transform Owner { get; private set; }
-    protected WeaponRuntimeData RuntimeData { get; private set; }
+    protected WeaponInstance RuntimeData { get; private set; }
 
-    private float attackTimer;
+    protected float attackTimer;
 
-    public void Initialize(Transform owner, WeaponRuntimeData runtimeData)
+    public void Initialize(Transform owner, WeaponInstance runtimeData)
     {
         if (RuntimeData != null)
         {
@@ -85,33 +85,6 @@ public class WeaponBase : MonoBehaviour
     protected bool HasConfiguredLevelData()
     {
         return RuntimeData != null || (levelData != null && levelData.Length > 0);
-    }
-
-    public virtual void LevelUpWeapon()
-    {
-        if (RuntimeData != null)
-        {
-            if (RuntimeData.TryLevelUp())
-                OnWeaponLevelUp();
-
-            return;
-        }
-
-        if (levelData == null || levelData.Length == 0)
-            return;
-
-        if (currentLevel < levelData.Length - 1)
-        {
-            currentLevel++;
-            OnWeaponLevelUp();
-            OnLevelDataChanged(GetCurrentLevelData());
-        }
-    }
-
-    protected virtual void OnWeaponLevelUp()
-    {
-        int level = RuntimeData != null ? RuntimeData.CurrentLevel : currentLevel + 1;
-        Debug.Log($"{weaponName} level up: {level}");
     }
 
     public string GetWeaponID()

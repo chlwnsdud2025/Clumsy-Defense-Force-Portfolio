@@ -13,7 +13,6 @@ public class AuraWeapon : WeaponBase
     public float cooldown = 0.5f;
     public float radius = 5f;
 
-    private float attackTimer;
     private GameObject auraEffect;
 
     private void Start()

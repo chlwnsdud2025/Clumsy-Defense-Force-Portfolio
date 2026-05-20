@@ -21,7 +21,6 @@ public class ChainLightningWeapon : WeaponBase
     [Header("Effect Settings")]
     public float lineLifeTime = 0.1f;
 
-    private float attackTimer;
 
     protected override void Update()
     {

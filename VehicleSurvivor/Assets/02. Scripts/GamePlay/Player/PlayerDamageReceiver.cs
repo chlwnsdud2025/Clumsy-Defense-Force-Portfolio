@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour, IDamageable
+public class PlayerDamageReceiver : MonoBehaviour, IDamageable
 {
     [Header("Knockback")]
     public float knockbackPower = 5f;
@@ -84,33 +84,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         knockbackVelocity = pushDir.normalized * knockbackPower;
         knockbackTimer = knockbackDuration;
-    }
-
-    public float GetFinalDamage(float weaponDamage)
-    {
-        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
-            return weaponDamage;
-
-        float damageMultiplier = playerRuntime.Stats.GetValue(EStatType.DamageMultiplier);
-        return weaponDamage * damageMultiplier;
-    }
-
-    public float GetFinalCooldown(float weaponCooldown)
-    {
-        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
-            return weaponCooldown;
-
-        float cooldownReduction = playerRuntime.Stats.GetValue(EStatType.CooldownReduction);
-        return Mathf.Max(0.01f, weaponCooldown * Mathf.Max(0f, 1f - cooldownReduction));
-    }
-
-    public int GetFinalProjectileCount(int weaponProjectileCount)
-    {
-        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
-            return weaponProjectileCount;
-
-        int projectileBonus = Mathf.RoundToInt(playerRuntime.Stats.GetValue(EStatType.ProjectileCount));
-        return weaponProjectileCount + projectileBonus;
     }
 
     private static bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)

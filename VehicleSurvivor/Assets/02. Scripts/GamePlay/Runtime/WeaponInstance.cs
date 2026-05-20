@@ -1,3 +1,5 @@
+using System;
+
 public sealed class WeaponInstance
 {
     public WeaponDefinitionSO Definition { get; }
@@ -9,6 +11,8 @@ public sealed class WeaponInstance
     public bool IsReady => CurrentCooldown <= 0f;
 
     public WeaponLevelData CurrentLevelData => Definition.GetLevelData(CurrentLevel);
+
+    public event Action<int> LevelChanged;
 
     public WeaponInstance(WeaponDefinitionSO definition)
     {
@@ -25,6 +29,7 @@ public sealed class WeaponInstance
         }
 
         CurrentLevel++;
+        LevelChanged?.Invoke(CurrentLevel);
         return true;
     }
 

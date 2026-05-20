@@ -15,7 +15,6 @@ public class ProjectileWeapon : WeaponBase
     public int projectileCount = 1;
     public float spreadAngle = 15f;
 
-    private float attackTimer;
 
     protected override void Update()
     {

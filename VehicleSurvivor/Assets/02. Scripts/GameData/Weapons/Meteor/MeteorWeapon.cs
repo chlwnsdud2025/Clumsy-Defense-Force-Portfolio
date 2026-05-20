@@ -27,7 +27,6 @@ public class MeteorWeapon : WeaponBase
     public float diagonalOffset = 12f;
     public float randomAngleRange = 20f;
 
-    private float attackTimer;
 
     protected override void Update()
     {
