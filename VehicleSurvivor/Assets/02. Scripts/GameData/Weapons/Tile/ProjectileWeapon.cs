@@ -61,13 +61,15 @@ public class ProjectileWeapon : WeaponBase
         float spreadAngleValue
     )
     {
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
         if (projectilePrefab == null)
         {
             Debug.LogWarning("Projectile prefab is missing.");
             return;
         }
 
-        if (firePoint == null)
+        if (resolvedFirePoint == null)
         {
             Debug.LogWarning("Fire point is missing.");
             return;
@@ -77,8 +79,8 @@ public class ProjectileWeapon : WeaponBase
         {
             Instantiate(
                 shootParticlePrefab,
-                firePoint.position,
-                firePoint.rotation
+                resolvedFirePoint.position,
+                resolvedFirePoint.rotation
             );
         }
 
@@ -93,12 +95,12 @@ public class ProjectileWeapon : WeaponBase
             }
 
             Quaternion bulletRotation =
-                firePoint.rotation *
+                resolvedFirePoint.rotation *
                 Quaternion.Euler(0f, angle, 0f);
 
             GameObject bulletObject = Instantiate(
                 projectilePrefab,
-                firePoint.position,
+                resolvedFirePoint.position,
                 bulletRotation
             );
 

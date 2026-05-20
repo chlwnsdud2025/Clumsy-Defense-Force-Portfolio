@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerWeaponSpawner : MonoBehaviour
 {
     [SerializeField] private Transform weaponRoot;
+    [SerializeField] private Transform firePoint;
 
     private readonly Dictionary<string, WeaponBase> spawnedWeapons = new();
 
@@ -44,8 +45,29 @@ public class PlayerWeaponSpawner : MonoBehaviour
             return false;
         }
 
-        weaponBase.Initialize(owner, weapon);
+        weaponBase.Initialize(owner, weapon, ResolveFirePoint(owner));
         spawnedWeapons.Add(weaponId, weaponBase);
         return true;
+    }
+
+    private Transform ResolveFirePoint(Transform owner)
+    {
+        if (firePoint != null)
+            return firePoint;
+
+        if (owner == null)
+            return null;
+
+        Transform[] children = owner.GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in children)
+        {
+            if (child.name == "ShootPoint")
+            {
+                firePoint = child;
+                return firePoint;
+            }
+        }
+
+        return null;
     }
 }

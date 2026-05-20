@@ -69,10 +69,12 @@ public class HomingWeapon : WeaponBase
         float detectRange
     )
     {
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
         if (homingProjectilePrefab == null)
             return;
 
-        if (firePoint == null)
+        if (resolvedFirePoint == null)
             return;
 
         Transform target = FindClosestTarget(detectRange);
@@ -84,8 +86,8 @@ public class HomingWeapon : WeaponBase
         {
             Instantiate(
                 shootParticlePrefab,
-                firePoint.position,
-                firePoint.rotation
+                resolvedFirePoint.position,
+                resolvedFirePoint.rotation
             );
         }
 
@@ -100,11 +102,11 @@ public class HomingWeapon : WeaponBase
             }
 
             Quaternion rotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+                resolvedFirePoint.rotation * Quaternion.Euler(0f, angle, 0f);
 
             GameObject projectile = Instantiate(
                 homingProjectilePrefab,
-                firePoint.position,
+                resolvedFirePoint.position,
                 rotation
             );
 

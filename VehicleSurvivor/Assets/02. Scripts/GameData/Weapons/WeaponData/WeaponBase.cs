@@ -3,11 +3,17 @@ using UnityEngine;
 public class WeaponBase : MonoBehaviour
 {
     protected Transform Owner { get; private set; }
+    protected Transform OwnerFirePoint { get; private set; }
     protected WeaponInstance RuntimeData { get; private set; }
 
     protected float attackTimer;
 
     public void Initialize(Transform owner, WeaponInstance runtimeData)
+    {
+        Initialize(owner, runtimeData, null);
+    }
+
+    public void Initialize(Transform owner, WeaponInstance runtimeData, Transform ownerFirePoint)
     {
         if (RuntimeData != null)
         {
@@ -15,6 +21,7 @@ public class WeaponBase : MonoBehaviour
         }
 
         Owner = owner;
+        OwnerFirePoint = ownerFirePoint;
         RuntimeData = runtimeData;
         attackTimer = 0f;
 
@@ -85,6 +92,17 @@ public class WeaponBase : MonoBehaviour
     protected bool HasConfiguredLevelData()
     {
         return RuntimeData != null || (levelData != null && levelData.Length > 0);
+    }
+
+    protected Transform ResolveFirePoint(Transform configuredFirePoint)
+    {
+        if (configuredFirePoint != null)
+            return configuredFirePoint;
+
+        if (OwnerFirePoint != null)
+            return OwnerFirePoint;
+
+        return Owner != null ? Owner : transform;
     }
 
     public string GetWeaponID()
