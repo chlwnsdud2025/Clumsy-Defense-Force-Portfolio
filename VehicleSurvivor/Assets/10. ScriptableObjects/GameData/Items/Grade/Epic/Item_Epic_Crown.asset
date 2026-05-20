@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
+  m_Name: Item_Epic_Crown
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
+  itemId: item_epic_shining_crown
+  itemName: "반짝 왕관"
+  description: "체력 75% 이상일 때 공격력이 증폭됩니다."
+  itemCategory: 0
+  rarity: 4
+  icon: {fileID: 0}
+  isOneTimeUse: 0
+  statModifiers:
+  - statType: 1
+    value: 0.15
+    isPercent: 1

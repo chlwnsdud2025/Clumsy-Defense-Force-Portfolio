@@ -15,7 +15,7 @@ public class BouncyProjectileWeapon : WeaponBase
         if (bouncyProjectilePrefab == null || firePoint == null)
             return;
 
-        int count = Mathf.Max(1, GetFinalProjectileCount(data.projectileCount));
+        int count = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
 
         for (int i = 0; i < count; i++)
         {
@@ -42,7 +42,7 @@ public class BouncyProjectileWeapon : WeaponBase
             if (projectile != null)
             {
                 projectile.Init(
-                    GetFinalDamage(data.damage),
+                    GetFinalDamage(data.Damage),
                     data.bulletSpeed,
                     data.bounceCount,
                     enemyLayer,

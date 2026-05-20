@@ -22,7 +22,7 @@ MonoBehaviour:
   - statType: 7
     value: 1
     isPercent: 0
-  - statType: 6
+  - statType: 7
     value: 0
     isPercent: 0
   - statType: 7

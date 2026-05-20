@@ -27,7 +27,7 @@ public class BoomerangWeapon : WeaponBase
         {
             projectile.Init(
                 transform,
-                GetFinalDamage(data.damage),
+                GetFinalDamage(data.Damage),
                 data.bulletSpeed,
                 data.radius,
                 enemyLayer

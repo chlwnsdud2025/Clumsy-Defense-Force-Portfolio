@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("투사체 데이터")]
+    [Header("Projectile Data")]
     public ProjectileWeaponDataSO projectileData;
 
-    [Header("발사 위치")]
+    [Header("Fire Point")]
     public Transform firePoint;
 
-    [Header("임시 테스트 스탯")]
+    [Header("Legacy Stats")]
     public float damage = 10f;
     public float cooldown = 1f;
     public float bulletSpeed = 20f;
@@ -17,34 +17,65 @@ public class ProjectileWeapon : WeaponBase
 
     private float attackTimer;
 
-    private void Update()
+    protected override void Update()
     {
+        if (HasConfiguredLevelData())
+        {
+            base.Update();
+            return;
+        }
+
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= GetFinalCooldown(cooldown))
         {
-            Attack();
+            AttackLegacy();
             attackTimer = 0f;
         }
     }
 
-    private void Attack()
+    protected override void Attack(WeaponLevelData data)
+    {
+        FireProjectiles(
+            GetFinalDamage(data.Damage),
+            GetProjectileSpeed(data),
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
+            data.spreadAngle
+        );
+    }
+
+    private void AttackLegacy()
+    {
+        FireProjectiles(
+            GetFinalDamage(damage),
+            bulletSpeed,
+            Mathf.Max(1, GetFinalProjectileCount(projectileCount)),
+            spreadAngle
+        );
+    }
+
+    private void FireProjectiles(
+        float finalDamage,
+        float projectileSpeed,
+        int count,
+        float spreadAngleValue
+    )
     {
         if (projectileData == null)
         {
-            Debug.LogWarning("Projectile Data가 비어있습니다.");
+            Debug.LogWarning("Projectile data is missing.");
             return;
         }
 
         if (projectileData.projectilePrefab == null)
         {
-            Debug.LogWarning("Projectile Prefab이 비어있습니다.");
+            Debug.LogWarning("Projectile prefab is missing.");
             return;
         }
 
         if (firePoint == null)
         {
-            Debug.LogWarning("Fire Point가 비어있습니다.");
+            Debug.LogWarning("Fire point is missing.");
             return;
         }
 
@@ -57,51 +88,44 @@ public class ProjectileWeapon : WeaponBase
             );
         }
 
-        int count = Mathf.Max(
-            1,
-            GetFinalProjectileCount(projectileCount)
-        );
-
         for (int i = 0; i < count; i++)
         {
             float angle = 0f;
 
             if (count > 1)
             {
-                float centerIndex =
-                    (count - 1) * 0.5f;
-
-                angle =
-                    (i - centerIndex)
-                    * spreadAngle;
+                float centerIndex = (count - 1) * 0.5f;
+                angle = (i - centerIndex) * spreadAngleValue;
             }
 
             Quaternion bulletRotation =
                 firePoint.rotation *
-                Quaternion.Euler(
-                    0f,
-                    angle,
-                    0f
-                );
+                Quaternion.Euler(0f, angle, 0f);
 
-            GameObject bulletObject =
-                Instantiate(
-                    projectileData.projectilePrefab,
-                    firePoint.position,
-                    bulletRotation
-                );
+            GameObject bulletObject = Instantiate(
+                projectileData.projectilePrefab,
+                firePoint.position,
+                bulletRotation
+            );
 
-            ProjectileBullet bullet =
-                bulletObject.GetComponent<ProjectileBullet>();
+            ProjectileBullet bullet = bulletObject.GetComponent<ProjectileBullet>();
 
             if (bullet != null)
             {
                 bullet.Init(
-                    GetFinalDamage(damage),
-                    bulletSpeed,
+                    finalDamage,
+                    projectileSpeed,
                     bulletRotation * Vector3.forward
                 );
             }
         }
+    }
+
+    private float GetProjectileSpeed(WeaponLevelData data)
+    {
+        if (data == null)
+            return bulletSpeed;
+
+        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.bulletSpeed;
     }
 }

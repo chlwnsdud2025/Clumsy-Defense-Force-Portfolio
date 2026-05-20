@@ -32,7 +32,7 @@ public class GroundDotWeapon : WeaponBase
         if (dotArea != null)
         {
             dotArea.Init(
-                GetFinalDamage(data.damage),
+                GetFinalDamage(data.Damage),
                 data.dotDuration,
                 data.dotTickInterval,
                 data.dotWidth,

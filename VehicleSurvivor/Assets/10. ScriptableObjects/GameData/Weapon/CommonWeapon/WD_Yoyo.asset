@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
+  m_Name: WD_Yoyo
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
+  weaponId: weapon_common_yoyo
+  weaponName: "요요"
+  description: "요요가 나갔다 돌아오며 관통 피해를 줍니다."
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 0}
+  weaponType: 0
+  tags:
+  - "투사체"
+  - "관통"
+  - "왕복"
+  levelDataList:
+  - bulletSpeed: 10
+    spreadAngle: 0
+    radius: 6
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.1
+    meteorDelay: 1
+    description: "기본 요요 공격"
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1.1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 10.5
+    spreadAngle: 0
+    radius: 6
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 10.5
+    duration: 1.1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+  - bulletSpeed: 10.5
+    spreadAngle: 0
+    radius: 7
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.1
+    meteorDelay: 1
+    description: "사거리 증가"
+    cooldown: 0.95
+    damage: 12
+    projectileSpeed: 10.5
+    duration: 1.1
+    size: 1.1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 7
+  - bulletSpeed: 11
+    spreadAngle: 0
+    radius: 7
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.1
+    meteorDelay: 1
+    description: "속도 증가"
+    cooldown: 0.9
+    damage: 14
+    projectileSpeed: 11
+    duration: 1.1
+    size: 1.1
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 7
+  - bulletSpeed: 11.5
+    spreadAngle: 0
+    radius: 7.5
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.1
+    meteorDelay: 1
+    description: "피해량 증가"
+    cooldown: 0.85
+    damage: 16
+    projectileSpeed: 11.5
+    duration: 1.1
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 7.5
+  evolutionWeaponId: weapon_evolved_rainbow_yoyo
+  requiredPassiveId: passive_skill_size

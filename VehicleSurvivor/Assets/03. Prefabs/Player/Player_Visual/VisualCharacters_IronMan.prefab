@@ -29798,6 +29798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4702135378793826837}
+  - component: {fileID: 8462687797385510402}
   m_Layer: 0
   m_Name: VisualCharacters_IronMan
   m_TagString: Untagged
@@ -29818,11 +29819,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1956564544104142869}
   - {fileID: 9159980288559769540}
   - {fileID: 7678945836033581886}
   - {fileID: 8556400877779435861}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8462687797385510402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335225805418909871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247e0c4e9282ba4f82888ecc140f27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponInventory
+  weaponRoot: {fileID: 1956564544104142869}
 --- !u!1 &5349689354270001328
 GameObject:
   m_ObjectHideFlags: 0
@@ -32040,6 +32055,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.458219, y: 0.07730356, z: 0.00000017881393}
     m_Extent: {x: 0.40318924, y: 0.40697846, z: 0.35999107}
   m_DirtyAABB: 0
+--- !u!1 &5711203422868347620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1956564544104142869}
+  m_Layer: 0
+  m_Name: WeaponRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1956564544104142869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5711203422868347620}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4702135378793826837}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5736444311373704525
 GameObject:
   m_ObjectHideFlags: 0

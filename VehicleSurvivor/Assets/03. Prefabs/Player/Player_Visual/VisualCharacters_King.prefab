@@ -9449,6 +9449,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.19052759, y: 0.037932485, z: 0.5705694}
     m_Extent: {x: 0.23846176, y: 0.38480666, z: 0.36071634}
   m_DirtyAABB: 0
+--- !u!1 &1518577601904521931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5880677020590587448}
+  m_Layer: 0
+  m_Name: WeaponRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5880677020590587448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518577601904521931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4753961946986235007}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1542685524810421630
 GameObject:
   m_ObjectHideFlags: 0
@@ -30014,6 +30045,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4753961946986235007}
+  - component: {fileID: 2215609248314337800}
   m_Layer: 0
   m_Name: VisualCharacters_King
   m_TagString: Untagged
@@ -30034,11 +30066,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5880677020590587448}
   - {fileID: 9198296062466730414}
   - {fileID: 7649707630392536404}
   - {fileID: 8504574287912963903}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2215609248314337800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382548778612334277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247e0c4e9282ba4f82888ecc140f27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponInventory
+  weaponRoot: {fileID: 5880677020590587448}
 --- !u!1 &5409838601262472876
 GameObject:
   m_ObjectHideFlags: 0
