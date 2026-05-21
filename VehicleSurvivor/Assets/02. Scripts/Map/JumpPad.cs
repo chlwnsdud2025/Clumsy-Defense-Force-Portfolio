@@ -6,8 +6,8 @@ public class JumpPad : MonoBehaviour
     [Tooltip("목표로 하는 정확한 Y축 점프 높이 (무조건 위로 솟는 높이)")]
     public float targetHeight = 15f;
 
-    [Tooltip("점프대가 바라보는 방향으로 밀어내는 수평 힘")]
-    public float horizontalForce = 0f;
+    [Tooltip("점프대의 '파란색 화살표(앞)' 방향으로 밀어내는 수평 힘")]
+    public float horizontalForce = 15f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,13 +16,13 @@ public class JumpPad : MonoBehaviour
             PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
             if (mechanics != null)
             {
-                // [핵심 변경점] Vector3.up 대신 transform.up(점프대의 로컬 Y축)을 사용합니다!
-                // 만약 점프대 모델링이 누워있어서 Z축(앞쪽)으로 쏴야 한다면 transform.forward 를 쓰시면 됩니다.
-                Vector3 localDirection = transform.up;
+                // [핵심 수정] 점프대가 바라보는 절대적인 '앞(Forward)' 방향을 넘겨줍니다!
+                // 이렇게 하면 플레이어가 어느 쪽을 보며 밟든 무조건 이 방향으로 날아갑니다.
+                Vector3 launchDirection = transform.up;
 
-                mechanics.ApplyTargetHeightJump(targetHeight, horizontalForce, localDirection.normalized);
+                mechanics.ApplyTargetHeightJump(targetHeight, horizontalForce, launchDirection.normalized);
 
-                Debug.Log($"점프대 작동! 높이: {targetHeight}, 밀어내는 힘: {horizontalForce}");
+                Debug.Log($"점프대 작동! 방향: {launchDirection}, 밀어내는 힘: {horizontalForce}");
             }
         }
     }
