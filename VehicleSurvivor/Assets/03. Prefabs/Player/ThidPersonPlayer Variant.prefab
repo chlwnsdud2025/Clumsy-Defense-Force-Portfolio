@@ -2502,6 +2502,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6021075331710064371}
+    - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2490379290023210624}
   m_SourcePrefab: {fileID: 100100000, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
 --- !u!1 &8177667092822737817 stripped
 GameObject:
@@ -2534,3 +2537,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79d24373aba1614d9cb30655aeed021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExternalMechanics
+  airFriction: 1
+  groundFriction: 5
+--- !u!114 &2490379290023210624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177667092822737817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52d5f97e946d724e93d208f4f0e3f0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformRider
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  movingPlatformTag: MovingPlatform
+  groundCheckDistance: 0.5
