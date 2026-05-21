@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ChainLightningWeapon : WeaponBase
 {
@@ -9,51 +10,20 @@ public class ChainLightningWeapon : WeaponBase
     [Header("Target Settings")]
     public LayerMask targetLayer;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float cooldown = 1f;
-    public float detectRadius = 10f;
-    public int chainCount = 3;
-    public float chainRadius = 5f;
+    [Header("Target Settings")]
+    [FormerlySerializedAs("detectRadius")]
+    public float fallbackDetectRadius = 10f;
 
     [Header("Effect Settings")]
     public float lineLifeTime = 0.1f;
-
-
-    protected override void Update()
-    {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-    }
 
     protected override void Attack(WeaponLevelData data)
     {
         ChainAttackFromPosition(
             GetDetectRadius(data),
-            Mathf.Max(0, data.chainCount),
-            data.chainRadius > 0f ? data.chainRadius : GetDetectRadius(data),
+            Mathf.Max(0, data.ChainCount),
+            data.ChainRadius > 0f ? data.ChainRadius : GetDetectRadius(data),
             GetFinalDamage(data.Damage)
-        );
-    }
-
-    private void AttackLegacy()
-    {
-        ChainAttackFromPosition(
-            detectRadius,
-            chainCount,
-            chainRadius,
-            GetFinalDamage(damage)
         );
     }
 
@@ -185,14 +155,11 @@ public class ChainLightningWeapon : WeaponBase
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
+        Gizmos.DrawWireSphere(transform.position, fallbackDetectRadius);
     }
 
     private float GetDetectRadius(WeaponLevelData data)
     {
-        if (data == null)
-            return detectRadius;
-
-        return data.Range > 0f ? data.Range : detectRadius;
+        return data.Range > 0f ? data.Range : fallbackDetectRadius;
     }
 }

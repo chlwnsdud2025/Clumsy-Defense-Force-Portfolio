@@ -26,7 +26,7 @@ public class BouncyProjectileWeapon : WeaponBase
             if (count > 1)
             {
                 float centerIndex = (count - 1) * 0.5f;
-                angle = (i - centerIndex) * data.spreadAngle;
+                angle = (i - centerIndex) * data.SpreadAngle;
             }
 
             Quaternion rotation =
@@ -45,8 +45,8 @@ public class BouncyProjectileWeapon : WeaponBase
             {
                 projectile.Init(
                     GetFinalDamage(data.Damage),
-                    data.bulletSpeed,
-                    data.bounceCount,
+                    data.BulletSpeed,
+                    data.BounceCount,
                     enemyLayer,
                     bounceLayer,
                     rotation * Vector3.forward

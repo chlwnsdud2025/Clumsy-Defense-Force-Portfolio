@@ -32,11 +32,13 @@ public sealed class RewardApplier
 
         bool alreadySpawned = playerWeaponSpawner != null && playerWeaponSpawner.HasSpawnedWeapon(definition.WeaponId);
         WeaponInstance weapon = player.Inventory.AddOrLevelUpWeapon(definition);
+        if (weapon == null)
+            return false;
 
         if (!alreadySpawned && playerWeaponSpawner != null)
             playerWeaponSpawner.TrySpawnWeapon(weapon, owner);
 
-        return weapon != null;
+        return true;
     }
 
     private static bool ApplyPassive(PlayerRuntime player, PassiveDefinitionSO definition)

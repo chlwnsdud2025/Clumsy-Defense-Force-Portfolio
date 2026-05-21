@@ -9,48 +9,13 @@ public class ProjectileWeapon : WeaponBase
     [Header("Fire Point")]
     public Transform firePoint;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float cooldown = 1f;
-    public float bulletSpeed = 20f;
-    public int projectileCount = 1;
-    public float spreadAngle = 15f;
-
-
-    protected override void Update()
-    {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-    }
-
     protected override void Attack(WeaponLevelData data)
     {
         FireProjectiles(
             GetFinalDamage(data.Damage),
             GetProjectileSpeed(data),
             Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
-            data.spreadAngle
-        );
-    }
-
-    private void AttackLegacy()
-    {
-        FireProjectiles(
-            GetFinalDamage(damage),
-            bulletSpeed,
-            Mathf.Max(1, GetFinalProjectileCount(projectileCount)),
-            spreadAngle
+            data.SpreadAngle
         );
     }
 
@@ -119,9 +84,6 @@ public class ProjectileWeapon : WeaponBase
 
     private float GetProjectileSpeed(WeaponLevelData data)
     {
-        if (data == null)
-            return bulletSpeed;
-
-        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.bulletSpeed;
+        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.BulletSpeed;
     }
 }

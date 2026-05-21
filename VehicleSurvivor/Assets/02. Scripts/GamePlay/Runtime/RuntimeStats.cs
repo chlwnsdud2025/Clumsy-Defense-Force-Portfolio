@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [System.Serializable]
-public sealed class RuntimeStats
+public sealed class RuntimeStats //PlayerRuntime 안에 들어있는 스탯 계산기
 {
     private readonly Dictionary<EStatType, float> baseStats = new();
     private readonly List<RuntimeModifier> modifiers = new();
