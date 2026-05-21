@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4546e222ba463754f9c8c2d71179db91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RollingObstacle
-  knockbackForce: 100
+  knockbackForce: 20
   knockbackHeight: 1
 --- !u!135 &7781529007628955705
 SphereCollider:
