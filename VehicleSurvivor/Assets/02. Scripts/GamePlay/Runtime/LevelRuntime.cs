@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public sealed class LevelRuntime
 {
@@ -30,6 +31,7 @@ public sealed class LevelRuntime
 
             RequiredExp = CalculateRequiredExp(Level);
 
+            Debug.Log($"[LevelRuntime] LevelUp. Level={Level}, CurrentExp={CurrentExp}, RequiredExp={RequiredExp}, HasListeners={OnLevelUp != null}");
             OnLevelUp?.Invoke(Level);
         }
 

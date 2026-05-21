@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -10,9 +11,6 @@ public class RunManager : MonoSceneSingleton<RunManager>
     [SerializeField] private ItemTableSO itemTable;
 
     [SerializeField] private int rewardOptionCount = 3;
-
-    [Header("Temporary Toggles")]
-    [SerializeField] private bool enableLevelUpRewardPopup = true;
 
     private IEventBus _eventBus;
     private RunContext _runContext;
@@ -354,17 +352,16 @@ public class RunManager : MonoSceneSingleton<RunManager>
         _runContext.GameOver();
     }
 
-    private void HandlePlayerLevelUp(int _)
+    private void HandlePlayerLevelUp(int level)
     {
         if (_runContext == null)
         {
+            Debug.LogWarning($"[RunManager] LevelUp event received, but RunContext is null. Level={level}");
             return;
         }
 
-        if (!enableLevelUpRewardPopup)
-        {
-            return;
-        }
+        Debug.LogWarning($"[RunManager] LevelUp event received. Level={level}, State={_runContext.State}");
+        LogLevelUpRewardOptions();
 
         pendingLevelUpRewardCount++;
         TryEnterPendingLevelUpReward();
@@ -454,5 +451,65 @@ public class RunManager : MonoSceneSingleton<RunManager>
     private int GetRewardOptionCount()
     {
         return rewardOptionCount > 0 ? rewardOptionCount : 3;
+    }
+
+    private void LogLevelUpRewardOptions()
+    {
+        List<RewardOption> options = GenerateLevelUpRewardOptions();
+        StringBuilder builder = new StringBuilder();
+
+        builder.AppendLine($"[RunManager] LevelUp reward options generated. Count={options.Count}");
+
+        for (int i = 0; i < options.Count; i++)
+        {
+            RewardOption option = options[i];
+            if (option == null)
+            {
+                builder.AppendLine($"  {i}: <null>");
+                continue;
+            }
+
+            builder.Append("  ");
+            builder.Append(i);
+            builder.Append(": Type=");
+            builder.Append(option.Type);
+            builder.Append(", Name=");
+            builder.Append(option.DisplayName);
+            builder.Append(", IsNew=");
+            builder.Append(option.IsNew);
+            builder.Append(", Level=");
+            builder.Append(option.Level);
+
+            if (option.Weapon != null)
+            {
+                builder.Append(", WeaponId=");
+                builder.Append(option.Weapon.WeaponId);
+                builder.Append(", MaxLevel=");
+                builder.Append(option.Weapon.MaxLevel);
+                builder.Append(", HasPrefab=");
+                builder.Append(option.Weapon.WeaponPrefab != null);
+            }
+            else if (option.Passive != null)
+            {
+                builder.Append(", PassiveId=");
+                builder.Append(option.Passive.PassiveId);
+                builder.Append(", MaxLevel=");
+                builder.Append(option.Passive.MaxLevel);
+            }
+            else if (option.Item != null)
+            {
+                builder.Append(", ItemId=");
+                builder.Append(option.Item.ItemId);
+            }
+            else
+            {
+                builder.Append(", HealAmount=");
+                builder.Append(option.HealAmount);
+            }
+
+            builder.AppendLine();
+        }
+
+        Debug.LogWarning(builder.ToString());
     }
 }
