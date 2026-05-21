@@ -13,6 +13,7 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private Slider hpSlider;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Slider expSlider;
+    [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Slider boostSlider;
 
     [Header("Game Info UI")]
@@ -71,6 +72,7 @@ public class UI_InGameHUD : UIScene
             UpdateCharacterName(string.Empty);
             UpdateHpGauge(0, 1);
             UpdateExpGauge(0, 1);
+            UpdateLevelUI(1);
             UpdateBoostGauge(0, 1);
             UpdateGoldUI(0);
             UpdateKillUI(0);
@@ -84,6 +86,7 @@ public class UI_InGameHUD : UIScene
         UpdateHpGauge(maxHp, maxHp);
 
         UpdateExpGauge(0, 1);
+        UpdateLevelUI(1);
         UpdateBoostGauge(0, 1);
         UpdateGoldUI(0);
         UpdateKillUI(0);
@@ -100,6 +103,7 @@ public class UI_InGameHUD : UIScene
 
         _eventBus.Subscribe<HpChangedEvent>(OnHpChanged);
         _eventBus.Subscribe<ExpChangedEvent>(OnExpChanged);
+        _eventBus.Subscribe<LevelChangedEvent>(OnLevelChanged);
         _eventBus.Subscribe<KillCountEvent>(OnKillChanged);
         _eventBus.Subscribe<TimeChangeEvent>(OnTimeChanged);
         _eventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
@@ -116,6 +120,7 @@ public class UI_InGameHUD : UIScene
         {
             _eventBus.Unsubscribe<HpChangedEvent>(OnHpChanged);
             _eventBus.Unsubscribe<ExpChangedEvent>(OnExpChanged);
+            _eventBus.Unsubscribe<LevelChangedEvent>(OnLevelChanged);
             _eventBus.Unsubscribe<KillCountEvent>(OnKillChanged);
             _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
             _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
@@ -180,6 +185,12 @@ public class UI_InGameHUD : UIScene
         }
     }
 
+    public void UpdateLevelUI(int level)
+    {
+        if (levelText != null)
+            levelText.text = $"Lv. {level}";
+    }
+
     public void UpdateGoldUI(int gold)
     {
         if (goldText != null)
@@ -209,6 +220,11 @@ public class UI_InGameHUD : UIScene
     private void OnExpChanged(ExpChangedEvent e)
     {
         UpdateExpGauge(e.Current, e.Required);
+    }
+
+    private void OnLevelChanged(LevelChangedEvent e)
+    {
+        UpdateLevelUI(e.Level);
     }
 
     private void OnKillChanged(KillCountEvent e)

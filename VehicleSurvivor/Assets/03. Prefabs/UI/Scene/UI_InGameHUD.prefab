@@ -10582,6 +10582,7 @@ MonoBehaviour:
   hpSlider: {fileID: 2709037498389428066}
   hpText: {fileID: 4560453666014557937}
   expSlider: {fileID: 5911194077098806910}
+  levelText: {fileID: 3020715701918177126}
   boostSlider: {fileID: 6205259088183871503}
   goldText: {fileID: 7665347029620059585}
   killCountText: {fileID: 6113477433920861531}
