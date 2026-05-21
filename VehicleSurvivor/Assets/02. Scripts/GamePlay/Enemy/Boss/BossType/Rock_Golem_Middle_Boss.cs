@@ -21,7 +21,7 @@ public class Rock_Golem_Middle_Boss : BossEnemy
     [Header("VFX")]
     public GameObject explosionEffectPrefab;
 
-
+    private Transform cachedVfxContainer = null;
     protected override void Attack()
     {
         if (isCastingPattern) return;
@@ -35,9 +35,13 @@ public class Rock_Golem_Middle_Boss : BossEnemy
     // ==========================================
     private Transform GetVfxContainer()
     {
+        // 1. 이미 찾은 적이 있다면 검색하지 않고 바로 반환! (초고속)
+        if (cachedVfxContainer != null) return cachedVfxContainer;
+
         if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
         {
-            return EnemyManager.Instance.FxParent;
+            cachedVfxContainer = EnemyManager.Instance.FxParent;
+            return cachedVfxContainer;
         }
 
         GameObject container = GameObject.Find("Boss_VFX_Container");
@@ -45,7 +49,9 @@ public class Rock_Golem_Middle_Boss : BossEnemy
         {
             container = new GameObject("Boss_VFX_Container");
         }
-        return container.transform;
+
+        cachedVfxContainer = container.transform;
+        return cachedVfxContainer;
     }
     // ==========================================
 

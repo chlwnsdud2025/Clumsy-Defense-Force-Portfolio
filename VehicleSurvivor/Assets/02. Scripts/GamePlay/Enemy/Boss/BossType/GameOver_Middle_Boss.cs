@@ -23,6 +23,8 @@ public class GameOver_Middle_Boss : BossEnemy
     [Header("VFX")]
     public GameObject explosionEffectPrefab;
 
+    private Transform cachedVfxContainer = null;
+
     // 부모의 abstract 함수를 강제로 덮어써서 자신만의 패턴을 실행합니다.
     protected override void Attack()
     {
@@ -37,9 +39,13 @@ public class GameOver_Middle_Boss : BossEnemy
     // ==========================================
     private Transform GetVfxContainer()
     {
+        // 1. 이미 찾은 적이 있다면 검색하지 않고 바로 반환! (초고속)
+        if (cachedVfxContainer != null) return cachedVfxContainer;
+
         if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
         {
-            return EnemyManager.Instance.FxParent;
+            cachedVfxContainer = EnemyManager.Instance.FxParent;
+            return cachedVfxContainer;
         }
 
         GameObject container = GameObject.Find("Boss_VFX_Container");
@@ -47,7 +53,9 @@ public class GameOver_Middle_Boss : BossEnemy
         {
             container = new GameObject("Boss_VFX_Container");
         }
-        return container.transform;
+
+        cachedVfxContainer = container.transform;
+        return cachedVfxContainer;
     }
     // ==========================================
 

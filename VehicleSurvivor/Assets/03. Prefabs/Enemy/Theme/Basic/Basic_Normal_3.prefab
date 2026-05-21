@@ -117,6 +117,10 @@ MonoBehaviour:
   slowClimbSpeed: 5
   contactDamage: 10
   gravity: -20
+  modelRenderers:
+  - {fileID: 510731679741933136}
+  flashDuration: 0.1
+  flashCooldown: 0.1
 --- !u!1 &8486141435203068221
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +225,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48bdbdec4d5a56a47970547c4020273d, type: 3}
+--- !u!23 &510731679741933136 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3291989112303782285, guid: 48bdbdec4d5a56a47970547c4020273d, type: 3}
+  m_PrefabInstance: {fileID: 3078497757302652893}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1197929289026650808 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4190286303908347237, guid: 48bdbdec4d5a56a47970547c4020273d, type: 3}
