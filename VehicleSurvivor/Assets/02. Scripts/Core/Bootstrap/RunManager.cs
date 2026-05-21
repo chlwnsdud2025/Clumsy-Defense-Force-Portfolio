@@ -11,9 +11,6 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     [SerializeField] private int rewardOptionCount = 3;
 
-    [Header("Temporary Toggles")]
-    [SerializeField] private bool enableLevelUpRewardPopup = true;
-
     private IEventBus _eventBus;
     private RunContext _runContext;
     private RewardSystem rewardSystem;
@@ -354,15 +351,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
         _runContext.GameOver();
     }
 
-    private void HandlePlayerLevelUp(int _)
+    private void HandlePlayerLevelUp(int level)
     {
         if (_runContext == null)
         {
-            return;
-        }
-
-        if (!enableLevelUpRewardPopup)
-        {
+            Debug.LogWarning($"[RunManager] LevelUp event received, but RunContext is null. Level={level}");
             return;
         }
 
@@ -392,10 +385,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         if (nextState == ERunState.RewardSelection)
         {
-            UI_LevelUp rewardPopup = uiManager.ShowPopup<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
-            if (rewardPopup != null)
-                //rewardPopup.ShowRewards(this, GenerateRewardOptions());
-
+            ShowLevelUpRewardPopupAsync(uiManager).Forget();
             return;
         }
 
@@ -448,7 +438,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         if (rewardOptions.Count == 0)
             Debug.LogWarning("[RunManager] LevelUp reward option list is empty.");
 
-        //rewardPopup.ShowRewards(this, rewardOptions);
+        rewardPopup.ShowRewards(this, rewardOptions);
     }
 
     private int GetRewardOptionCount()
