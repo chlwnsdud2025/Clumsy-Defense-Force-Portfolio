@@ -1,5 +1,47 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/pYPBpAWz)
 
+# VehicleSurvivor
+
+3D 서바이벌 액션 게임입니다. 캐릭터를 선택한 뒤 맵에서 적 웨이브를 피하며 생존하고, 경험치를 모아 레벨업 보상(무기·패시브)을 고르고, 스테이지 목표를 달성해 다음 페이즈로 진행합니다.
+
+## 프로젝트 검토용 안내
+
+### 실행 방법
+
+| 항목 | 내용 |
+|------|------|
+| Unity 버전 | **6000.4.5f1** |
+| 프로젝트 폴더 | `VehicleSurvivor/` |
+| 시작 씬 (Build Settings 0번) | `Assets/01. Scenes/GamePlay/TitleScene.unity` |
+| 인게임 씬 (Build Settings 1번) | `Assets/01. Scenes/GamePlay/InGameScene.unity` |
+
+Unity Hub에서 `VehicleSurvivor` 폴더를 연 뒤 **Play**를 누르면 타이틀 씬부터 실행됩니다. (Build Settings에 위 두 씬만 등록되어 있습니다.)
+
+### 플레이 흐름
+
+1. **타이틀** — 화면을 클릭해 시작
+2. **캐릭터 선택** — 원하는 캐릭터 선택 후 게임 시작
+3. **인게임** — 이동·회피, 자동/획득 무기로 적 처치, 경험치·레벨업 보상 선택, 스테이지 클리어
+
+### 조작 (키보드·마우스)
+
+| 입력 | 동작 |
+|------|------|
+| `W` `A` `S` `D` | 이동 |
+| 마우스 | 시점(카메라) |
+| `Space` | 점프 |
+| `Left Shift` | 달리기 |
+
+게임패드 입력도 지원합니다.
+
+### 주요 폴더
+
+- `Assets/01. Scenes/GamePlay/` — 타이틀·인게임 씬
+- `Assets/02. Scripts/` — 게임 로직·UI
+- `Assets/03. Prefabs/` — 플레이어 등 프리팹
+
+---
+
 # Unity 프로젝트 코딩 컨벤션
 
 ## 명명 규칙
