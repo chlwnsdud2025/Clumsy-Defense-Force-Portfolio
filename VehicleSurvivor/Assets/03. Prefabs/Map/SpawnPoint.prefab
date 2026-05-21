@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a553c6cdd1470c44a7cc3ea922fc04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageCheckpoint
-  myStageSpawnPoint: {fileID: 7943006632649035149}
+  myStageSpawnPoint: {fileID: 6979778048191042564}
 --- !u!1 &3590046724156501518
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3590046724156501518}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a553c6cdd1470c44a7cc3ea922fc04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageCheckpoint
-  myStageSpawnPoint: {fileID: 7943006632649035149}
+  myStageSpawnPoint: {fileID: 4980154242424736903}
 --- !u!1 &5028493604007563426
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a553c6cdd1470c44a7cc3ea922fc04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageCheckpoint
-  myStageSpawnPoint: {fileID: 7943006632649035149}
+  myStageSpawnPoint: {fileID: 4150615648844515759}
 --- !u!1 &6393946619516919509
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a553c6cdd1470c44a7cc3ea922fc04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageCheckpoint
-  myStageSpawnPoint: {fileID: 7943006632649035149}
+  myStageSpawnPoint: {fileID: 4300855931935801586}
 --- !u!1 &8349640020778766693
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,4 +684,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a553c6cdd1470c44a7cc3ea922fc04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageCheckpoint
-  myStageSpawnPoint: {fileID: 7943006632649035149}
+  myStageSpawnPoint: {fileID: 5112393116673792207}

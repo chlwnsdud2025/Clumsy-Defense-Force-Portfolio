@@ -1,21 +1,28 @@
 using UnityEngine;
-using System.Reflection; // [핵심] 원본 수정 없이 private 변수에 접근하기 위해 필요
+using System.Reflection;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerExternalMechanics : MonoBehaviour
 {
     private CharacterController _controller;
     private PlayerController _playerController;
-    private FieldInfo _verticalVelocityField; // 원본 스크립트의 숨겨진 중력 변수
+    private FieldInfo _verticalVelocityField;
 
     private Vector3 _externalImpact = Vector3.zero;
+
+    // 윈드존 변수가 이렇게 간단해집니다!
+    private bool _isWindActive = false;
+    private float _windLiftSpeed = 0f;
+
+    [Header("Impact Friction Settings")]
+    public float airFriction = 1.0f;
+    public float groundFriction = 5.0f;
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _playerController = GetComponent<PlayerController>();
 
-        // C# Reflection: 원본 코드를 건드리지 않고 private _verticalVelocity 변수에 연결
         if (_playerController != null)
         {
             _verticalVelocityField = typeof(PlayerController).GetField("_verticalVelocity", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -24,13 +31,14 @@ public class PlayerExternalMechanics : MonoBehaviour
 
     void Update()
     {
+        // 1. 점프대 연산
         if (_externalImpact.magnitude > 0.2f)
         {
             _controller.Move(_externalImpact * Time.deltaTime);
 
-            // [핵심 변경점] 원본 스크립트의 Grounded 상태를 읽어와서 마찰력을 다르게 적용합니다!
-            // 땅에 있을 땐 마찰력 5 (빨리 멈춤), 공중에 있을 땐 마찰력 1 (포물선 유지)
-            float friction = _playerController != null && _playerController.Grounded ? 5f : 1f;
+            float currentVerticalVelocity = _verticalVelocityField != null ? (float)_verticalVelocityField.GetValue(_playerController) : 0f;
+            bool isReallyGrounded = _playerController != null && _playerController.Grounded && currentVerticalVelocity <= 0f;
+            float friction = isReallyGrounded ? groundFriction : airFriction;
 
             _externalImpact = Vector3.Lerp(_externalImpact, Vector3.zero, friction * Time.deltaTime);
         }
@@ -38,41 +46,46 @@ public class PlayerExternalMechanics : MonoBehaviour
         {
             _externalImpact = Vector3.zero;
         }
+
+        // ==========================================
+        // 2. 윈드존 연산 (상승 기능만 유지)
+        // ==========================================
+        if (_isWindActive && _verticalVelocityField != null && _playerController != null)
+        {
+            float gravity = _playerController.Gravity;
+            float frameGravityEffect = gravity * Time.deltaTime;
+
+            // 원본 스크립트의 중력을 상쇄하며 우리가 정한 속도(_windLiftSpeed)로 일정하게 밀어 올립니다.
+            _verticalVelocityField.SetValue(_playerController, _windLiftSpeed - frameGravityEffect);
+        }
     }
 
     public void ApplyTargetHeightJump(float targetHeight, float horizontalForce, Vector3 direction)
     {
+        _externalImpact = Vector3.zero;
+
         if (_playerController != null && _verticalVelocityField != null)
         {
-            // 원본 스크립트에서 현재 맵의 중력 값을 가져옵니다.
             float gravity = _playerController.Gravity;
-
-            // 물리학 공식: 목표 높이에 도달하기 위해 필요한 정확한 수직(Y축) 초기 속도 계산
             float requiredVelocity = Mathf.Sqrt(targetHeight * -2f * gravity);
-
-            // 떨어지면서 누적된 마이너스 중력을 싹 무시하고, 계산된 점프 속도로 완벽하게 덮어씌움!
             _verticalVelocityField.SetValue(_playerController, requiredVelocity);
         }
 
-        // X, Z 방향으로 날려보내는 힘 처리 (대각선 점프대용)
-        // 수직(Vector3.up) 점프대라면 direction.x, z가 0이므로 제자리 점프가 됩니다.
         _externalImpact.x = direction.x * horizontalForce;
         _externalImpact.z = direction.z * horizontalForce;
-        _externalImpact.y = 0f; // Y축은 위에서 원본 변수를 직접 조작했으므로 0으로 둡니다.
+        _externalImpact.y = 0f;
     }
 
-    // 트랙터 빔(바람)에 의해 특정 방향으로 강제 견인되는 로직
-    public void ApplyTractorBeam(Vector3 moveDelta, bool suspendGravity)
+    // [수정됨] 정점 플래그(isAtApex)가 아예 필요 없어졌습니다!
+    public void SetWindForce(float liftSpeed)
     {
-        if (_verticalVelocityField != null && _playerController != null)
-        {
-            // [핵심 변경점] 정점에 도달했을 때는 중력을 0으로 만들어 덜덜거리는 추락을 원천 차단합니다.
-            _verticalVelocityField.SetValue(_playerController, suspendGravity ? 0f : -2f);
-        }
+        _windLiftSpeed = liftSpeed;
+        _isWindActive = true;
+    }
 
-        if (moveDelta != Vector3.zero)
-        {
-            _controller.Move(moveDelta);
-        }
+    public void RemoveWindForce()
+    {
+        _windLiftSpeed = 0f;
+        _isWindActive = false;
     }
 }
