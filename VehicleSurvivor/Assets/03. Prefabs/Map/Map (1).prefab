@@ -968,7 +968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &59706728853368372
 GameObject:
   m_ObjectHideFlags: 0
@@ -7664,8 +7664,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -11907,7 +11907,7 @@ Transform:
   m_GameObject: {fileID: 554591829143157772}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -70.262344, y: 45.93, z: -259.76617}
+  m_LocalPosition: {x: -70.262344, y: 47.77, z: -259.76617}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14370,7 +14370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &669581094369155616
 GameObject:
   m_ObjectHideFlags: 0
@@ -21684,7 +21684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &942047831807548405
 GameObject:
   m_ObjectHideFlags: 0
@@ -38945,7 +38945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &1776987291860120910
 GameObject:
   m_ObjectHideFlags: 0
@@ -40426,7 +40426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &1831845243267672010
 GameObject:
   m_ObjectHideFlags: 0
@@ -43941,8 +43941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -44567,8 +44567,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3f872c184cf6d478f4a5abd1d5f7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
-  targetHeight: 100
-  horizontalForce: 100
+  targetHeight: 80
+  horizontalForce: 120
 --- !u!1 &2047014784948579676
 GameObject:
   m_ObjectHideFlags: 0
@@ -47652,148 +47652,6 @@ MonoBehaviour:
   useRandomDelay: 1
   maxRandomDelay: 3
   useLocalAxes: 1
---- !u!1 &2185750777138395584
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1521803725099656058}
-  - component: {fileID: 2499871599535156447}
-  - component: {fileID: 384394421051955221}
-  - component: {fileID: 9007128407157949337}
-  - component: {fileID: 3730973263932542905}
-  m_Layer: 10
-  m_Name: obstacle_14_001 (8)
-  m_TagString: MovingPlatform
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1521803725099656058
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2185750777138395584}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.000000019367869, y: -0.8693219, z: -0.000000021740922, w: -0.4942464}
-  m_LocalPosition: {x: -138.2, y: 39.4, z: -126.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6235837830709456521}
-  m_Father: {fileID: 8389086036654568374}
-  m_LocalEulerAnglesHint: {x: 0, y: -239.23999, z: 0}
---- !u!33 &2499871599535156447
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2185750777138395584}
-  m_Mesh: {fileID: 3259346362896294666, guid: d6a211ce15d7d2e4fa9dc0ef865251ea, type: 3}
---- !u!23 &384394421051955221
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2185750777138395584}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c04da3fe466afa14ca4efc2c565b0eb3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &9007128407157949337
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2185750777138395584}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3259346362896294666, guid: d6a211ce15d7d2e4fa9dc0ef865251ea, type: 3}
---- !u!54 &3730973263932542905
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2185750777138395584}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2191134633622535848
 GameObject:
   m_ObjectHideFlags: 0
@@ -48598,7 +48456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &2253792603308773709
 GameObject:
   m_ObjectHideFlags: 0
@@ -52735,7 +52593,7 @@ Transform:
   m_GameObject: {fileID: 2445006110295830162}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -69.81235, y: 45.93, z: -271.73615}
+  m_LocalPosition: {x: -61.8, y: 47.77, z: -260.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -53666,7 +53524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &2526857872812285354
 GameObject:
   m_ObjectHideFlags: 0
@@ -56552,8 +56410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -67012,7 +66870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &3191891957208252542
 GameObject:
   m_ObjectHideFlags: 0
@@ -76525,8 +76383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -76807,8 +76665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -78774,7 +78632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &3704035698804217445
 GameObject:
   m_ObjectHideFlags: 0
@@ -80930,119 +80788,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationAxis: 1
   rotationSpeed: 50
---- !u!1 &3818422849852740327
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4590878814296688733}
-  - component: {fileID: 583717941414610936}
-  - component: {fileID: 3457989538127459122}
-  - component: {fileID: 3313354033634117728}
-  m_Layer: 0
-  m_Name: arch_006
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4590878814296688733
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818422849852740327}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.5573814, z: -0, w: 0.83025664}
-  m_LocalPosition: {x: -52.60234, y: 52.5, z: -278.78616}
-  m_LocalScale: {x: 1.4999999, y: 1.5, z: 1.4999999}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1095268581352468856}
-  m_LocalEulerAnglesHint: {x: 0, y: -67.75, z: 0}
---- !u!33 &583717941414610936
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818422849852740327}
-  m_Mesh: {fileID: 5645639347523070597, guid: d47f6fc790525364987029ec368bdde2, type: 3}
---- !u!23 &3457989538127459122
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818422849852740327}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c04da3fe466afa14ca4efc2c565b0eb3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3313354033634117728
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818422849852740327}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5645639347523070597, guid: d47f6fc790525364987029ec368bdde2, type: 3}
 --- !u!1 &3831386271386088795
 GameObject:
   m_ObjectHideFlags: 0
@@ -82977,7 +82722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &3924822202365324187
 GameObject:
   m_ObjectHideFlags: 0
@@ -83236,8 +82981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -87539,6 +87284,134 @@ MonoBehaviour:
   useRandomDelay: 1
   maxRandomDelay: 3
   useLocalAxes: 1
+--- !u!1 &4165423993194694268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 636234560749065593}
+  - component: {fileID: 449530913675791078}
+  - component: {fileID: 5985906080893787995}
+  - component: {fileID: 4952496301791595438}
+  - component: {fileID: 7009640448795072813}
+  m_Layer: 10
+  m_Name: obstacle_14_002
+  m_TagString: MovingPlatform
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &636234560749065593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165423993194694268}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4839642177455701886}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &449530913675791078
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165423993194694268}
+  m_Mesh: {fileID: 5668489980306081747, guid: ef0c92f3ffb51bd4784d99e4e53e78b5, type: 3}
+--- !u!23 &5985906080893787995
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165423993194694268}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c04da3fe466afa14ca4efc2c565b0eb3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4952496301791595438
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165423993194694268}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5668489980306081747, guid: ef0c92f3ffb51bd4784d99e4e53e78b5, type: 3}
+--- !u!114 &7009640448795072813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165423993194694268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff6089d4b36a4a8c805bddeb86a194e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAxis: 1
+  rotationSpeed: 50
 --- !u!1 &4168658210251421755
 GameObject:
   m_ObjectHideFlags: 0
@@ -90332,6 +90205,120 @@ MonoBehaviour:
   maxRandomDelay: 1
   useLocalAxes: 1
   selectedCurveType: 3
+--- !u!1 &4338799305027588195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4839642177455701886}
+  - component: {fileID: 3717663980100400936}
+  - component: {fileID: 7918860055127979726}
+  - component: {fileID: 3326307731000235739}
+  m_Layer: 10
+  m_Name: obstacle_14_001 (8)
+  m_TagString: MovingPlatform
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4839642177455701886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338799305027588195}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.000000019367869, y: -0.8693219, z: -0.000000021740922, w: -0.4942464}
+  m_LocalPosition: {x: -138.08, y: 39.4, z: -126.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 636234560749065593}
+  m_Father: {fileID: 8389086036654568374}
+  m_LocalEulerAnglesHint: {x: 0, y: -239.23999, z: 0}
+--- !u!33 &3717663980100400936
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338799305027588195}
+  m_Mesh: {fileID: 3259346362896294666, guid: d6a211ce15d7d2e4fa9dc0ef865251ea, type: 3}
+--- !u!23 &7918860055127979726
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338799305027588195}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c04da3fe466afa14ca4efc2c565b0eb3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3326307731000235739
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338799305027588195}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3259346362896294666, guid: d6a211ce15d7d2e4fa9dc0ef865251ea, type: 3}
 --- !u!1 &4340922181771745205
 GameObject:
   m_ObjectHideFlags: 0
@@ -90662,7 +90649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &4369814198972757965
 GameObject:
   m_ObjectHideFlags: 0
@@ -91444,8 +91431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -93856,7 +93843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &4522913869601894545
 GameObject:
   m_ObjectHideFlags: 0
@@ -96482,7 +96469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &4685884161119992387
 GameObject:
   m_ObjectHideFlags: 0
@@ -114640,7 +114627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &5300679473601321858
 GameObject:
   m_ObjectHideFlags: 0
@@ -117000,7 +116987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &5394912881435497835
 GameObject:
   m_ObjectHideFlags: 0
@@ -119828,7 +119815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &5548307320357400342
 GameObject:
   m_ObjectHideFlags: 0
@@ -120516,7 +120503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &5589708034476964819
 GameObject:
   m_ObjectHideFlags: 0
@@ -121808,8 +121795,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -131772,7 +131759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &6084508293747417015
 GameObject:
   m_ObjectHideFlags: 0
@@ -136229,8 +136216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -138783,7 +138770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &6458291586957129094
 GameObject:
   m_ObjectHideFlags: 0
@@ -139091,7 +139078,7 @@ Transform:
   m_GameObject: {fileID: 6476644189686597222}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -67.25235, y: 45.93, z: -279.22617}
+  m_LocalPosition: {x: -56.9, y: 47.77, z: -264.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -141673,7 +141660,6 @@ Transform:
   - {fileID: 5365822512015341971}
   - {fileID: 3516968249500206660}
   - {fileID: 425262850664845482}
-  - {fileID: 4590878814296688733}
   - {fileID: 6160939825319198412}
   - {fileID: 934953185944610486}
   - {fileID: 6173645145783342401}
@@ -144263,7 +144249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &6745199612245928454
 GameObject:
   m_ObjectHideFlags: 0
@@ -144641,134 +144627,6 @@ MonoBehaviour:
   useRandomDelay: 1
   maxRandomDelay: 3
   useLocalAxes: 1
---- !u!1 &6755951238100120627
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6235837830709456521}
-  - component: {fileID: 7000281445091385644}
-  - component: {fileID: 5098366885158639078}
-  - component: {fileID: 5043173775384213284}
-  - component: {fileID: 4178446800928821539}
-  m_Layer: 10
-  m_Name: obstacle_14_002
-  m_TagString: MovingPlatform
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6235837830709456521
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755951238100120627}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1521803725099656058}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7000281445091385644
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755951238100120627}
-  m_Mesh: {fileID: 5668489980306081747, guid: ef0c92f3ffb51bd4784d99e4e53e78b5, type: 3}
---- !u!23 &5098366885158639078
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755951238100120627}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c04da3fe466afa14ca4efc2c565b0eb3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5043173775384213284
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755951238100120627}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5668489980306081747, guid: ef0c92f3ffb51bd4784d99e4e53e78b5, type: 3}
---- !u!114 &4178446800928821539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755951238100120627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6089d4b36a4a8c805bddeb86a194e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationAxis: 1
-  rotationSpeed: 50
 --- !u!1 &6764800882102512979
 GameObject:
   m_ObjectHideFlags: 0
@@ -146300,7 +146158,7 @@ Transform:
   m_GameObject: {fileID: 6830797959425516662}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -66.22235, y: 45.93, z: -254.39616}
+  m_LocalPosition: {x: -66.22235, y: 47.77, z: -254.39616}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -146569,7 +146427,7 @@ Transform:
   m_GameObject: {fileID: 6838400613392011259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -65.732346, y: 45.93, z: -265.73618}
+  m_LocalPosition: {x: -65.732346, y: 47.77, z: -265.73618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -147379,7 +147237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &6899525967714556020
 GameObject:
   m_ObjectHideFlags: 0
@@ -150435,7 +150293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &7034406763874832012
 GameObject:
   m_ObjectHideFlags: 0
@@ -153019,8 +152877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -165616,7 +165474,7 @@ Transform:
   - {fileID: 6917951499519095615}
   - {fileID: 5779606561417852388}
   - {fileID: 9042448380917137531}
-  - {fileID: 1521803725099656058}
+  - {fileID: 4839642177455701886}
   m_Father: {fileID: 7465480801381085434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7827900965243566046
@@ -166766,7 +166624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &7906574343574805087
 GameObject:
   m_ObjectHideFlags: 0
@@ -168549,8 +168407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -179270,7 +179128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &8339282644806227226
 GameObject:
   m_ObjectHideFlags: 0
@@ -187329,8 +187187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5248affe9f66134cb36e7b166f9a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperCar
-  moveSpeed: 60
-  knockbackForce: 150
+  moveSpeed: 50
+  knockbackForce: 50
   knockbackHeight: 3
   arenaCenter: {x: 0, y: 0, z: -253.72}
   arenaRadius: 67.9
@@ -187503,7 +187361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &8754236509377666462
 GameObject:
   m_ObjectHideFlags: 0
@@ -187744,7 +187602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
   targetHeight: 0
-  horizontalForce: 200
+  horizontalForce: 60
 --- !u!1 &8765803808956998139
 GameObject:
   m_ObjectHideFlags: 0
