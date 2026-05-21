@@ -4,6 +4,7 @@ public sealed class PlayerInventory
 {
     private const int DefaultMaxWeaponSlots = 6;
     private const int DefaultMaxPassiveSlots = 6;
+    private const int DefaultMaxItemSlots = 6;
 
     private readonly PlayerRuntime owner;
 
@@ -16,12 +17,13 @@ public sealed class PlayerInventory
     public IReadOnlyList<ItemInstance> Items => items;
     public int MaxWeaponSlots { get; }
     public int MaxPassiveSlots { get; }
-
-    public PlayerInventory(PlayerRuntime owner, int maxWeaponSlots = DefaultMaxWeaponSlots, int maxPassiveSlots = DefaultMaxPassiveSlots)
+    public int MaxItemSlots { get; }
+    public PlayerInventory(PlayerRuntime owner, int maxWeaponSlots = DefaultMaxWeaponSlots, int maxPassiveSlots = DefaultMaxPassiveSlots, int maxItemSlots = DefaultMaxItemSlots)
     {
         this.owner = owner;
         MaxWeaponSlots = maxWeaponSlots;
         MaxPassiveSlots = maxPassiveSlots;
+        MaxItemSlots = maxItemSlots;
     }
 
     public bool CanAddWeapon()
@@ -33,7 +35,10 @@ public sealed class PlayerInventory
     {
         return passives.Count < MaxPassiveSlots;
     }
-
+    public bool CanAddItme()
+    {
+        return items.Count < MaxItemSlots;
+    }
     public WeaponInstance GetWeapon(WeaponDefinitionSO definition)
     {
         if (definition == null)
@@ -49,6 +54,14 @@ public sealed class PlayerInventory
 
         return passives.Find(existing => existing.Definition.PassiveId == definition.PassiveId);
     }
+    public ItemInstance GetItem(ItemDefinitionSO definition)
+    {
+        if (definition == null)
+            return null;
+
+        return items.Find(existing => existing.Definition.ItemId == definition.ItemId);
+    }
+
 
     public void AddOrLevelUpPassive(PassiveDefinitionSO definition)
     {
@@ -73,7 +86,7 @@ public sealed class PlayerInventory
         passives.Add(new PassiveInstance(definition, owner));
     }
 
-    public void AddOrLevelUpItem(ItemDefinitionSO definition)
+    public void OnlyAddItem(ItemDefinitionSO definition)
     {
         if (definition == null)
         {

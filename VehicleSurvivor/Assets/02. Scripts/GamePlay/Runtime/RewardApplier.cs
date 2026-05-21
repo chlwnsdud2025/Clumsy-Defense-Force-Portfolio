@@ -13,6 +13,8 @@ public sealed class RewardApplier
                 return ApplyWeapon(player, reward.Weapon, playerWeaponSpawner, owner);
             case ERewardType.Passive:
                 return ApplyPassive(player, reward.Passive);
+            case ERewardType.Item:
+                return ApplyItem(player, reward.Item);
             case ERewardType.Heal:
                 player.Health.Heal(reward.HealAmount);
                 return true;
@@ -47,6 +49,15 @@ public sealed class RewardApplier
             return false;
 
         player.Inventory.AddOrLevelUpPassive(definition);
+        return true;
+    }
+    private static bool ApplyItem(PlayerRuntime player, ItemDefinitionSO definition)
+    {
+        if(definition == null)
+        {
+            return false;
+        }
+        player.Inventory.OnlyAddItem(definition);
         return true;
     }
 }
