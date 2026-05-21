@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private CharacterController _controller;
     private PlayerInputs _input;
+    private Player _player;
 
     private bool _hasAnimator;
 
@@ -155,6 +156,7 @@ public class PlayerController : MonoBehaviour
         _hasAnimator = TryGetComponent(out _animator);
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputs>();
+        _player = GetComponentInParent<Player>();
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponent<PlayerInput>();
 #else
@@ -219,7 +221,8 @@ public class PlayerController : MonoBehaviour
             return;
 
         // 이동·달리기 입력에 따른 목표 속도
-        float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+        float moveSpeedMultiplier = GetMoveSpeedMultiplier();
+        float targetSpeed = (_input.sprint ? SprintSpeed : MoveSpeed) * moveSpeedMultiplier;
 
         // 단순 가속·감속(교체·튜닝이 쉬운 형태)
         // Vector2 == 는 근사 비교라 magnitude보다 가볍고 부동소수 오차에 덜 취약함
@@ -282,6 +285,21 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat(_animIDSpeed, _animationBlend);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
+    }
+
+    private float GetMoveSpeedMultiplier()
+    {
+        PlayerRuntime playerRuntime = _player != null ? _player.Runtime : null;
+        if (playerRuntime == null)
+        {
+            _player = GetComponentInParent<Player>();
+            playerRuntime = _player != null ? _player.Runtime : null;
+        }
+
+        if (playerRuntime == null)
+            return 1f;
+
+        return Mathf.Max(0f, playerRuntime.Stats.GetValue(EStatType.MoveSpeedMultiplier));
     }
 
     private void JumpAndGravity()

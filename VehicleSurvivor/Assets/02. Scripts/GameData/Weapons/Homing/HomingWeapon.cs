@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class HomingWeapon : WeaponBase
 {
-    [Header("Homing Data")]
-    public HomingWeaponDataSO homingData;
+    [Header("Homing References")]
+    public GameObject homingProjectilePrefab;
+    public ParticleSystem shootParticlePrefab;
+    public GameObject hitEffectPrefab;
 
     [Header("Fire Point")]
     public Transform firePoint;
@@ -19,7 +21,6 @@ public class HomingWeapon : WeaponBase
     public int projectileCount = 1;
     public float spreadAngle = 15f;
 
-    private float attackTimer;
 
     protected override void Update()
     {
@@ -68,10 +69,12 @@ public class HomingWeapon : WeaponBase
         float detectRange
     )
     {
-        if (homingData == null || homingData.homingProjectilePrefab == null)
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
+        if (homingProjectilePrefab == null)
             return;
 
-        if (firePoint == null)
+        if (resolvedFirePoint == null)
             return;
 
         Transform target = FindClosestTarget(detectRange);
@@ -79,12 +82,12 @@ public class HomingWeapon : WeaponBase
         if (target == null)
             return;
 
-        if (homingData.shootParticlePrefab != null)
+        if (shootParticlePrefab != null)
         {
             Instantiate(
-                homingData.shootParticlePrefab,
-                firePoint.position,
-                firePoint.rotation
+                shootParticlePrefab,
+                resolvedFirePoint.position,
+                resolvedFirePoint.rotation
             );
         }
 
@@ -99,11 +102,11 @@ public class HomingWeapon : WeaponBase
             }
 
             Quaternion rotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+                resolvedFirePoint.rotation * Quaternion.Euler(0f, angle, 0f);
 
             GameObject projectile = Instantiate(
-                homingData.homingProjectilePrefab,
-                firePoint.position,
+                homingProjectilePrefab,
+                resolvedFirePoint.position,
                 rotation
             );
 
@@ -116,7 +119,7 @@ public class HomingWeapon : WeaponBase
                     finalDamage,
                     projectileSpeed,
                     targetLayer,
-                    homingData.hitEffectPrefab
+                    hitEffectPrefab
                 );
             }
         }

@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d21b6194e6439848803372f0746b777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
-  weaponData: {fileID: 0}
   currentLevel: 0
-  projectileData: {fileID: 11400000, guid: 2eaaf795275863d4780d9c39992a56d8, type: 2}
+  projectilePrefab: {fileID: 7914466137831606197, guid: 178b03377a484b049ae48604c774b5d0, type: 3}
+  shootParticlePrefab: {fileID: 0}
   firePoint: {fileID: 0}
   damage: 10
   cooldown: 1

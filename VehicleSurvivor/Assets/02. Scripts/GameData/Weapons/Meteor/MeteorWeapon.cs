@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MeteorWeapon : WeaponBase
 {
-    [Header("Meteor Data")]
-    public MeteorWeaponDataSO meteorData;
+    [Header("Meteor References")]
+    public GameObject meteorPrefab;
 
     [Header("Target Settings")]
     public LayerMask enemyLayer;
@@ -27,7 +27,6 @@ public class MeteorWeapon : WeaponBase
     public float diagonalOffset = 12f;
     public float randomAngleRange = 20f;
 
-    private float attackTimer;
 
     protected override void Update()
     {
@@ -70,14 +69,14 @@ public class MeteorWeapon : WeaponBase
         float finalMeteorDelay
     )
     {
-        if (meteorData == null || meteorData.meteorPrefab == null)
+        if (meteorPrefab == null)
             return;
 
         Vector3 targetPosition = GetRandomTargetPosition();
         Vector3 spawnPosition = GetDiagonalSpawnPosition(targetPosition);
 
         GameObject meteor = Instantiate(
-            meteorData.meteorPrefab,
+            meteorPrefab,
             spawnPosition,
             Quaternion.identity
         );

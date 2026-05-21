@@ -13,11 +13,13 @@ public class PiercingRaycastWeapon : WeaponBase
 
     protected override void Attack(WeaponLevelData data)
     {
-        if (firePoint == null)
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
+        if (resolvedFirePoint == null)
             return;
 
-        Vector3 start = firePoint.position;
-        Vector3 direction = firePoint.forward;
+        Vector3 start = resolvedFirePoint.position;
+        Vector3 direction = resolvedFirePoint.forward;
 
         float range = data.radius;
 

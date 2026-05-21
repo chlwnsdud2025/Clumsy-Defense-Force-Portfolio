@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0590d78f47ffb49ac408655b25fa69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OrbitWeapon
-  weaponData: {fileID: 0}
   currentLevel: 0
-  orbitData: {fileID: 11400000, guid: ba2f3278aa4540b4e946cdee121d629d, type: 2}
+  orbitPrefab: {fileID: 5565921339195667882, guid: 72c5b6ab6714d9745af88661d22ddb7c, type: 3}
+  hitEffectPrefab: {fileID: 0}
   damage: 10
   radius: 3
   rotateSpeed: 120
