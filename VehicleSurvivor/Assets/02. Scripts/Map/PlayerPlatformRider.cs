@@ -13,6 +13,9 @@ public class PlayerPlatformRider : MonoBehaviour
     public LayerMask groundLayer;
     public string movingPlatformTag = "MovingPlatform";
 
+    [Tooltip("빠르게 하강하는 발판을 놓치지 않도록 레이캐스트 길이를 살짝 늘려줍니다.")]
+    public float groundCheckDistance = 0.5f;
+
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -22,7 +25,7 @@ public class PlayerPlatformRider : MonoBehaviour
     {
         Vector3 rayStart = transform.position + _controller.center;
         float castRadius = _controller.radius * 0.9f;
-        float castDistance = (_controller.height / 2f) - castRadius + 0.3f;
+        float castDistance = (_controller.height / 2f) - castRadius + groundCheckDistance;
 
         if (Physics.SphereCast(rayStart, castRadius, Vector3.down, out RaycastHit hit, castDistance, groundLayer))
         {
@@ -30,7 +33,6 @@ public class PlayerPlatformRider : MonoBehaviour
             {
                 Transform hitPlatform = hit.transform;
 
-                // 새로운 발판에 올라갔을 때 (기준점 리셋)
                 if (_currentPlatform != hitPlatform)
                 {
                     _currentPlatform = hitPlatform;
@@ -38,34 +40,27 @@ public class PlayerPlatformRider : MonoBehaviour
                     _lastPlatformRotation = _currentPlatform.rotation;
                 }
 
-                // 1. 발판의 위치 변화량(Delta) 계산
+                // 1. 변화량 계산
                 Vector3 deltaPosition = _currentPlatform.position - _lastPlatformPosition;
-
-                // 2. 발판의 회전 변화량(Delta) 계산
                 Quaternion deltaRotation = _currentPlatform.rotation * Quaternion.Inverse(_lastPlatformRotation);
 
-                // 3. [핵심 버그 수정!] 반드시 "이전 프레임의 발판 위치"를 기준으로 오프셋을 구해야 합니다.
                 Vector3 offsetFromCenter = transform.position - _lastPlatformPosition;
-
-                // 오프셋을 발판이 회전한 만큼 똑같이 돌려줍니다.
                 Vector3 rotatedOffset = deltaRotation * offsetFromCenter;
-
-                // 회전으로 인해 이동해야 할 거리
                 Vector3 rotationMovement = rotatedOffset - offsetFromCenter;
 
-                // 4. 최종 이동: 직선 이동량 + 회전 이동량
                 Vector3 finalMove = deltaPosition + rotationMovement;
 
-                // 미세한 덜덜거림 방지
-                if (finalMove.magnitude > 0.0001f)
+                // 2. [핵심 버그 수정!] Move()를 쓰지 않고 컨트롤러를 잠시 끈 뒤 강제로 위치/회전을 맞춥니다.
+                if (finalMove.magnitude > 0.0001f || deltaRotation != Quaternion.identity)
                 {
-                    _controller.Move(finalMove);
+                    _controller.enabled = false; // 충돌 무시 (가장 중요)
+
+                    transform.position += finalMove;
+                    transform.rotation = deltaRotation * transform.rotation;
+
+                    _controller.enabled = true;  // 이동 후 복구
                 }
 
-                // 5. 플레이어의 시선(회전)도 발판의 회전량만큼 돌려줌
-                transform.rotation = deltaRotation * transform.rotation;
-
-                // 6. 다음 프레임을 위해 현재 발판 상태 저장
                 _lastPlatformPosition = _currentPlatform.position;
                 _lastPlatformRotation = _currentPlatform.rotation;
             }

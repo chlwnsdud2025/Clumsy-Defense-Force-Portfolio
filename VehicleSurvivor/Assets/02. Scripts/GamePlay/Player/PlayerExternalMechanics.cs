@@ -60,9 +60,10 @@ public class PlayerExternalMechanics : MonoBehaviour
         }
     }
 
-    // --- 외부 호출 함수들 ---
     public void ApplyTargetHeightJump(float targetHeight, float horizontalForce, Vector3 direction)
     {
+        _externalImpact = Vector3.zero;
+
         if (_playerController != null && _verticalVelocityField != null)
         {
             float gravity = _playerController.Gravity;
