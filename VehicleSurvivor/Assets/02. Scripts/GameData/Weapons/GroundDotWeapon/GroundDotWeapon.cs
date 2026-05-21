@@ -33,10 +33,10 @@ public class GroundDotWeapon : WeaponBase
         {
             dotArea.Init(
                 GetFinalDamage(data.Damage),
-                data.dotDuration,
-                data.dotTickInterval,
-                data.dotWidth,
-                data.dotLength,
+                data.DotDuration,
+                data.DotTickInterval,
+                data.DotWidth,
+                data.DotLength,
                 enemyLayer
             );
         }

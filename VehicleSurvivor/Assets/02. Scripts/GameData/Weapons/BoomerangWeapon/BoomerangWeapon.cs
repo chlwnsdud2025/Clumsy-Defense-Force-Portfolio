@@ -30,8 +30,8 @@ public class BoomerangWeapon : WeaponBase
             projectile.Init(
                 transform,
                 GetFinalDamage(data.Damage),
-                data.bulletSpeed,
-                data.radius,
+                data.BulletSpeed,
+                data.Radius,
                 enemyLayer
             );
         }

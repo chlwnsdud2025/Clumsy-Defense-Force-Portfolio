@@ -7,6 +7,12 @@ public class PlayerWeaponSpawner : MonoBehaviour
     [SerializeField] private Transform firePoint;
 
     private readonly Dictionary<string, WeaponBase> spawnedWeapons = new();
+    private PlayerRuntime runtime;
+
+    public void BindRuntime(PlayerRuntime runtime)
+    {
+        this.runtime = runtime;
+    }
 
     public bool HasSpawnedWeapon(string weaponId)
     {
@@ -45,7 +51,7 @@ public class PlayerWeaponSpawner : MonoBehaviour
             return false;
         }
 
-        weaponBase.Initialize(owner, weapon, ResolveFirePoint(owner));
+        weaponBase.Initialize(owner, weapon, ResolveFirePoint(owner), runtime);
         spawnedWeapons.Add(weaponId, weaponBase);
         return true;
     }

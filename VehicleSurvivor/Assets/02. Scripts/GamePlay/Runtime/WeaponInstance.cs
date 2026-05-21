@@ -51,6 +51,11 @@ public sealed class WeaponInstance
     public void ResetCooldown()
     {
         WeaponLevelData levelData = CurrentLevelData;
-        CurrentCooldown = levelData != null ? levelData.Cooldown : 0f;
+        ResetCooldown(levelData != null ? levelData.Cooldown : 0f);
+    }
+
+    public void ResetCooldown(float cooldown)
+    {
+        CurrentCooldown = Math.Max(0f, cooldown);
     }
 }

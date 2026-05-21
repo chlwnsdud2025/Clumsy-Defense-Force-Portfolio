@@ -6,14 +6,31 @@ public class WeaponBase : MonoBehaviour
     protected Transform OwnerFirePoint { get; private set; }
     protected WeaponInstance RuntimeData { get; private set; }
 
-    protected float attackTimer;
+    private PlayerRuntime ownerRuntime;
+
+#if UNITY_EDITOR
+    [Header("Editor Test Override")]
+    [SerializeField] private bool useEditorTestLevelData;
+    [SerializeField] private WeaponLevelData editorTestLevelData = new();
+
+    private float editorTestCooldown;
+#endif
 
     public void Initialize(Transform owner, WeaponInstance runtimeData)
     {
-        Initialize(owner, runtimeData, null);
+        Initialize(owner, runtimeData, null, null);
     }
 
     public void Initialize(Transform owner, WeaponInstance runtimeData, Transform ownerFirePoint)
+    {
+        Initialize(owner, runtimeData, ownerFirePoint, null);
+    }
+
+    public void Initialize(
+        Transform owner,
+        WeaponInstance runtimeData,
+        Transform ownerFirePoint,
+        PlayerRuntime ownerRuntime)
     {
         if (RuntimeData != null)
         {
@@ -23,7 +40,11 @@ public class WeaponBase : MonoBehaviour
         Owner = owner;
         OwnerFirePoint = ownerFirePoint;
         RuntimeData = runtimeData;
-        attackTimer = 0f;
+        this.ownerRuntime = ownerRuntime;
+
+#if UNITY_EDITOR
+        editorTestCooldown = 0f;
+#endif
 
         if (RuntimeData != null)
         {
@@ -46,13 +67,24 @@ public class WeaponBase : MonoBehaviour
         if (data == null)
             return;
 
-        attackTimer += Time.deltaTime;
+#if UNITY_EDITOR
+        if (IsUsingEditorTestLevelData())
+        {
+            TickEditorTestWeapon(data);
+            return;
+        }
+#endif
 
-        if (attackTimer < GetFinalCooldown(data.Cooldown))
+        if (RuntimeData == null)
             return;
 
-        attackTimer = 0f;
+        RuntimeData.TickCooldown(Time.deltaTime);
+
+        if (!RuntimeData.IsReady)
+            return;
+
         Attack(data);
+        RuntimeData.ResetCooldown(GetFinalCooldown(data.Cooldown));
     }
 
     protected virtual void Attack(WeaponLevelData data)
@@ -67,31 +99,18 @@ public class WeaponBase : MonoBehaviour
     public string weaponID = "weapon";
     public string weaponName = "Weapon";
 
-    [Header("Legacy Level Data")]
-    public WeaponLevelData[] levelData;
-
-    [Header("Legacy State")]
-    [SerializeField] protected int currentLevel = 0;
-
     protected virtual void Awake()
     {
     }
 
     protected WeaponLevelData GetCurrentLevelData()
     {
-        if (RuntimeData != null)
-            return RuntimeData.CurrentLevelData;
+#if UNITY_EDITOR
+        if (IsUsingEditorTestLevelData())
+            return editorTestLevelData;
+#endif
 
-        if (levelData == null || levelData.Length == 0)
-            return null;
-
-        currentLevel = Mathf.Clamp(currentLevel, 0, levelData.Length - 1);
-        return levelData[currentLevel];
-    }
-
-    protected bool HasConfiguredLevelData()
-    {
-        return RuntimeData != null || (levelData != null && levelData.Length > 0);
+        return RuntimeData?.CurrentLevelData;
     }
 
     protected Transform ResolveFirePoint(Transform configuredFirePoint)
@@ -144,18 +163,60 @@ public class WeaponBase : MonoBehaviour
         return weaponProjectileCount + projectileBonus;
     }
 
-    private static PlayerRuntime GetOwnerRuntime()
+    private PlayerRuntime GetOwnerRuntime()
     {
+        if (ownerRuntime != null)
+            return ownerRuntime;
+
+        ownerRuntime = ResolveOwnerRuntime(Owner);
+        if (ownerRuntime != null)
+            return ownerRuntime;
+
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return null;
 
         return runManager.RunContext?.Player;
     }
 
+    private static PlayerRuntime ResolveOwnerRuntime(Transform owner)
+    {
+        if (owner == null)
+            return null;
+
+        Player player = owner.GetComponentInParent<Player>();
+        return player != null ? player.Runtime : null;
+    }
+
     private void HandleRuntimeLevelChanged(int _)
     {
         OnLevelDataChanged(GetCurrentLevelData());
     }
+
+#if UNITY_EDITOR
+    private bool IsUsingEditorTestLevelData()
+    {
+        return useEditorTestLevelData && editorTestLevelData != null;
+    }
+
+    private void TickEditorTestWeapon(WeaponLevelData data)
+    {
+        editorTestCooldown -= Time.deltaTime;
+
+        if (editorTestCooldown > 0f)
+            return;
+
+        Attack(data);
+        editorTestCooldown = GetFinalCooldown(data.Cooldown);
+    }
+
+    protected virtual void OnValidate()
+    {
+        if (!Application.isPlaying || !IsUsingEditorTestLevelData())
+            return;
+
+        OnLevelDataChanged(editorTestLevelData);
+    }
+#endif
 
     protected virtual void OnDestroy()
     {

@@ -21,7 +21,7 @@ public class PiercingRaycastWeapon : WeaponBase
         Vector3 start = resolvedFirePoint.position;
         Vector3 direction = resolvedFirePoint.forward;
 
-        float range = data.radius;
+        float range = data.Radius;
 
         RaycastHit[] hits = Physics.RaycastAll(
             start,

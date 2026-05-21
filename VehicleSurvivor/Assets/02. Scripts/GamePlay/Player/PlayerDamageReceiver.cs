@@ -9,8 +9,14 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
 
     private Vector3 knockbackVelocity;
     private float knockbackTimer;
+    private PlayerRuntime runtime;
 
     public bool IsKnockback => knockbackTimer > 0f;
+
+    public void BindRuntime(PlayerRuntime runtime)
+    {
+        this.runtime = runtime;
+    }
 
     private void Update()
     {
@@ -86,9 +92,11 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         knockbackTimer = knockbackDuration;
     }
 
-    private static bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)
+    private bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)
     {
-        playerRuntime = null;
+        playerRuntime = runtime;
+        if (playerRuntime != null)
+            return true;
 
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return false;

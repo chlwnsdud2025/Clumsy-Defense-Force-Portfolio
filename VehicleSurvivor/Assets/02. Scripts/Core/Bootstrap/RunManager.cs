@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class RunManager : MonoSceneSingleton<RunManager>
@@ -6,10 +7,12 @@ public class RunManager : MonoSceneSingleton<RunManager>
     [Header("Databases")]
     [SerializeField] private WeaponDatabaseSO weaponDatabase;
     [SerializeField] private PassiveTableSO passiveTable;
+    [SerializeField] private ItemTableSO itemTable;
+
     [SerializeField] private int rewardOptionCount = 3;
 
     [Header("Temporary Toggles")]
-    [SerializeField] private bool enableLevelUpRewardPopup = false;
+    [SerializeField] private bool enableLevelUpRewardPopup = true;
 
     private IEventBus _eventBus;
     private RunContext _runContext;
@@ -19,6 +22,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
     private int _killCount;
     private int _gold;
     private int _lastDisplayedSecond = -1;
+    private int pendingLevelUpRewardCount;
 
     private Player playerInstance;
     private CharacterDefinitionSO _selectedCharacter;
@@ -50,6 +54,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
             UnbindPlayerRuntime(_runContext.Player);
         }
 
+        if (playerInstance != null)
+        {
+            playerInstance.BindRuntime(null);
+        }
+
         _selectedCharacter = selectedCharacter;
         playerInstance = player;
         Time.timeScale = 1f;
@@ -67,6 +76,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         _killCount = 0;
         _gold = 0;
         _lastDisplayedSecond = -1;
+        pendingLevelUpRewardCount = 0;
 
         PublishInitialRunEvents(playerRuntime);
     }
@@ -119,15 +129,25 @@ public class RunManager : MonoSceneSingleton<RunManager>
         playerWeaponSpawner.TrySpawnWeapon(defaultWeaponInstance, playerInstance.transform);
     }
 
-    public List<RewardOption> GenerateRewardOptions()
+    public List<RewardOption> GenerateLevelUpRewardOptions()
     {
         if (_runContext == null)
         {
             return new List<RewardOption>();
         }
 
-        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable);
-        return rewardSystem.Generate(_runContext.Player, rewardOptionCount);
+        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        return rewardSystem.GenerateLevelUp(_runContext.Player, GetRewardOptionCount());
+    }
+    public List<RewardOption> GenerateChestRewardOptions()
+    {
+        if (_runContext == null)
+        {
+            return new List<RewardOption>();
+        }
+
+        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        return rewardSystem.GenerateChest(_runContext.Player, GetRewardOptionCount());
     }
 
     public bool ApplyReward(RewardOption reward)
@@ -151,6 +171,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         if (applied)
         {
+            if (pendingLevelUpRewardCount > 0)
+            {
+                pendingLevelUpRewardCount--;
+            }
+
             _runContext.ResumeGamePlay();
         }
 
@@ -226,6 +251,9 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         Time.timeScale = 1f;
         _runContext = null;
+        _selectedCharacter = null;
+        pendingLevelUpRewardCount = 0;
+
         if (playerInstance != null)
         {
             playerInstance.BindRuntime(null);
@@ -338,7 +366,8 @@ public class RunManager : MonoSceneSingleton<RunManager>
             return;
         }
 
-        _runContext.EnterRewardSelection();
+        pendingLevelUpRewardCount++;
+        TryEnterPendingLevelUpReward();
     }
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
@@ -371,14 +400,59 @@ public class RunManager : MonoSceneSingleton<RunManager>
         }
 
         UI_LevelUp levelUpPopup = uiManager.GetCurrentPopup<UI_LevelUp>();
-        if (levelUpPopup == null)
+
+        if (levelUpPopup != null &&
+            (previousState == ERunState.RewardSelection || nextState == ERunState.GameOver))
+        {
+            uiManager.ClosePopup(levelUpPopup);
+        }
+
+        if (nextState == ERunState.Playing)
+        {
+            TryEnterPendingLevelUpReward();
+        }
+    }
+
+    private void TryEnterPendingLevelUpReward()
+    {
+        if (_runContext == null ||
+            _runContext.State != ERunState.Playing ||
+            pendingLevelUpRewardCount <= 0)
         {
             return;
         }
 
-        if (previousState == ERunState.RewardSelection || nextState == ERunState.GameOver)
+        _runContext.EnterRewardSelection();
+    }
+
+    private async UniTaskVoid ShowLevelUpRewardPopupAsync(UIManager uiManager)
+    {
+        if (uiManager == null)
+            return;
+
+        UI_LevelUp rewardPopup = await uiManager.ShowPopupAsync<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
+        if (_runContext == null || _runContext.State != ERunState.RewardSelection)
+            return;
+
+        if (rewardPopup == null)
         {
-            uiManager.ClosePopup(levelUpPopup);
+            Debug.LogError("[RunManager] LevelUp popup could not be shown.");
+            if (pendingLevelUpRewardCount > 0)
+                pendingLevelUpRewardCount--;
+
+            _runContext?.ResumeGamePlay();
+            return;
         }
+
+        List<RewardOption> rewardOptions = GenerateLevelUpRewardOptions();
+        if (rewardOptions.Count == 0)
+            Debug.LogWarning("[RunManager] LevelUp reward option list is empty.");
+
+        //rewardPopup.ShowRewards(this, rewardOptions);
+    }
+
+    private int GetRewardOptionCount()
+    {
+        return rewardOptionCount > 0 ? rewardOptionCount : 3;
     }
 }
