@@ -19,7 +19,7 @@ public class ShockwaveWeapon : WeaponBase
 
         Collider[] hits = Physics.OverlapSphere(
             origin,
-            data.shockwaveRange,
+            data.ShockwaveRange,
             enemyLayer
         );
 
@@ -46,7 +46,7 @@ public class ShockwaveWeapon : WeaponBase
                 directionToEnemy.normalized
             );
 
-            if (angle <= data.shockwaveAngle * 0.5f)
+            if (angle <= data.ShockwaveAngle * 0.5f)
             {
                 enemy.TakeDamage(
                     GetFinalDamage(data.Damage)
@@ -76,7 +76,7 @@ public class ShockwaveWeapon : WeaponBase
             transform.rotation
         );
 
-        float size = data.shockwaveRange;
+        float size = data.ShockwaveRange;
 
         effect.transform.localScale =
             new Vector3(size, 1f, size);
@@ -95,7 +95,7 @@ public class ShockwaveWeapon : WeaponBase
 
         Gizmos.DrawWireSphere(
             transform.position,
-            data.shockwaveRange
+            data.ShockwaveRange
         );
     }
 }

@@ -7,7 +7,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public Transform playerTarget;
 
     [Header("Base Stats")]
-    public float maxHealth = 1000f;
+    public float maxHealth = 10f;
     protected float currentHealth;
     public float moveSpeed = 3f;
     public float rotationSpeed = 3f;

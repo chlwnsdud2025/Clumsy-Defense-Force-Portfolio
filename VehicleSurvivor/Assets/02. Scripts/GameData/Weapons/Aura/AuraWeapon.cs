@@ -2,18 +2,12 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
-    [Header("Aura Data")]
-    public AuraWeaponDataSO auraData;
+    [Header("Aura References")]
+    public GameObject auraEffectPrefab;
 
     [Header("Aura Settings")]
     public LayerMask enemyLayer;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float cooldown = 0.5f;
-    public float radius = 5f;
-
-    private float attackTimer;
     private GameObject auraEffect;
 
     private void Start()
@@ -23,22 +17,8 @@ public class AuraWeapon : WeaponBase
 
     protected override void Update()
     {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-
-        UpdateAuraScale(radius);
+        base.Update();
+        UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
     }
 
     protected override void Attack(WeaponLevelData data)
@@ -46,14 +26,6 @@ public class AuraWeapon : WeaponBase
         DealAuraDamage(
             GetFinalDamage(data.Damage),
             GetAuraRadius(data)
-        );
-    }
-
-    private void AttackLegacy()
-    {
-        DealAuraDamage(
-            GetFinalDamage(damage),
-            radius
         );
     }
 
@@ -79,10 +51,10 @@ public class AuraWeapon : WeaponBase
 
     private void CreateAuraEffect()
     {
-        if (auraData == null || auraData.auraEffectPrefab == null)
+        if (auraEffectPrefab == null)
             return;
 
-        auraEffect = Instantiate(auraData.auraEffectPrefab, transform);
+        auraEffect = Instantiate(auraEffectPrefab, transform);
         auraEffect.transform.localPosition = Vector3.zero;
     }
 
@@ -104,8 +76,8 @@ public class AuraWeapon : WeaponBase
     private float GetAuraRadius(WeaponLevelData data)
     {
         if (data == null)
-            return radius;
+            return 0f;
 
-        return data.Range > 0f ? data.Range : data.radius;
+        return data.Range > 0f ? data.Range : data.Radius;
     }
 }

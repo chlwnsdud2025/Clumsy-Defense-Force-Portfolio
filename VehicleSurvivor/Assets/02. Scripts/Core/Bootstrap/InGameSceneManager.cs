@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
 {
-    [Tooltip("스폰될 플레이어 프리팹(Player 컴포넌트 포함)")]
-    [SerializeField] private Player playerPrefab;
+    [Tooltip("스폰될 플레이어 루트 프리팹(Player 컴포넌트 포함)")]
+    [SerializeField] private Player playerRootPrefab;
+
+    [Tooltip("기존 씬 호환용 플레이어 프리팹 참조(PlayerVisual 컴포넌트)")]
+    [SerializeField] private PlayerVisual playerPrefab;
 
     [Tooltip("플레이어가 스폰될 위치")]
     [SerializeField] private Transform playerSpawnPoint;
@@ -84,11 +87,15 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
                 hud.InitializeForCharacter(selectedCharacter);
 
             // 캐릭터 스폰
-            await TrySpawnSelectedCharacterAsync(selectedCharacter);
+            bool spawned = await TrySpawnSelectedCharacterAsync(selectedCharacter);
+            if (!spawned)
+            {
+                return;
+            }
 
             // RunManager 초기화
             if (RunManager.TryGetInstance(out RunManager runManager))
-                runManager.StartRun(selectedCharacter);
+                runManager.StartRun(selectedCharacter, spawnedPlayer);
             else
                 Debug.LogError("[InGameSceneManager] RunManager를 찾을 수 없어 StartRun을 호출할 수 없습니다.");
 
@@ -100,15 +107,15 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         }
     }
 
-    private async UniTask TrySpawnSelectedCharacterAsync(CharacterDefinitionSO selected)
+    private async UniTask<bool> TrySpawnSelectedCharacterAsync(CharacterDefinitionSO selected)
     {
         if (selected == null)
-            return;
+            return false;
 
-        if (playerPrefab == null)
+        if (playerRootPrefab == null && playerPrefab == null)
         {
             Debug.LogError("[InGameSceneManager] Player 프리팹(playerPrefab)이 할당되어 있지 않습니다.");
-            return;
+            return false;
         }
 
         DestroySpawnedPlayer();
@@ -117,16 +124,35 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         await UniTask.Yield();
 
         Transform spawn = playerSpawnPoint != null ? playerSpawnPoint : transform;
-        spawnedPlayer = Instantiate(playerPrefab, spawn.position, spawn.rotation);
+        spawnedPlayer = InstantiatePlayer(spawn.position, spawn.rotation);
 
         if (spawnedPlayer == null)
         {
             Debug.LogError("[InGameSceneManager] Player 인스턴스화에 실패했습니다.");
-            return;
+            return false;
         }
 
-        await spawnedPlayer.InitializeFromCharacterAsync(selected);
+        await spawnedPlayer.InitializeVisualAsync(selected);
         WireEnemyManagerToPlayer(ResolvePlayerFollowTransform(spawnedPlayer));
+        return true;
+    }
+
+    private Player InstantiatePlayer(Vector3 position, Quaternion rotation)
+    {
+        if (playerRootPrefab != null)
+        {
+            return Instantiate(playerRootPrefab, position, rotation);
+        }
+
+        PlayerVisual visual = Instantiate(playerPrefab, position, rotation);
+        Player player = visual != null ? visual.GetComponentInParent<Player>() : null;
+
+        if (player == null && visual != null)
+        {
+            player = visual.gameObject.AddComponent<Player>();
+        }
+
+        return player;
     }
 
     /// <summary>
@@ -137,12 +163,10 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         if (player == null)
             return null;
 
-        PlayerController controller = player.transform.root.GetComponentInChildren<PlayerController>(true);
-        if (controller != null)
-            return controller.transform;
+        if (player.FollowTransform == player.transform)
+            Debug.LogWarning("[InGameSceneManager] PlayerController를 찾을 수 없어 EnemyManager에 Player.transform을 연결합니다.");
 
-        Debug.LogWarning("[InGameSceneManager] PlayerController를 찾을 수 없어 EnemyManager에 Player.transform을 연결합니다.");
-        return player.transform;
+        return player.FollowTransform;
     }
 
     private static void WireEnemyManagerToPlayer(Transform playerFollowTransform)

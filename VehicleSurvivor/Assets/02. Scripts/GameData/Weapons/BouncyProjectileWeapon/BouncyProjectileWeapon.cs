@@ -12,7 +12,9 @@ public class BouncyProjectileWeapon : WeaponBase
 
     protected override void Attack(WeaponLevelData data)
     {
-        if (bouncyProjectilePrefab == null || firePoint == null)
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
+        if (bouncyProjectilePrefab == null || resolvedFirePoint == null)
             return;
 
         int count = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
@@ -24,15 +26,15 @@ public class BouncyProjectileWeapon : WeaponBase
             if (count > 1)
             {
                 float centerIndex = (count - 1) * 0.5f;
-                angle = (i - centerIndex) * data.spreadAngle;
+                angle = (i - centerIndex) * data.SpreadAngle;
             }
 
             Quaternion rotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+                resolvedFirePoint.rotation * Quaternion.Euler(0f, angle, 0f);
 
             GameObject ball = Instantiate(
                 bouncyProjectilePrefab,
-                firePoint.position,
+                resolvedFirePoint.position,
                 rotation
             );
 
@@ -43,8 +45,8 @@ public class BouncyProjectileWeapon : WeaponBase
             {
                 projectile.Init(
                     GetFinalDamage(data.Damage),
-                    data.bulletSpeed,
-                    data.bounceCount,
+                    data.BulletSpeed,
+                    data.BounceCount,
                     enemyLayer,
                     bounceLayer,
                     rotation * Vector3.forward

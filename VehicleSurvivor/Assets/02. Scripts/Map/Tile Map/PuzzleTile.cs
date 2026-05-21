@@ -33,6 +33,8 @@ public class PuzzleTile : MonoBehaviour
         {
             Debug.Log("진짜 타일 밟음");
             tileRenderer.material.color = Color.green;
+
+            GetComponentInParent<TileMapManager>().OnTrueTileFound();
         }
         else
         {

@@ -2,17 +2,11 @@ using UnityEngine;
 
 public class MeteorWeapon : WeaponBase
 {
-    [Header("Meteor Data")]
-    public MeteorWeaponDataSO meteorData;
+    [Header("Meteor References")]
+    public GameObject meteorPrefab;
 
     [Header("Target Settings")]
     public LayerMask enemyLayer;
-
-    [Header("Legacy Stats")]
-    public float damage = 40f;
-    public float cooldown = 3f;
-    public float explosionRadius = 5f;
-    public float meteorDelay = 0.3f;
 
     [Header("Spawn Settings")]
     public float spawnRadius = 15f;
@@ -27,25 +21,6 @@ public class MeteorWeapon : WeaponBase
     public float diagonalOffset = 12f;
     public float randomAngleRange = 20f;
 
-    private float attackTimer;
-
-    protected override void Update()
-    {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-    }
-
     protected override void Attack(WeaponLevelData data)
     {
         SpawnMeteor(
@@ -55,29 +30,20 @@ public class MeteorWeapon : WeaponBase
         );
     }
 
-    private void AttackLegacy()
-    {
-        SpawnMeteor(
-            GetFinalDamage(damage),
-            explosionRadius,
-            meteorDelay
-        );
-    }
-
     private void SpawnMeteor(
         float finalDamage,
         float finalExplosionRadius,
         float finalMeteorDelay
     )
     {
-        if (meteorData == null || meteorData.meteorPrefab == null)
+        if (meteorPrefab == null)
             return;
 
         Vector3 targetPosition = GetRandomTargetPosition();
         Vector3 spawnPosition = GetDiagonalSpawnPosition(targetPosition);
 
         GameObject meteor = Instantiate(
-            meteorData.meteorPrefab,
+            meteorPrefab,
             spawnPosition,
             Quaternion.identity
         );
@@ -132,17 +98,11 @@ public class MeteorWeapon : WeaponBase
 
     private float GetExplosionRadius(WeaponLevelData data)
     {
-        if (data == null)
-            return explosionRadius;
-
-        return data.explosionRadius > 0f ? data.explosionRadius : explosionRadius;
+        return data.ExplosionRadius;
     }
 
     private float GetMeteorDelay(WeaponLevelData data)
     {
-        if (data == null)
-            return meteorDelay;
-
-        return data.meteorDelay > 0f ? data.meteorDelay : meteorDelay;
+        return data.MeteorDelay;
     }
 }

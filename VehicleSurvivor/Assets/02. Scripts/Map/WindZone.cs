@@ -3,14 +3,11 @@ using System.Collections.Generic;
 
 public class WindZone : MonoBehaviour
 {
-    [Header("트랙터 빔 (끌어올리기) 설정")]
-    [Tooltip("밀어낼 로컬 축 방향 (예: 위로 올리려면 Y=1)")]
-    public Vector3 pushAxis = Vector3.up;
+    [Header("트랙터 빔 설정")]
+    [Tooltip("초당 위로 솟구치는 Y축 속도 (자연스럽게 튕겨나가려면 값을 10~15 정도로 올려보세요!)")]
+    public float liftSpeed = 12f;
 
-    [Tooltip("밀어내는 속도")]
-    public float pushSpeed = 10f;
-
-    [Tooltip("바람의 중심점으로부터 밀어낼 최대 거리")]
+    [Tooltip("바람의 중심점으로부터 올라갈 수 있는 최대 높이(거리)")]
     public float maxDistance = 15f;
 
     private List<PlayerExternalMechanics> _playersInWind = new List<PlayerExternalMechanics>();
@@ -34,60 +31,48 @@ public class WindZone : MonoBehaviour
             PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
             if (mechanics != null && _playersInWind.Contains(mechanics))
             {
+                mechanics.RemoveWindForce();
                 _playersInWind.Remove(mechanics);
             }
         }
     }
 
-    private void LateUpdate() // 중력 계산 이후에 적용
+    private void Update()
     {
         _playersInWind.RemoveAll(player => player == null);
 
         if (_playersInWind.Count > 0)
         {
-            Vector3 worldDirection = transform.TransformDirection(pushAxis.normalized);
-
-            foreach (PlayerExternalMechanics player in _playersInWind)
+            // 리스트에서 요소를 삭제할 때는 역순(for문 뒤에서부터)으로 돌아야 에러가 안 납니다.
+            for (int i = _playersInWind.Count - 1; i >= 0; i--)
             {
-                Vector3 offset = player.transform.position - transform.position;
-                float currentDistance = Vector3.Dot(offset, worldDirection);
+                PlayerExternalMechanics player = _playersInWind[i];
+                float currentHeight = player.transform.position.y - transform.position.y;
 
-                // 1. 아직 최대 거리에 도달하지 않았을 때 (끌어올리는 중)
-                if (currentDistance < maxDistance)
+                // 1. 아직 목표 높이에 도달하지 않았을 때 (바람으로 밀어올림)
+                if (currentHeight < maxDistance)
                 {
-                    float distanceLeft = maxDistance - currentDistance;
-                    float moveStep = pushSpeed * Time.deltaTime;
-
-                    // 만약 이번 프레임에 이동할 거리가 남은 거리보다 크다면? (목표치 초과 방지)
-                    if (moveStep >= distanceLeft)
-                    {
-                        // 남은 거리만큼만 딱 맞춰서 이동시키고, 중력을 정지시킴 (정점 도달)
-                        Vector3 moveDelta = worldDirection * distanceLeft;
-                        player.ApplyTractorBeam(moveDelta, true);
-                    }
-                    else
-                    {
-                        // 정상적으로 끌어올리는 중
-                        Vector3 moveDelta = worldDirection * moveStep;
-                        player.ApplyTractorBeam(moveDelta, false);
-                    }
+                    player.SetWindForce(liftSpeed);
                 }
-                // 2. 이미 최대 거리(정점)에 도달해 있을 때
+                // 2. 최대 높이(정점)를 돌파했을 때!
                 else
                 {
-                    // 더 이상 위로 밀지 않고, 중력만 0으로 만들어 완벽하게 공중에 고정시킴
-                    player.ApplyTractorBeam(Vector3.zero, true);
+                    // [유저님 아이디어 적용] 
+                    // 목표에 도달하면 윈드존이 강제로 멈추지 않고 바람 지원을 딱 끊어버립니다.
+                    // 그러면 플레이어는 마지막으로 받던 가속도(liftSpeed)를 유지한 채 위로 붕~ 점프하게 됩니다!
+                    player.RemoveWindForce();
+
+                    // 더 이상 바람의 영향을 받지 않으므로 리스트에서 뺍니다.
+                    _playersInWind.RemoveAt(i);
                 }
             }
         }
     }
 
-    // 에디터에서 바람이 끝나는 최대 거리(범위)를 보기 쉽게 파란색 선으로 그려줍니다.
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        Vector3 worldDirection = transform.TransformDirection(pushAxis.normalized);
-        Gizmos.DrawRay(transform.position, worldDirection * maxDistance);
-        Gizmos.DrawWireSphere(transform.position + worldDirection * maxDistance, 1f);
+        Gizmos.DrawRay(transform.position, Vector3.up * maxDistance);
+        Gizmos.DrawWireSphere(transform.position + (Vector3.up * maxDistance), 1f);
     }
 }

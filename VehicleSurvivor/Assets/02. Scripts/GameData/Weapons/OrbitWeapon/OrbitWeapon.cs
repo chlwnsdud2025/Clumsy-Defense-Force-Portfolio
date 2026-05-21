@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class OrbitWeapon : WeaponBase
 {
-    [Header("Orbit Data")]
-    public OrbitWeaponDataSO orbitData;
+    [Header("Orbit References")]
+    public GameObject orbitPrefab;
+    public GameObject hitEffectPrefab;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float radius = 3f;
+    [Header("Orbit Settings")]
     public float rotateSpeed = 120f;
-    public int orbitCount = 1;
     public float hitCooldown = 0.3f;
 
     private readonly List<GameObject> orbitObjects = new List<GameObject>();
@@ -41,17 +39,10 @@ public class OrbitWeapon : WeaponBase
     private void ApplyOrbitSettings(WeaponLevelData data)
     {
         if (data == null)
-        {
-            currentDamage = GetFinalDamage(damage);
-            currentRadius = radius;
-            currentRotateSpeed = rotateSpeed;
-            currentOrbitCount = Mathf.Max(1, GetFinalProjectileCount(orbitCount));
-            currentHitCooldown = hitCooldown;
             return;
-        }
 
         currentDamage = GetFinalDamage(data.Damage);
-        currentRadius = data.Range > 0f ? data.Range : data.radius;
+        currentRadius = data.Range > 0f ? data.Range : data.Radius;
         currentRotateSpeed = data.ProjectileSpeed > 0f ? data.ProjectileSpeed : rotateSpeed;
         currentOrbitCount = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
         currentHitCooldown = data.TickInterval > 0f ? data.TickInterval : hitCooldown;
@@ -59,7 +50,7 @@ public class OrbitWeapon : WeaponBase
 
     private void SyncOrbitObjects()
     {
-        if (orbitData == null || orbitData.orbitPrefab == null)
+        if (orbitPrefab == null)
             return;
 
         int targetCount = Mathf.Max(1, currentOrbitCount);
@@ -67,7 +58,7 @@ public class OrbitWeapon : WeaponBase
         while (orbitObjects.Count < targetCount)
         {
             GameObject orbitObject = Instantiate(
-                orbitData.orbitPrefab,
+                orbitPrefab,
                 transform.position,
                 Quaternion.identity,
                 transform
@@ -110,7 +101,7 @@ public class OrbitWeapon : WeaponBase
             hitbox.Init(
                 currentDamage,
                 currentHitCooldown,
-                orbitData.hitEffectPrefab
+                hitEffectPrefab
             );
         }
     }

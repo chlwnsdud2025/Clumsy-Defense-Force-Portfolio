@@ -19,14 +19,23 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
     [SerializeField] private bool _showPickupRangeGizmo = true;
 
     private Collider[] _overlapBuffer;
+    private PlayerRuntime _runtime;
 
     private void Awake()
     {
         _overlapBuffer = new Collider[OverlapBufferSize];
     }
 
+    public void BindRuntime(PlayerRuntime runtime)
+    {
+        _runtime = runtime;
+    }
+
     private void Update()
     {
+        if (Time.timeScale <= 0f)
+            return;
+
         float magnetRange = FallbackPickupRange * GetPickupRangeMultiplier();
         if (magnetRange <= 0f)
             return;
@@ -92,6 +101,9 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
         if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
             return;
 
+        if (playerRuntime.Health.CurrentHp <= 0f)
+            return;
+
         float expMultiplier = Mathf.Max(0f, playerRuntime.Stats.GetValue(EStatType.ExpGainMultiplier));
         int finalAmount = Mathf.Max(0, Mathf.RoundToInt(amount * expMultiplier));
         if (finalAmount <= 0)
@@ -108,9 +120,11 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
         return Mathf.Max(0f, playerRuntime.Stats.GetValue(EStatType.PickupRangeMultiplier));
     }
 
-    private static bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)
+    private bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)
     {
-        playerRuntime = null;
+        playerRuntime = _runtime;
+        if (playerRuntime != null)
+            return true;
 
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return false;

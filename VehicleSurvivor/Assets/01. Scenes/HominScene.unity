@@ -682,14 +682,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 942979447}
     m_Modifications:
-    - target: {fileID: -4077047666620677948, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
-      propertyPath: chainData
-      value: 
-      objectReference: {fileID: 11400000, guid: 8927715495f3b694b88a8779581b8af5, type: 2}
-    - target: {fileID: -4077047666620677948, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
-      propertyPath: weaponData
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -903,20 +895,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1682977905999011415, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
   m_PrefabInstance: {fileID: 1642160720}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &866794477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866794475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c65e68efc599dc4286c645990664695, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponControllor
-  weaponHolder: {fileID: 942979447}
-  startWeaponPrefabs: []
 --- !u!114 &866794478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3825,9 +3803,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 866794478}
-    - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 866794477}
     - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 866794486}

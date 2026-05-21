@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class HomingWeapon : WeaponBase
 {
-    [Header("Homing Data")]
-    public HomingWeaponDataSO homingData;
+    [Header("Homing References")]
+    public GameObject homingProjectilePrefab;
+    public ParticleSystem shootParticlePrefab;
+    public GameObject hitEffectPrefab;
 
     [Header("Fire Point")]
     public Transform firePoint;
@@ -11,32 +14,9 @@ public class HomingWeapon : WeaponBase
     [Header("Target Settings")]
     public LayerMask targetLayer;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float cooldown = 1f;
-    public float bulletSpeed = 15f;
-    public float detectRadius = 15f;
-    public int projectileCount = 1;
-    public float spreadAngle = 15f;
-
-    private float attackTimer;
-
-    protected override void Update()
-    {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-    }
+    [Header("Target Settings")]
+    [FormerlySerializedAs("detectRadius")]
+    public float fallbackDetectRadius = 15f;
 
     protected override void Attack(WeaponLevelData data)
     {
@@ -44,19 +24,8 @@ public class HomingWeapon : WeaponBase
             GetFinalDamage(data.Damage),
             GetProjectileSpeed(data),
             Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
-            data.spreadAngle,
+            data.SpreadAngle,
             GetDetectRadius(data)
-        );
-    }
-
-    private void AttackLegacy()
-    {
-        FireHomingProjectiles(
-            GetFinalDamage(damage),
-            bulletSpeed,
-            Mathf.Max(1, GetFinalProjectileCount(projectileCount)),
-            spreadAngle,
-            detectRadius
         );
     }
 
@@ -68,10 +37,12 @@ public class HomingWeapon : WeaponBase
         float detectRange
     )
     {
-        if (homingData == null || homingData.homingProjectilePrefab == null)
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
+        if (homingProjectilePrefab == null)
             return;
 
-        if (firePoint == null)
+        if (resolvedFirePoint == null)
             return;
 
         Transform target = FindClosestTarget(detectRange);
@@ -79,12 +50,12 @@ public class HomingWeapon : WeaponBase
         if (target == null)
             return;
 
-        if (homingData.shootParticlePrefab != null)
+        if (shootParticlePrefab != null)
         {
             Instantiate(
-                homingData.shootParticlePrefab,
-                firePoint.position,
-                firePoint.rotation
+                shootParticlePrefab,
+                resolvedFirePoint.position,
+                resolvedFirePoint.rotation
             );
         }
 
@@ -99,11 +70,11 @@ public class HomingWeapon : WeaponBase
             }
 
             Quaternion rotation =
-                firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+                resolvedFirePoint.rotation * Quaternion.Euler(0f, angle, 0f);
 
             GameObject projectile = Instantiate(
-                homingData.homingProjectilePrefab,
-                firePoint.position,
+                homingProjectilePrefab,
+                resolvedFirePoint.position,
                 rotation
             );
 
@@ -116,7 +87,7 @@ public class HomingWeapon : WeaponBase
                     finalDamage,
                     projectileSpeed,
                     targetLayer,
-                    homingData.hitEffectPrefab
+                    hitEffectPrefab
                 );
             }
         }
@@ -155,17 +126,11 @@ public class HomingWeapon : WeaponBase
 
     private float GetProjectileSpeed(WeaponLevelData data)
     {
-        if (data == null)
-            return bulletSpeed;
-
-        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.bulletSpeed;
+        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.BulletSpeed;
     }
 
     private float GetDetectRadius(WeaponLevelData data)
     {
-        if (data == null)
-            return detectRadius;
-
-        return data.Range > 0f ? data.Range : detectRadius;
+        return data.Range > 0f ? data.Range : fallbackDetectRadius;
     }
 }

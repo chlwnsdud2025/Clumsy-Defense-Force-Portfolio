@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ObjectShooter : MonoBehaviour
 {
@@ -14,12 +15,39 @@ public class ObjectShooter : MonoBehaviour
     public float shootForce = 15f;
 
     [Header("최적화 설정")]
-    [Tooltip("과일이 맵에 머무는 최대 시간 (이 시간이 지나면 자동 소멸)")]
-    public float fruitLifeTime = 10f; // 10초 뒤 자동 삭제
+    [Tooltip("과일이 맵에 머무는 최대 시간 (이 시간이 지나면 풀로 자동 반환)")]
+    public float fruitLifeTime = 10f;
+
+    // 풀링 전용 변수들
+    private Dictionary<GameObject, Queue<GameObject>> fruitPools = new Dictionary<GameObject, Queue<GameObject>>();
+    private Transform poolParent;
+
+    // 코루틴 메모리 쓰레기(GC) 방지용 캐싱
+    private WaitForSeconds spawnWait;
+    private WaitForSeconds lifeWait;
 
     void Start()
     {
-        // 게임 시작과 동시에 코루틴(반복 발사) 시작
+        // 반복 생성되는 대기 시간을 미리 캐싱
+        spawnWait = new WaitForSeconds(spawnInterval);
+        lifeWait = new WaitForSeconds(fruitLifeTime);
+
+        // 하이어라키를 깔끔하게 해줄 부모 빈 오브젝트 생성
+        GameObject parentObj = new GameObject($"Fruit_Pool_Container_{gameObject.name}");
+        poolParent = parentObj.transform;
+
+        // [수정된 부분] 생성된 풀 부모를 이 스크립트가 달린 오브젝트(this)의 자식으로 쏙 집어넣습니다!
+        poolParent.SetParent(this.transform);
+
+        // 인스펙터에 등록된 과일 종류마다 빈 큐(Queue) 생성
+        foreach (GameObject prefab in fruitPrefabs)
+        {
+            if (!fruitPools.ContainsKey(prefab))
+            {
+                fruitPools.Add(prefab, new Queue<GameObject>());
+            }
+        }
+
         StartCoroutine(SpawnRoutine());
     }
 
@@ -27,25 +55,63 @@ public class ObjectShooter : MonoBehaviour
     {
         while (true)
         {
-            // 랜덤 과일 하나 선택
-            GameObject prefabToSpawn = fruitPrefabs[Random.Range(0, fruitPrefabs.Length)];
+            GameObject selectedPrefab = fruitPrefabs[Random.Range(0, fruitPrefabs.Length)];
+            GameObject spawnedFruit = GetFruitFromPool(selectedPrefab);
 
-            // 대포 위치에 과일 생성
-            GameObject spawnedFruit = Instantiate(prefabToSpawn, transform.position, Random.rotation);
+            // "반드시 꺼져있는 상태"에서 위치와 회전을 먼저 잡아야 물리 렉이 안 걸립니다.
+            spawnedFruit.transform.position = transform.position;
+            spawnedFruit.transform.rotation = Random.rotation;
 
-            Destroy(spawnedFruit, fruitLifeTime);
+            // 위치를 완벽히 잡은 후에 비로소 오브젝트를 켭니다.
+            spawnedFruit.SetActive(true);
 
-            // Rigidbody를 찾아서 대포가 바라보는 방향(보통 아래쪽 경사 방향)으로 쏴줍니다!
+            // 물리 힘 가하기 (켜진 직후에 초기화)
             Rigidbody rb = spawnedFruit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // 약간의 회전(Torque)을 섞어주면 훨씬 자연스럽게 굴러갑니다.
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
                 rb.AddForce(transform.forward * shootForce, ForceMode.Impulse);
                 rb.AddTorque(new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 5f)), ForceMode.Impulse);
             }
 
-            // 다음 발사까지 대기
-            yield return new WaitForSeconds(spawnInterval);
+            // 지정된 시간 뒤에 다시 풀로 돌려보내는 코루틴 실행
+            StartCoroutine(ReturnToPoolAfterTime(spawnedFruit, selectedPrefab));
+
+            // 캐싱된 WaitForSeconds 사용
+            yield return spawnWait;
+        }
+    }
+
+    // 풀에서 과일을 꺼내는 함수
+    private GameObject GetFruitFromPool(GameObject prefabKey)
+    {
+        // 혹시라도 완전히 파괴된(Destroy) 껍데기가 큐에 있을까 봐 검사
+        while (fruitPools[prefabKey].Count > 0)
+        {
+            GameObject obj = fruitPools[prefabKey].Dequeue();
+            if (obj != null)
+            {
+                return obj;
+            }
+        }
+
+        // 큐가 비어있다면 새로 생성하되, 생성 즉시 꺼서(SetActive(false)) 물리 연산을 막습니다.
+        GameObject newObj = Instantiate(prefabKey, poolParent);
+        newObj.SetActive(false);
+        return newObj;
+    }
+
+    // 일정 시간 뒤에 Destroy 대신 풀로 반환하는 코루틴
+    private IEnumerator ReturnToPoolAfterTime(GameObject obj, GameObject prefabKey)
+    {
+        yield return lifeWait;
+
+        // 오브젝트가 살아있고, 현재 활성화되어 있을 때만 큐에 넣음
+        if (obj != null && obj.activeSelf)
+        {
+            obj.SetActive(false);
+            fruitPools[prefabKey].Enqueue(obj);
         }
     }
 }

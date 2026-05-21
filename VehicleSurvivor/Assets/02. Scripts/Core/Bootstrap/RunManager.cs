@@ -1,30 +1,45 @@
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class RunManager : MonoSceneSingleton<RunManager>
 {
     [Header("Databases")]
     [SerializeField] private WeaponDatabaseSO weaponDatabase;
+    [SerializeField] private PassiveTableSO passiveTable;
+    [SerializeField] private ItemTableSO itemTable;
 
-    [Header("Runtime References")]
-    [SerializeField] private Transform playerSpawnPoint;
+    [SerializeField] private int rewardOptionCount = 3;
+
+    [Header("Temporary Toggles")]
+    [SerializeField] private bool enableLevelUpRewardPopup = true;
 
     private IEventBus _eventBus;
     private RunContext _runContext;
+    private RewardSystem rewardSystem;
+    private readonly RewardApplier rewardApplier = new();
 
     private int _killCount;
     private int _gold;
     private int _lastDisplayedSecond = -1;
+    private int pendingLevelUpRewardCount;
 
-    private GameObject playerInstance;
+    private Player playerInstance;
     private CharacterDefinitionSO _selectedCharacter;
 
     public RunContext RunContext => _runContext;
 
-    public void StartRun(CharacterDefinitionSO selectedCharacter)
+    public void StartRun(CharacterDefinitionSO selectedCharacter, Player player)
     {
         if (selectedCharacter == null)
         {
             Debug.LogError("[RunManager] selectedCharacter is null.");
+            return;
+        }
+
+        if (player == null)
+        {
+            Debug.LogError("[RunManager] Player is null.");
             return;
         }
 
@@ -39,13 +54,18 @@ public class RunManager : MonoSceneSingleton<RunManager>
             UnbindPlayerRuntime(_runContext.Player);
         }
 
-        _selectedCharacter = selectedCharacter;
-        Time.timeScale = 1f;
+        if (playerInstance != null)
+        {
+            playerInstance.BindRuntime(null);
+        }
 
-        ResolvePlayerInstance();
+        _selectedCharacter = selectedCharacter;
+        playerInstance = player;
+        Time.timeScale = 1f;
 
         PlayerRuntime playerRuntime = new PlayerRuntime(selectedCharacter);
         _runContext = new RunContext(playerRuntime);
+        playerInstance.BindRuntime(playerRuntime);
 
         EquipDefaultWeapon(selectedCharacter, playerRuntime);
 
@@ -56,23 +76,9 @@ public class RunManager : MonoSceneSingleton<RunManager>
         _killCount = 0;
         _gold = 0;
         _lastDisplayedSecond = -1;
+        pendingLevelUpRewardCount = 0;
 
-        PublishHpChanged(playerRuntime.Health.CurrentHp, playerRuntime.Health.MaxHp);
-        PublishExpChanged(playerRuntime.Level.CurrentExp, playerRuntime.Level.RequiredExp);
-        _eventBus.Publish(new KillCountEvent(_killCount));
-        _eventBus.Publish(new GoldChangedEvent(_gold));
-        _eventBus.Publish(new TimeChangeEvent(_runContext.RunTime));
-    }
-
-    private void ResolvePlayerInstance()
-    {
-        Player player = FindFirstObjectByType<Player>();
-        playerInstance = player != null ? player.gameObject : null;
-
-        if (playerInstance == null)
-        {
-            Debug.LogError("[RunManager] Player object was not found in the scene.");
-        }
+        PublishInitialRunEvents(playerRuntime);
     }
 
     private void EquipDefaultWeapon(CharacterDefinitionSO character, PlayerRuntime playerRuntime)
@@ -103,7 +109,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
             return;
         }
 
-        playerRuntime.Inventory.AddOrLevelUpWeapon(defaultWeapon);
+        WeaponInstance defaultWeaponInstance = playerRuntime.Inventory.AddOrLevelUpWeapon(defaultWeapon);
 
         if (playerInstance == null)
         {
@@ -111,14 +117,69 @@ public class RunManager : MonoSceneSingleton<RunManager>
             return;
         }
 
-        WeaponInventory weaponInventory = playerInstance.GetComponentInChildren<WeaponInventory>(true);
-        if (weaponInventory == null)
+        PlayerWeaponSpawner playerWeaponSpawner = playerInstance.WeaponSpawner != null
+            ? playerInstance.WeaponSpawner
+            : playerInstance.GetComponentInChildren<PlayerWeaponSpawner>(true);
+        if (playerWeaponSpawner == null)
         {
-            Debug.LogError("[RunManager] WeaponInventory was not found under the spawned player visual.");
+            Debug.LogError("[RunManager] PlayerWeaponSpawner was not found under the spawned player visual.");
             return;
         }
 
-        weaponInventory.TryAddWeapon(defaultWeapon, playerInstance.transform);
+        playerWeaponSpawner.TrySpawnWeapon(defaultWeaponInstance, playerInstance.transform);
+    }
+
+    public List<RewardOption> GenerateLevelUpRewardOptions()
+    {
+        if (_runContext == null)
+        {
+            return new List<RewardOption>();
+        }
+
+        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        return rewardSystem.GenerateLevelUp(_runContext.Player, GetRewardOptionCount());
+    }
+    public List<RewardOption> GenerateChestRewardOptions()
+    {
+        if (_runContext == null)
+        {
+            return new List<RewardOption>();
+        }
+
+        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        return rewardSystem.GenerateChest(_runContext.Player, GetRewardOptionCount());
+    }
+
+    public bool ApplyReward(RewardOption reward)
+    {
+        if (_runContext == null || reward == null)
+        {
+            return false;
+        }
+
+        PlayerWeaponSpawner playerWeaponSpawner = playerInstance != null
+            ? playerInstance.WeaponSpawner != null
+                ? playerInstance.WeaponSpawner
+                : playerInstance.GetComponentInChildren<PlayerWeaponSpawner>(true)
+            : null;
+
+        bool applied = rewardApplier.Apply(
+            _runContext.Player,
+            reward,
+            playerWeaponSpawner,
+            playerInstance != null ? playerInstance.transform : null);
+
+        if (applied)
+        {
+            if (pendingLevelUpRewardCount > 0)
+            {
+                pendingLevelUpRewardCount--;
+            }
+
+            _runContext.ResumeGamePlay();
+        }
+
+        return applied;
     }
 
     private static string ResolveStartingWeaponId(CharacterDefinitionSO character)
@@ -147,7 +208,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         if (currentSecond != _lastDisplayedSecond)
         {
             _lastDisplayedSecond = currentSecond;
-            _eventBus.Publish(new TimeChangeEvent(_runContext.RunTime));
+            PublishTimeChanged(_runContext.RunTime);
         }
     }
 
@@ -162,7 +223,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         }
 
         _killCount++;
-        _eventBus.Publish(new KillCountEvent(_killCount));
+        PublishKillCountChanged();
     }
 
     public void AddGold(int amount)
@@ -176,7 +237,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         }
 
         _gold += amount;
-        _eventBus.Publish(new GoldChangedEvent(_gold));
+        PublishGoldChanged();
     }
 
     public void EndRun()
@@ -190,6 +251,14 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         Time.timeScale = 1f;
         _runContext = null;
+        _selectedCharacter = null;
+        pendingLevelUpRewardCount = 0;
+
+        if (playerInstance != null)
+        {
+            playerInstance.BindRuntime(null);
+        }
+
         playerInstance = null;
     }
 
@@ -251,6 +320,30 @@ public class RunManager : MonoSceneSingleton<RunManager>
         _eventBus.Publish(new ExpChangedEvent(currentExp, requiredExp));
     }
 
+    private void PublishInitialRunEvents(PlayerRuntime playerRuntime)
+    {
+        PublishHpChanged(playerRuntime.Health.CurrentHp, playerRuntime.Health.MaxHp);
+        PublishExpChanged(playerRuntime.Level.CurrentExp, playerRuntime.Level.RequiredExp);
+        PublishKillCountChanged();
+        PublishGoldChanged();
+        PublishTimeChanged(_runContext.RunTime);
+    }
+
+    private void PublishKillCountChanged()
+    {
+        _eventBus.Publish(new KillCountEvent(_killCount));
+    }
+
+    private void PublishGoldChanged()
+    {
+        _eventBus.Publish(new GoldChangedEvent(_gold));
+    }
+
+    private void PublishTimeChanged(float runTime)
+    {
+        _eventBus.Publish(new TimeChangeEvent(runTime));
+    }
+
     private void HandlePlayerDied()
     {
         if (_runContext == null)
@@ -268,7 +361,13 @@ public class RunManager : MonoSceneSingleton<RunManager>
             return;
         }
 
-        _runContext.EnterRewardSelection();
+        if (!enableLevelUpRewardPopup)
+        {
+            return;
+        }
+
+        pendingLevelUpRewardCount++;
+        TryEnterPendingLevelUpReward();
     }
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
@@ -293,19 +392,67 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         if (nextState == ERunState.RewardSelection)
         {
-            uiManager.ShowPopup(EPopupUIType.LevelUp, remember: false);
+            UI_LevelUp rewardPopup = uiManager.ShowPopup<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
+            if (rewardPopup != null)
+                //rewardPopup.ShowRewards(this, GenerateRewardOptions());
+
             return;
         }
 
         UI_LevelUp levelUpPopup = uiManager.GetCurrentPopup<UI_LevelUp>();
-        if (levelUpPopup == null)
+
+        if (levelUpPopup != null &&
+            (previousState == ERunState.RewardSelection || nextState == ERunState.GameOver))
+        {
+            uiManager.ClosePopup(levelUpPopup);
+        }
+
+        if (nextState == ERunState.Playing)
+        {
+            TryEnterPendingLevelUpReward();
+        }
+    }
+
+    private void TryEnterPendingLevelUpReward()
+    {
+        if (_runContext == null ||
+            _runContext.State != ERunState.Playing ||
+            pendingLevelUpRewardCount <= 0)
         {
             return;
         }
 
-        if (previousState == ERunState.RewardSelection || nextState == ERunState.GameOver)
+        _runContext.EnterRewardSelection();
+    }
+
+    private async UniTaskVoid ShowLevelUpRewardPopupAsync(UIManager uiManager)
+    {
+        if (uiManager == null)
+            return;
+
+        UI_LevelUp rewardPopup = await uiManager.ShowPopupAsync<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
+        if (_runContext == null || _runContext.State != ERunState.RewardSelection)
+            return;
+
+        if (rewardPopup == null)
         {
-            uiManager.ClosePopup(levelUpPopup);
+            Debug.LogError("[RunManager] LevelUp popup could not be shown.");
+            if (pendingLevelUpRewardCount > 0)
+                pendingLevelUpRewardCount--;
+
+            _runContext?.ResumeGamePlay();
+            return;
         }
+
+        List<RewardOption> rewardOptions = GenerateLevelUpRewardOptions();
+        if (rewardOptions.Count == 0)
+            Debug.LogWarning("[RunManager] LevelUp reward option list is empty.");
+
+        //rewardPopup.ShowRewards(this, rewardOptions);
+    }
+
+    private int GetRewardOptionCount()
+    {
+        return rewardOptionCount > 0 ? rewardOptionCount : 3;
     }
 }
