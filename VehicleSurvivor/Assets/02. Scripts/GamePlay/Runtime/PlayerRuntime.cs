@@ -1,4 +1,4 @@
-public sealed class PlayerRuntime
+public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
 {
     public CharacterDefinitionSO Character { get; }
 

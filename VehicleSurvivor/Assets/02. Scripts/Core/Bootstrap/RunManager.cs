@@ -50,6 +50,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
             UnbindPlayerRuntime(_runContext.Player);
         }
 
+        if (playerInstance != null)
+        {
+            playerInstance.BindRuntime(null);
+        }
+
         _selectedCharacter = selectedCharacter;
         playerInstance = player;
         Time.timeScale = 1f;
@@ -226,6 +231,8 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         Time.timeScale = 1f;
         _runContext = null;
+        _selectedCharacter = null;
+
         if (playerInstance != null)
         {
             playerInstance.BindRuntime(null);

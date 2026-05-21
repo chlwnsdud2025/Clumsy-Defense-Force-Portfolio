@@ -8,11 +8,6 @@ public class AuraWeapon : WeaponBase
     [Header("Aura Settings")]
     public LayerMask enemyLayer;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float cooldown = 0.5f;
-    public float radius = 5f;
-
     private GameObject auraEffect;
 
     private void Start()
@@ -22,22 +17,8 @@ public class AuraWeapon : WeaponBase
 
     protected override void Update()
     {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-
-        UpdateAuraScale(radius);
+        base.Update();
+        UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
     }
 
     protected override void Attack(WeaponLevelData data)
@@ -45,14 +26,6 @@ public class AuraWeapon : WeaponBase
         DealAuraDamage(
             GetFinalDamage(data.Damage),
             GetAuraRadius(data)
-        );
-    }
-
-    private void AttackLegacy()
-    {
-        DealAuraDamage(
-            GetFinalDamage(damage),
-            radius
         );
     }
 
@@ -103,8 +76,8 @@ public class AuraWeapon : WeaponBase
     private float GetAuraRadius(WeaponLevelData data)
     {
         if (data == null)
-            return radius;
+            return 0f;
 
-        return data.Range > 0f ? data.Range : data.radius;
+        return data.Range > 0f ? data.Range : data.Radius;
     }
 }

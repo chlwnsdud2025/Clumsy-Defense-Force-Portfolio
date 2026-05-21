@@ -1,6 +1,6 @@
 using System;
 
-public sealed class RunContext
+public sealed class RunContext // 이번 판 전체 상태묶음
 {
     public ERunState State { get; private set; }
     public float RunTime { get; private set; }

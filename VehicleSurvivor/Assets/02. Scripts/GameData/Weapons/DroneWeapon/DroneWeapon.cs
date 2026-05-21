@@ -94,7 +94,7 @@ public class DroneWeapon : WeaponBase
                 enemyLayer,
                 GetFinalDamage(data.Damage),
                 data.Cooldown,
-                data.bulletSpeed,
+                data.BulletSpeed,
                 offset,
                 detectRadius
             );

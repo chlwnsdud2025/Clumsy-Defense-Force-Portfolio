@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class HomingWeapon : WeaponBase
 {
@@ -13,31 +14,9 @@ public class HomingWeapon : WeaponBase
     [Header("Target Settings")]
     public LayerMask targetLayer;
 
-    [Header("Legacy Stats")]
-    public float damage = 10f;
-    public float cooldown = 1f;
-    public float bulletSpeed = 15f;
-    public float detectRadius = 15f;
-    public int projectileCount = 1;
-    public float spreadAngle = 15f;
-
-
-    protected override void Update()
-    {
-        if (HasConfiguredLevelData())
-        {
-            base.Update();
-            return;
-        }
-
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer >= GetFinalCooldown(cooldown))
-        {
-            AttackLegacy();
-            attackTimer = 0f;
-        }
-    }
+    [Header("Target Settings")]
+    [FormerlySerializedAs("detectRadius")]
+    public float fallbackDetectRadius = 15f;
 
     protected override void Attack(WeaponLevelData data)
     {
@@ -45,19 +24,8 @@ public class HomingWeapon : WeaponBase
             GetFinalDamage(data.Damage),
             GetProjectileSpeed(data),
             Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
-            data.spreadAngle,
+            data.SpreadAngle,
             GetDetectRadius(data)
-        );
-    }
-
-    private void AttackLegacy()
-    {
-        FireHomingProjectiles(
-            GetFinalDamage(damage),
-            bulletSpeed,
-            Mathf.Max(1, GetFinalProjectileCount(projectileCount)),
-            spreadAngle,
-            detectRadius
         );
     }
 
@@ -158,17 +126,11 @@ public class HomingWeapon : WeaponBase
 
     private float GetProjectileSpeed(WeaponLevelData data)
     {
-        if (data == null)
-            return bulletSpeed;
-
-        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.bulletSpeed;
+        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.BulletSpeed;
     }
 
     private float GetDetectRadius(WeaponLevelData data)
     {
-        if (data == null)
-            return detectRadius;
-
-        return data.Range > 0f ? data.Range : detectRadius;
+        return data.Range > 0f ? data.Range : fallbackDetectRadius;
     }
 }

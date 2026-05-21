@@ -35,7 +35,23 @@ public sealed class Player : MonoBehaviour
 
     public void BindRuntime(PlayerRuntime runtime)
     {
+        CacheComponents();
         Runtime = runtime;
+
+        if (DamageReceiver != null)
+        {
+            DamageReceiver.BindRuntime(runtime);
+        }
+
+        if (ExperienceCollector != null)
+        {
+            ExperienceCollector.BindRuntime(runtime);
+        }
+
+        if (WeaponSpawner != null)
+        {
+            WeaponSpawner.BindRuntime(runtime);
+        }
     }
 
     private void CacheComponents()
