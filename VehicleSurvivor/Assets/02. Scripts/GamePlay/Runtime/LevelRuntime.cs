@@ -1,5 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using UnityEngine;
 
 public sealed class LevelRuntime
 {
@@ -17,7 +17,7 @@ public sealed class LevelRuntime
         RequiredExp = CalculateRequiredExp(Level);
     }
 
-    public void AddExp(int amount)
+    public async void AddExp(int amount)
     {
         if (amount <= 0)
             return;
@@ -31,7 +31,6 @@ public sealed class LevelRuntime
 
             RequiredExp = CalculateRequiredExp(Level);
 
-            Debug.Log($"[LevelRuntime] LevelUp. Level={Level}, CurrentExp={CurrentExp}, RequiredExp={RequiredExp}, HasListeners={OnLevelUp != null}");
             OnLevelUp?.Invoke(Level);
         }
 
