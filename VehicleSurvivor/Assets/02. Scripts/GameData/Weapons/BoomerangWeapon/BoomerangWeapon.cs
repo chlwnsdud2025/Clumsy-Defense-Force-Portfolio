@@ -11,13 +11,15 @@ public class BoomerangWeapon : WeaponBase
 
     protected override void Attack(WeaponLevelData data)
     {
-        if (boomerangPrefab == null || firePoint == null)
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+
+        if (boomerangPrefab == null || resolvedFirePoint == null)
             return;
 
         GameObject boomerang = Instantiate(
             boomerangPrefab,
-            firePoint.position,
-            firePoint.rotation
+            resolvedFirePoint.position,
+            resolvedFirePoint.rotation
         );
 
         BoomerangProjectile projectile =

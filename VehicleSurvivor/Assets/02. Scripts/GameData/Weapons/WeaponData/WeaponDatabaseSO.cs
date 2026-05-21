@@ -1,17 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponDataBaseSO : ScriptableObject
-{
-    [Header("Weapon Info")]
-    public string weaponID;
-
-    public string weaponName;
-
-    [TextArea]
-    public string description;
-}
-
 [CreateAssetMenu(
     fileName = "WeaponDatabase",
     menuName = "GameData/Weapon/Weapon Database"

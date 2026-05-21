@@ -3,11 +3,17 @@ using UnityEngine;
 public class WeaponBase : MonoBehaviour
 {
     protected Transform Owner { get; private set; }
-    protected WeaponRuntimeData RuntimeData { get; private set; }
+    protected Transform OwnerFirePoint { get; private set; }
+    protected WeaponInstance RuntimeData { get; private set; }
 
-    private float attackTimer;
+    protected float attackTimer;
 
-    public void Initialize(Transform owner, WeaponRuntimeData runtimeData)
+    public void Initialize(Transform owner, WeaponInstance runtimeData)
+    {
+        Initialize(owner, runtimeData, null);
+    }
+
+    public void Initialize(Transform owner, WeaponInstance runtimeData, Transform ownerFirePoint)
     {
         if (RuntimeData != null)
         {
@@ -15,6 +21,7 @@ public class WeaponBase : MonoBehaviour
         }
 
         Owner = owner;
+        OwnerFirePoint = ownerFirePoint;
         RuntimeData = runtimeData;
         attackTimer = 0f;
 
@@ -87,31 +94,15 @@ public class WeaponBase : MonoBehaviour
         return RuntimeData != null || (levelData != null && levelData.Length > 0);
     }
 
-    public virtual void LevelUpWeapon()
+    protected Transform ResolveFirePoint(Transform configuredFirePoint)
     {
-        if (RuntimeData != null)
-        {
-            if (RuntimeData.TryLevelUp())
-                OnWeaponLevelUp();
+        if (configuredFirePoint != null)
+            return configuredFirePoint;
 
-            return;
-        }
+        if (OwnerFirePoint != null)
+            return OwnerFirePoint;
 
-        if (levelData == null || levelData.Length == 0)
-            return;
-
-        if (currentLevel < levelData.Length - 1)
-        {
-            currentLevel++;
-            OnWeaponLevelUp();
-            OnLevelDataChanged(GetCurrentLevelData());
-        }
-    }
-
-    protected virtual void OnWeaponLevelUp()
-    {
-        int level = RuntimeData != null ? RuntimeData.CurrentLevel : currentLevel + 1;
-        Debug.Log($"{weaponName} level up: {level}");
+        return Owner != null ? Owner : transform;
     }
 
     public string GetWeaponID()

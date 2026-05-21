@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0c317108c865e4fa94a2417c517257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorWeapon
-  weaponData: {fileID: 0}
   currentLevel: 0
-  meteorData: {fileID: 11400000, guid: 30377c62c489f8544918e55f033a09d0, type: 2}
+  meteorPrefab: {fileID: 2047154712773428394, guid: feb2f94033e5a34418916bb1baa6af43, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048

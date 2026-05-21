@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
-    [Header("Aura Data")]
-    public AuraWeaponDataSO auraData;
+    [Header("Aura References")]
+    public GameObject auraEffectPrefab;
 
     [Header("Aura Settings")]
     public LayerMask enemyLayer;
@@ -13,7 +13,6 @@ public class AuraWeapon : WeaponBase
     public float cooldown = 0.5f;
     public float radius = 5f;
 
-    private float attackTimer;
     private GameObject auraEffect;
 
     private void Start()
@@ -79,10 +78,10 @@ public class AuraWeapon : WeaponBase
 
     private void CreateAuraEffect()
     {
-        if (auraData == null || auraData.auraEffectPrefab == null)
+        if (auraEffectPrefab == null)
             return;
 
-        auraEffect = Instantiate(auraData.auraEffectPrefab, transform);
+        auraEffect = Instantiate(auraEffectPrefab, transform);
         auraEffect.transform.localPosition = Vector3.zero;
     }
 

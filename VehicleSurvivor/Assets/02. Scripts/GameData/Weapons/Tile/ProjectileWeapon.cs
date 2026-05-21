@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-    [Header("Projectile Data")]
-    public ProjectileWeaponDataSO projectileData;
+    [Header("Projectile References")]
+    public GameObject projectilePrefab;
+    public ParticleSystem shootParticlePrefab;
 
     [Header("Fire Point")]
     public Transform firePoint;
@@ -15,7 +16,6 @@ public class ProjectileWeapon : WeaponBase
     public int projectileCount = 1;
     public float spreadAngle = 15f;
 
-    private float attackTimer;
 
     protected override void Update()
     {
@@ -61,30 +61,26 @@ public class ProjectileWeapon : WeaponBase
         float spreadAngleValue
     )
     {
-        if (projectileData == null)
-        {
-            Debug.LogWarning("Projectile data is missing.");
-            return;
-        }
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
 
-        if (projectileData.projectilePrefab == null)
+        if (projectilePrefab == null)
         {
             Debug.LogWarning("Projectile prefab is missing.");
             return;
         }
 
-        if (firePoint == null)
+        if (resolvedFirePoint == null)
         {
             Debug.LogWarning("Fire point is missing.");
             return;
         }
 
-        if (projectileData.shootParticlePrefab != null)
+        if (shootParticlePrefab != null)
         {
             Instantiate(
-                projectileData.shootParticlePrefab,
-                firePoint.position,
-                firePoint.rotation
+                shootParticlePrefab,
+                resolvedFirePoint.position,
+                resolvedFirePoint.rotation
             );
         }
 
@@ -99,12 +95,12 @@ public class ProjectileWeapon : WeaponBase
             }
 
             Quaternion bulletRotation =
-                firePoint.rotation *
+                resolvedFirePoint.rotation *
                 Quaternion.Euler(0f, angle, 0f);
 
             GameObject bulletObject = Instantiate(
-                projectileData.projectilePrefab,
-                firePoint.position,
+                projectilePrefab,
+                resolvedFirePoint.position,
                 bulletRotation
             );
 
