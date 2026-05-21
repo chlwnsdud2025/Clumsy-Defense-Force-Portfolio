@@ -32,7 +32,7 @@ public class GameOver_Boss : BossEnemy
     public float circleSideSpacing = 4f; // 행 내의 원 간 옆 방향 간격
     public float coneRowTelegraphDelay = 0.3f; // 각 행이 나타나는 시간차
 
-    
+
     [Header("Pattern 4: One Line Pattern (일렬 순차 장판)")]
     public int lineCount = 6;                // 일렬로 몇 개의 장판을 깔 것인가
     public float lineForwardSpacing = 4f;    // 장판 사이의 앞방향 간격
@@ -44,7 +44,6 @@ public class GameOver_Boss : BossEnemy
         if (isCastingPattern) return;
         isCastingPattern = true;
 
-        // [버그 수정] 5가지 패턴(0~4)을 모두 포함하려면 (0, 5)로 설정해야 합니다!
         int randomPattern = Random.Range(0, 5);
 
         switch (randomPattern)
@@ -66,6 +65,25 @@ public class GameOver_Boss : BossEnemy
                 break;
         }
     }
+
+    // ==========================================
+    // [핵심 추가] 하이어라키를 깨끗하게 만들어줄 전용 폴더 생성기
+    // ==========================================
+    private Transform GetVfxContainer()
+    {
+        if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
+        {
+            return EnemyManager.Instance.FxParent;
+        }
+
+        GameObject container = GameObject.Find("Boss_VFX_Container");
+        if (container == null)
+        {
+            container = new GameObject("Boss_VFX_Container");
+        }
+        return container.transform;
+    }
+    // ==========================================
 
     // 패턴 0: 플레이어를 중심으로 퍼져나가는 연쇄 장판
     private IEnumerator SpawnSequencedAttack()
@@ -168,15 +186,12 @@ public class GameOver_Boss : BossEnemy
         Vector3 startPos = bossPos + (forwardDir * 1.5f);
         startPos.y = bossPos.y;
 
-        // [수정] 추적 패턴 변수 재사용을 중단하고 독립된 lineCount 변수 사용
         for (int i = 0; i < lineCount; i++)
         {
-            // [수정] lineForwardSpacing 변수 사용
             Vector3 spawnPos = startPos + (forwardDir * (i * lineForwardSpacing));
 
             SpawnOneTelegraph(spawnPos);
 
-            // [수정] lineTelegraphDelay 변수 사용
             yield return new WaitForSeconds(lineTelegraphDelay);
         }
 
@@ -189,7 +204,8 @@ public class GameOver_Boss : BossEnemy
     {
         if (telegraphPrefab == null) return;
 
-        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity);
+        // [핵심 수정] 무조건 전용 폴더(GetVfxContainer()) 안으로 집어넣습니다!
+        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity, GetVfxContainer());
         BossTelegraph script = go.GetComponent<BossTelegraph>();
         if (script != null)
         {

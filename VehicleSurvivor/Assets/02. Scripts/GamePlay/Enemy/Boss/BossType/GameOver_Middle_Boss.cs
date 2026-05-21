@@ -30,11 +30,26 @@ public class GameOver_Middle_Boss : BossEnemy
         isCastingPattern = true;
 
         StartCoroutine(SpawnOneLineAttack());
-               
-        
     }
 
+    // ==========================================
+    // [핵심 추가] 하이어라키를 깨끗하게 만들어줄 전용 폴더 생성기
+    // ==========================================
+    private Transform GetVfxContainer()
+    {
+        if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
+        {
+            return EnemyManager.Instance.FxParent;
+        }
 
+        GameObject container = GameObject.Find("Boss_VFX_Container");
+        if (container == null)
+        {
+            container = new GameObject("Boss_VFX_Container");
+        }
+        return container.transform;
+    }
+    // ==========================================
 
     // 패턴 4: 보스 발밑에서 플레이어를 향해 일렬로 생성되는 단일 장판
     private IEnumerator SpawnOneLineAttack()
@@ -49,15 +64,12 @@ public class GameOver_Middle_Boss : BossEnemy
         Vector3 startPos = bossPos + (forwardDir * 1.5f);
         startPos.y = bossPos.y;
 
-        // [수정] 추적 패턴 변수 재사용을 중단하고 독립된 lineCount 변수 사용
         for (int i = 0; i < lineCount; i++)
         {
-            // [수정] lineForwardSpacing 변수 사용
             Vector3 spawnPos = startPos + (forwardDir * (i * lineForwardSpacing));
 
             SpawnOneTelegraph(spawnPos);
 
-            // [수정] lineTelegraphDelay 변수 사용
             yield return new WaitForSeconds(lineTelegraphDelay);
         }
 
@@ -70,7 +82,8 @@ public class GameOver_Middle_Boss : BossEnemy
     {
         if (telegraphPrefab == null) return;
 
-        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity);
+        // [핵심 수정] 무조건 전용 폴더(GetVfxContainer()) 안으로 집어넣습니다!
+        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity, GetVfxContainer());
         BossTelegraph script = go.GetComponent<BossTelegraph>();
         if (script != null)
         {
@@ -79,6 +92,4 @@ public class GameOver_Middle_Boss : BossEnemy
             script.Initialize(baseDamage, baseRadius, telegraphDuration, playerLayerMask);
         }
     }
-
-    
 }
