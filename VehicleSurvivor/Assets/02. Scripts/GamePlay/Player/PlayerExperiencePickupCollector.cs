@@ -69,7 +69,16 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
                 continue;
 
             if (pickup.TryConsume(out int amount))
+            {
                 AddExperience(amount);
+
+                if (RunManager.TryGetInstance(out RunManager runManager) &&
+                    runManager.RunSession != null &&
+                    !runManager.RunSession.ShouldUpdateGameplay)
+                {
+                    break;
+                }
+            }
         }
     }
 
@@ -109,7 +118,19 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
         if (finalAmount <= 0)
             return;
 
+        if (!CanAddExperience())
+            return;
+
         playerRuntime.Level.AddExp(finalAmount);
+    }
+
+    private bool CanAddExperience()
+    {
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+            return false;
+
+        RunSession runSession = runManager.RunSession;
+        return runSession != null && runSession.ShouldUpdateGameplay;
     }
 
     private float GetPickupRangeMultiplier()
@@ -129,11 +150,11 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return false;
 
-        RunContext runContext = runManager.RunContext;
-        if (runContext == null)
+        RunSession runSession = runManager.RunSession;
+        if (runSession == null)
             return false;
 
-        playerRuntime = runContext.Player;
+        playerRuntime = runSession.Player;
         return playerRuntime != null;
     }
 }

@@ -100,7 +100,13 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        if (playerTransform == null || StageRunManager.Instance == null) return;
+        if (playerTransform == null || StageRunManager.Instance == null)
+            return;
+
+        if (!RunManager.TryGetInstance(out RunManager runManager) ||
+            runManager.RunSession == null ||
+            !runManager.RunSession.ShouldUpdateGameplay)
+            return;
 
         // 1. 페이즈(스테이지 클리어)가 바뀌었는지 감지
         if (StageRunManager.Instance.currentPhaseIndex != lastPhaseIndex)

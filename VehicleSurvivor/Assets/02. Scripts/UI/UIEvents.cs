@@ -30,6 +30,18 @@ public readonly struct TimeChangeEvent
     }
 }
 
+public readonly struct WaveTimeChangedEvent
+{
+    public readonly float DisplayTime;
+    public readonly bool IsNightmare;
+
+    public WaveTimeChangedEvent(float displayTime, bool isNightmare)
+    {
+        DisplayTime = displayTime;
+        IsNightmare = isNightmare;
+    }
+}
+
 public readonly struct GoldChangedEvent
 {
     public readonly int Gold;
@@ -49,5 +61,15 @@ public readonly struct ExpChangedEvent
     {
         Current = current;
         Required = required;
+    }
+}
+
+public readonly struct LevelChangedEvent
+{
+    public readonly int Level;
+
+    public LevelChangedEvent(int level)
+    {
+        Level = level;
     }
 }

@@ -13,12 +13,21 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private Slider hpSlider;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Slider expSlider;
+    [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Slider boostSlider;
 
     [Header("Game Info UI")]
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI killCountText;
-    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI totalTimerText;
+    [SerializeField] private TextMeshProUGUI waveTimerText;
+
+    [Header("Wave Timer")]
+    [SerializeField] private RectTransform waveTimerRect;
+    [SerializeField] private Color waveTimerNormalTextColor = Color.white;
+    [SerializeField] private Color waveTimerNightmareTextColor = new(1f, 0.27f, 0.27f);
+    [SerializeField] private float waveTimerNightmarePunchPower = 0.15f;
+    [SerializeField] private float waveTimerStyleTweenDuration = 0.3f;
 
     [Header("Game UI")]
     [SerializeField] private RectTransform pauseButtonRect;
@@ -50,6 +59,16 @@ public class UI_InGameHUD : UIScene
     private Tween boostTween;
     private Tween hpWarningTween;
     private Tween pauseButtonTween;
+    private Tween waveTimerStyleTween;
+    private Tween waveTimerPunchTween;
+
+    private bool _isWaveNightmare;
+
+    private void Awake()
+    {
+        if (waveTimerRect == null && waveTimerText != null)
+            waveTimerRect = waveTimerText.rectTransform;
+    }
 
     public override void OnShow()
     {
@@ -71,10 +90,12 @@ public class UI_InGameHUD : UIScene
             UpdateCharacterName(string.Empty);
             UpdateHpGauge(0, 1);
             UpdateExpGauge(0, 1);
+            UpdateLevelUI(1);
             UpdateBoostGauge(0, 1);
             UpdateGoldUI(0);
             UpdateKillUI(0);
-            UpdateTimerUI(0f);
+            UpdateTotalTimerUI(0f);
+            UpdateWaveTimerUI(0f, false);
             return;
         }
 
@@ -84,10 +105,12 @@ public class UI_InGameHUD : UIScene
         UpdateHpGauge(maxHp, maxHp);
 
         UpdateExpGauge(0, 1);
+        UpdateLevelUI(1);
         UpdateBoostGauge(0, 1);
         UpdateGoldUI(0);
         UpdateKillUI(0);
-        UpdateTimerUI(0f);
+        UpdateTotalTimerUI(0f);
+        UpdateWaveTimerUI(0f, false);
     }
 
     private void SubscribeEvents()
@@ -100,8 +123,10 @@ public class UI_InGameHUD : UIScene
 
         _eventBus.Subscribe<HpChangedEvent>(OnHpChanged);
         _eventBus.Subscribe<ExpChangedEvent>(OnExpChanged);
+        _eventBus.Subscribe<LevelChangedEvent>(OnLevelChanged);
         _eventBus.Subscribe<KillCountEvent>(OnKillChanged);
         _eventBus.Subscribe<TimeChangeEvent>(OnTimeChanged);
+        _eventBus.Subscribe<WaveTimeChangedEvent>(OnWaveTimeChanged);
         _eventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
 
         _isSubscribed = true;
@@ -116,8 +141,10 @@ public class UI_InGameHUD : UIScene
         {
             _eventBus.Unsubscribe<HpChangedEvent>(OnHpChanged);
             _eventBus.Unsubscribe<ExpChangedEvent>(OnExpChanged);
+            _eventBus.Unsubscribe<LevelChangedEvent>(OnLevelChanged);
             _eventBus.Unsubscribe<KillCountEvent>(OnKillChanged);
             _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
+            _eventBus.Unsubscribe<WaveTimeChangedEvent>(OnWaveTimeChanged);
             _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
         }
 
@@ -180,6 +207,12 @@ public class UI_InGameHUD : UIScene
         }
     }
 
+    public void UpdateLevelUI(int level)
+    {
+        if (levelText != null)
+            levelText.text = $"Lv. {level}";
+    }
+
     public void UpdateGoldUI(int gold)
     {
         if (goldText != null)
@@ -192,13 +225,61 @@ public class UI_InGameHUD : UIScene
             killCountText.text = kills.ToString("N0");
     }
 
-    public void UpdateTimerUI(float time)
+    public void UpdateTotalTimerUI(float elapsed)
     {
-        int minutes = Mathf.FloorToInt(time / 60f);
-        int seconds = Mathf.FloorToInt(time % 60f);
+        if (totalTimerText == null)
+            return;
 
-        if (timerText != null)
-            timerText.text = $"{minutes:00}:{seconds:00}";
+        int minutes = Mathf.FloorToInt(elapsed / 60f);
+        int seconds = Mathf.FloorToInt(elapsed % 60f);
+        totalTimerText.text = $"{minutes:00}:{seconds:00}";
+    }
+
+    public void UpdateWaveTimerUI(float displayTime, bool isNightmare)
+    {
+        if (waveTimerText == null)
+            return;
+
+        float clamped = Mathf.Max(0f, displayTime);
+        int minutes = Mathf.FloorToInt(clamped / 60f);
+        int seconds = Mathf.FloorToInt(clamped % 60f);
+        waveTimerText.text = isNightmare
+            ? $"+{minutes:00}:{seconds:00}"
+            : $"{minutes:00}:{seconds:00}";
+
+        ApplyWaveTimerStyle(isNightmare);
+    }
+
+    private void ApplyWaveTimerStyle(bool isNightmare)
+    {
+        if (_isWaveNightmare == isNightmare)
+            return;
+
+        bool enteringNightmare = isNightmare && !_isWaveNightmare;
+        _isWaveNightmare = isNightmare;
+
+        waveTimerStyleTween?.Kill();
+        waveTimerPunchTween?.Kill();
+
+        Color targetTextColor = isNightmare ? waveTimerNightmareTextColor : waveTimerNormalTextColor;
+
+        if (waveTimerText != null)
+        {
+            waveTimerStyleTween = waveTimerText
+                .DOColor(targetTextColor, waveTimerStyleTweenDuration)
+                .SetEase(Ease.OutQuad);
+        }
+
+        if (enteringNightmare && waveTimerRect != null)
+        {
+            waveTimerRect.localScale = Vector3.one;
+            waveTimerPunchTween = waveTimerRect
+                .DOPunchScale(Vector3.one * waveTimerNightmarePunchPower, waveTimerStyleTweenDuration);
+        }
+        else if (waveTimerRect != null)
+        {
+            waveTimerRect.localScale = Vector3.one;
+        }
     }
 
     private void OnHpChanged(HpChangedEvent e)
@@ -211,6 +292,11 @@ public class UI_InGameHUD : UIScene
         UpdateExpGauge(e.Current, e.Required);
     }
 
+    private void OnLevelChanged(LevelChangedEvent e)
+    {
+        UpdateLevelUI(e.Level);
+    }
+
     private void OnKillChanged(KillCountEvent e)
     {
         UpdateKillUI(e.KillCount);
@@ -218,7 +304,12 @@ public class UI_InGameHUD : UIScene
 
     private void OnTimeChanged(TimeChangeEvent e)
     {
-        UpdateTimerUI(e.Time);
+        UpdateTotalTimerUI(e.Time);
+    }
+
+    private void OnWaveTimeChanged(WaveTimeChangedEvent e)
+    {
+        UpdateWaveTimerUI(e.DisplayTime, e.IsNightmare);
     }
 
     private void OnGoldChanged(GoldChangedEvent e)
@@ -256,12 +347,16 @@ public class UI_InGameHUD : UIScene
         boostTween?.Kill();
         hpWarningTween?.Kill();
         pauseButtonTween?.Kill();
+        waveTimerStyleTween?.Kill();
+        waveTimerPunchTween?.Kill();
 
         hpTween = null;
         expTween = null;
         boostTween = null;
         hpWarningTween = null;
         pauseButtonTween = null;
+        waveTimerStyleTween = null;
+        waveTimerPunchTween = null;
     }
 
     private void PlayPauseButtonTween()

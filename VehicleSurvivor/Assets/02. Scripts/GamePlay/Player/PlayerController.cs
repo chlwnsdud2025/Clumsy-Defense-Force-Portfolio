@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private CharacterController _controller;
     private PlayerInputs _input;
-    private Player _player;
+    private PlayerRuntime _runtime;
 
     private bool _hasAnimator;
 
@@ -156,7 +156,6 @@ public class PlayerController : MonoBehaviour
         _hasAnimator = TryGetComponent(out _animator);
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputs>();
-        _player = GetComponentInParent<Player>();
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponent<PlayerInput>();
 #else
@@ -168,6 +167,11 @@ public class PlayerController : MonoBehaviour
         // 시작 시 점프·낙하 타이머 초기화
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+    }
+
+    public void BindRuntime(PlayerRuntime runtime)
+    {
+        _runtime = runtime;
     }
 
     private void Update()
@@ -288,17 +292,27 @@ public class PlayerController : MonoBehaviour
 
     private float GetMoveSpeedMultiplier()
     {
-        PlayerRuntime playerRuntime = _player != null ? _player.Runtime : null;
-        if (playerRuntime == null)
-        {
-            _player = GetComponentInParent<Player>();
-            playerRuntime = _player != null ? _player.Runtime : null;
-        }
-
-        if (playerRuntime == null)
+        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
             return 1f;
 
         return Mathf.Max(0f, playerRuntime.Stats.GetValue(EStatType.MoveSpeedMultiplier));
+    }
+
+    private bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)
+    {
+        playerRuntime = _runtime;
+        if (playerRuntime != null)
+            return true;
+
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+            return false;
+
+        RunSession runSession = runManager.RunSession;
+        if (runSession == null)
+            return false;
+
+        playerRuntime = runSession.Player;
+        return playerRuntime != null;
     }
 
     private void JumpAndGravity()

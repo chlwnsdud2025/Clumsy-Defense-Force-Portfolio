@@ -23,6 +23,13 @@ public sealed class RewardApplier
         }
     }
 
+    public bool ApplyStartingWeapon(
+        PlayerRuntime player,
+        WeaponDefinitionSO definition,
+        PlayerWeaponSpawner playerWeaponSpawner,
+        Transform owner) =>
+        ApplyWeapon(player, definition, playerWeaponSpawner, owner);
+
     private static bool ApplyWeapon(
         PlayerRuntime player,
         WeaponDefinitionSO definition,
