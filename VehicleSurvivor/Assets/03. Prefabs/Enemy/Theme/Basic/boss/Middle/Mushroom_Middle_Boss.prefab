@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MushRoom_Middle_Boss
   playerTarget: {fileID: 0}
-  maxHealth: 1000
+  maxHealth: 10
   moveSpeed: 7
   rotationSpeed: 3
   contactDamage: 30
