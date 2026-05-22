@@ -49,32 +49,6 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         playerRuntime.Health.Heal(amount);
     }
 
-    public void AddExp(int expAmount)
-    {
-        if (expAmount <= 0)
-            return;
-
-        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
-            return;
-
-        if (playerRuntime.Health.CurrentHp <= 0f)
-            return;
-
-        if (!CanAddExperience())
-            return;
-
-        playerRuntime.Level.AddExp(expAmount);
-    }
-
-    private bool CanAddExperience()
-    {
-        if (!RunManager.TryGetInstance(out RunManager runManager))
-            return false;
-
-        RunContext runContext = runManager.RunContext;
-        return runContext != null && runContext.ShouldUpdateGameplay;
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Enemy"))
