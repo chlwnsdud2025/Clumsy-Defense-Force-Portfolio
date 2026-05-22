@@ -726,6 +726,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChainLightningWeapon
       objectReference: {fileID: 0}
+    - target: {fileID: 4166244357231286302, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -859,7 +863,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512eb5c7258dcfa4f9d785556007a3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  currentTheme: {fileID: 0}
   playerTransform: {fileID: 866794476}
   spawnRadius: 70
   clusterRadius: 4
@@ -909,11 +912,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   visualRoot: {fileID: 0}
   animator: {fileID: 0}
-  level: 1
-  currentExp: 0
-  needExp: 10
-  currentHP: 0
-  isDead: 0
 --- !u!64 &866794485
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1018,6 +1016,26 @@ PrefabInstance:
       propertyPath: radius
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: auraEffectPrefab
+      value: 
+      objectReference: {fileID: 5766691976136461342, guid: 43d1d06cf70fcb2488255051aaae40a5, type: 3}
+    - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: useEditorTestLevelData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: editorTestLevelData.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: editorTestLevelData.range
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1414212942567932185, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1061,6 +1079,10 @@ PrefabInstance:
     - target: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: m_Name
       value: MagneticAuraWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1106,6 +1128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9f2e6271f29f8a48a3852cc1bfd61ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
+  weaponDatabase: {fileID: 11400000, guid: ec58c6509de32844684033523f0f660c, type: 2}
+  passiveTable: {fileID: 11400000, guid: 29ce8cba065e1fd088ea60bc8840e211, type: 2}
+  rewardOptionCount: 3
+  enableLevelUpRewardPopup: 0
 --- !u!4 &1507902628
 Transform:
   m_ObjectHideFlags: 0
@@ -1133,6 +1159,34 @@ PrefabInstance:
       propertyPath: firePoint
       value: 
       objectReference: {fileID: 630164135}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: useEditorTestLevelData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: editorTestLevelData.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: editorTestLevelData.range
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: editorTestLevelData.radius
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: projectileRotationOffset.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -162114981786733947, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: editorTestLevelData.projectileCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7320288061830874707, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1176,6 +1230,10 @@ PrefabInstance:
     - target: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
       propertyPath: m_Name
       value: MachineGunWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1486,6 +1544,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 812345678901234571, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 630164135}
     - target: {fileID: 840061517833040740, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -3827,6 +3889,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeteorWeapon
       objectReference: {fileID: 0}
+    - target: {fileID: 3081079590315388895, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4252956048526557536, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4079,6 +4145,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HomingWeapon
       objectReference: {fileID: 0}
+    - target: {fileID: 3471973541581513014, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6139863130051164646, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4123,6 +4193,14 @@ PrefabInstance:
       propertyPath: firePoint
       value: 
       objectReference: {fileID: 630164135}
+    - target: {fileID: 7494191184241444851, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
+      propertyPath: editorTestLevelData.range
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7494191184241444851, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
+      propertyPath: editorTestLevelData.radius
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4200,6 +4278,10 @@ PrefabInstance:
     - target: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: m_Name
       value: OrbitWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1987249795394448581, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: m_LocalPosition.x
