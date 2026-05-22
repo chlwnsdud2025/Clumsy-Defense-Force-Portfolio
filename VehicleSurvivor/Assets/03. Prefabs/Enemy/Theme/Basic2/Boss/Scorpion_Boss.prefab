@@ -96,6 +96,37 @@ Transform:
   - {fileID: 6242432383235058440}
   m_Father: {fileID: 4743323541404752079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &649156117326052636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1574538095972866202}
+  m_Layer: 0
+  m_Name: FirePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1574538095972866202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649156117326052636}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.12935738, y: -0.72688305, z: -0.14263627, w: 0.6592136}
+  m_LocalPosition: {x: -0.97, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2949581473689846472}
+  m_LocalEulerAnglesHint: {x: -22.204, y: -95.59, z: 0}
 --- !u!1 &743195575108102900
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +349,37 @@ Transform:
   - {fileID: 8667817407663873693}
   m_Father: {fileID: 4920131978306792680}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2288142413822795265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2841512129314865220}
+  m_Layer: 0
+  m_Name: DamageTextPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2841512129314865220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2288142413822795265}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 12.5, z: 2.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5413531643696276268}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2435697663439112409
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +437,7 @@ Transform:
   m_GameObject: {fileID: 2565361874747692803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.63, y: 0, z: -0.6914902}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -872,11 +934,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413531643696276268}
-  - component: {fileID: 678818853216400634}
-  - component: {fileID: 5400278059820215609}
-  m_Layer: 0
-  m_Name: BossEnemytype_1 (3)
-  m_TagString: Untagged
+  - component: {fileID: 7810938959094612569}
+  - component: {fileID: 5750236462390360565}
+  - component: {fileID: 7842226478693718201}
+  m_Layer: 11
+  m_Name: Scorpion_Boss
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -890,36 +953,15 @@ Transform:
   m_GameObject: {fileID: 4415725177970483417}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.82, y: 0, z: -29.380001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2941465888485461433}
+  - {fileID: 2841512129314865220}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &678818853216400634
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4415725177970483417}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 87eac17f296221c47a4393fb6002a95f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5400278059820215609
+--- !u!114 &7810938959094612569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -928,13 +970,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4415725177970483417}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92dd927c3e661c8488d2e3709115469f, type: 3}
+  m_Script: {fileID: 11500000, guid: f10741ffa68a95e42bdb8bd86f430a08, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
+  m_EditorClassIdentifier: Assembly-CSharp::Scorpion_Boss
   playerTarget: {fileID: 0}
+  damageTextSpawnpoint: {fileID: 2841512129314865220}
   maxHealth: 10
-  moveSpeed: 2
-  rotationSpeed: 2
+  moveSpeed: 5
+  rotationSpeed: 3
+  contactDamage: 30
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -943,25 +987,86 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
-  attackCooltime: 2.5
+  attackCooltime: 4
+  modelRenderers:
+  - {fileID: 566579080406886096}
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  tailFirePoint: {fileID: 1574538095972866202}
+  pelletCount: 10
+  spreadAngle: 15
+  laserDamage: 20
+  laserLength: 200
+  laserChargeTime: 1.2
+  laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
+  laserWarningVfx: {fileID: 0}
+  laserFireVfx: {fileID: 0}
+  startRadius: 3
+  endRadius: 0.3
+  coreRadius: 0.3
   telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
-  baseDamage: 30
-  baseRadius: 3.5
-  telegraphDuration: 0.7
-  explosionEffectPrefab: {fileID: 0}
-  timeBetweenPhases: 0.7
-  trackingCount: 10
-  trackingInterval: 0.5
-  coneRows: 10
-  rowForwardSpacing: 8
-  circleSideSpacing: 6
-  coneRowTelegraphDelay: 0.4
-  lineCount: 15
-  lineForwardSpacing: 5
-  lineTelegraphDelay: 0.2
+  tornadoPrefab: {fileID: 7665202082043539410, guid: 7746e14b3c7357d419ec219f846ce2a5, type: 3}
+  tornadoDamagePerTick: 10
+  tornadoSpeed: 7
+  tornadoDuration: 10
+  tornadoRadius: 3
+  tornadoChargeTime: 2.5
+  tornadoTickInterval: 0.3
+  tornadoSpawnOffset: 10
+--- !u!135 &5750236462390360565
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4415725177970483417}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 9.25
+  m_Center: {x: 0, y: 6.83, z: 0}
+--- !u!54 &7842226478693718201
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4415725177970483417}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4784138973641757316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,7 +1253,8 @@ Transform:
   m_LocalPosition: {x: -0.4415606, y: 0, z: -1.1306838e-10}
   m_LocalScale: {x: 0.9999997, y: 0.9999997, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1574538095972866202}
   m_Father: {fileID: 8667817407663873693}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6155162938239726989

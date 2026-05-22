@@ -120,8 +120,11 @@ MonoBehaviour:
   gravity: -20
   modelRenderers:
   - {fileID: 3257240495676304035}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &7311469931525132662
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,9 +47,12 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public float gravity = -20f;
 
-    // ==========================================
-    // [신규] 피격 점멸 (Hit Flash) 설정
-    // ==========================================
+    //coin
+    [Header("CoinAmount")]
+    public int coinAmount;
+
+
+    //  피격 점멸 (Hit Flash) 설정
     [Header("Hit Flash Settings (Optimized)")]
     public Renderer[] modelRenderers;
     public float flashDuration = 0.1f;
@@ -322,6 +325,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         DropExpOrbs();
+        DropMoney();
         RunManager.Instance.AddKill();
 
         if (myManager != null)
@@ -334,21 +338,29 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+    private void DropMoney()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f; // 바닥보다 살짝 위에서 튀어나오게
+
+        if (MoneyManager.Instance != null && playerTarget != null)
+        {
+            // 몹이 죽을 때 매니저에게 돈을 스폰하라고 명령합니다.
+            MoneyManager.Instance.SpawnMoney(dropPos, coinAmount, playerTarget);
+        }
+    }
+
     private void DropExpOrbs()
     {
         Vector3 dropPos = transform.position;
         dropPos.y += 0.05f;
 
-        ExpType typeToDrop = ExpType.Small;
-        if (expReward >= 50) typeToDrop = ExpType.Large;
-        else if (expReward >= 10) typeToDrop = ExpType.Medium;
-
         if (ExpManager.Instance != null)
         {
-            ExpManager.Instance.SpawnExp(typeToDrop, dropPos, expReward);
+            // [최적화 완료] 복잡한 if문들이 싹 사라졌습니다!
+            ExpManager.Instance.SpawnExp(dropPos, expReward);
         }
     }
-
 
     protected void TriggerHitFlash()
     {

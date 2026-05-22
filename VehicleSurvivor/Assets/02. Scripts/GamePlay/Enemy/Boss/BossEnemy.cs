@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections; // [추가] 코루틴 사용을 위해 필요
 
 // 잡몹(Enemy)과는 완전히 분리된, 보스들만의 새로운 최상위 부모 클래스!
 public abstract class BossEnemy : MonoBehaviour, IDamageable
@@ -7,11 +6,19 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     [Header("Base References")]
     public Transform playerTarget;
 
+    // [신규 추가] 보스도 데미지 텍스트를 띄울 위치가 필요합니다!
+    [Header("UI")]
+    public Transform damageTextSpawnpoint;
+
     [Header("Base Stats")]
     public float maxHealth = 10f;
     protected float currentHealth;
     public float moveSpeed = 3f;
     public float rotationSpeed = 3f;
+
+    [Header("Rewards")]
+    public int expReward = 500;   // 보스용 대량 경험치
+    public int moneyReward = 300; // 보스용 대량 골드
 
     [Header("Combat Base")]
     public float contactDamage = 30f;
@@ -37,18 +44,23 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     protected bool isCastingPattern = false;
 
     // ==========================================
-    // [신규] 피격 점멸 (Hit Flash) 설정
+    // [최적화됨] 피격 점멸 (Hit Flash) 설정 (Enemy와 동일)
     // ==========================================
-    [Header("Hit Flash Settings")]
-    [Tooltip("색상을 바꿀 보스의 모델링 렌더러들을 넣어주세요.")]
+    [Header("Hit Flash Settings (Optimized)")]
     public Renderer[] modelRenderers;
-    [Tooltip("하얗게 유지되는 시간")]
     public float flashDuration = 0.1f;
-    [Tooltip("다음 점멸까지의 쿨타임 (이 시간 동안은 맞아도 안 번쩍임)")]
     public float flashCooldown = 0.1f;
+    public string colorPropertyName = "_Color"; // URP라면 "_BaseColor" 로 변경
+    public float flashIntensity = 5f;
+    [Range(0f, 1f)] public float flashAlpha = 0.4f;
 
     private Color[] originalColors;
-    private bool isFlashing = false;
+    private Color[] precalculatedFlashColors;
+    private int colorPropertyID;
+
+    private MaterialPropertyBlock propBlock;
+    private float flashTimer = 0f;
+    private float flashCooldownTimer = 0f;
     // ==========================================
 
     protected virtual void Start()
@@ -62,14 +74,26 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             if (player != null) playerTarget = player.transform;
         }
 
-        // [신규] 보스의 원래 색상들을 기억해 둡니다.
+        // [최적화 적용] 몹이 태어날 때 미리 색상과 ID를 계산해 둡니다.
+        propBlock = new MaterialPropertyBlock();
+        colorPropertyID = Shader.PropertyToID(colorPropertyName);
+
         if (modelRenderers != null && modelRenderers.Length > 0)
         {
             originalColors = new Color[modelRenderers.Length];
+            precalculatedFlashColors = new Color[modelRenderers.Length];
+
             for (int i = 0; i < modelRenderers.Length; i++)
             {
-                if (modelRenderers[i] != null)
-                    originalColors[i] = modelRenderers[i].material.color;
+                if (modelRenderers[i] != null && modelRenderers[i].sharedMaterial != null)
+                {
+                    if (modelRenderers[i].sharedMaterial.HasProperty(colorPropertyID))
+                        originalColors[i] = modelRenderers[i].sharedMaterial.GetColor(colorPropertyID);
+                    else
+                        originalColors[i] = Color.white;
+
+                    precalculatedFlashColors[i] = Color.Lerp(originalColors[i], Color.white * flashIntensity, flashAlpha);
+                }
             }
         }
     }
@@ -114,10 +138,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
             Vector3 highRayStart = nextPosXZ + Vector3.up * dynamicHeight;
 
-            // [최적화 적용] RaycastAll 대신 RaycastNonAlloc 사용! (hitBuffer 상자 재활용)
             int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
 
-            // 상자에 담긴 개수(hitCount)만큼만 검사합니다.
             if (hitCount > 0)
             {
                 float closestDiff = float.MaxValue;
@@ -140,7 +162,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             {
                 Vector3 highRayStart = nextPosXZ + Vector3.up * raycastStartHeight;
 
-                // [최적화 적용] 여기도 동일하게 교체해 줍니다.
                 int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
 
                 if (hitCount > 0)
@@ -198,6 +219,13 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
 
+        // [신규 적용] 보스도 데미지 텍스트를 띄웁니다!
+        if (damageTextSpawnpoint != null && DamageTextPool.Instance != null)
+        {
+            GameObject textObj = DamageTextPool.Instance.GetDamageText();
+            textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
+        }
+
         TriggerHitFlash(); // 점멸 효과 발동!
 
         if (currentHealth <= 0)
@@ -210,42 +238,101 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
-        StageRunManager.Instance.OnMidBossDefeated();
+
+        DropExpOrbs(); // [신규] 보스 경험치 드랍
+        DropMoney();   // [신규] 보스 재화 드랍
+
+
+        if (StageRunManager.Instance != null)
+        {
+            StageRunManager.Instance.OnMidBossDefeated();
+        }
         Destroy(gameObject);
     }
 
-    
+    // 피격 점멸 적용 로직 (Enemy.cs와 동일)
     protected void TriggerHitFlash()
     {
-        if (!isFlashing && modelRenderers != null && modelRenderers.Length > 0)
+        if (flashCooldownTimer <= 0f)
         {
-            StartCoroutine(HitFlashRoutine());
+            flashTimer = flashDuration;
+            flashCooldownTimer = flashDuration + flashCooldown;
         }
     }
 
-    private IEnumerator HitFlashRoutine()
+    protected virtual void LateUpdate()
     {
-        isFlashing = true;
+        if (flashCooldownTimer > 0f) flashCooldownTimer -= Time.deltaTime;
+
+        if (flashTimer > 0f)
+        {
+            flashTimer -= Time.deltaTime;
+
+            ApplyFlashColor(precalculatedFlashColors);
+
+            if (flashTimer <= 0f)
+            {
+                RestoreOriginalColors();
+            }
+        }
+    }
+
+    private void ApplyFlashColor(Color[] colorsToApply)
+    {
+        if (modelRenderers == null || colorsToApply == null) return;
 
         for (int i = 0; i < modelRenderers.Length; i++)
         {
             if (modelRenderers[i] != null)
-                modelRenderers[i].material.color = Color.white;
-        }
-
-        yield return new WaitForSeconds(flashDuration);
-
-        if (modelRenderers != null && originalColors != null)
-        {
-            for (int i = 0; i < modelRenderers.Length; i++)
             {
-                if (modelRenderers[i] != null)
-                    modelRenderers[i].material.color = originalColors[i];
+                modelRenderers[i].GetPropertyBlock(propBlock);
+                propBlock.SetColor(colorPropertyID, colorsToApply[i]);
+                modelRenderers[i].SetPropertyBlock(propBlock);
             }
         }
+    }
 
-        yield return new WaitForSeconds(flashCooldown);
+    private void RestoreOriginalColors()
+    {
+        if (modelRenderers == null || originalColors == null) return;
 
-        isFlashing = false;
+        for (int i = 0; i < modelRenderers.Length; i++)
+        {
+            if (modelRenderers[i] != null)
+            {
+                modelRenderers[i].GetPropertyBlock(propBlock);
+                propBlock.SetColor(colorPropertyID, originalColors[i]);
+                modelRenderers[i].SetPropertyBlock(propBlock);
+            }
+        }
+    }
+
+
+    private void DropExpOrbs()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f;
+
+        if (ExpManager.Instance != null)
+        {
+            // 보스의 거대한 경험치(예: 500)를 던져주면, 
+            // 매니저가 알아서 "앗 50 이상이네! 제일 큰 구슬(Large) 줘야지!" 하고 처리합니다.
+            ExpManager.Instance.SpawnExp(dropPos, expReward);
+        }
+    }
+
+    private void DropMoney()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f;
+
+        if (MoneyManager.Instance != null && playerTarget != null)
+        {
+            // 돈도 여러 개가 흩뿌려지도록 3개 정도로 분할해서 드랍
+            for (int i = 0; i < 3; i++)
+            {
+                MoneyManager.Instance.SpawnMoney(dropPos, moneyReward / 3, playerTarget);
+            }
+        }
     }
 }

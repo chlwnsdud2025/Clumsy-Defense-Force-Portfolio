@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2414891485659341575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4128290807861601428}
+  m_Layer: 11
+  m_Name: DamageTextPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4128290807861601428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2414891485659341575}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8.38, z: 1.89}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5413531643696276268}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4415725177970483417
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +65,7 @@ Transform:
   m_Children:
   - {fileID: 6902694358649812514}
   - {fileID: 6352528037479208903}
+  - {fileID: 4128290807861601428}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2138267118152702828
@@ -49,8 +81,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeeMidBoss
   playerTarget: {fileID: 0}
+  damageTextSpawnpoint: {fileID: 4128290807861601428}
   maxHealth: 10
-  moveSpeed: 2
+  moveSpeed: 8
   rotationSpeed: 10
   contactDamage: 30
   groundLayer:
@@ -64,8 +97,11 @@ MonoBehaviour:
   attackCooltime: 0.1
   modelRenderers:
   - {fileID: 6902694358655248130}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64

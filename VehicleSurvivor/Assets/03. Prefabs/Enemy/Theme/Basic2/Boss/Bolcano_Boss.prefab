@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1627867795458678281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8080284265266044460}
+  m_Layer: 11
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8080284265266044460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627867795458678281}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10.25, z: 2.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5413531643696276268}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1734572081990470144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,11 +2316,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413531643696276268}
-  - component: {fileID: 678818853216400634}
-  - component: {fileID: 5400278059820215609}
-  m_Layer: 0
-  m_Name: BossEnemytype_1 (5)
-  m_TagString: Untagged
+  - component: {fileID: 5608938559822882637}
+  - component: {fileID: 4079246861747081576}
+  - component: {fileID: 809624791420748496}
+  m_Layer: 11
+  m_Name: Bolcano_Boss
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2302,37 +2334,66 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4415725177970483417}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33.8, y: 0, z: -26.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1734572081990702632}
+  - {fileID: 8080284265266044460}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &678818853216400634
-Animator:
-  serializedVersion: 7
+--- !u!136 &5608938559822882637
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4415725177970483417}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 87eac17f296221c47a4393fb6002a95f, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5400278059820215609
+  serializedVersion: 2
+  m_Radius: 4.26
+  m_Height: 18.72
+  m_Direction: 1
+  m_Center: {x: 0, y: 6.11, z: 0}
+--- !u!54 &4079246861747081576
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4415725177970483417}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &809624791420748496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2341,13 +2402,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4415725177970483417}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92dd927c3e661c8488d2e3709115469f, type: 3}
+  m_Script: {fileID: 11500000, guid: f442557b9110f604e9d4d0d6b46deb14, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
+  m_EditorClassIdentifier: Assembly-CSharp::Bolcano_Boss
   playerTarget: {fileID: 0}
+  damageTextSpawnpoint: {fileID: 8080284265266044460}
   maxHealth: 10
-  moveSpeed: 2
-  rotationSpeed: 2
+  moveSpeed: 5
+  rotationSpeed: 3
+  contactDamage: 30
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -2356,22 +2419,24 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
-  attackCooltime: 2.5
+  attackCooltime: 4
+  modelRenderers:
+  - {fileID: 1734572081993647880}
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
   telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
-  baseDamage: 30
-  baseRadius: 3.5
-  telegraphDuration: 0.7
-  explosionEffectPrefab: {fileID: 0}
-  timeBetweenPhases: 0.7
-  trackingCount: 10
-  trackingInterval: 0.5
-  coneRows: 10
-  rowForwardSpacing: 8
-  circleSideSpacing: 6
-  coneRowTelegraphDelay: 0.4
-  lineCount: 15
-  lineForwardSpacing: 5
-  lineTelegraphDelay: 0.2
+  p1Damage: 30
+  p1Radius: 3
+  p1TelegraphDuration: 1.5
+  timeBetweenPhases: 0.5
+  p1ExplosionVfx: {fileID: 8129488862618819715, guid: 1a763c18df4c09e4cafecb9331a40360, type: 3}
+  p2Damage: 60
+  p2Radius: 10
+  p2TelegraphDuration: 3
+  p2ExplosionVfx: {fileID: 1922872745006343841, guid: 3d670991ba0b97246932bf958bc9724f, type: 3}

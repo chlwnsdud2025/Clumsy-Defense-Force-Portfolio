@@ -220,8 +220,11 @@ MonoBehaviour:
   gravity: -20
   modelRenderers:
   - {fileID: 4493728612852676105}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
   fuseTime: 2
   explosionRadius: 3.5
   explosionDamage: 50

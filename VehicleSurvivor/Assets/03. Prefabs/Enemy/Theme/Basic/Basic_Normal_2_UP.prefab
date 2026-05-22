@@ -127,8 +127,11 @@ MonoBehaviour:
   gravity: -20
   modelRenderers:
   - {fileID: 4857066699820862049}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!136 &7756275199599392356
 CapsuleCollider:
   m_ObjectHideFlags: 0

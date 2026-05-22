@@ -148,8 +148,11 @@ MonoBehaviour:
   gravity: -20
   modelRenderers:
   - {fileID: 5593040213180369120}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1001 &4574289714227048602
 PrefabInstance:
   m_ObjectHideFlags: 0

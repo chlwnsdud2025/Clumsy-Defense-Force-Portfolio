@@ -94,8 +94,11 @@ MonoBehaviour:
   gravity: -20
   modelRenderers:
   - {fileID: 150190812492260097}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
   bulletPrefab: {fileID: 8987020003840325061, guid: c9e9fd46fdb29a84683905f5f1bbf4c7, type: 3}
   firePoint: {fileID: 2256778290825846030}
   bulletArcHeight: 2

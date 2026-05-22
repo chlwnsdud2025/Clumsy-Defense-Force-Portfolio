@@ -130,7 +130,7 @@ MonoBehaviour:
   damageTextSpawnpoint: {fileID: 7537640999383061996}
   originPool: {fileID: 0}
   moveSpeed: 5
-  maxHealth: 200
+  maxHealth: 10
   rotationSpeed: 2
   expReward: 34
   separationRadius: 1.5
@@ -146,6 +146,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   contactDamage: 10
   gravity: -20
+  coinAmount: 0
   modelRenderers:
   - {fileID: 5638163924259455298}
   flashDuration: 0.2
