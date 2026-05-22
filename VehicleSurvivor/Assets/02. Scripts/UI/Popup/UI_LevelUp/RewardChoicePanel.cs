@@ -4,28 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public readonly struct RewardChoiceFocusSettings
-{
-    public RewardChoiceFocusSettings(
-        float focusedScale,
-        float tweenDuration,
-        Ease tweenEase)
-    {
-        FocusedScale = focusedScale;
-        TweenDuration = tweenDuration;
-        TweenEase = tweenEase;
-    }
-
-    public float FocusedScale { get; }
-    public float TweenDuration { get; }
-    public Ease TweenEase { get; }
-}
-
 public class RewardChoicePanel : MonoBehaviour
 {
     private const string NewLevelLabel = "NEW!";
 
-    [Header("Level Panel Color")]
+    [Header("레벨 패널 색상")]
     [SerializeField] private Color newItemLevelTextPanelColor;
 
     [Header("Display UI")]
@@ -35,20 +18,21 @@ public class RewardChoicePanel : MonoBehaviour
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Image levelTextPanelImage;
 
-    [Header("Interaction")]
+    [Header("상호작용")]
     [SerializeField] private GameObject focusObject;
     [SerializeField] private Button button;
     [SerializeField] private RectTransform scaleTarget;
+
+    [Header("Focus Effect")]
+    [SerializeField] private float focusedScale = 1.05f;
+    [SerializeField] private float focusTweenDuration = 0.15f;
+    [SerializeField] private Ease focusTweenEase = Ease.OutQuad;
 
     public event Action<RewardChoicePanel> Clicked;
 
     public RewardOption Reward { get; private set; }
     public bool IsSelectable => gameObject.activeInHierarchy;
     public bool HasData { get; private set; }
-
-    private float focusedScale = 1.05f;
-    private float focusTweenDuration = 0.15f;
-    private Ease focusTweenEase = Ease.OutQuad;
     private Color normalItemLevelTextPanelColor;
     private Vector3 normalScale;
     private Tween focusScaleTween;
@@ -79,13 +63,6 @@ public class RewardChoicePanel : MonoBehaviour
     {
         KillFocusTweens();
         UnregisterButtonClick();
-    }
-
-    public void Configure(RewardChoiceFocusSettings settings)
-    {
-        focusedScale = settings.FocusedScale;
-        focusTweenDuration = settings.TweenDuration;
-        focusTweenEase = settings.TweenEase;
     }
 
     public void Bind(PassiveDefinitionSO passive, bool isNew, int level = 1)
