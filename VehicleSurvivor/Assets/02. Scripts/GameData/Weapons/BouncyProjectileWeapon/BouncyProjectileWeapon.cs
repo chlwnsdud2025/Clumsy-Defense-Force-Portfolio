@@ -2,22 +2,76 @@ using UnityEngine;
 
 public class BouncyProjectileWeapon : WeaponBase
 {
-    [Header("탱탱볼 설정")]
+    [Header("Bouncy Projectile References")]
     public GameObject bouncyProjectilePrefab;
+    public ParticleSystem shootParticlePrefab;
+
+    [Header("Fire Point")]
     public Transform firePoint;
 
-    [Header("레이어 설정")]
-    public LayerMask enemyLayer;
+    [Header("Bounce Layer")]
     public LayerMask bounceLayer;
+
+    [Header("Rotation")]
+    public Vector3 projectileRotationOffset;
+
+    [Header("Bouncy Feeling")]
+    public float upwardForce = 5f;
+    public float gravity = 18f;
+    public float bounciness = 0.85f;
 
     protected override void Attack(WeaponLevelData data)
     {
-        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
-
-        if (bouncyProjectilePrefab == null || resolvedFirePoint == null)
+        if (data == null)
             return;
 
-        int count = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
+        FireProjectiles(
+            GetFinalDamage(data.Damage),
+            GetProjectileSpeed(data),
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
+            data.SpreadAngle,
+            data.Range,
+            data.BounceCount,
+            data.Size
+        );
+    }
+
+    private void FireProjectiles(
+        float finalDamage,
+        float projectileSpeed,
+        int count,
+        float spreadAngleValue,
+        float maxTravelDistance,
+        int bounceCount,
+        float projectileSize
+    )
+    {
+        Transform resolvedFirePoint =
+            ResolveFirePoint(firePoint);
+
+        if (bouncyProjectilePrefab == null)
+        {
+            Debug.LogWarning("[BouncyProjectileWeapon] Bouncy Projectile Prefab 없음");
+            return;
+        }
+
+        if (resolvedFirePoint == null)
+        {
+            Debug.LogWarning("[BouncyProjectileWeapon] Fire Point 없음");
+            return;
+        }
+
+        Quaternion baseRotation =
+            resolvedFirePoint.rotation;
+
+        if (shootParticlePrefab != null)
+        {
+            Instantiate(
+                shootParticlePrefab,
+                resolvedFirePoint.position,
+                baseRotation
+            );
+        }
 
         for (int i = 0; i < count; i++)
         {
@@ -25,33 +79,61 @@ public class BouncyProjectileWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex = (count - 1) * 0.5f;
-                angle = (i - centerIndex) * data.SpreadAngle;
+                float centerIndex =
+                    (count - 1) * 0.5f;
+
+                angle =
+                    (i - centerIndex) * spreadAngleValue;
             }
 
-            Quaternion rotation =
-                resolvedFirePoint.rotation * Quaternion.Euler(0f, angle, 0f);
+            Quaternion shootRotation =
+                baseRotation *
+                Quaternion.Euler(0f, angle, 0f);
 
-            GameObject ball = Instantiate(
-                bouncyProjectilePrefab,
-                resolvedFirePoint.position,
-                rotation
-            );
+            Quaternion visualRotation =
+                shootRotation *
+                Quaternion.Euler(projectileRotationOffset);
+
+            GameObject projectileObject =
+                Instantiate(
+                    bouncyProjectilePrefab,
+                    resolvedFirePoint.position,
+                    visualRotation
+                );
+
+            projectileObject.transform.localScale =
+                Vector3.one * projectileSize;
 
             BouncyProjectile projectile =
-                ball.GetComponent<BouncyProjectile>();
+                projectileObject.GetComponent<BouncyProjectile>();
 
-            if (projectile != null)
+            if (projectile == null)
             {
-                projectile.Init(
-                    GetFinalDamage(data.Damage),
-                    data.BulletSpeed,
-                    data.BounceCount,
-                    enemyLayer,
-                    bounceLayer,
-                    rotation * Vector3.forward
-                );
+                Debug.LogWarning("[BouncyProjectileWeapon] BouncyProjectile 컴포넌트 없음");
+                continue;
             }
+
+            Vector3 startVelocity =
+                shootRotation * Vector3.forward * projectileSpeed;
+
+            startVelocity.y += upwardForce;
+
+            projectile.Initialize(
+                finalDamage,
+                startVelocity,
+                maxTravelDistance,
+                bounceCount,
+                bounceLayer,
+                gravity,
+                bounciness
+            );
         }
+    }
+
+    private float GetProjectileSpeed(WeaponLevelData data)
+    {
+        return data.ProjectileSpeed > 0f
+            ? data.ProjectileSpeed
+            : data.BulletSpeed;
     }
 }
