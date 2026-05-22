@@ -1130,6 +1130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
   weaponDatabase: {fileID: 11400000, guid: ec58c6509de32844684033523f0f660c, type: 2}
   passiveTable: {fileID: 11400000, guid: 29ce8cba065e1fd088ea60bc8840e211, type: 2}
+  itemTable: {fileID: 0}
   rewardOptionCount: 3
   enableLevelUpRewardPopup: 0
 --- !u!4 &1507902628
@@ -4281,7 +4282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1987249795394448581, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4326,6 +4327,34 @@ PrefabInstance:
     - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: orbitCount
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: orbitObjectPrefab
+      value: 
+      objectReference: {fileID: 5565921339195667882, guid: 72c5b6ab6714d9745af88661d22ddb7c, type: 3}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: useEditorTestLevelData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: editorTestLevelData.range
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: editorTestLevelData.cooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: editorTestLevelData.bulletSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: editorTestLevelData.projectileCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
+      propertyPath: editorTestLevelData.projectileSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
