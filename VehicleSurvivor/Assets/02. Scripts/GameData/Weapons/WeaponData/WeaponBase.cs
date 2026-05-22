@@ -168,23 +168,11 @@ public class WeaponBase : MonoBehaviour
         if (ownerRuntime != null)
             return ownerRuntime;
 
-        ownerRuntime = ResolveOwnerRuntime(Owner);
-        if (ownerRuntime != null)
-            return ownerRuntime;
-
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return null;
 
-        return runManager.RunContext?.Player;
-    }
-
-    private static PlayerRuntime ResolveOwnerRuntime(Transform owner)
-    {
-        if (owner == null)
-            return null;
-
-        Player player = owner.GetComponentInParent<Player>();
-        return player != null ? player.Runtime : null;
+        ownerRuntime = runManager.RunSession?.Player;
+        return ownerRuntime;
     }
 
     private void HandleRuntimeLevelChanged(int _)

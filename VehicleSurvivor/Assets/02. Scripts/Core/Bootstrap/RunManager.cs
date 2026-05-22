@@ -1,373 +1,217 @@
-using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RunManager : MonoSceneSingleton<RunManager>
 {
-    [Header("Databases")]
-    [SerializeField] private WeaponDatabaseSO weaponDatabase;
-    [SerializeField] private PassiveTableSO passiveTable;
-    [SerializeField] private ItemTableSO itemTable;
-
-    [SerializeField] private int rewardOptionCount = 3; // 일정 확률로 4개 선택지
-
-    private IEventBus _eventBus;
-    private RunContext _runContext;
-    private RewardSystem rewardSystem;
-    private readonly RewardApplier rewardApplier = new();
-    private readonly LevelUpRewardFlow levelUpRewardFlow = new();
-
-    private int _killCount;
-    private int _gold;
-    private int _lastDisplayedRunSecond = -1;
-    private int _lastDisplayedWaveSecond = -1;
-
-    private readonly RunTimer _runTimer = new();
-    private readonly WavePhaseTimer _waveTimer = new();
+    private RunSession _runSession;
 
     private Player playerInstance;
-    private CharacterDefinitionSO _selectedCharacter;
 
-    public RunContext RunContext => _runContext;
-    public float RunTime => _runTimer.Elapsed;
-    public WavePhaseTimer WaveTimer => _waveTimer;
+    private IEventBus _eventBus;
 
-    private bool ShouldTickTimers =>
-        _runContext != null && _runContext.ShouldUpdateGameplay;
+    public RunSession RunSession => _runSession;
+    public WavePhaseTimer WaveTimer => _runSession?.WaveTimer;
 
     private void Update()
     {
-        if (_runContext == null)
+        if (_runSession == null || !_runSession.ShouldUpdateGameplay)
             return;
 
-        if (!ShouldTickTimers)
-            return;
-
-        float deltaTime = Time.deltaTime;
-        bool wasNightmare = _waveTimer.IsNightmare;
-        _runTimer.Tick(deltaTime);
-        _waveTimer.Tick(deltaTime);
-
-        int currentRunSecond = Mathf.FloorToInt(_runTimer.Elapsed);
-        if (currentRunSecond != _lastDisplayedRunSecond)
-        {
-            _lastDisplayedRunSecond = currentRunSecond;
-            PublishTimeChanged(_runTimer.Elapsed);
-        }
-
-        if (_waveTimer.IsNightmare && !wasNightmare)
-        {
-            _lastDisplayedWaveSecond = -1;
-            PublishWaveTimeChanged();
-        }
-
-        int currentWaveSecond = _waveTimer.IsNightmare
-            ? Mathf.FloorToInt(_waveTimer.NightmareElapsed)
-            : Mathf.CeilToInt(Mathf.Max(0f, _waveTimer.PhaseTimeLeft));
-
-        if (currentWaveSecond != _lastDisplayedWaveSecond)
-        {
-            _lastDisplayedWaveSecond = currentWaveSecond;
-            PublishWaveTimeChanged();
-        }
-    }
-
-    public void StartWavePhase(float timeLimit)
-    {
-        _waveTimer.StartPhase(timeLimit);
-        _lastDisplayedWaveSecond = -1;
-        PublishWaveTimeChanged();
-    }
-
-    public void FreezeWaveTimer(bool frozen)
-    {
-        _waveTimer.SetFrozen(frozen);
-    }
-
-    public WaveEnemy_DataSO GetCurrentWave(StagePhase phase)
-    {
-        return WaveSelection.GetCurrentWave(phase, _waveTimer);
+        _runSession.Tick(Time.deltaTime);
     }
 
     public void StartRun(CharacterDefinitionSO selectedCharacter, Player player)
     {
         if (selectedCharacter == null)
         {
-            Debug.LogError("[RunManager] selectedCharacter is null.");
+            Debug.LogError("[RunManager] 선택된 캐릭터가 없습니다.");
             return;
         }
 
         if (player == null)
         {
-            Debug.LogError("[RunManager] Player is null.");
+            Debug.LogError("[RunManager] 플레이어가 없습니다.");
             return;
         }
 
         if (_eventBus == null)
-        {
             _eventBus = ServiceLocator.Get<IEventBus>();
-        }
 
-        if (_runContext != null)
-        {
-            UnbindRunContext(_runContext);
-            UnbindPlayerRuntime(_runContext.Player);
-        }
-
-        if (playerInstance != null)
-        {
-            playerInstance.BindRuntime(null);
-        }
-
-        _selectedCharacter = selectedCharacter;
-        playerInstance = player;
-        Time.timeScale = 1f;
+        ReleaseActiveRunBindings();
 
         PlayerRuntime playerRuntime = new PlayerRuntime(selectedCharacter);
-        _runContext = new RunContext(playerRuntime);
+        _runSession = new RunSession(playerRuntime);
+
+        playerInstance = player;
         playerInstance.BindRuntime(playerRuntime);
 
-        EquipDefaultWeapon(selectedCharacter, playerRuntime);
-
-        BindRunContext(_runContext);
-        BindPlayerRuntime(playerRuntime);
-        _runContext.StartRun();
-
-        _killCount = 0;
-        _gold = 0;
-        _runTimer.Reset();
-        _waveTimer.Reset();
-        _lastDisplayedRunSecond = -1;
-        _lastDisplayedWaveSecond = -1;
-        levelUpRewardFlow.Reset();
-
-        PublishInitialRunEvents(playerRuntime);
+        ActivateRunSession();
+        PublishInitialHudEvents();
     }
 
     public void EndRun()
     {
-        if (_runContext != null)
-        {
-            UnbindRunContext(_runContext);
-            UnbindPlayerRuntime(_runContext.Player);
-            _runContext.EndRun();
-        }
+        if (_runSession == null && playerInstance == null)
+            return;
+
+        ReleaseActiveRunBindings();
+
+        if (_runSession != null)
+            _runSession.EndRun();
 
         Time.timeScale = 1f;
-        _runContext = null;
-        _selectedCharacter = null;
-        _runTimer.Reset();
-        _waveTimer.Reset();
-        _lastDisplayedRunSecond = -1;
-        _lastDisplayedWaveSecond = -1;
-        levelUpRewardFlow.Reset();
-
-        if (playerInstance != null)
-        {
-            playerInstance.BindRuntime(null);
-        }
-
+        _runSession = null;
         playerInstance = null;
     }
 
-    public List<RewardOption> GenerateLevelUpRewardOptions()
+    protected override void OnDestroy()
     {
-        if (_runContext == null)
-        {
-            return new List<RewardOption>();
-        }
-
-        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
-        return rewardSystem.GenerateLevelUp(_runContext.Player, GetRewardOptionCount());
+        EndRun();
+        base.OnDestroy();
     }
 
-    public List<RewardOption> GenerateChestRewardOptions()
+    private void ReleaseActiveRunBindings()
     {
-        if (_runContext == null)
+        if (_runSession != null)
         {
-            return new List<RewardOption>();
+            UnbindRunSession(_runSession);
+            UnbindPlayerRuntime(_runSession.Player);
         }
 
-        rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
-        return rewardSystem.GenerateChest(_runContext.Player, GetRewardOptionCount());
+        ReleaseRunSystems();
+
+        if (playerInstance != null)
+            playerInstance.UnbindRuntime();
     }
 
-    public bool ApplyReward(RewardOption reward)
+    private void ActivateRunSession()
     {
-        if (_runContext == null || reward == null)
+        if (_runSession != null)
         {
-            return false;
+            BindRunSession(_runSession);
+            BindPlayerRuntime(_runSession.Player);
+
+            _runSession.ResetStats();
+            _runSession.StartRun();
         }
 
-        PlayerWeaponSpawner playerWeaponSpawner = playerInstance != null
-            ? playerInstance.WeaponSpawner != null
-                ? playerInstance.WeaponSpawner
-                : playerInstance.GetComponentInChildren<PlayerWeaponSpawner>(true)
-            : null;
-
-        bool applied = rewardApplier.Apply(
-            _runContext.Player,
-            reward,
-            playerWeaponSpawner,
-            playerInstance != null ? playerInstance.transform : null);
-
-        if (!applied)
-            return false;
-
-        levelUpRewardFlow.OnRewardApplied(this, _runContext);
-        return true;
+        InitializeRunSystems();
     }
 
-    public void AddKill()
+    public void StartWavePhase(float timeLimit)
     {
-        if (_runContext == null || !_runContext.ShouldUpdateGameplay)
+        if (_runSession == null)
             return;
 
-        if (_eventBus == null)
-        {
-            _eventBus = ServiceLocator.Get<IEventBus>();
-        }
-
-        _killCount++;
-        PublishKillCountChanged();
+        _runSession.StartWavePhase(timeLimit);
     }
 
-    public void AddGold(int amount)
+    public void AddKill() => _runSession?.TryAddKill();
+
+    public void AddGold(int amount) => _runSession?.TryAddGold(amount);
+
+    private void InitializeRunSystems()
     {
-        if (_runContext == null || !_runContext.ShouldUpdateGameplay)
-            return;
+        if (RewardManager.TryGetInstance(out RewardManager rewardManager))
+            rewardManager.InitializeForRun(_runSession, playerInstance);
+        else
+            Debug.LogError("[RunManager] RewardManager를 찾을 수 없어 보상 시스템을 초기화할 수 없습니다.");
 
-        if (_eventBus == null)
-        {
-            _eventBus = ServiceLocator.Get<IEventBus>();
-        }
-
-        _gold += amount;
-        PublishGoldChanged();
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.InitializeForRun();
+        else
+            Debug.LogWarning("[RunManager] StageRunManager를 찾을 수 없어 스테이지 페이즈를 시작하지 않습니다.");
     }
 
-    private void EquipDefaultWeapon(CharacterDefinitionSO character, PlayerRuntime playerRuntime)
+    private void ReleaseRunSystems()
     {
-        if (playerRuntime == null)
-        {
-            return;
-        }
+        if (RewardManager.TryGetInstance(out RewardManager rewardManager))
+            rewardManager.ReleaseRun();
 
-        if (weaponDatabase == null)
-        {
-            Debug.LogError("[RunManager] WeaponDatabaseSO is not assigned.");
-            return;
-        }
-
-        string startingWeaponId = ResolveStartingWeaponId(character);
-
-        if (string.IsNullOrWhiteSpace(startingWeaponId))
-        {
-            Debug.LogError($"[RunManager] Starting weapon id is empty: {character.DisplayName}");
-            return;
-        }
-
-        WeaponDefinitionSO defaultWeapon = weaponDatabase.GetWeaponOrNull(startingWeaponId);
-
-        if (defaultWeapon == null)
-        {
-            return;
-        }
-
-        WeaponInstance defaultWeaponInstance = playerRuntime.Inventory.AddOrLevelUpWeapon(defaultWeapon);
-
-        if (playerInstance == null)
-        {
-            Debug.LogError("[RunManager] Player was not spawned, so the starting weapon visual cannot be created.");
-            return;
-        }
-
-        PlayerWeaponSpawner playerWeaponSpawner = playerInstance.WeaponSpawner != null
-            ? playerInstance.WeaponSpawner
-            : playerInstance.GetComponentInChildren<PlayerWeaponSpawner>(true);
-        if (playerWeaponSpawner == null)
-        {
-            Debug.LogError("[RunManager] PlayerWeaponSpawner was not found under the spawned player visual.");
-            return;
-        }
-
-        playerWeaponSpawner.TrySpawnWeapon(defaultWeaponInstance, playerInstance.transform);
-    }
-
-    private static string ResolveStartingWeaponId(CharacterDefinitionSO character)
-    {
-        if (character == null)
-        {
-            return string.Empty;
-        }
-
-        if (!string.IsNullOrWhiteSpace(character.DefaultWeaponId))
-        {
-            return character.DefaultWeaponId.Trim();
-        }
-
-        return character.Loadout.StartingWeaponId?.Trim() ?? string.Empty;
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.ReleaseRun();
     }
 
     private void BindPlayerRuntime(PlayerRuntime playerRuntime)
     {
         if (playerRuntime == null)
-        {
             return;
-        }
 
-        playerRuntime.Health.OnHpChanged += PublishHpChanged;
+        playerRuntime.Health.OnHpChanged += HandleHpChanged;
         playerRuntime.Health.OnDied += HandlePlayerDied;
-        playerRuntime.Level.OnExpChanged += PublishExpChanged;
+        playerRuntime.Level.OnExpChanged += HandleExpChanged;
         playerRuntime.Level.OnLevelChanged += HandlePlayerLevelChanged;
     }
 
     private void UnbindPlayerRuntime(PlayerRuntime playerRuntime)
     {
         if (playerRuntime == null)
-        {
             return;
-        }
 
-        playerRuntime.Health.OnHpChanged -= PublishHpChanged;
+        playerRuntime.Health.OnHpChanged -= HandleHpChanged;
         playerRuntime.Health.OnDied -= HandlePlayerDied;
-        playerRuntime.Level.OnExpChanged -= PublishExpChanged;
+        playerRuntime.Level.OnExpChanged -= HandleExpChanged;
         playerRuntime.Level.OnLevelChanged -= HandlePlayerLevelChanged;
     }
 
-    private void BindRunContext(RunContext runContext)
+    private void BindRunSession(RunSession runSession)
     {
-        if (runContext == null)
-        {
+        if (runSession == null)
             return;
-        }
 
-        runContext.OnStateChanged += HandleRunStateChanged;
+        runSession.OnStateChanged += HandleRunStateChanged;
+        runSession.OnRunTimeDisplayChanged += HandleRunTimeDisplayChanged;
+        runSession.OnWaveTimeDisplayChanged += HandleWaveTimeDisplayChanged;
+        runSession.OnKillCountChanged += PublishKillCountChanged;
+        runSession.OnGoldChanged += PublishGoldChanged;
     }
 
-    private void UnbindRunContext(RunContext runContext)
+    private void UnbindRunSession(RunSession runSession)
     {
-        if (runContext == null)
-        {
+        if (runSession == null)
             return;
-        }
 
-        runContext.OnStateChanged -= HandleRunStateChanged;
+        runSession.OnStateChanged -= HandleRunStateChanged;
+        runSession.OnRunTimeDisplayChanged -= HandleRunTimeDisplayChanged;
+        runSession.OnWaveTimeDisplayChanged -= HandleWaveTimeDisplayChanged;
+        runSession.OnKillCountChanged -= PublishKillCountChanged;
+        runSession.OnGoldChanged -= PublishGoldChanged;
     }
 
-    private void PublishInitialRunEvents(PlayerRuntime playerRuntime)
+    private void PublishInitialHudEvents()
     {
-        PublishHpChanged(playerRuntime.Health.CurrentHp, playerRuntime.Health.MaxHp);
-        PublishExpChanged(playerRuntime.Level.CurrentExp, playerRuntime.Level.RequiredExp);
-        PublishLevelChanged(playerRuntime.Level.Level);
-        PublishKillCountChanged();
-        PublishGoldChanged();
-        PublishTimeChanged(_runTimer.Elapsed);
-        PublishWaveTimeChanged();
+        if (_runSession == null)
+            return;
+
+        PublishHpChanged(_runSession.Player.Health.CurrentHp, _runSession.Player.Health.MaxHp);
+        PublishExpChanged(_runSession.Player.Level.CurrentExp, _runSession.Player.Level.RequiredExp);
+        PublishLevelChanged(_runSession.Player.Level.Level);
+        PublishKillCountChanged(_runSession.KillCount);
+        PublishGoldChanged(_runSession.Gold);
+
+        _runSession.FlushTimerDisplay();
+    }
+
+    private void HandleRunTimeDisplayChanged(float elapsed)
+    {
+        if (_eventBus == null)
+            return;
+
+        _eventBus.Publish(new TimeChangeEvent(elapsed));
+    }
+
+    private void HandleWaveTimeDisplayChanged(float displayTime, bool isNightmare)
+    {
+        if (_eventBus == null)
+            return;
+
+        _eventBus.Publish(new WaveTimeChangedEvent(displayTime, isNightmare));
     }
 
     private void PublishHpChanged(float currentHp, float maxHp)
     {
+        if (_eventBus == null)
+            return;
+
         _eventBus.Publish(new HpChangedEvent(
             Mathf.RoundToInt(currentHp),
             Mathf.RoundToInt(maxHp)));
@@ -375,89 +219,72 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     private void PublishExpChanged(int currentExp, int requiredExp)
     {
+        if (_eventBus == null)
+            return;
+
         _eventBus.Publish(new ExpChangedEvent(currentExp, requiredExp));
     }
 
     private void PublishLevelChanged(int level)
     {
+        if (_eventBus == null)
+            return;
+
         _eventBus.Publish(new LevelChangedEvent(level));
     }
 
-    private void PublishKillCountChanged()
+    private void PublishKillCountChanged(int killCount)
     {
-        _eventBus.Publish(new KillCountEvent(_killCount));
+        if (_eventBus == null)
+            return;
+
+        _eventBus.Publish(new KillCountEvent(killCount));
     }
 
-    private void PublishGoldChanged()
+    private void PublishGoldChanged(int gold)
     {
-        _eventBus.Publish(new GoldChangedEvent(_gold));
+        if (_eventBus == null)
+            return;
+
+        _eventBus.Publish(new GoldChangedEvent(gold));
     }
 
-    private void PublishTimeChanged(float runTime)
-    {
-        _eventBus.Publish(new TimeChangeEvent(runTime));
-    }
+    private void HandleHpChanged(float currentHp, float maxHp) =>
+        PublishHpChanged(currentHp, maxHp);
 
-    private float GetWaveDisplayTime()
-    {
-        return _waveTimer.IsNightmare
-            ? _waveTimer.NightmareElapsed
-            : Mathf.Max(0f, _waveTimer.PhaseTimeLeft);
-    }
-
-    private void PublishWaveTimeChanged()
-    {
-        _eventBus.Publish(new WaveTimeChangedEvent(GetWaveDisplayTime(), _waveTimer.IsNightmare));
-    }
+    private void HandleExpChanged(int currentExp, int requiredExp) =>
+        PublishExpChanged(currentExp, requiredExp);
 
     private void HandlePlayerLevelChanged(int newLevel, int levelsGained)
     {
         PublishLevelChanged(newLevel);
-        levelUpRewardFlow.OnLevelChanged(_runContext, levelsGained, this);
+
+        if (RewardManager.TryGetInstance(out RewardManager rewardManager))
+            rewardManager.OnLevelChanged(_runSession, levelsGained);
     }
 
     private void HandlePlayerDied()
     {
-        if (_runContext == null)
-        {
+        if (_runSession == null)
             return;
-        }
 
-        _runContext.GameOver();
+        _runSession.GameOver();
     }
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
     {
         if (nextState == ERunState.RewardSelection)
-        {
             Time.timeScale = 0f;
-        }
         else if (nextState == ERunState.Playing ||
                  nextState == ERunState.Ended ||
                  nextState == ERunState.GameOver ||
                  nextState == ERunState.Cleared)
-        {
             Time.timeScale = 1f;
-        }
 
         if (nextState != ERunState.GameOver && nextState != ERunState.Ended)
             return;
 
-        levelUpRewardFlow.OnRunFinished();
-    }
-    //TODO : 상자 보장 UI 연결
-    private async UniTaskVoid ShowChestRewardPopupAsync(UIManager uiManager)
-    {
-
-        //UI_OpenChest rewardPopup = await uiManager.ShowPopupAsync<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
-
-        //List<RewardOption> rewardOptions = GenerateChestRewardOptions();
-
-    }
-
-
-    private int GetRewardOptionCount()
-    {
-        return rewardOptionCount > 0 ? rewardOptionCount : 3;
+        if (RewardManager.TryGetInstance(out RewardManager rewardManager))
+            rewardManager.OnRunFinished();
     }
 }

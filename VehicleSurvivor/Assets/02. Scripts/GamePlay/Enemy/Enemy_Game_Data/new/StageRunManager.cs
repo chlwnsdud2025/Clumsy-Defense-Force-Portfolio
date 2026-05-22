@@ -1,10 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class StageRunManager : MonoBehaviour
+public class StageRunManager : MonoSceneSingleton<StageRunManager>
 {
-    public static StageRunManager Instance;
-
     [Header("Stage Data")]
     public StageTheme_SO currentTheme;
     public Transform midBossSpawnPoint;
@@ -35,11 +33,6 @@ public class StageRunManager : MonoBehaviour
     [Tooltip("맵이 지하로 얼마나 깊이 내려갈지")]
     public float mapDropDistance = 50f;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     private void Start()
     {
         if (EnemyManager.Instance != null && currentTheme != null)
@@ -54,9 +47,15 @@ public class StageRunManager : MonoBehaviour
         }
     }
 
-    public void InitializeRunPhase()
+    public void InitializeForRun()
     {
         StartPhase(0);
+    }
+
+    public void ReleaseRun()
+    {
+        StopAllCoroutines();
+        currentPhaseIndex = 0;
     }
 
     private void StartPhase(int phaseIndex)
@@ -76,17 +75,11 @@ public class StageRunManager : MonoBehaviour
         StagePhase currentPhase = currentTheme.phases[currentPhaseIndex];
 
         if (RunManager.TryGetInstance(out RunManager runManager))
-        {
             runManager.StartWavePhase(currentPhase.timeLimit);
-            runManager.FreezeWaveTimer(false);
-        }
     }
 
     public void OnStageCleared()
     {
-        if (RunManager.TryGetInstance(out RunManager runManager))
-            runManager.FreezeWaveTimer(true);
-
         if (midBossPrefabs != null && currentPhaseIndex < midBossPrefabs.Length)
         {
             Instantiate(midBossPrefabs[currentPhaseIndex], midBossSpawnPoint.position, Quaternion.identity);
@@ -179,6 +172,10 @@ public class StageRunManager : MonoBehaviour
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return null;
 
-        return runManager.GetCurrentWave(currentTheme.phases[currentPhaseIndex]);
+        WavePhaseTimer waveTimer = runManager.WaveTimer;
+        if (waveTimer == null)
+            return null;
+
+        return WaveSelection.GetCurrentWave(currentTheme.phases[currentPhaseIndex], waveTimer);
     }
 }

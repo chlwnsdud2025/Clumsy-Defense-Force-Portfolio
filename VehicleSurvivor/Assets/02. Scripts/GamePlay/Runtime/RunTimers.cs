@@ -21,7 +21,6 @@ public sealed class WavePhaseTimer
     public float PhaseElapsed { get; private set; }
     public float NightmareElapsed { get; private set; }
     public bool IsNightmare { get; private set; }
-    public bool IsFrozen { get; private set; }
 
     public void Reset()
     {
@@ -29,7 +28,6 @@ public sealed class WavePhaseTimer
         PhaseElapsed = 0f;
         NightmareElapsed = 0f;
         IsNightmare = false;
-        IsFrozen = false;
     }
 
     public void StartPhase(float timeLimit)
@@ -38,19 +36,10 @@ public sealed class WavePhaseTimer
         PhaseElapsed = 0f;
         NightmareElapsed = 0f;
         IsNightmare = false;
-        IsFrozen = false;
-    }
-
-    public void SetFrozen(bool frozen)
-    {
-        IsFrozen = frozen;
     }
 
     public void Tick(float deltaTime)
     {
-        if (IsFrozen)
-            return;
-
         PhaseTimeLeft -= deltaTime;
 
         if (PhaseTimeLeft > 0f)

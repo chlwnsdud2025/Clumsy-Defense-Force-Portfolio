@@ -55,7 +55,7 @@ public class UI_LevelUp : UIPopup
     }
 
     public void ShowRewards(
-        RunManager sourceRunManager,
+        RewardManager rewardManager,
         List<RewardOption> rewardOptions,
         int currentLevel)
     {
@@ -63,7 +63,7 @@ public class UI_LevelUp : UIPopup
 
         BindRewards(
             rewardOptions,
-            reward => sourceRunManager?.ApplyReward(reward));
+            reward => rewardManager?.ApplyReward(reward));
 
         PlayOpenAnimation();
     }

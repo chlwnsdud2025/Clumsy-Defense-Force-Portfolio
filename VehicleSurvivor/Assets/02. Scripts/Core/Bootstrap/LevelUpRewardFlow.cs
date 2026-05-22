@@ -13,29 +13,29 @@ public sealed class LevelUpRewardFlow
         activeLevelUpPopup = null;
     }
 
-    public void OnLevelChanged(RunContext runContext, int levelsGained, RunManager runManager)
+    public void OnLevelChanged(RunSession runSession, int levelsGained, RewardManager rewardManager)
     {
-        if (runContext == null || !runContext.ShouldUpdateGameplay)
+        if (runSession == null || !runSession.ShouldUpdateGameplay)
             return;
 
         if (levelsGained <= 0)
             return;
 
         pendingLevelUpRewardCount += levelsGained;
-        BeginLevelUpRewardsAsync(runContext, runManager).Forget();
+        BeginLevelUpRewardsAsync(runSession, rewardManager).Forget();
     }
 
-    public void OnRewardApplied(RunManager runManager, RunContext runContext)
+    public void OnRewardApplied(RewardManager rewardManager, RunSession runSession)
     {
         pendingLevelUpRewardCount--;
 
         if (pendingLevelUpRewardCount > 0)
         {
-            PresentLevelUpPopup(runManager, runContext);
+            PresentLevelUpPopup(rewardManager, runSession);
             return;
         }
 
-        FinishLevelUpRewards(runContext);
+        FinishLevelUpRewards(runSession);
     }
 
     public void OnRunFinished()
@@ -44,69 +44,69 @@ public sealed class LevelUpRewardFlow
         Reset();
     }
 
-    private async UniTaskVoid BeginLevelUpRewardsAsync(RunContext runContext, RunManager runManager)
+    private async UniTaskVoid BeginLevelUpRewardsAsync(RunSession runSession, RewardManager rewardManager)
     {
-        if (runContext == null || pendingLevelUpRewardCount <= 0)
+        if (runSession == null || pendingLevelUpRewardCount <= 0)
             return;
 
         if (activeLevelUpPopup != null)
         {
-            PresentLevelUpPopup(runManager, runContext);
+            PresentLevelUpPopup(rewardManager, runSession);
             return;
         }
 
-        if (runContext.State != ERunState.Playing)
+        if (runSession.State != ERunState.Playing)
             return;
 
-        runContext.EnterRewardSelection();
+        runSession.EnterRewardSelection();
 
         UIManager uiManager = UIManager.Instance;
         if (uiManager == null)
         {
-            HandleLevelUpPopupFailure(runContext);
+            HandleLevelUpPopupFailure(runSession);
             return;
         }
 
         activeLevelUpPopup = await uiManager.ShowPopupAsync<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
-        if (runManager.RunContext == null || runContext.State != ERunState.RewardSelection)
+        if (rewardManager.RunSession == null || runSession.State != ERunState.RewardSelection)
             return;
 
         if (activeLevelUpPopup == null)
         {
-            HandleLevelUpPopupFailure(runContext);
+            HandleLevelUpPopupFailure(runSession);
             return;
         }
 
-        PresentLevelUpPopup(runManager, runContext);
+        PresentLevelUpPopup(rewardManager, runSession);
     }
 
-    private void PresentLevelUpPopup(RunManager runManager, RunContext runContext)
+    private void PresentLevelUpPopup(RewardManager rewardManager, RunSession runSession)
     {
-        if (activeLevelUpPopup == null || runContext == null || runManager == null)
+        if (activeLevelUpPopup == null || runSession == null || rewardManager == null)
             return;
 
-        List<RewardOption> rewardOptions = runManager.GenerateLevelUpRewardOptions();
+        List<RewardOption> rewardOptions = rewardManager.GenerateLevelUpRewardOptions();
         if (rewardOptions.Count == 0)
             Debug.LogWarning("[LevelUpRewardFlow] LevelUp reward option list is empty.");
 
         activeLevelUpPopup.ShowRewards(
-            runManager,
+            rewardManager,
             rewardOptions,
-            runContext.Player.Level.Level);
+            runSession.Player.Level.Level);
     }
 
-    private void FinishLevelUpRewards(RunContext runContext)
+    private void FinishLevelUpRewards(RunSession runSession)
     {
-        runContext?.ResumeGamePlay();
+        runSession?.ResumeGamePlay();
 
         ClosePopupIfOpen();
     }
 
-    private void HandleLevelUpPopupFailure(RunContext runContext)
+    private void HandleLevelUpPopupFailure(RunSession runSession)
     {
         Debug.LogError("[LevelUpRewardFlow] LevelUp popup could not be shown.");
         Reset();
-        runContext?.ResumeGamePlay();
+        runSession?.ResumeGamePlay();
     }
 
     private void ClosePopupIfOpen()
