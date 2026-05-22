@@ -3,32 +3,18 @@ using UnityEngine;
 
 public class GroundDotArea : MonoBehaviour
 {
-    [Header("장판 데이터")]
-    public float damage;
-    public float duration;
-    public float tickInterval;
-    public float width;
-    public float length;
+    private float damage;
+    private float duration;
+    private float tickInterval;
+    private float width;
+    private float length;
 
-    public LayerMask enemyLayer;
-
-    private void Start()
-    {
-        transform.localScale =
-            new Vector3(width, 1f, length);
-
-        StartCoroutine(DamageRoutine());
-
-        Destroy(gameObject, duration);
-    }
-
-    public void Init(
+    public void Initialize(
         float newDamage,
         float newDuration,
         float newTickInterval,
         float newWidth,
-        float newLength,
-        LayerMask newEnemyLayer
+        float newLength
     )
     {
         damage = newDamage;
@@ -36,49 +22,53 @@ public class GroundDotArea : MonoBehaviour
         tickInterval = newTickInterval;
         width = newWidth;
         length = newLength;
-        enemyLayer = newEnemyLayer;
 
         transform.localScale =
-            new Vector3(width, 1f, length);
+            new Vector3(
+                width,
+                transform.localScale.y,
+                length
+            );
+
+        StartCoroutine(DamageRoutine());
+
+        Destroy(gameObject, duration);
     }
 
     private IEnumerator DamageRoutine()
     {
         while (true)
         {
-            DamageEnemies();
+            DamageTargets();
 
             yield return new WaitForSeconds(tickInterval);
         }
     }
 
-    private void DamageEnemies()
+    private void DamageTargets()
     {
         Vector3 halfExtents =
-            new Vector3(width * 0.5f, 1f, length * 0.5f);
+            new Vector3(
+                width * 0.5f,
+                1f,
+                length * 0.5f
+            );
 
         Collider[] hits = Physics.OverlapBox(
             transform.position,
             halfExtents,
-            transform.rotation,
-            enemyLayer
+            transform.rotation
         );
 
         foreach (Collider hit in hits)
         {
-            if (!hit.CompareTag("Enemy"))
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
                 continue;
 
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-
-                Debug.Log(
-                    $"[Ground DoT] {enemy.name} 지속 피해 / 데미지: {damage}"
-                );
-            }
+            damageable.TakeDamage(damage);
         }
     }
 

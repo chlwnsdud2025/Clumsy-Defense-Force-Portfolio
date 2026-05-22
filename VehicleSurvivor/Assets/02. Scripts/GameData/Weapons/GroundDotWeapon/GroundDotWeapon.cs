@@ -2,43 +2,81 @@ using UnityEngine;
 
 public class GroundDotWeapon : WeaponBase
 {
-    [Header("장판 설정")]
-    public GameObject groundDotPrefab;
-    public LayerMask enemyLayer;
 
-    [Header("생성 위치")]
-    public float spawnForwardDistance = 2f;
-    public float groundY = 0f;
+    //    사용 스탯:
+    //Damage
+    //Cooldown = 장판 생성 간격
+    //DotDuration = 장판 유지 시간
+    //DotTickInterval = 피해 주기
+    //DotWidth = 장판 너비
+    //DotLength = 장판 길이
+    [Header("Ground Dot References")]
+    public GameObject groundDotAreaPrefab;
+
+    [Header("Spawn Option")]
+    public float minMoveDistance = 0.5f;
+    public float groundOffsetY = 0.05f;
+
+    private Vector3 lastSpawnPosition;
+    private bool hasSpawnedOnce;
 
     protected override void Attack(WeaponLevelData data)
     {
-        if (groundDotPrefab == null)
+        if (data == null)
             return;
 
-        Vector3 spawnPosition =
-            transform.position + transform.forward * spawnForwardDistance;
+        TrySpawnGroundDot(data);
+    }
 
-        spawnPosition.y = groundY;
+    private void TrySpawnGroundDot(WeaponLevelData data)
+    {
+        if (groundDotAreaPrefab == null)
+        {
+            Debug.LogWarning("[GroundDotWeapon] Ground Dot Area Prefab 없음");
+            return;
+        }
 
-        GameObject area = Instantiate(
-            groundDotPrefab,
+        Vector3 currentPosition = transform.position;
+
+        if (hasSpawnedOnce)
+        {
+            float movedDistance =
+                Vector3.Distance(
+                    lastSpawnPosition,
+                    currentPosition
+                );
+
+            if (movedDistance < minMoveDistance)
+                return;
+        }
+
+        Vector3 spawnPosition = currentPosition;
+        spawnPosition.y += groundOffsetY;
+
+        GameObject areaObject = Instantiate(
+            groundDotAreaPrefab,
             spawnPosition,
             transform.rotation
         );
 
-        GroundDotArea dotArea =
-            area.GetComponent<GroundDotArea>();
+        GroundDotArea area =
+            areaObject.GetComponent<GroundDotArea>();
 
-        if (dotArea != null)
+        if (area == null)
         {
-            dotArea.Init(
-                GetFinalDamage(data.Damage),
-                data.DotDuration,
-                data.DotTickInterval,
-                data.DotWidth,
-                data.DotLength,
-                enemyLayer
-            );
+            Debug.LogWarning("[GroundDotWeapon] GroundDotArea 컴포넌트 없음");
+            return;
         }
+
+        area.Initialize(
+            GetFinalDamage(data.Damage),
+            data.DotDuration,
+            data.DotTickInterval,
+            data.DotWidth,
+            data.DotLength
+        );
+
+        lastSpawnPosition = currentPosition;
+        hasSpawnedOnce = true;
     }
 }

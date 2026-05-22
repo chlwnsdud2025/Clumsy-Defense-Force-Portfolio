@@ -682,6 +682,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 942979447}
     m_Modifications:
+    - target: {fileID: -4077047666620677948, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
+      propertyPath: useEditorTestLevelData
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3578470475727838928, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -728,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4166244357231286302, guid: 2a78c1e1cf8b9824aa4c46cd41df7f26, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -888,6 +892,88 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &865364044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 865364045}
+  - component: {fileID: 865364046}
+  m_Layer: 6
+  m_Name: DroneWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &865364045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865364044}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 942979447}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &865364046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865364044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7796444a8b8f5c4bb7494d43c25f6bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroneWeapon
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 1
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
+  dronePrefabs:
+  - {fileID: 1157565413145341859, guid: 10d3e45f3b73a454ea5be116fe075167, type: 3}
+  - {fileID: 3295875434363318977, guid: ceb7643b426778d4c914507333e260a2, type: 3}
+  - {fileID: 7383749743651438928, guid: 7ba6b3ea109e6a646959ca2dfc977943, type: 3}
+  - {fileID: 7625334824565090817, guid: 9152027f78ad2b940ad1e5cf9abec901, type: 3}
+  - {fileID: 359775970904030932, guid: 1f62b2004e689e14bb0f846375cbaa97, type: 3}
+  droneProjectilePrefab: {fileID: 0}
+  shootParticlePrefab: {fileID: 0}
+  baseOffset: {x: 0, y: 2.5, z: -2}
+  spacing: 1.5
 --- !u!1 &866794475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
@@ -997,6 +1083,8 @@ Transform:
   - {fileID: 1491734553}
   - {fileID: 1580629567}
   - {fileID: 8922929495683756813}
+  - {fileID: 1723210456}
+  - {fileID: 865364045}
   m_Father: {fileID: 866794476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &981894846 stripped
@@ -3886,6 +3974,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 942979447}
     m_Modifications:
+    - target: {fileID: -1884008635537541073, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+      propertyPath: useEditorTestLevelData
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3081079590315388895, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
       propertyPath: m_Name
       value: MeteorWeapon
@@ -3939,6 +4031,81 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10d2d3e25ef44314cb849efb8f648495, type: 3}
+--- !u!1 &1723210455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1723210456}
+  - component: {fileID: 1723210457}
+  m_Layer: 6
+  m_Name: GroundDotWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1723210456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723210455}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 942979447}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1723210457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723210455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf9d719e3bd93744a82ef475c1cdfd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundDotWeapon
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 1
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
+  groundDotAreaPrefab: {fileID: 0}
+  minMoveDistance: 0.5
+  groundOffsetY: 0.05
 --- !u!1 &1820332029
 GameObject:
   m_ObjectHideFlags: 0
@@ -4354,7 +4521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4695254130173025438, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: editorTestLevelData.projectileSpeed
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
