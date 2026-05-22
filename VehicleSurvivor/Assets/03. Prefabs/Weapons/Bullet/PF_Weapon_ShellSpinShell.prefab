@@ -78,14 +78,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b67e5324754284478261958017eac86, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8205572365699476806}
+      addedObject: {fileID: 5460308539143494490}
   m_SourcePrefab: {fileID: 100100000, guid: 2b67e5324754284478261958017eac86, type: 3}
 --- !u!1 &5565921339195667882 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b67e5324754284478261958017eac86, type: 3}
   m_PrefabInstance: {fileID: 4755649637284251899}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8205572365699476806
+--- !u!114 &5460308539143494490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,4 +96,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44ec311c5ed5368499c038e02cceaea2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OrbitHitbox
+  m_EditorClassIdentifier: Assembly-CSharp::OrbitObject

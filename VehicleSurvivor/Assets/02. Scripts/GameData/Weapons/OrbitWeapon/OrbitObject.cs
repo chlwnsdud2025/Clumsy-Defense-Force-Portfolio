@@ -1,24 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbitHitbox : MonoBehaviour
+public class OrbitObject : MonoBehaviour
 {
     private float damage;
     private float hitCooldown;
-    private GameObject hitEffectPrefab;
 
     private readonly Dictionary<IDamageable, float> hitTimers =
         new Dictionary<IDamageable, float>();
 
-    public void Init(
+    public void Initialize(
         float newDamage,
-        float newHitCooldown,
-        GameObject newHitEffectPrefab
+        float newHitCooldown
     )
     {
         damage = newDamage;
-        hitCooldown = newHitCooldown;
-        hitEffectPrefab = newHitEffectPrefab;
+        hitCooldown = Mathf.Max(0.05f, newHitCooldown);
     }
 
     private void OnTriggerStay(Collider other)
@@ -47,17 +44,20 @@ public class OrbitHitbox : MonoBehaviour
 
         damageable.TakeDamage(damage);
 
-        if (hitEffectPrefab != null)
+        Debug.Log($"[OrbitObject] 데미지: {damage}");
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        IDamageable damageable =
+            other.GetComponentInParent<IDamageable>();
+
+        if (damageable == null)
+            return;
+
+        if (hitTimers.ContainsKey(damageable))
         {
-            GameObject effect = Instantiate(
-                hitEffectPrefab,
-                other.transform.position,
-                Quaternion.identity
-            );
-
-            Destroy(effect, 2f);
+            hitTimers.Remove(damageable);
         }
-
-        Debug.Log($"[Orbit] 데미지 : {damage}");
     }
 }
