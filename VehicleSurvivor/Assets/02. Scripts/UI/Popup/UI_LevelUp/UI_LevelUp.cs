@@ -1,12 +1,21 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class UI_LevelUp : UIPopup
 {
     [Header("Reward Choice Panels")]
     [SerializeField] private List<RewardChoicePanel> panels = new();
+
+    [Header("Popup Content")]
+    [SerializeField] private RectTransform popupContent;
+    [SerializeField] private TMP_Text titleText;
+
+    [Header("Open Animation")]
+    [SerializeField] private float openScaleDuration = 0.35f;
+    [SerializeField] private Ease openScaleEase = Ease.OutBack;
 
     [Header("Focus Effect")]
     [SerializeField] private float focusedScale = 1.05f;
@@ -16,6 +25,7 @@ public class UI_LevelUp : UIPopup
     private List<RewardOption> rewards = new();
     private System.Action<RewardOption> onRewardSelected;
     private int selectedIndex = -1;
+    private Tween openScaleTween;
 
     private void Awake()
     {
@@ -39,19 +49,53 @@ public class UI_LevelUp : UIPopup
 
     public override void OnHide()
     {
+        KillOpenTween();
         ClearSelection();
         base.OnHide();
     }
 
-    public void ShowRewards(RunManager sourceRunManager, List<RewardOption> rewardOptions)
+    public void ShowRewards(
+        RunManager sourceRunManager,
+        List<RewardOption> rewardOptions,
+        int currentLevel)
     {
+        UpdateTitle(currentLevel);
+
         BindRewards(
             rewardOptions,
-            reward =>
-            {
-                if (sourceRunManager == null || !sourceRunManager.ApplyReward(reward))
-                    ResumeGameplay();
-            });
+            reward => sourceRunManager?.ApplyReward(reward));
+
+        PlayOpenAnimation();
+    }
+
+    private void UpdateTitle(int currentLevel)
+    {
+        if (titleText == null)
+            return;
+
+        titleText.text = $"레벨업! Lv.{currentLevel}";
+    }
+
+    private void PlayOpenAnimation()
+    {
+        KillOpenTween();
+
+        if (popupContent == null)
+            return;
+
+        popupContent.localScale = Vector3.zero;
+        openScaleTween = popupContent
+            .DOScale(Vector3.one, openScaleDuration)
+            .SetEase(openScaleEase)
+            .SetUpdate(true);
+    }
+
+    private void KillOpenTween()
+    {
+        if (openScaleTween != null && openScaleTween.IsActive())
+            openScaleTween.Kill();
+
+        openScaleTween = null;
     }
 
     private void BindRewards(List<RewardOption> rewardOptions, System.Action<RewardOption> onSelected)
@@ -76,6 +120,7 @@ public class UI_LevelUp : UIPopup
 
     private void OnDestroy()
     {
+        KillOpenTween();
         UnregisterPanelEvents();
     }
 
@@ -83,12 +128,6 @@ public class UI_LevelUp : UIPopup
     {
         if (!gameObject.activeInHierarchy)
             return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ResumeGameplay();
-            return;
-        }
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             MoveSelection(-1);
@@ -183,10 +222,7 @@ public class UI_LevelUp : UIPopup
         RewardOption selectedReward = selectedPanel.Reward;
         Debug.Log($"[UI_LevelUp] Reward selected: index={selectedIndex}, name={selectedReward.DisplayName}");
 
-        if (onRewardSelected != null)
-            onRewardSelected.Invoke(selectedReward);
-        else
-            ResumeGameplay();
+        onRewardSelected?.Invoke(selectedReward);
     }
 
     private void ClearSelection()
@@ -234,18 +270,6 @@ public class UI_LevelUp : UIPopup
             if (panels[i] != null)
                 panels[i].Clicked -= HandlePanelClicked;
         }
-    }
-
-    private void ResumeGameplay()
-    {
-        RunContext runContext = RunManager.Instance?.RunContext;
-        if (runContext == null)
-        {
-            UIManager.Instance?.ClosePopup(this);
-            return;
-        }
-
-        runContext.ResumeGamePlay();
     }
 
     public void OnClickContinue()

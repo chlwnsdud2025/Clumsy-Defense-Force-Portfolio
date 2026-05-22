@@ -51,3 +51,13 @@ public readonly struct ExpChangedEvent
         Required = required;
     }
 }
+
+public readonly struct LevelChangedEvent
+{
+    public readonly int Level;
+
+    public LevelChangedEvent(int level)
+    {
+        Level = level;
+    }
+}

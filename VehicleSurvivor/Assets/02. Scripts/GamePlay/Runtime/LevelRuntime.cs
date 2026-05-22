@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using System;
 
 public sealed class LevelRuntime
@@ -8,7 +7,7 @@ public sealed class LevelRuntime
     public int RequiredExp { get; private set; }
 
     public event Action<int, int> OnExpChanged;
-    public event Action<int> OnLevelUp;
+    public event Action<int, int> OnLevelChanged;
 
     public LevelRuntime()
     {
@@ -17,24 +16,29 @@ public sealed class LevelRuntime
         RequiredExp = CalculateRequiredExp(Level);
     }
 
-    public async void AddExp(int amount)
+    public int AddExp(int amount)
     {
         if (amount <= 0)
-            return;
+            return 0;
 
+        int startLevel = Level;
         CurrentExp += amount;
 
         while (CurrentExp >= RequiredExp)
         {
             CurrentExp -= RequiredExp;
             Level++;
-
             RequiredExp = CalculateRequiredExp(Level);
-
-            OnLevelUp?.Invoke(Level);
         }
 
+        int levelsGained = Level - startLevel;
+
         OnExpChanged?.Invoke(CurrentExp, RequiredExp);
+
+        if (levelsGained > 0)
+            OnLevelChanged?.Invoke(Level, levelsGained);
+
+        return levelsGained;
     }
 
     private int CalculateRequiredExp(int level)
