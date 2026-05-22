@@ -92,6 +92,10 @@ MonoBehaviour:
   slowClimbSpeed: 3
   contactDamage: 10
   gravity: -20
+  modelRenderers:
+  - {fileID: 150190812492260097}
+  flashDuration: 0.1
+  flashCooldown: 0.1
   bulletPrefab: {fileID: 8987020003840325061, guid: c9e9fd46fdb29a84683905f5f1bbf4c7, type: 3}
   firePoint: {fileID: 2256778290825846030}
   bulletArcHeight: 2
@@ -353,6 +357,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bf76839a6ed9f54e93a7c839b2723a1, type: 3}
+--- !u!23 &150190812492260097 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4741734733638449335, guid: 7bf76839a6ed9f54e93a7c839b2723a1, type: 3}
+  m_PrefabInstance: {fileID: 4889663592976505782}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6160429023527274162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1631902507202501892, guid: 7bf76839a6ed9f54e93a7c839b2723a1, type: 3}

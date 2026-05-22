@@ -45,6 +45,9 @@ public class WeaponLevelData
     [Min(0)]
     [SerializeField] private int bounceCount = 3;
 
+    [Min(0)]
+    [SerializeField] private int pierceCount = 0;
+
     [Header("Chain Lightning")]
     [Min(0)]
     [SerializeField] private int chainCount = 3;
@@ -103,4 +106,6 @@ public class WeaponLevelData
     public float DotLength => dotLength;
     public float ShockwaveRange => shockwaveRange;
     public float ShockwaveAngle => shockwaveAngle;
+
+    public int PierceCount => pierceCount;
 }

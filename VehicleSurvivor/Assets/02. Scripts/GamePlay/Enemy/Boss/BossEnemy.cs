@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections; // [추가] 코루틴 사용을 위해 필요
 
 // 잡몹(Enemy)과는 완전히 분리된, 보스들만의 새로운 최상위 부모 클래스!
 public abstract class BossEnemy : MonoBehaviour, IDamageable
@@ -13,7 +14,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float rotationSpeed = 3f;
 
     [Header("Combat Base")]
-    public float contactDamage = 30f; 
+    public float contactDamage = 30f;
     public float ContactDamage => contactDamage;
 
     [Header("Terrain & Movement (스마트 지형 추적)")]
@@ -31,8 +32,24 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float attackCooltime = 4.0f;
     protected float currentAttackCooldown;
 
+    private RaycastHit[] hitBuffer = new RaycastHit[10];
     // 자식 클래스에서 패턴 시전 중임을 알릴 때 사용하는 플래그
     protected bool isCastingPattern = false;
+
+    // ==========================================
+    // [신규] 피격 점멸 (Hit Flash) 설정
+    // ==========================================
+    [Header("Hit Flash Settings")]
+    [Tooltip("색상을 바꿀 보스의 모델링 렌더러들을 넣어주세요.")]
+    public Renderer[] modelRenderers;
+    [Tooltip("하얗게 유지되는 시간")]
+    public float flashDuration = 0.1f;
+    [Tooltip("다음 점멸까지의 쿨타임 (이 시간 동안은 맞아도 안 번쩍임)")]
+    public float flashCooldown = 0.1f;
+
+    private Color[] originalColors;
+    private bool isFlashing = false;
+    // ==========================================
 
     protected virtual void Start()
     {
@@ -44,6 +61,17 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) playerTarget = player.transform;
         }
+
+        // [신규] 보스의 원래 색상들을 기억해 둡니다.
+        if (modelRenderers != null && modelRenderers.Length > 0)
+        {
+            originalColors = new Color[modelRenderers.Length];
+            for (int i = 0; i < modelRenderers.Length; i++)
+            {
+                if (modelRenderers[i] != null)
+                    originalColors[i] = modelRenderers[i].material.color;
+            }
+        }
     }
 
     protected virtual void Update()
@@ -52,7 +80,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
         float dt = Time.deltaTime;
 
-        // 1. 공격 쿨타임 계산 및 Attack 실행
         if (!isCastingPattern)
         {
             currentAttackCooldown -= dt;
@@ -62,16 +89,12 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             }
         }
 
-        // 2. 이동 및 지형 추적 (패턴 시전 중에도 멈추지 않음)
         MoveAndSnapToGround(dt);
     }
 
-    // 자식 클래스(개별 보스들)가 반드시 자신만의 패턴으로 덮어써야 하는 공격 함수!
     protected abstract void Attack();
 
-    // ==========================================
-    // 공통 지형 이동 로직 (모든 보스가 공유)
-    // ==========================================
+    // (지형 이동 로직은 동일하게 유지)
     private void MoveAndSnapToGround(float dt)
     {
         Vector3 playerDir = playerTarget.position - transform.position;
@@ -90,15 +113,18 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         {
             float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
             Vector3 highRayStart = nextPosXZ + Vector3.up * dynamicHeight;
-            RaycastHit[] hits = Physics.RaycastAll(highRayStart, Vector3.down, raycastDistance, groundLayer);
 
-            if (hits.Length > 0)
+            // [최적화 적용] RaycastAll 대신 RaycastNonAlloc 사용! (hitBuffer 상자 재활용)
+            int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
+
+            // 상자에 담긴 개수(hitCount)만큼만 검사합니다.
+            if (hitCount > 0)
             {
                 float closestDiff = float.MaxValue;
-                for (int i = 0; i < hits.Length; i++)
+                for (int i = 0; i < hitCount; i++)
                 {
-                    float diff = Mathf.Abs(hits[i].point.y - playerTarget.position.y);
-                    if (diff < closestDiff) { closestDiff = diff; targetHeight = hits[i].point.y; hitGround = true; }
+                    float diff = Mathf.Abs(hitBuffer[i].point.y - playerTarget.position.y);
+                    if (diff < closestDiff) { closestDiff = diff; targetHeight = hitBuffer[i].point.y; hitGround = true; }
                 }
             }
         }
@@ -113,18 +139,22 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             else
             {
                 Vector3 highRayStart = nextPosXZ + Vector3.up * raycastStartHeight;
-                RaycastHit[] hits = Physics.RaycastAll(highRayStart, Vector3.down, raycastDistance, groundLayer);
-                if (hits.Length > 0)
+
+                // [최적화 적용] 여기도 동일하게 교체해 줍니다.
+                int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
+
+                if (hitCount > 0)
                 {
                     float closestDiff = float.MaxValue;
-                    for (int i = 0; i < hits.Length; i++)
+                    for (int i = 0; i < hitCount; i++)
                     {
-                        float diff = Mathf.Abs(hits[i].point.y - playerTarget.position.y);
-                        if (diff < closestDiff) { closestDiff = diff; targetHeight = hits[i].point.y; hitGround = true; }
+                        float diff = Mathf.Abs(hitBuffer[i].point.y - playerTarget.position.y);
+                        if (diff < closestDiff) { closestDiff = diff; targetHeight = hitBuffer[i].point.y; hitGround = true; }
                     }
                 }
             }
         }
+
 
         if (hitGround)
         {
@@ -163,11 +193,13 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         }
     }
 
-    
-    // 공통 체력 관리 로직
+
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
+
+        TriggerHitFlash(); // 점멸 효과 발동!
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -180,5 +212,40 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
         StageRunManager.Instance.OnMidBossDefeated();
         Destroy(gameObject);
+    }
+
+    
+    protected void TriggerHitFlash()
+    {
+        if (!isFlashing && modelRenderers != null && modelRenderers.Length > 0)
+        {
+            StartCoroutine(HitFlashRoutine());
+        }
+    }
+
+    private IEnumerator HitFlashRoutine()
+    {
+        isFlashing = true;
+
+        for (int i = 0; i < modelRenderers.Length; i++)
+        {
+            if (modelRenderers[i] != null)
+                modelRenderers[i].material.color = Color.white;
+        }
+
+        yield return new WaitForSeconds(flashDuration);
+
+        if (modelRenderers != null && originalColors != null)
+        {
+            for (int i = 0; i < modelRenderers.Length; i++)
+            {
+                if (modelRenderers[i] != null)
+                    modelRenderers[i].material.color = originalColors[i];
+            }
+        }
+
+        yield return new WaitForSeconds(flashCooldown);
+
+        isFlashing = false;
     }
 }

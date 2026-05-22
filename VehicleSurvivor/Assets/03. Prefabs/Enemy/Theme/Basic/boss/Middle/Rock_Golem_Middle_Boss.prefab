@@ -72,6 +72,7 @@ MonoBehaviour:
   maxHealth: 1000
   moveSpeed: 3
   rotationSpeed: 3
+  contactDamage: 30
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -81,6 +82,10 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
+  modelRenderers:
+  - {fileID: 8697754700194449235}
+  flashDuration: 0.1
+  flashCooldown: 0.1
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -167,5 +172,10 @@ PrefabInstance:
 --- !u!4 &1493282822270531262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2032082111789595151, guid: 812ddbf09810e754bbf24d7bbd9f760b, type: 3}
+  m_PrefabInstance: {fileID: 615395810364116145}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8697754700194449235 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8088169074377837538, guid: 812ddbf09810e754bbf24d7bbd9f760b, type: 3}
   m_PrefabInstance: {fileID: 615395810364116145}
   m_PrefabAsset: {fileID: 0}
