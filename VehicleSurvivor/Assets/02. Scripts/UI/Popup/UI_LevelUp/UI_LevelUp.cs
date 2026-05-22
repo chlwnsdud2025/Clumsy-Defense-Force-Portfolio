@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class UI_LevelUp : UIPopup
 {
-    [Header("보상 선택 패널")]
+    [Header("Reward Choice Panels")]
     [SerializeField] private List<RewardChoicePanel> panels = new();
 
-    [Header("포커스 연출")]
+    [Header("Focus Effect")]
     [SerializeField] private float focusedScale = 1.05f;
     [SerializeField] private float focusTweenDuration = 0.15f;
     [SerializeField] private Ease focusTweenEase = Ease.OutQuad;
 
+    private List<RewardOption> rewards = new();
+    private System.Action<RewardOption> onRewardSelected;
     private int selectedIndex = -1;
 
     private void Awake()
@@ -39,6 +41,37 @@ public class UI_LevelUp : UIPopup
     {
         ClearSelection();
         base.OnHide();
+    }
+
+    public void ShowRewards(RunManager sourceRunManager, List<RewardOption> rewardOptions)
+    {
+        BindRewards(
+            rewardOptions,
+            reward =>
+            {
+                if (sourceRunManager == null || !sourceRunManager.ApplyReward(reward))
+                    ResumeGameplay();
+            });
+    }
+
+    private void BindRewards(List<RewardOption> rewardOptions, System.Action<RewardOption> onSelected)
+    {
+        rewards = rewardOptions ?? new List<RewardOption>();
+        onRewardSelected = onSelected;
+
+        for (int i = 0; i < panels.Count; i++)
+        {
+            if (panels[i] == null)
+                continue;
+
+            if (i < rewards.Count)
+                panels[i].Bind(rewards[i]);
+            else
+                panels[i].Clear();
+        }
+
+        ClearSelection();
+        SetSelectedIndex(FindFirstNavigableIndex());
     }
 
     private void OnDestroy()
@@ -144,12 +177,16 @@ public class UI_LevelUp : UIPopup
             return;
 
         RewardChoicePanel selectedPanel = panels[selectedIndex];
-        //if (!selectedPanel.HasData)
-        //    return;
+        if (!selectedPanel.HasData)
+            return;
 
-        Debug.Log($"[UI_LevelUp] 선택 확정: index={selectedIndex}");
-        // TODO: 보상 적용 로직 연결
-        ResumeGameplay();
+        RewardOption selectedReward = selectedPanel.Reward;
+        Debug.Log($"[UI_LevelUp] Reward selected: index={selectedIndex}, name={selectedReward.DisplayName}");
+
+        if (onRewardSelected != null)
+            onRewardSelected.Invoke(selectedReward);
+        else
+            ResumeGameplay();
     }
 
     private void ClearSelection()
@@ -213,6 +250,6 @@ public class UI_LevelUp : UIPopup
 
     public void OnClickContinue()
     {
-        ResumeGameplay();
+        ConfirmSelection();
     }
 }

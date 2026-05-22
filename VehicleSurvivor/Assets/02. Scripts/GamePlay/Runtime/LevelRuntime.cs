@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 
 public sealed class LevelRuntime
@@ -16,7 +17,7 @@ public sealed class LevelRuntime
         RequiredExp = CalculateRequiredExp(Level);
     }
 
-    public void AddExp(int amount)
+    public async void AddExp(int amount)
     {
         if (amount <= 0)
             return;
