@@ -1186,7 +1186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4137169524317950769, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4138996222422021185, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
@@ -2505,6 +2505,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2490379290023210624}
+    - targetCorrespondingSourceObject: {fileID: 2930573010763901987, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1873214327294800949}
   m_SourcePrefab: {fileID: 100100000, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
 --- !u!1 &8177667092822737817 stripped
 GameObject:
@@ -2553,6 +2556,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformRider
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   movingPlatformTag: MovingPlatform
   groundCheckDistance: 0.5
+--- !u!114 &1873214327294800949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177667092822737817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7402c94e0a3f5254ea6e840b2686ad3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawn
+  currentRespawnPoint: {fileID: 0}
