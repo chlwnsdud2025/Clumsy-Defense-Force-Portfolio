@@ -6,6 +6,8 @@ public sealed class RewardSystem
     private readonly WeaponDatabaseSO weaponDatabase;
     private readonly PassiveTableSO passiveTable;
     private readonly ItemTableSO itemTable;
+    private const float DefaultRewardWeight = 1f;
+    private const float OwnedWeaponUpgradeWeight = 3f;
     private static readonly Dictionary<EItemRarity, float> ChestRarityWeights = new()
     {
         { EItemRarity.Common, 60f },
@@ -44,7 +46,7 @@ public sealed class RewardSystem
             candidates.Add(RewardOption.HealReward(Mathf.Max(1f, player.Health.MaxHp * 0.25f)));
         }
 
-        return PickRandom(candidates, Mathf.Max(0, count));
+        return PickRandomByRewardWeight(candidates, Mathf.Max(0, count));
     }
 
     public List<RewardOption> GenerateChest(PlayerRuntime player, int count) //상자획득시 3개 선택지 아이템 중 랜덤하나
@@ -182,6 +184,54 @@ public sealed class RewardSystem
         }
 
         return selected;
+    }
+
+    private static List<RewardOption> PickRandomByRewardWeight(List<RewardOption> candidates, int count)
+    {
+        List<RewardOption> pool = new(candidates);
+        List<RewardOption> selected = new();
+
+        while (selected.Count < count && pool.Count > 0)
+        {
+            int index = PickWeightedRewardIndex(pool);
+            selected.Add(pool[index]);
+            pool.RemoveAt(index);
+        }
+
+        return selected;
+    }
+
+    private static int PickWeightedRewardIndex(List<RewardOption> pool)
+    {
+        float totalWeight = 0f;
+
+        foreach (RewardOption reward in pool)
+        {
+            totalWeight += GetRewardWeight(reward);
+        }
+
+        float randomValue = Random.Range(0f, totalWeight);
+        float currentWeight = 0f;
+
+        for (int i = 0; i < pool.Count; i++)
+        {
+            currentWeight += GetRewardWeight(pool[i]);
+
+            if (randomValue <= currentWeight)
+                return i;
+        }
+
+        return pool.Count - 1;
+    }
+
+    private static float GetRewardWeight(RewardOption reward)
+    {
+        if (reward.Type == ERewardType.Weapon && !reward.IsNew && reward.Level > 1)
+        {
+            return OwnedWeaponUpgradeWeight;
+        }
+
+        return DefaultRewardWeight;
     }
 
     private static List<RewardOption> PickRandomByItemRarity(List<RewardOption> candidates, int count)
