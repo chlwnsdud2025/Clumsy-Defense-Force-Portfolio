@@ -3,43 +3,50 @@ using UnityEngine;
 
 public class DroneWeapon : WeaponBase
 {
-    [Header("드론 프리팹 설정")]
+
+    // Damage = 유도탄 데미지
+    // Cooldown = 드론 공격 간격
+    // ProjectileCount = 드론 개수
+    // ProjectileSpeed 또는 BulletSpeed = 유도탄 속도
+    // Range = 유도탄 최대 이동 거리
+    // Radius = 드론 탐지 반경
+
+    [Header("Drone References")]
     public GameObject[] dronePrefabs;
+    public GameObject droneProjectilePrefab;
+    public ParticleSystem shootParticlePrefab;
 
-    [Header("유도탄 설정")]
-    public GameObject homingProjectilePrefab;
-
-    [Header("레이어 설정")]
-    public LayerMask enemyLayer;
-
-    [Header("드론 위치 설정")]
-    public Vector3 droneOffset = new Vector3(0f, 2.5f, -2f);
-    public float droneSpacing = 1.5f;
-
-    [Header("탐지 설정")]
-    public float detectRadius = 15f;
+    [Header("Drone Position")]
+    public Vector3 baseOffset = new Vector3(0f, 2.5f, -2f);
+    public float spacing = 1.5f;
 
     private readonly List<DroneUnit> drones = new List<DroneUnit>();
 
-    private void Start()
+    protected override void OnInitialized()
     {
-        UpdateDrones();
+        SyncDrones(GetCurrentLevelData());
+    }
+
+    protected override void OnLevelDataChanged(WeaponLevelData data)
+    {
+        SyncDrones(data);
     }
 
     protected override void Attack(WeaponLevelData data)
     {
-        UpdateDrones();
+        SyncDrones(data);
     }
 
-    private void UpdateDrones()
+    private void SyncDrones(WeaponLevelData data)
     {
-        WeaponLevelData data = GetCurrentLevelData();
-
         if (data == null)
             return;
 
         if (dronePrefabs == null || dronePrefabs.Length == 0)
+        {
+            Debug.LogWarning("[DroneWeapon] Drone Prefabs 없음");
             return;
+        }
 
         int targetCount = Mathf.Max(
             1,
@@ -54,10 +61,18 @@ public class DroneWeapon : WeaponBase
                 dronePrefabs.Length - 1
             );
 
+            GameObject selectedPrefab = dronePrefabs[prefabIndex];
+
+            if (selectedPrefab == null)
+            {
+                Debug.LogWarning($"[DroneWeapon] Drone Prefabs Element {prefabIndex} 비어있음");
+                return;
+            }
+
             GameObject droneObject = Instantiate(
-                dronePrefabs[prefabIndex],
+                selectedPrefab,
                 transform.position,
-                Quaternion.identity,
+                selectedPrefab.transform.rotation,
                 transform
             );
 
@@ -75,166 +90,41 @@ public class DroneWeapon : WeaponBase
         {
             DroneUnit removeTarget = drones[drones.Count - 1];
             drones.RemoveAt(drones.Count - 1);
-            Destroy(removeTarget.gameObject);
+
+            if (removeTarget != null)
+            {
+                Destroy(removeTarget.gameObject);
+            }
         }
 
         for (int i = 0; i < drones.Count; i++)
         {
             Vector3 offset =
-                droneOffset +
+                baseOffset +
                 new Vector3(
-                    (i - (targetCount - 1) * 0.5f) * droneSpacing,
+                    (i - (targetCount - 1) * 0.5f) * spacing,
                     0f,
                     0f
                 );
 
-            drones[i].Init(
+            drones[i].Initialize(
                 transform,
-                homingProjectilePrefab,
-                enemyLayer,
+                droneProjectilePrefab,
+                shootParticlePrefab,
                 GetFinalDamage(data.Damage),
                 data.Cooldown,
-                data.BulletSpeed,
-                offset,
-                detectRadius
-            );
-        }
-    }
-}
-
-public class DroneUnit : MonoBehaviour
-{
-    private Transform owner;
-    private GameObject homingProjectilePrefab;
-    private LayerMask enemyLayer;
-
-    private float damage;
-    private float attackCooldown;
-    private float projectileSpeed;
-    private float detectRadius;
-
-    private Vector3 offset;
-    private float attackTimer;
-
-    public void Init(
-        Transform newOwner,
-        GameObject newHomingProjectilePrefab,
-        LayerMask newEnemyLayer,
-        float newDamage,
-        float newCooldown,
-        float newProjectileSpeed,
-        Vector3 newOffset,
-        float newDetectRadius
-    )
-    {
-        owner = newOwner;
-        homingProjectilePrefab = newHomingProjectilePrefab;
-        enemyLayer = newEnemyLayer;
-
-        damage = newDamage;
-        attackCooldown = newCooldown;
-        projectileSpeed = newProjectileSpeed;
-        offset = newOffset;
-        detectRadius = newDetectRadius;
-    }
-
-    private void Update()
-    {
-        if (owner == null)
-            return;
-
-        FollowPlayer();
-        TryAttack();
-    }
-
-    private void FollowPlayer()
-    {
-        Vector3 worldOffset = owner.TransformDirection(offset);
-
-        transform.position = owner.position + worldOffset;
-    }
-
-    private void TryAttack()
-    {
-        attackTimer += Time.deltaTime;
-
-        if (attackTimer < attackCooldown)
-            return;
-
-        Enemy target = FindClosestEnemy();
-
-        if (target == null)
-            return;
-
-        attackTimer = 0f;
-
-        Vector3 direction = target.transform.position - transform.position;
-        direction.y = 0f;
-
-        if (direction == Vector3.zero)
-            return;
-
-        transform.rotation = Quaternion.LookRotation(direction.normalized);
-
-        FireHomingProjectile(target, direction.normalized);
-    }
-
-    private void FireHomingProjectile(Enemy target, Vector3 direction)
-    {
-        if (homingProjectilePrefab == null)
-            return;
-
-        GameObject projectile = Instantiate(
-            homingProjectilePrefab,
-            transform.position,
-            Quaternion.LookRotation(direction)
-        );
-
-        DroneHomingProjectile homing =
-            projectile.GetComponent<DroneHomingProjectile>();
-
-        if (homing != null)
-        {
-            homing.Init(
-                target.transform,
-                damage,
-                projectileSpeed,
-                enemyLayer
+                GetProjectileSpeed(data),
+                data.Range,
+                data.Radius,
+                offset
             );
         }
     }
 
-    private Enemy FindClosestEnemy()
+    private float GetProjectileSpeed(WeaponLevelData data)
     {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            detectRadius,
-            enemyLayer
-        );
-
-        Enemy closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider hit in hits)
-        {
-            if (!hit.CompareTag("Enemy"))
-                continue;
-
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
-
-            if (enemy == null)
-                continue;
-
-            float distance =
-                (enemy.transform.position - transform.position).sqrMagnitude;
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
+        return data.ProjectileSpeed > 0f
+            ? data.ProjectileSpeed
+            : data.BulletSpeed;
     }
 }
