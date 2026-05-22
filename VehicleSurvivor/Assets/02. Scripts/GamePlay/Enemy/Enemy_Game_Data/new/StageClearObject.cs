@@ -3,12 +3,12 @@ using System.Collections;
 
 public class StageClearObject : MonoBehaviour
 {
-    [Header("Stage References")]
-    [Tooltip("클리어 후 닫아버릴 입구 (예: 투명한 차단벽 오브젝트)")]
-    public GameObject stageEntranceBlocker;
+    //[Header("Stage References")]
+    //[Tooltip("클리어 후 닫아버릴 입구 (예: 투명한 차단벽 오브젝트)")]
+    //public GameObject stageEntranceBlocker;
 
-    [Tooltip("클리어 후 아예 꺼버릴 스테이지 전체 맵(환경)의 최상위 부모")]
-    public GameObject stageEnvironment;
+    //[Tooltip("클리어 후 아예 꺼버릴 스테이지 전체 맵(환경)의 최상위 부모")]
+    //public GameObject stageEnvironment;
 
     [Tooltip("광장으로 돌아갈 스폰 포인트")]
     public Transform hubRespawnPoint;
@@ -73,9 +73,9 @@ public class StageClearObject : MonoBehaviour
             playerRespawn.Respawn();
         }
 
-        // 6. 해당 스테이지 입구 차단 및 맵 최상위 부모 비활성화 (최적화)
-        if (stageEntranceBlocker != null) stageEntranceBlocker.SetActive(true); // 막는 벽 켜기
-        if (stageEnvironment != null) stageEnvironment.SetActive(false);        // 전체 맵 끄기
+        //// 6. 해당 스테이지 입구 차단 및 맵 최상위 부모 비활성화 (최적화)
+        //if (stageEntranceBlocker != null) stageEntranceBlocker.SetActive(true); // 막는 벽 켜기
+        //if (stageEnvironment != null) stageEnvironment.SetActive(false);        // 전체 맵 끄기
 
         // 7. 역할이 끝난 열쇠 오브젝트 완전 삭제
         Destroy(gameObject);
