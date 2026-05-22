@@ -42,6 +42,9 @@ public class ProjectileBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Enemy"))
+            return;
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 

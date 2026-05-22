@@ -73,7 +73,7 @@ public class ProjectileWeapon : WeaponBase
         }
         else
         {
-            Debug.Log($"[ProjectileWeapon] 반경 {detectRadius} 내 IDamageable 대상 없음 → 정면 발사");
+            Debug.Log($"[ProjectileWeapon] 반경 {detectRadius} 내 Enemy 대상 없음 → 정면 발사");
 
             direction = resolvedFirePoint.forward;
             direction.y = 0f;
@@ -146,6 +146,9 @@ public class ProjectileWeapon : WeaponBase
 
         foreach (Collider hit in hits)
         {
+            if (!hit.CompareTag("Enemy"))
+                continue;
+
             IDamageable damageable =
                 hit.GetComponentInParent<IDamageable>();
 
