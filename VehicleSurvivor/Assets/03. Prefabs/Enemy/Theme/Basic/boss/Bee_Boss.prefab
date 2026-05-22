@@ -62,6 +62,10 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 0.1
+  modelRenderers:
+  - {fileID: 6902694358655248130}
+  flashDuration: 0.1
+  flashCooldown: 0.1
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64

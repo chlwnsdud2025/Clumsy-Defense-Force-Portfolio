@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections; // [추가] 코루틴 사용을 위해 필요
 
 public interface IDamageable
 {
@@ -34,35 +35,79 @@ public class Enemy : MonoBehaviour, IDamageable
     public float attackCooltime = 2.0f;
 
     [Header("3D Ground Snapping & Gravity")]
-    public LayerMask groundLayer;         // 지형으로 인식할 레이어
-    public float raycastStartHeight = 50f; // 레이캐스트를 쏠 상공의 높이
-    public float raycastDistance = 100f;   // 레이캐스트 최대 도달 거리
-    public float fastStepSpeed = 25f;      // 평지, 계단, 작은 돌멩이를 밟고 지나가는 빠른 속도
-    public float slowClimbSpeed = 5f;      // 절벽, 다리 기둥 등을 천천히 기어오르는 속도
+    public LayerMask groundLayer;
+    public float raycastStartHeight = 50f;
+    public float raycastDistance = 100f;
+    public float fastStepSpeed = 25f;
+    public float slowClimbSpeed = 5f;
 
     [Header("Attack")]
     public float contactDamage = 10f;
     public float ContactDamage => contactDamage;
 
-    public float gravity = -20f; // 중력
+    public float gravity = -20f;
+
+    // ==========================================
+    // [신규] 피격 점멸 (Hit Flash) 설정
+    // ==========================================
+    [Header("Hit Flash Settings (Optimized)")]
+    public Renderer[] modelRenderers;
+    public float flashDuration = 0.1f;
+    public float flashCooldown = 0.1f;
+    public string colorPropertyName = "_Color";
+    public float flashIntensity = 5f;
+    [Range(0f, 1f)] public float flashAlpha = 0.4f;
+
+    private Color[] originalColors;
+    private Color[] precalculatedFlashColors; // [핵심] 섞인 하얀색을 미리 계산해서 담아둘 배열
+    private int colorPropertyID;              // [핵심] 문자열 대신 쓸 고유 ID 번호
+
+    private MaterialPropertyBlock propBlock;
+    private float flashTimer = 0f;
+    private float flashCooldownTimer = 0f;
+    // ==========================================
 
     protected bool isTrackingPlayer = true;
-
     protected float currentAttackCooldown;
     protected Vector3 knockbackVelocity;
 
-    // 수직 이동(점프/추락) 처리를 위한 상태 변수
     private float verticalVelocity;
     private bool isGrounded;
 
-    // ==========================================
-    // [최적화] 지형 탐색(Raycast) 변수
-    // ==========================================
     private float groundCheckTimer = 0f;
-    private float groundCheckInterval = 0.1f; // 0.1초마다 1번씩만 지형 탐색 (1초에 10번)
-    private RaycastHit[] hitBuffer = new RaycastHit[10]; // GC 생성을 막기 위한 미리 만들어둔 버퍼 배열
-    private float cachedTargetHeight; // 탐색 간격 동안 유지할 목표 높이
-    private bool cachedHitGround;     // 탐색 간격 동안 유지할 접지 여부
+    private float groundCheckInterval = 0.1f;
+    private RaycastHit[] hitBuffer = new RaycastHit[10];
+    private float cachedTargetHeight;
+    private bool cachedHitGround;
+
+    // [신규] 맨 처음 태어날 때 원래 색상을 기억해 둡니다.
+    private void Awake()
+    {
+        propBlock = new MaterialPropertyBlock();
+
+        // [최적화 1] 문자열("_Color")을 유니티 엔진이 제일 빠르게 찾는 정수형 ID로 미리 변환합니다!
+        colorPropertyID = Shader.PropertyToID(colorPropertyName);
+
+        if (modelRenderers != null && modelRenderers.Length > 0)
+        {
+            originalColors = new Color[modelRenderers.Length];
+            precalculatedFlashColors = new Color[modelRenderers.Length];
+
+            for (int i = 0; i < modelRenderers.Length; i++)
+            {
+                if (modelRenderers[i] != null && modelRenderers[i].sharedMaterial != null)
+                {
+                    if (modelRenderers[i].sharedMaterial.HasProperty(colorPropertyID))
+                        originalColors[i] = modelRenderers[i].sharedMaterial.GetColor(colorPropertyID);
+                    else
+                        originalColors[i] = Color.white;
+
+                    // [최적화 2] 몹이 태어날 때 '원래색 + 하얀색 * 알파' 수학 연산을 아예 미리 다 해둡니다!
+                    precalculatedFlashColors[i] = Color.Lerp(originalColors[i], Color.white * flashIntensity, flashAlpha);
+                }
+            }
+        }
+    }
 
     public virtual void SpawnSetup(Transform target, Vector3 spawnPosition, EnemyManager manager)
     {
@@ -74,21 +119,21 @@ public class Enemy : MonoBehaviour, IDamageable
         knockbackVelocity = Vector3.zero;
         currentAttackCooldown = 0f;
 
-        // 스폰 시 수직 속도 및 접지 상태 초기화
         verticalVelocity = 0f;
         isGrounded = false;
 
-        // [최적화] 몹들이 동시에 레이캐스트를 쏴서 렉이 걸리는 것을 방지하기 위해 초기 타이머를 분산시킵니다.
         groundCheckTimer = Random.Range(0f, groundCheckInterval);
         cachedTargetHeight = spawnPosition.y;
         cachedHitGround = true;
+
+        
     }
 
+    // (ManagedUpdate, ExecuteBehavior, Attack 코드는 이전과 완전히 동일하여 생략 없이 유지)
     public virtual void ManagedUpdate(float deltaTime)
     {
         if (playerTarget == null) return;
 
-        // 수평 이동 방향 및 속도 계산 (X, Z)
         ExecuteBehavior(deltaTime, out Vector3 desiredVelocity);
 
         Vector3 separationForce = myManager.GetSeparationForce(this, separationRadius);
@@ -96,17 +141,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Vector3 horizontalVelocity = desiredVelocity + (separationForce * separationWeight);
 
-        // ==========================================
-        // [최적화된] 다중 레이어 투시 스마트 레이캐스트
-        // ==========================================
         groundCheckTimer += deltaTime;
 
-        // 매 프레임이 아닌 지정된 간격(Interval)마다 한 번씩만 물리 연산 수행
         if (groundCheckTimer >= groundCheckInterval)
         {
             groundCheckTimer = 0f;
-
-            // 0.1초 뒤의 대략적인 예상 위치로 레이캐스트를 쏩니다.
             Vector3 checkPosXZ = transform.position + (horizontalVelocity * groundCheckInterval);
             cachedHitGround = false;
             cachedTargetHeight = transform.position.y;
@@ -115,17 +154,14 @@ public class Enemy : MonoBehaviour, IDamageable
 
             if (isPlayerHigher)
             {
-                // [플레이어가 높은 곳에 있음]
                 float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
                 Vector3 highRayStart = checkPosXZ + Vector3.up * dynamicHeight;
-
-                // RaycastAll 대신 RaycastNonAlloc 사용 -> 메모리 쓰레기 발생량 0
                 int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
 
                 if (hitCount > 0)
                 {
                     float closestDiff = float.MaxValue;
-                    for (int i = 0; i < hitCount; i++) // hitBuffer 전체가 아닌 hitCount 까지만 순회
+                    for (int i = 0; i < hitCount; i++)
                     {
                         float diff = Mathf.Abs(hitBuffer[i].point.y - playerTarget.position.y);
                         if (diff < closestDiff)
@@ -139,7 +175,6 @@ public class Enemy : MonoBehaviour, IDamageable
             }
             else
             {
-                // [플레이어가 평지이거나 내 아래에 있음]
                 float lowRayStartHeight = 2.0f;
                 float lowRayDistance = 4.0f;
                 Vector3 lowRayStart = checkPosXZ + Vector3.up * lowRayStartHeight;
@@ -172,8 +207,6 @@ public class Enemy : MonoBehaviour, IDamageable
             }
         }
 
-
-        // 지형 충돌 결과 처리(단차) - 이동 연산은 매 프레임 부드럽게 적용됩니다.
         if (cachedHitGround)
         {
             float heightDiff = cachedTargetHeight - transform.position.y;
@@ -181,15 +214,14 @@ public class Enemy : MonoBehaviour, IDamageable
             if (heightDiff >= -0.1f)
             {
                 float currentClimbSpeed;
-
                 if (heightDiff > 0.5f)
                 {
-                    horizontalVelocity = Vector3.zero; // 거대한 벽을 만나면 천천히 등반
+                    horizontalVelocity = Vector3.zero;
                     currentClimbSpeed = slowClimbSpeed;
                 }
                 else
                 {
-                    currentClimbSpeed = fastStepSpeed; // 작은 단차는 빠른 속도로 보행
+                    currentClimbSpeed = fastStepSpeed;
                 }
 
                 float newY = Mathf.MoveTowards(transform.position.y, cachedTargetHeight, currentClimbSpeed * deltaTime);
@@ -198,7 +230,7 @@ public class Enemy : MonoBehaviour, IDamageable
                 verticalVelocity = 0;
                 isGrounded = true;
             }
-            else // 낭떠러지
+            else
             {
                 isGrounded = false;
             }
@@ -208,7 +240,6 @@ public class Enemy : MonoBehaviour, IDamageable
             isGrounded = false;
         }
 
-        // 중력 적용
         if (!isGrounded)
         {
             verticalVelocity += gravity * deltaTime;
@@ -221,10 +252,8 @@ public class Enemy : MonoBehaviour, IDamageable
             }
         }
 
-        // 최종 위치 적용
         transform.position += (horizontalVelocity + Vector3.up * verticalVelocity) * deltaTime;
 
-        // 회전 처리
         if (isTrackingPlayer)
         {
             Vector3 playerDir = playerTarget.position - transform.position;
@@ -271,15 +300,20 @@ public class Enemy : MonoBehaviour, IDamageable
         Debug.Log("기본 근접 몹 공격!");
     }
 
+    // ==========================================
+    // [수정] 피격 시 점멸 함수 호출
+    // ==========================================
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
         GameObject textObj = DamageTextPool.Instance.GetDamageText();
         textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
 
+        // 맞을 때마다 점멸 시도!
+        TriggerHitFlash();
+
         if (currentHealth <= 0)
         {
-
             currentHealth = 0;
             Die();
         }
@@ -288,7 +322,6 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         DropExpOrbs();
-
         RunManager.Instance.AddKill();
 
         if (myManager != null)
@@ -306,7 +339,6 @@ public class Enemy : MonoBehaviour, IDamageable
         Vector3 dropPos = transform.position;
         dropPos.y += 0.05f;
 
-        
         ExpType typeToDrop = ExpType.Small;
         if (expReward >= 50) typeToDrop = ExpType.Large;
         else if (expReward >= 10) typeToDrop = ExpType.Medium;
@@ -315,6 +347,65 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             ExpManager.Instance.SpawnExp(typeToDrop, dropPos, expReward);
         }
-        
+    }
+
+
+    protected void TriggerHitFlash()
+    {
+        if (flashCooldownTimer <= 0f)
+        {
+            flashTimer = flashDuration;
+            flashCooldownTimer = flashDuration + flashCooldown;
+        }
+    }
+
+    protected virtual void LateUpdate()
+    {
+        if (flashCooldownTimer > 0f) flashCooldownTimer -= Time.deltaTime;
+
+        if (flashTimer > 0f)
+        {
+            flashTimer -= Time.deltaTime;
+
+            // 더 이상 여기서 수학 연산을 하지 않고, 함수 호출만 합니다.
+            ApplyFlashColor(precalculatedFlashColors);
+
+            if (flashTimer <= 0f)
+            {
+                RestoreOriginalColors();
+            }
+        }
+    }
+
+    // [최적화 3] 매개변수를 precalculatedFlashColors 배열 통째로 받습니다.
+    private void ApplyFlashColor(Color[] colorsToApply)
+    {
+        if (modelRenderers == null || colorsToApply == null) return;
+
+        for (int i = 0; i < modelRenderers.Length; i++)
+        {
+            if (modelRenderers[i] != null)
+            {
+                modelRenderers[i].GetPropertyBlock(propBlock);
+                // 문자열 대신 colorPropertyID 사용, 수학 연산 없이 미리 계산된 색상 바로 투입!
+                propBlock.SetColor(colorPropertyID, colorsToApply[i]);
+                modelRenderers[i].SetPropertyBlock(propBlock);
+            }
+        }
+    }
+
+    private void RestoreOriginalColors()
+    {
+        if (modelRenderers == null || originalColors == null) return;
+
+        for (int i = 0; i < modelRenderers.Length; i++)
+        {
+            if (modelRenderers[i] != null)
+            {
+                modelRenderers[i].GetPropertyBlock(propBlock);
+                propBlock.SetColor(colorPropertyID, originalColors[i]);
+                modelRenderers[i].SetPropertyBlock(propBlock);
+            }
+        }
     }
 }

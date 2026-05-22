@@ -19,5 +19,9 @@ public class Billboard : MonoBehaviour
             // 텍스트의 앞면이 카메라의 앞면과 같은 방향을 보게 합니다.
             transform.forward = mainCamera.transform.forward;
         }
+        else
+        {
+            mainCamera = Camera.main;
+        }
     }
 }

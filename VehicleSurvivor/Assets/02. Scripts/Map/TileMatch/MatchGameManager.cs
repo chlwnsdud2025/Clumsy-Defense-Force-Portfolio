@@ -236,12 +236,12 @@ public class MatchGameManager : MonoBehaviour
 
         if (_isCleared)
         {
-            scoreTextMesh.text = $"{requiredScore} / {requiredScore}";
+            scoreTextMesh.text = $"{requiredScore}/{requiredScore}";
             scoreTextMesh.color = Color.green;
         }
         else
         {
-            scoreTextMesh.text = $"{_playerScore} / {requiredScore}";
+            scoreTextMesh.text = $"{_playerScore}/{requiredScore}";
         }
     }
 }
