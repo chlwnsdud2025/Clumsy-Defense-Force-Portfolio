@@ -17,13 +17,15 @@ public class PlayerController : MonoBehaviour
     private const string AnimParamMotionSpeed = "MotionSpeed";
 
     private const float _threshold = 0.01f;
+    private const float BlendMaxSpeed = 6f;
 
     [Header("플레이어")]
-    [Tooltip("걷기 이동 속도")]
+    [Tooltip("기본 이동 속도(m/s)")]
     public float MoveSpeed = 5f;
 
-    [Tooltip("달리기 이동 속도")]
-    public float SprintSpeed = 10f;
+    [Tooltip("BlendTree Run 임계값(6)에 맞춘 달리기 클립 기준 속도")]
+    [SerializeField]
+    private float _runAnimReferenceSpeed = 6f;
 
     [Tooltip("이동 방향을 바라볼 때 회전이 따라잡는 속도")]
     [Range(0.0f, 0.3f)]
@@ -224,9 +226,10 @@ public class PlayerController : MonoBehaviour
         if (_mainCamera == null)
             return;
 
-        // 이동·달리기 입력에 따른 목표 속도
         float moveSpeedMultiplier = GetMoveSpeedMultiplier();
-        float targetSpeed = (_input.sprint ? SprintSpeed : MoveSpeed) * moveSpeedMultiplier;
+        float targetSpeed = MoveSpeed * moveSpeedMultiplier;
+
+        Debug.Log("TargetSpeed : " + targetSpeed);
 
         // 단순 가속·감속(교체·튜닝이 쉬운 형태)
         // Vector2 == 는 근사 비교라 magnitude보다 가볍고 부동소수 오차에 덜 취약함
@@ -282,11 +285,15 @@ public class PlayerController : MonoBehaviour
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-        // 애니메이터가 있으면 동기화
         if (_hasAnimator)
         {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            float baseMoveSpeed = Mathf.Max(MoveSpeed, 0.01f);
+            float animBlendSpeed = Mathf.Clamp(_animationBlend / baseMoveSpeed * BlendMaxSpeed, 0f, BlendMaxSpeed);
+            float runRef = Mathf.Max(_runAnimReferenceSpeed, 0.01f);
+            float motionSpeed = (_animationBlend / runRef) * inputMagnitude;
+
+            _animator.SetFloat(_animIDSpeed, animBlendSpeed);
+            _animator.SetFloat(_animIDMotionSpeed, motionSpeed);
         }
     }
 
@@ -406,6 +413,7 @@ public class PlayerController : MonoBehaviour
     {
         MouseLookSensitivity = Mathf.Max(0f, MouseLookSensitivity);
         GamepadLookSensitivity = Mathf.Max(0f, GamepadLookSensitivity);
+        _runAnimReferenceSpeed = Mathf.Max(0.01f, _runAnimReferenceSpeed);
     }
 
     private void OnDrawGizmosSelected()
