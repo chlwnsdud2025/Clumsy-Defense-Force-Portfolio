@@ -4492,7 +4492,7 @@ Transform:
   m_LocalScale: {x: 17.99, y: 14.7, z: 23.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4840462711706248545}
+  m_Father: {fileID: 7986371842123075438}
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
 --- !u!33 &4504274760542851525
 MeshFilter:
@@ -31076,7 +31076,7 @@ Transform:
   m_LocalScale: {x: 17.99, y: 14.7, z: 23.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4840462711706248545}
+  m_Father: {fileID: 7986371842123075438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3440606762156865630
 MeshFilter:
@@ -68654,6 +68654,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd006bda5b2b69049974898c1a652fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearObject
+  stageEntranceBlocker: {fileID: 0}
+  stageEnvironment: {fileID: 0}
+  hubRespawnPoint: {fileID: 0}
+  pickupVFX: {fileID: 0}
+  returnDelay: 1
 --- !u!65 &5213644454612375542
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74613,6 +74618,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd006bda5b2b69049974898c1a652fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearObject
+  stageEntranceBlocker: {fileID: 0}
+  stageEnvironment: {fileID: 0}
+  hubRespawnPoint: {fileID: 0}
+  pickupVFX: {fileID: 0}
+  returnDelay: 1
 --- !u!65 &6077096344757920092
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94770,6 +94780,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd006bda5b2b69049974898c1a652fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearObject
+  stageEntranceBlocker: {fileID: 0}
+  stageEnvironment: {fileID: 0}
+  hubRespawnPoint: {fileID: 0}
+  pickupVFX: {fileID: 0}
+  returnDelay: 1
 --- !u!65 &6500297693198156973
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -106302,7 +106317,7 @@ Transform:
   m_LocalScale: {x: 17.99, y: 14.7, z: 23.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4840462711706248545}
+  m_Father: {fileID: 7986371842123075438}
   m_LocalEulerAnglesHint: {x: 0, y: -120, z: 0}
 --- !u!33 &8796464372937435450
 MeshFilter:
@@ -112304,7 +112319,7 @@ Transform:
   m_LocalScale: {x: 17.99, y: 14.7, z: 23.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4840462711706248545}
+  m_Father: {fileID: 7986371842123075438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8893442080430051109
 MeshFilter:
@@ -120821,6 +120836,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5593497848760505410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4274520835963677011}
+  m_Layer: 0
+  m_Name: CloseWall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4274520835963677011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5593497848760505410}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4840462711706248545}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5600053517662662326
 GameObject:
   m_ObjectHideFlags: 0
@@ -126837,6 +126883,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationAxis: 1
   rotationSpeed: 50
+--- !u!1 &5846775171759959579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7986371842123075438}
+  m_Layer: 0
+  m_Name: Sidewall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7986371842123075438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5846775171759959579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5531548332432048256}
+  - {fileID: 9202177638133133087}
+  - {fileID: 661393159198416480}
+  - {fileID: 1734068425801971707}
+  - {fileID: 8985911698693913480}
+  - {fileID: 5601503943401121439}
+  m_Father: {fileID: 4840462711706248545}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5847679384765732929
 GameObject:
   m_ObjectHideFlags: 0
@@ -128758,6 +128841,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd006bda5b2b69049974898c1a652fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearObject
+  stageEntranceBlocker: {fileID: 0}
+  stageEnvironment: {fileID: 0}
+  hubRespawnPoint: {fileID: 0}
+  pickupVFX: {fileID: 0}
+  returnDelay: 1
 --- !u!65 &3995342819554412645
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134196,12 +134284,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5531548332432048256}
-  - {fileID: 9202177638133133087}
-  - {fileID: 661393159198416480}
-  - {fileID: 1734068425801971707}
-  - {fileID: 8985911698693913480}
-  - {fileID: 5601503943401121439}
+  - {fileID: 7986371842123075438}
+  - {fileID: 4274520835963677011}
   m_Father: {fileID: 728812791450080172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6246354088402226311
@@ -157393,6 +157477,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd006bda5b2b69049974898c1a652fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearObject
+  stageEntranceBlocker: {fileID: 0}
+  stageEnvironment: {fileID: 0}
+  hubRespawnPoint: {fileID: 0}
+  pickupVFX: {fileID: 0}
+  returnDelay: 1
 --- !u!65 &161836795943249549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -179095,6 +179184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd006bda5b2b69049974898c1a652fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageClearObject
+  stageEntranceBlocker: {fileID: 0}
+  stageEnvironment: {fileID: 0}
+  hubRespawnPoint: {fileID: 0}
+  pickupVFX: {fileID: 0}
+  returnDelay: 1
 --- !u!65 &1657081822557407057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -180927,7 +181021,7 @@ Transform:
   m_LocalScale: {x: 17.99, y: 14.7, z: 23.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4840462711706248545}
+  m_Father: {fileID: 7986371842123075438}
   m_LocalEulerAnglesHint: {x: 0, y: -60, z: 0}
 --- !u!33 &5195861338491510970
 MeshFilter:
@@ -185740,7 +185834,7 @@ Transform:
   m_LocalScale: {x: 17.99, y: 14.7, z: 23.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4840462711706248545}
+  m_Father: {fileID: 7986371842123075438}
   m_LocalEulerAnglesHint: {x: 0, y: 120, z: 0}
 --- !u!33 &5412065070452732973
 MeshFilter:
@@ -192400,7 +192494,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CapturePad
   requiredTime: 3
   resetOnLeave: 0
-  progressText: {fileID: 9140466441005086045}
   onCaptureComplete:
     m_PersistentCalls:
       m_Calls:
