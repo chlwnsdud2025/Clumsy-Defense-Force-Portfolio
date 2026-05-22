@@ -2,42 +2,41 @@ using UnityEngine;
 
 public class ProjectileBullet : MonoBehaviour
 {
-    [Header("투사체 설정")]
-    public float damage = 10f;
-    public float speed = 20f;
-    public float lifeTime = 3f;
+    private float damage;
+    private float speed;
+    private int pierceCount;
+    private float maxTravelDistance;
 
     private Vector3 moveDirection;
+    private Vector3 spawnPosition;
 
-    private void Start()
+    public void Initialize(
+        float newDamage,
+        float newSpeed,
+        int newPierceCount,
+        float newMaxTravelDistance,
+        Vector3 newMoveDirection
+    )
     {
-        if (moveDirection == Vector3.zero)
-        {
-            moveDirection = transform.forward;
-        }
+        damage = newDamage;
+        speed = newSpeed;
+        pierceCount = newPierceCount;
+        maxTravelDistance = newMaxTravelDistance;
 
-        Destroy(gameObject, lifeTime);
+        moveDirection = newMoveDirection.normalized;
+        spawnPosition = transform.position;
     }
 
     private void Update()
     {
         transform.position += moveDirection * speed * Time.deltaTime;
-    }
 
-    public void Init(
-        float newDamage,
-        float newSpeed,
-        Vector3 direction
-    )
-    {
-        damage = newDamage;
-        speed = newSpeed;
-        moveDirection = direction.normalized;
+        float traveledDistance =
+            Vector3.Distance(spawnPosition, transform.position);
 
-        if (moveDirection != Vector3.zero)
+        if (traveledDistance >= maxTravelDistance)
         {
-            transform.rotation =
-                Quaternion.LookRotation(moveDirection);
+            Destroy(gameObject);
         }
     }
 
@@ -51,7 +50,11 @@ public class ProjectileBullet : MonoBehaviour
 
         damageable.TakeDamage(damage);
 
-        Debug.Log($"[Projectile] 데미지: {damage}");
+        if (pierceCount > 0)
+        {
+            pierceCount--;
+            return;
+        }
 
         Destroy(gameObject);
     }

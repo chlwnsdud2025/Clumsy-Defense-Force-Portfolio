@@ -44,11 +44,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  currentLevel: 0
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 1
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
   auraEffectPrefab: {fileID: 6063518424537689786, guid: bad5794a53f5c3645bb444b3a040ba01, type: 3}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  damage: 10
-  cooldown: 0.5
-  radius: 2
