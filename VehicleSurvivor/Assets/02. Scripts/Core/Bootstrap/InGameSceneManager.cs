@@ -95,9 +95,16 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
 
             // RunManager 초기화
             if (RunManager.TryGetInstance(out RunManager runManager))
+            {
                 runManager.StartRun(selectedCharacter, spawnedPlayer);
+
+                if (StageRunManager.Instance != null)
+                    StageRunManager.Instance.InitializeRunPhase();
+            }
             else
+            {
                 Debug.LogError("[InGameSceneManager] RunManager를 찾을 수 없어 StartRun을 호출할 수 없습니다.");
+            }
 
             IsSceneInitialized = true;
         }

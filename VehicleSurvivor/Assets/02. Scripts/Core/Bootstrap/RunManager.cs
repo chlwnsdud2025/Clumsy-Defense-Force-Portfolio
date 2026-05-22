@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,26 +19,74 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     private int _killCount;
     private int _gold;
-    private int _lastDisplayedSecond = -1;
+    private int _lastDisplayedRunSecond = -1;
+    private int _lastDisplayedWaveSecond = -1;
+
+    private readonly RunTimer _runTimer = new();
+    private readonly WavePhaseTimer _waveTimer = new();
 
     private Player playerInstance;
     private CharacterDefinitionSO _selectedCharacter;
 
     public RunContext RunContext => _runContext;
+    public float RunTime => _runTimer.Elapsed;
+    public WavePhaseTimer WaveTimer => _waveTimer;
+
+    private bool ShouldTickTimers =>
+        _runContext != null && _runContext.ShouldUpdateGameplay;
 
     private void Update()
     {
         if (_runContext == null)
             return;
 
-        _runContext.Tick(Time.deltaTime);
+        if (!ShouldTickTimers)
+            return;
 
-        int currentSecond = Mathf.FloorToInt(_runContext.RunTime);
-        if (currentSecond != _lastDisplayedSecond)
+        float deltaTime = Time.deltaTime;
+        bool wasNightmare = _waveTimer.IsNightmare;
+        _runTimer.Tick(deltaTime);
+        _waveTimer.Tick(deltaTime);
+
+        int currentRunSecond = Mathf.FloorToInt(_runTimer.Elapsed);
+        if (currentRunSecond != _lastDisplayedRunSecond)
         {
-            _lastDisplayedSecond = currentSecond;
-            PublishTimeChanged(_runContext.RunTime);
+            _lastDisplayedRunSecond = currentRunSecond;
+            PublishTimeChanged(_runTimer.Elapsed);
         }
+
+        if (_waveTimer.IsNightmare && !wasNightmare)
+        {
+            _lastDisplayedWaveSecond = -1;
+            PublishWaveTimeChanged();
+        }
+
+        int currentWaveSecond = _waveTimer.IsNightmare
+            ? Mathf.FloorToInt(_waveTimer.NightmareElapsed)
+            : Mathf.CeilToInt(Mathf.Max(0f, _waveTimer.PhaseTimeLeft));
+
+        if (currentWaveSecond != _lastDisplayedWaveSecond)
+        {
+            _lastDisplayedWaveSecond = currentWaveSecond;
+            PublishWaveTimeChanged();
+        }
+    }
+
+    public void StartWavePhase(float timeLimit)
+    {
+        _waveTimer.StartPhase(timeLimit);
+        _lastDisplayedWaveSecond = -1;
+        PublishWaveTimeChanged();
+    }
+
+    public void FreezeWaveTimer(bool frozen)
+    {
+        _waveTimer.SetFrozen(frozen);
+    }
+
+    public WaveEnemy_DataSO GetCurrentWave(StagePhase phase)
+    {
+        return WaveSelection.GetCurrentWave(phase, _waveTimer);
     }
 
     public void StartRun(CharacterDefinitionSO selectedCharacter, Player player)
@@ -86,7 +135,10 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         _killCount = 0;
         _gold = 0;
-        _lastDisplayedSecond = -1;
+        _runTimer.Reset();
+        _waveTimer.Reset();
+        _lastDisplayedRunSecond = -1;
+        _lastDisplayedWaveSecond = -1;
         levelUpRewardFlow.Reset();
 
         PublishInitialRunEvents(playerRuntime);
@@ -104,6 +156,10 @@ public class RunManager : MonoSceneSingleton<RunManager>
         Time.timeScale = 1f;
         _runContext = null;
         _selectedCharacter = null;
+        _runTimer.Reset();
+        _waveTimer.Reset();
+        _lastDisplayedRunSecond = -1;
+        _lastDisplayedWaveSecond = -1;
         levelUpRewardFlow.Reset();
 
         if (playerInstance != null)
@@ -306,7 +362,8 @@ public class RunManager : MonoSceneSingleton<RunManager>
         PublishLevelChanged(playerRuntime.Level.Level);
         PublishKillCountChanged();
         PublishGoldChanged();
-        PublishTimeChanged(_runContext.RunTime);
+        PublishTimeChanged(_runTimer.Elapsed);
+        PublishWaveTimeChanged();
     }
 
     private void PublishHpChanged(float currentHp, float maxHp)
@@ -339,6 +396,18 @@ public class RunManager : MonoSceneSingleton<RunManager>
     private void PublishTimeChanged(float runTime)
     {
         _eventBus.Publish(new TimeChangeEvent(runTime));
+    }
+
+    private float GetWaveDisplayTime()
+    {
+        return _waveTimer.IsNightmare
+            ? _waveTimer.NightmareElapsed
+            : Mathf.Max(0f, _waveTimer.PhaseTimeLeft);
+    }
+
+    private void PublishWaveTimeChanged()
+    {
+        _eventBus.Publish(new WaveTimeChangedEvent(GetWaveDisplayTime(), _waveTimer.IsNightmare));
     }
 
     private void HandlePlayerLevelChanged(int newLevel, int levelsGained)
