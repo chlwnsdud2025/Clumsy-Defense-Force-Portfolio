@@ -37,6 +37,7 @@ public class BeeBoss : BossEnemy
     public int multiLaserCount = 3;
     public float multiLaserChargeTime = 0.5f;
     public float multiLaserDelay = 0.2f;
+    private Transform cachedVfxContainer = null;
 
     protected override void Start()
     {
@@ -60,19 +61,23 @@ public class BeeBoss : BossEnemy
     // ==========================================
     private Transform GetVfxContainer()
     {
-        // 1. EnemyManager가 있다면 그쪽 FxParent를 사용
+        // 1. 이미 찾은 적이 있다면 검색하지 않고 바로 반환! (초고속)
+        if (cachedVfxContainer != null) return cachedVfxContainer;
+
         if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
         {
-            return EnemyManager.Instance.FxParent;
+            cachedVfxContainer = EnemyManager.Instance.FxParent;
+            return cachedVfxContainer;
         }
 
-        // 2. 없다면 하이어라키 최상단이 더러워지지 않게 전용 폴더를 자동으로 생성!
         GameObject container = GameObject.Find("Boss_VFX_Container");
         if (container == null)
         {
             container = new GameObject("Boss_VFX_Container");
         }
-        return container.transform;
+
+        cachedVfxContainer = container.transform;
+        return cachedVfxContainer;
     }
 
     // ==========================================
@@ -138,9 +143,8 @@ public class BeeBoss : BossEnemy
         currentAttackCooldown = attackCooltime;
     }
 
-    // ==========================================
     // 패턴 3: 잔상 연속 레이저
-    // ==========================================
+  
     private IEnumerator MultiStingerLaserRoutine()
     {
         Debug.Log($"꿀벌 보스: {multiLaserCount}연발 잔상 레이저!");

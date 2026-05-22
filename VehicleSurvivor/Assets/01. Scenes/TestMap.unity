@@ -3809,7 +3809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &663870440
 Transform:
   m_ObjectHideFlags: 0
@@ -4022,6 +4022,13 @@ MonoBehaviour:
   nightmareElapsedTime: 0
   isTimerPaused: 0
   isNightmareMode: 0
+  plazaMap: {fileID: 0}
+  bossMap: {fileID: 0}
+  finalBossPrefab: {fileID: 0}
+  finalBossSpawnPoint: {fileID: 0}
+  playerTeleportPoint: {fileID: 0}
+  transitionDuration: 4
+  mapDropDistance: 50
 --- !u!1001 &1325376992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4077,7 +4084,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6555284562485575983, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 6975703969072360036, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
 --- !u!4 &1325612289 stripped
 Transform:

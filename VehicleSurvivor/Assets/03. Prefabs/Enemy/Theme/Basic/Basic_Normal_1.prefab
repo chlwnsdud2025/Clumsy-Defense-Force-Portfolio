@@ -130,7 +130,7 @@ MonoBehaviour:
   damageTextSpawnpoint: {fileID: 7537640999383061996}
   originPool: {fileID: 0}
   moveSpeed: 5
-  maxHealth: 10
+  maxHealth: 200
   rotationSpeed: 2
   expReward: 34
   separationRadius: 1.5
@@ -146,6 +146,13 @@ MonoBehaviour:
   slowClimbSpeed: 5
   contactDamage: 10
   gravity: -20
+  modelRenderers:
+  - {fileID: 5638163924259455298}
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1001 &1192467328257363383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -222,5 +229,10 @@ PrefabInstance:
 --- !u!4 &602311280955666725 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1790084492855655570, guid: cd55ac5ccfbae6d49b96bf514ab16860, type: 3}
+  m_PrefabInstance: {fileID: 1192467328257363383}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5638163924259455298 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6823717046591835381, guid: cd55ac5ccfbae6d49b96bf514ab16860, type: 3}
   m_PrefabInstance: {fileID: 1192467328257363383}
   m_PrefabAsset: {fileID: 0}
