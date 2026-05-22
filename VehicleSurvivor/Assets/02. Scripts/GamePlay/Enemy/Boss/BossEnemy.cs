@@ -328,11 +328,9 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
         if (MoneyManager.Instance != null && playerTarget != null)
         {
-            // 돈도 여러 개가 흩뿌려지도록 3개 정도로 분할해서 드랍
-            for (int i = 0; i < 3; i++)
-            {
-                MoneyManager.Instance.SpawnMoney(dropPos, moneyReward / 3, playerTarget);
-            }
+      
+            MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
+            
         }
     }
 }

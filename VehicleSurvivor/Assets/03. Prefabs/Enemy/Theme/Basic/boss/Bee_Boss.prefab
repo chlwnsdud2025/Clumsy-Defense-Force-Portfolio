@@ -82,9 +82,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeeMidBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 4128290807861601428}
-  maxHealth: 10
+  maxHealth: 1000
   moveSpeed: 8
   rotationSpeed: 10
+  expReward: 500
+  moneyReward: 300
   contactDamage: 30
   groundLayer:
     serializedVersion: 2
@@ -106,7 +108,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   laserDamage: 40
-  laserLength: 90
+  laserLength: 200
   laserChargeTime: 1
   firePoint: {fileID: 6352528037479208903}
   laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
@@ -118,11 +120,11 @@ MonoBehaviour:
   telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
   honeyExplosionVfx: {fileID: 2330511447170420695, guid: 7253af69a33a9c24dac30285de4b2bdc, type: 3}
   bombDamage: 30
-  bombRadius: 3.5
+  bombRadius: 2.5
   bombTelegraphDuration: 1
-  coneRows: 15
-  rowForwardSpacing: 8
-  circleSideSpacing: 6
+  coneRows: 8
+  rowForwardSpacing: 7
+  circleSideSpacing: 5
   coneRowTelegraphDelay: 0.5
   multiLaserCount: 15
   multiLaserChargeTime: 0.5

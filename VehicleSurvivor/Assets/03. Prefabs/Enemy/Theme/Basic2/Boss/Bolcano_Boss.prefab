@@ -2407,9 +2407,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bolcano_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 8080284265266044460}
-  maxHealth: 10
+  maxHealth: 1000
   moveSpeed: 5
   rotationSpeed: 3
+  expReward: 500
+  moneyReward: 300
   contactDamage: 30
   groundLayer:
     serializedVersion: 2
