@@ -5,14 +5,20 @@ public sealed class RewardSystem
 {
     private readonly WeaponDatabaseSO weaponDatabase;
     private readonly PassiveTableSO passiveTable;
+    private readonly ItemTableSO itemTable;
 
-    public RewardSystem(WeaponDatabaseSO weaponDatabase, PassiveTableSO passiveTable)
+    public RewardSystem(WeaponDatabaseSO weaponDatabase, PassiveTableSO passiveTable, ItemTableSO itemTable)
     {
         this.weaponDatabase = weaponDatabase;
         this.passiveTable = passiveTable;
+        this.itemTable = itemTable;
     }
+    
 
-    public List<RewardOption> Generate(PlayerRuntime player, int count)
+
+    
+
+    public List<RewardOption> GenerateLevelUp(PlayerRuntime player, int count) //레벨업시 3개 선택지 무기, 패시브 중에 랜덤하나
     {
         List<RewardOption> candidates = new();
 
@@ -25,17 +31,38 @@ public sealed class RewardSystem
         }
 
         if (candidates.Count == 0 && player != null)
+        {
             candidates.Add(RewardOption.HealReward(Mathf.Max(1f, player.Health.MaxHp * 0.25f)));
+        }
 
         return PickRandom(candidates, Mathf.Max(0, count));
     }
+
+    public List<RewardOption> GenerateChest(PlayerRuntime player, int count) //상자획득시 3개 선택지 아이템 중 랜덤하나
+    {
+        List<RewardOption> candidates = new();
+
+        if (player != null)
+        {
+            AddItemCandidates(player, candidates);
+        }
+
+        if (candidates.Count == 0 && player != null)
+        {
+            candidates.Add(RewardOption.HealReward(Mathf.Max(1f, player.Health.MaxHp * 0.25f)));
+        }
+
+        return PickRandom(candidates, Mathf.Max(0, count));
+    }
+
+
 
     private void AddOwnedWeaponUpgradeCandidates(PlayerRuntime player, List<RewardOption> candidates)
     {
         foreach (WeaponInstance weapon in player.Inventory.Weapons)
         {
-            if (weapon != null && !weapon.IsMaxLevel)
-                candidates.Add(RewardOption.WeaponReward(weapon.Definition));
+            if (weapon != null && IsValidOwnedWeaponReward(weapon))
+                candidates.Add(RewardOption.WeaponReward(weapon.Definition, false, weapon.CurrentLevel + 1));
         }
     }
 
@@ -44,7 +71,7 @@ public sealed class RewardSystem
         foreach (PassiveInstance passive in player.Inventory.Passives)
         {
             if (passive != null && !passive.IsMaxLevel)
-                candidates.Add(RewardOption.PassiveReward(passive.Definition));
+                candidates.Add(RewardOption.PassiveReward(passive.Definition, false, passive.CurrentLevel + 1));
         }
     }
 
@@ -58,8 +85,8 @@ public sealed class RewardSystem
 
         foreach (WeaponDefinitionSO weapon in weaponDatabase.Weapons)
         {
-            if (weapon != null && !HasWeapon(player, weapon.WeaponId))
-                candidates.Add(RewardOption.WeaponReward(weapon));
+            if (IsValidNewWeaponReward(weapon) && !HasWeapon(player, weapon.WeaponId))
+                candidates.Add(RewardOption.WeaponReward(weapon, true, 1));
         }
     }
 
@@ -74,9 +101,26 @@ public sealed class RewardSystem
         foreach (PassiveDefinitionSO passive in passiveTable.Passives)
         {
             if (passive != null && !HasPassive(player, passive.PassiveId))
-                candidates.Add(RewardOption.PassiveReward(passive));
+                candidates.Add(RewardOption.PassiveReward(passive, true, 1));
         }
     }
+    private void AddItemCandidates(PlayerRuntime player, List<RewardOption> candidates)
+    {
+        if (itemTable == null)
+            return;
+
+        if (!player.Inventory.CanAddItme())
+            return;
+
+        foreach (ItemDefinitionSO item in itemTable.Items)
+        {
+            if (item != null)
+            {
+                candidates.Add(RewardOption.ItemReward(item));
+            }
+        }
+    }
+
 
     private static bool HasWeapon(PlayerRuntime player, string weaponId)
     {
@@ -87,6 +131,20 @@ public sealed class RewardSystem
         }
 
         return false;
+    }
+
+    private static bool IsValidOwnedWeaponReward(WeaponInstance weapon)
+    {
+        return weapon.Definition != null &&
+               weapon.Definition.MaxLevel > 0 &&
+               !weapon.IsMaxLevel;
+    }
+
+    private static bool IsValidNewWeaponReward(WeaponDefinitionSO weapon)
+    {
+        return weapon != null &&
+               weapon.MaxLevel > 0 &&
+               weapon.WeaponPrefab != null;
     }
 
     private static bool HasPassive(PlayerRuntime player, string passiveId)

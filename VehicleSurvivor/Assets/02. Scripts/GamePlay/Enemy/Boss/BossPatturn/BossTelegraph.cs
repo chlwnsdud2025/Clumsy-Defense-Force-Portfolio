@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class BossTelegraph : MonoBehaviour
 {
@@ -52,21 +52,27 @@ public class BossTelegraph : MonoBehaviour
             yield return null;
         }
 
-        // 타격 판정
+        // 2. 타격 판정
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, targetLayer);
         foreach (Collider hit in hits)
         {
             hit.GetComponent<IDamageable>()?.TakeDamage(damage);
         }
 
-        // 데미지 판정과 완벽히 동일한 타이밍에 폭발 이펙트 생성!
+        // 3. [버그 수정] 데미지 판정과 완벽히 동일한 타이밍에 폭발 이펙트 생성 및 정리!
         if (explosionVfxPrefab != null)
         {
-            // 장판의 위치(바닥)에 이펙트 생성
-            Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
+            // FxParent가 있다면 거기 속하게 하고, 없다면 월드(null)에 생성
+            Transform fxParent = (EnemyManager.Instance != null) ? EnemyManager.Instance.FxParent : null;
+
+            // 장판의 위치(바닥)에 이펙트 생성 및 부모 설정
+            GameObject explosion = Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity, fxParent);
+
+            // [핵심 추가] 생성된 폭발 이펙트를 2초 뒤에 메모리에서 완전히 파괴합니다!
+            Destroy(explosion, 2f);
         }
 
-        // 4. 폭발 연출 후 장판 삭제
+        // 4. 폭발 연출 후 장판 가이드 숨기기 및 삭제
         if (indicatorMesh != null) indicatorMesh.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);

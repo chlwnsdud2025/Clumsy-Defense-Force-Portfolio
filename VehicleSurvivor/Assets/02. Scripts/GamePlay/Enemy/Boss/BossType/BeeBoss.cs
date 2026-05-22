@@ -37,6 +37,7 @@ public class BeeBoss : BossEnemy
     public int multiLaserCount = 3;
     public float multiLaserChargeTime = 0.5f;
     public float multiLaserDelay = 0.2f;
+    private Transform cachedVfxContainer = null;
 
     protected override void Start()
     {
@@ -56,43 +57,78 @@ public class BeeBoss : BossEnemy
     }
 
     // ==========================================
+    // [핵심 추가] 하이어라키를 깨끗하게 만들어줄 전용 폴더 생성기
+    // ==========================================
+    private Transform GetVfxContainer()
+    {
+        // 1. 이미 찾은 적이 있다면 검색하지 않고 바로 반환! (초고속)
+        if (cachedVfxContainer != null) return cachedVfxContainer;
+
+        if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
+        {
+            cachedVfxContainer = EnemyManager.Instance.FxParent;
+            return cachedVfxContainer;
+        }
+
+        GameObject container = GameObject.Find("Boss_VFX_Container");
+        if (container == null)
+        {
+            container = new GameObject("Boss_VFX_Container");
+        }
+
+        cachedVfxContainer = container.transform;
+        return cachedVfxContainer;
+    }
+
+    // ==========================================
     // 패턴 1: 보스는 자유롭게 움직이고, 레이저는 허공에 남겨두는 방식
     // ==========================================
     private IEnumerator StingerLaserRoutine()
     {
         Debug.Log("꿀벌 보스: 레이저 예고선 생성! (보스는 계속 이동)");
 
-        // 1. 발사 위치와 방향을 계산 (이 시점의 위치를 기억해둡니다)
         Vector3 startPoint = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
         Vector3 targetPos = playerTarget.position;
         Vector3 lockedDir = (targetPos - startPoint).normalized;
 
-        // 2. 인디케이터와 이펙트를 보스 자식으로 넣지 않고(부모 없음), 월드에 고정시킵니다.
+        // [핵심 수정] 무조건 전용 폴더(GetVfxContainer) 안으로 집어넣습니다!
+        Transform vfxFolder = GetVfxContainer();
+
         GameObject activeIndicator = null;
         if (laserIndicatorPrefab != null)
         {
             Vector3 indicatorPos = startPoint + (lockedDir * (laserLength / 2f));
-            activeIndicator = Instantiate(laserIndicatorPrefab, indicatorPos, Quaternion.LookRotation(lockedDir));
+            activeIndicator = Instantiate(laserIndicatorPrefab, indicatorPos, Quaternion.LookRotation(lockedDir), vfxFolder);
 
             LaserIndicator script = activeIndicator.GetComponent<LaserIndicator>();
             if (script != null) script.Initialize(startRadius, endRadius, coreRadius, laserLength, laserChargeTime);
+
+            // [안전장치] 보스가 죽어서 코루틴이 끊겨도, 지정된 시간 뒤에 무조건 하이어라키에서 삭제됩니다!
+            Destroy(activeIndicator, laserChargeTime + 0.5f);
         }
 
         GameObject activeWarningVfx = null;
         if (laserWarningVfx != null)
         {
-            activeWarningVfx = Instantiate(laserWarningVfx, startPoint, Quaternion.LookRotation(lockedDir));
+            activeWarningVfx = Instantiate(laserWarningVfx, startPoint, Quaternion.LookRotation(lockedDir), vfxFolder);
+            Destroy(activeWarningVfx, laserChargeTime + 0.5f); // 안전장치
         }
 
-        // 3. 차징 시간 대기 (이 동안 보스는 자유롭게 돌아다님)
+        // 3. 차징 시간 대기
         yield return new WaitForSeconds(laserChargeTime);
 
-        // 4. 발사! (현재 보스 위치가 아니라, 아까 기억해둔 startPoint에서 쏩니다)
+        // 4. 발사 직전 예고선 강제 삭제
         if (activeWarningVfx != null) Destroy(activeWarningVfx);
         if (activeIndicator != null) Destroy(activeIndicator);
 
-        if (laserFireVfx != null) Instantiate(laserFireVfx, startPoint, Quaternion.LookRotation(lockedDir));
+        // 5. 발사 이펙트 생성 및 폴더 삽입
+        if (laserFireVfx != null)
+        {
+            GameObject fireVfx = Instantiate(laserFireVfx, startPoint, Quaternion.LookRotation(lockedDir), vfxFolder);
+            Destroy(fireVfx, 2f); // 2초 뒤 자동 삭제
+        }
 
+        // 6. 데미지 판정
         Vector3 boxCenter = startPoint + (lockedDir * (laserLength / 2f));
         Vector3 halfExtents = new Vector3(endRadius, endRadius, laserLength / 2f);
 
@@ -107,16 +143,16 @@ public class BeeBoss : BossEnemy
         currentAttackCooldown = attackCooltime;
     }
 
-    // ==========================================
     // 패턴 3: 잔상 연속 레이저
-    // ==========================================
+  
     private IEnumerator MultiStingerLaserRoutine()
     {
         Debug.Log($"꿀벌 보스: {multiLaserCount}연발 잔상 레이저!");
 
+        Transform vfxFolder = GetVfxContainer();
+
         for (int i = 0; i < multiLaserCount; i++)
         {
-            // 매 발사 시점마다 보스의 '현재' 위치에서 새로운 잔상을 생성
             Vector3 startPoint = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
             Vector3 targetPos = playerTarget.position;
             Vector3 lockedDir = (targetPos - startPoint).normalized;
@@ -125,21 +161,31 @@ public class BeeBoss : BossEnemy
             if (laserIndicatorPrefab != null)
             {
                 Vector3 indicatorPos = startPoint + (lockedDir * (laserLength / 2f));
-                activeIndicator = Instantiate(laserIndicatorPrefab, indicatorPos, Quaternion.LookRotation(lockedDir));
+                activeIndicator = Instantiate(laserIndicatorPrefab, indicatorPos, Quaternion.LookRotation(lockedDir), vfxFolder);
 
                 LaserIndicator script = activeIndicator.GetComponent<LaserIndicator>();
                 if (script != null) script.Initialize(startRadius, endRadius, coreRadius, laserLength, multiLaserChargeTime);
+
+                Destroy(activeIndicator, multiLaserChargeTime + 0.5f); // 안전장치
             }
 
             GameObject activeWarningVfx = null;
-            if (laserWarningVfx != null) activeWarningVfx = Instantiate(laserWarningVfx, startPoint, Quaternion.LookRotation(lockedDir));
+            if (laserWarningVfx != null)
+            {
+                activeWarningVfx = Instantiate(laserWarningVfx, startPoint, Quaternion.LookRotation(lockedDir), vfxFolder);
+                Destroy(activeWarningVfx, multiLaserChargeTime + 0.5f); // 안전장치
+            }
 
             yield return new WaitForSeconds(multiLaserChargeTime);
 
             if (activeWarningVfx != null) Destroy(activeWarningVfx);
             if (activeIndicator != null) Destroy(activeIndicator);
 
-            if (laserFireVfx != null) Instantiate(laserFireVfx, startPoint, Quaternion.LookRotation(lockedDir));
+            if (laserFireVfx != null)
+            {
+                GameObject fireVfx = Instantiate(laserFireVfx, startPoint, Quaternion.LookRotation(lockedDir), vfxFolder);
+                Destroy(fireVfx, 2f);
+            }
 
             Vector3 boxCenter = startPoint + (lockedDir * (laserLength / 2f));
             Vector3 halfExtents = new Vector3(endRadius, endRadius, laserLength / 2f);
@@ -159,7 +205,7 @@ public class BeeBoss : BossEnemy
     }
 
     // ==========================================
-    // 패턴 2: 멈추지 않는 꿀 폭탄 융단폭격 (동일)
+    // 패턴 2: 멈추지 않는 꿀 폭탄 융단폭격
     // ==========================================
     private IEnumerator HoneyConeBombRoutine()
     {
@@ -195,7 +241,8 @@ public class BeeBoss : BossEnemy
     {
         if (telegraphPrefab == null) return;
 
-        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity);
+        // [핵심 수정] 하이어라키 최상단에 도배되던 폭탄 장판들까지 완벽하게 전용 폴더에 가둬버립니다!
+        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity, GetVfxContainer());
         BossTelegraph script = go.GetComponent<BossTelegraph>();
 
         if (script != null)

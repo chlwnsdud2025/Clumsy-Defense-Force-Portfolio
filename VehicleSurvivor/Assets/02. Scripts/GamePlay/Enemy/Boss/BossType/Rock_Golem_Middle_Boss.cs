@@ -21,7 +21,7 @@ public class Rock_Golem_Middle_Boss : BossEnemy
     [Header("VFX")]
     public GameObject explosionEffectPrefab;
 
-
+    private Transform cachedVfxContainer = null;
     protected override void Attack()
     {
         if (isCastingPattern) return;
@@ -29,6 +29,31 @@ public class Rock_Golem_Middle_Boss : BossEnemy
 
         StartCoroutine(SpawnChaseCircleAttack());
     }
+
+    // ==========================================
+    // [핵심 추가] 하이어라키를 깨끗하게 만들어줄 전용 폴더 생성기
+    // ==========================================
+    private Transform GetVfxContainer()
+    {
+        // 1. 이미 찾은 적이 있다면 검색하지 않고 바로 반환! (초고속)
+        if (cachedVfxContainer != null) return cachedVfxContainer;
+
+        if (EnemyManager.Instance != null && EnemyManager.Instance.FxParent != null)
+        {
+            cachedVfxContainer = EnemyManager.Instance.FxParent;
+            return cachedVfxContainer;
+        }
+
+        GameObject container = GameObject.Find("Boss_VFX_Container");
+        if (container == null)
+        {
+            container = new GameObject("Boss_VFX_Container");
+        }
+
+        cachedVfxContainer = container.transform;
+        return cachedVfxContainer;
+    }
+    // ==========================================
 
     private IEnumerator SpawnChaseCircleAttack()
     {
@@ -51,7 +76,8 @@ public class Rock_Golem_Middle_Boss : BossEnemy
     {
         if (telegraphPrefab == null) return;
 
-        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity);
+        // [핵심 수정] 무조건 전용 폴더(GetVfxContainer()) 안으로 집어넣습니다!
+        GameObject go = Instantiate(telegraphPrefab, pos, Quaternion.identity, GetVfxContainer());
         BossTelegraph script = go.GetComponent<BossTelegraph>();
         if (script != null)
         {

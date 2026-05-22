@@ -1,23 +1,28 @@
 using UnityEngine;
-using UnityEngine.Events; // UnityEvent를 사용하기 위해 꼭 필요합니다!
+using UnityEngine.Events;
 
 public class CapturePad : MonoBehaviour
 {
     [Header("Capture Settings")]
-    public float requiredTime = 3.0f; // 점령에 필요한 시간
-    public bool resetOnLeave = false; // 나갔을 때 게이지 초기화 여부
+    public float requiredTime = 3.0f;
+    public bool resetOnLeave = false;
 
-    [Header("Events (점령 완료 시 실행할 작업들)")]
-    [Tooltip("여기에 문 열기, 범퍼카 끄기, 점프대 켜기 등을 인스펙터에서 추가하세요.")]
+    [Header("Events")]
     public UnityEvent onCaptureComplete;
 
     private float currentCaptureTime = 0f;
     private bool isCaptured = false;
     private Renderer padRenderer;
 
+    // [최적화 추가]
+    private MaterialPropertyBlock propBlock;
+    private int colorPropertyID;
+
     void Start()
     {
         padRenderer = GetComponent<Renderer>();
+        propBlock = new MaterialPropertyBlock();
+        colorPropertyID = Shader.PropertyToID("_Color"); // URP라면 "_BaseColor"일 수 있습니다.
     }
 
     private void OnTriggerStay(Collider other)
@@ -27,17 +32,22 @@ public class CapturePad : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             currentCaptureTime += Time.deltaTime;
-
-            // 점령 진행도에 따라 색상을 서서히 변경
             float progress = currentCaptureTime / requiredTime;
-            padRenderer.material.color = Color.Lerp(Color.gray, Color.green, progress);
+
+            // [최적화 수정] PropertyBlock을 사용한 색상 변경
+            Color currentColor = Color.Lerp(Color.gray, Color.green, progress);
+            padRenderer.GetPropertyBlock(propBlock);
+            propBlock.SetColor(colorPropertyID, currentColor);
+            padRenderer.SetPropertyBlock(propBlock);
 
             if (currentCaptureTime >= requiredTime)
             {
                 isCaptured = true;
-                padRenderer.material.color = Color.green;
 
-                // [핵심] 점령이 완료되면 인스펙터에 등록된 모든 작업(Event)을 동시에 실행합니다!
+                padRenderer.GetPropertyBlock(propBlock);
+                propBlock.SetColor(colorPropertyID, Color.green);
+                padRenderer.SetPropertyBlock(propBlock);
+
                 onCaptureComplete?.Invoke();
             }
         }
@@ -52,7 +62,11 @@ public class CapturePad : MonoBehaviour
             if (resetOnLeave)
             {
                 currentCaptureTime = 0f;
-                padRenderer.material.color = Color.gray;
+
+                // [최적화 수정]
+                padRenderer.GetPropertyBlock(propBlock);
+                propBlock.SetColor(colorPropertyID, Color.gray);
+                padRenderer.SetPropertyBlock(propBlock);
             }
         }
     }

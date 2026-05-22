@@ -218,6 +218,10 @@ MonoBehaviour:
   slowClimbSpeed: 3
   contactDamage: 10
   gravity: -20
+  modelRenderers:
+  - {fileID: 4493728612852676105}
+  flashDuration: 0.1
+  flashCooldown: 0.1
   fuseTime: 2
   explosionRadius: 3.5
   explosionDamage: 50
@@ -321,6 +325,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa8316bb2c9ebfa4c9625bc55cc70ee2, type: 3}
+--- !u!23 &4493728612852676105 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4424736123363441680, guid: fa8316bb2c9ebfa4c9625bc55cc70ee2, type: 3}
+  m_PrefabInstance: {fileID: 232846132114164249}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7193667617950986090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6984580302434723187, guid: fa8316bb2c9ebfa4c9625bc55cc70ee2, type: 3}
