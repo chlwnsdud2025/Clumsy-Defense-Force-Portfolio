@@ -9,7 +9,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
     [SerializeField] private PassiveTableSO passiveTable;
     [SerializeField] private ItemTableSO itemTable;
 
-    [SerializeField] private int rewardOptionCount = 3;
+    [SerializeField] private int rewardOptionCount = 3; // 일정 확률로 4개 선택지
 
     private IEventBus _eventBus;
     private RunContext _runContext;
@@ -440,6 +440,16 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         rewardPopup.ShowRewards(this, rewardOptions);
     }
+    //TODO : 상자 보장 UI 연결
+    private async UniTaskVoid ShowChestRewardPopupAsync(UIManager uiManager)
+    {
+
+        //UI_OpenChest rewardPopup = await uiManager.ShowPopupAsync<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
+
+        //List<RewardOption> rewardOptions = GenerateChestRewardOptions();
+
+    }
+
 
     private int GetRewardOptionCount()
     {

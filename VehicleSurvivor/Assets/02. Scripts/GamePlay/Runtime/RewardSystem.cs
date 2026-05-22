@@ -6,6 +6,15 @@ public sealed class RewardSystem
     private readonly WeaponDatabaseSO weaponDatabase;
     private readonly PassiveTableSO passiveTable;
     private readonly ItemTableSO itemTable;
+    private static readonly Dictionary<EItemRarity, float> ChestRarityWeights = new()
+    {
+        { EItemRarity.Common, 60f },
+        { EItemRarity.Uncommon, 25f },
+        { EItemRarity.Rare, 10f },
+        { EItemRarity.Epic, 4f },
+        { EItemRarity.Legendary, 0.9f },
+        { EItemRarity.Mythic, 0.1f },
+    };
 
     public RewardSystem(WeaponDatabaseSO weaponDatabase, PassiveTableSO passiveTable, ItemTableSO itemTable)
     {
@@ -52,7 +61,7 @@ public sealed class RewardSystem
             candidates.Add(RewardOption.HealReward(Mathf.Max(1f, player.Health.MaxHp * 0.25f)));
         }
 
-        return PickRandom(candidates, Mathf.Max(0, count));
+        return PickRandomByItemRarity(candidates, Mathf.Max(0, count));
     }
 
 
@@ -86,7 +95,9 @@ public sealed class RewardSystem
         foreach (WeaponDefinitionSO weapon in weaponDatabase.Weapons)
         {
             if (IsValidNewWeaponReward(weapon) && !HasWeapon(player, weapon.WeaponId))
+            {
                 candidates.Add(RewardOption.WeaponReward(weapon, true, 1));
+            }
         }
     }
 
@@ -109,7 +120,7 @@ public sealed class RewardSystem
         if (itemTable == null)
             return;
 
-        if (!player.Inventory.CanAddItme())
+        if (!player.Inventory.CanAddItme()) // 아이템 슬롯 최대인지 확인
             return;
 
         foreach (ItemDefinitionSO item in itemTable.Items)
@@ -171,5 +182,104 @@ public sealed class RewardSystem
         }
 
         return selected;
+    }
+
+    private static List<RewardOption> PickRandomByItemRarity(List<RewardOption> candidates, int count)
+    {
+        List<RewardOption> pool = new(candidates);
+        List<RewardOption> selected = new();
+
+        while (selected.Count < count && pool.Count > 0)
+        {
+            int index = PickWeightedItemIndex(pool);
+
+            if (index < 0)
+            {
+                index = Random.Range(0, pool.Count);
+            }
+
+            selected.Add(pool[index]);
+            pool.RemoveAt(index);
+        }
+
+        return selected;
+    }
+
+    private static int PickWeightedItemIndex(List<RewardOption> pool)
+    {
+        float totalWeight = 0f;
+
+        foreach (KeyValuePair<EItemRarity, float> pair in ChestRarityWeights)
+        {
+            if (pair.Value > 0f && HasItemRarity(pool, pair.Key))
+            {
+                totalWeight += pair.Value;
+            }
+        }
+
+        if (totalWeight <= 0f)
+            return -1;
+
+        float randomValue = Random.Range(0f, totalWeight);
+        float currentWeight = 0f;
+
+        foreach (KeyValuePair<EItemRarity, float> pair in ChestRarityWeights)
+        {
+            if (pair.Value <= 0f || !HasItemRarity(pool, pair.Key))
+                continue;
+
+            currentWeight += pair.Value;
+
+            if (randomValue <= currentWeight)
+            {
+                return PickRandomItemIndexByRarity(pool, pair.Key);
+            }
+        }
+
+        return -1;
+    }
+
+    private static bool HasItemRarity(List<RewardOption> pool, EItemRarity rarity)
+    {
+        foreach (RewardOption reward in pool)
+        {
+            if (reward.Item != null && reward.Item.Rarity == rarity)
+                return true;
+        }
+
+        return false;
+    }
+
+    private static int PickRandomItemIndexByRarity(List<RewardOption> pool, EItemRarity rarity)
+    {
+        int matchCount = 0;
+
+        foreach (RewardOption reward in pool)
+        {
+            if (reward.Item != null && reward.Item.Rarity == rarity)
+            {
+                matchCount++;
+            }
+        }
+
+        if (matchCount == 0)
+            return -1;
+
+        int target = Random.Range(0, matchCount);
+
+        for (int i = 0; i < pool.Count; i++)
+        {
+            RewardOption reward = pool[i];
+
+            if (reward.Item == null || reward.Item.Rarity != rarity)
+                continue;
+
+            if (target == 0)
+                return i;
+
+            target--;
+        }
+
+        return -1;
     }
 }
