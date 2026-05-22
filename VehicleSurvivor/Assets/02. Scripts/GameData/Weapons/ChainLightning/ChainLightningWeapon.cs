@@ -1,93 +1,98 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ChainLightningWeapon : WeaponBase
 {
-    [Header("Chain Lightning References")]
+
+    //Damage = 번개 데미지
+    //Cooldown = 공격 주기
+    //Radius = 첫 대상 탐지 반경
+    //ChainCount = 연쇄 횟수
+    //ChainRadius = 다음 대상 탐지 반경
+
+    [Header("Lightning References")]
     public GameObject lightningEffectPrefab;
 
-    [Header("Target Settings")]
-    public LayerMask targetLayer;
-
-    [Header("Target Settings")]
-    [FormerlySerializedAs("detectRadius")]
-    public float fallbackDetectRadius = 10f;
-
-    [Header("Effect Settings")]
-    public float lineLifeTime = 0.1f;
+    [Header("Effect Option")]
+    public float effectLifeTime = 0.15f;
 
     protected override void Attack(WeaponLevelData data)
     {
-        ChainAttackFromPosition(
-            GetDetectRadius(data),
-            Mathf.Max(0, data.ChainCount),
-            data.ChainRadius > 0f ? data.ChainRadius : GetDetectRadius(data),
-            GetFinalDamage(data.Damage)
-        );
-    }
-
-    private void ChainAttackFromPosition(
-        float detectRange,
-        int remainingChainCount,
-        float searchRadius,
-        float finalDamage
-    )
-    {
-        Transform firstTarget = FindClosestTarget(transform.position, detectRange, null);
-
-        if (firstTarget == null)
+        if (data == null)
             return;
 
-        CreateLightningLine(transform.position, firstTarget.position);
+        Transform firstTarget = FindClosestTarget(
+            transform.position,
+            data.Radius,
+            null
+        );
+
+        if (firstTarget == null)
+        {
+            Debug.Log($"[ChainLightning] 반경 {data.Radius} 내 IDamageable 대상 없음");
+            return;
+        }
 
         List<Transform> hitTargets = new List<Transform>();
 
         ChainAttack(
+            transform.position,
             firstTarget,
             hitTargets,
-            remainingChainCount,
-            searchRadius,
-            finalDamage
+            data.ChainCount,
+            data.ChainRadius,
+            GetFinalDamage(data.Damage)
         );
     }
 
     private void ChainAttack(
+        Vector3 startPosition,
         Transform currentTarget,
         List<Transform> hitTargets,
-        int remainChain,
-        float searchRadius,
+        int remainChainCount,
+        float chainRadius,
         float finalDamage
     )
     {
-        if (currentTarget == null || hitTargets.Contains(currentTarget))
+        if (currentTarget == null)
             return;
 
-        IDamageable damageable = currentTarget.GetComponentInParent<IDamageable>();
+        if (hitTargets.Contains(currentTarget))
+            return;
 
-        if (damageable != null)
-        {
-            damageable.TakeDamage(finalDamage);
-            Debug.Log($"[ChainLightning] damage: {finalDamage}");
-        }
+        IDamageable damageable =
+            currentTarget.GetComponentInParent<IDamageable>();
+
+        if (damageable == null)
+            return;
+
+        CreateLightningEffect(
+            startPosition,
+            currentTarget.position
+        );
+
+        damageable.TakeDamage(finalDamage);
 
         hitTargets.Add(currentTarget);
 
-        if (remainChain <= 0)
+        if (remainChainCount <= 0)
             return;
 
-        Transform nextTarget = FindClosestTarget(currentTarget.position, searchRadius, hitTargets);
+        Transform nextTarget = FindClosestTarget(
+            currentTarget.position,
+            chainRadius,
+            hitTargets
+        );
 
         if (nextTarget == null)
             return;
 
-        CreateLightningLine(currentTarget.position, nextTarget.position);
-
         ChainAttack(
+            currentTarget.position,
             nextTarget,
             hitTargets,
-            remainChain - 1,
-            searchRadius,
+            remainChainCount - 1,
+            chainRadius,
             finalDamage
         );
     }
@@ -98,39 +103,47 @@ public class ChainLightningWeapon : WeaponBase
         List<Transform> ignoreTargets
     )
     {
-        Collider[] hits = Physics.OverlapSphere(center, radius, targetLayer);
+        Collider[] hits = Physics.OverlapSphere(
+            center,
+            radius
+        );
 
         Transform closestTarget = null;
         float closestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
-            Transform targetTransform = hit.GetComponentInParent<Transform>();
+            Transform target = damageable is MonoBehaviour mono
+                ? mono.transform
+                : hit.transform;
 
-            if (targetTransform == null)
+            if (ignoreTargets != null &&
+                ignoreTargets.Contains(target))
                 continue;
 
-            if (ignoreTargets != null && ignoreTargets.Contains(targetTransform))
-                continue;
-
-            float distance = (targetTransform.position - center).sqrMagnitude;
+            float distance =
+                (target.position - center).sqrMagnitude;
 
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closestTarget = targetTransform;
+                closestTarget = target;
             }
         }
 
         return closestTarget;
     }
 
-    private void CreateLightningLine(Vector3 start, Vector3 end)
+    private void CreateLightningEffect(
+        Vector3 start,
+        Vector3 end
+    )
     {
         if (lightningEffectPrefab == null)
             return;
@@ -138,10 +151,11 @@ public class ChainLightningWeapon : WeaponBase
         GameObject effect = Instantiate(
             lightningEffectPrefab,
             start,
-            Quaternion.identity
+            lightningEffectPrefab.transform.rotation
         );
 
-        LighteningScript lightning = effect.GetComponentInChildren<LighteningScript>();
+        LighteningScript lightning =
+            effect.GetComponentInChildren<LighteningScript>();
 
         if (lightning != null)
         {
@@ -149,17 +163,17 @@ public class ChainLightningWeapon : WeaponBase
             lightning.StartLightning();
         }
 
-        Destroy(effect, lineLifeTime);
+        Destroy(effect, effectLifeTime);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, fallbackDetectRadius);
-    }
+        WeaponLevelData data = GetCurrentLevelData();
 
-    private float GetDetectRadius(WeaponLevelData data)
-    {
-        return data.Range > 0f ? data.Range : fallbackDetectRadius;
+        if (data == null)
+            return;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, data.Radius);
     }
 }
