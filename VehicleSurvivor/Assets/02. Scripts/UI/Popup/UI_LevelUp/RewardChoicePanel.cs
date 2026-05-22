@@ -25,23 +25,24 @@ public class RewardChoicePanel : MonoBehaviour
 {
     private const string NewLevelLabel = "NEW!";
 
-    [Header("레벨 패널 색상")]
+    [Header("Level Panel Color")]
     [SerializeField] private Color newItemLevelTextPanelColor;
 
-    [Header("표시 UI")]
+    [Header("Display UI")]
     [SerializeField] private Image itemIcon;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Image levelTextPanelImage;
 
-    [Header("상호작용")]
+    [Header("Interaction")]
     [SerializeField] private GameObject focusObject;
     [SerializeField] private Button button;
     [SerializeField] private RectTransform scaleTarget;
 
     public event Action<RewardChoicePanel> Clicked;
 
+    public RewardOption Reward { get; private set; }
     public bool IsSelectable => gameObject.activeInHierarchy;
     public bool HasData { get; private set; }
 
@@ -57,7 +58,7 @@ public class RewardChoicePanel : MonoBehaviour
         if (scaleTarget == null)
             scaleTarget = transform as RectTransform;
 
-        normalScale = scaleTarget.localScale;
+        normalScale = scaleTarget != null ? scaleTarget.localScale : Vector3.one;
 
         if (levelTextPanelImage != null)
             normalItemLevelTextPanelColor = levelTextPanelImage.color;
@@ -69,7 +70,9 @@ public class RewardChoicePanel : MonoBehaviour
     private void OnDisable()
     {
         KillFocusTweens();
-        scaleTarget.localScale = normalScale;
+
+        if (scaleTarget != null)
+            scaleTarget.localScale = normalScale;
     }
 
     private void OnDestroy()
@@ -87,23 +90,18 @@ public class RewardChoicePanel : MonoBehaviour
 
     public void Bind(PassiveDefinitionSO passive, bool isNew, int level = 1)
     {
-        // TODO: PassiveDefinitionSO 데이터를 itemIcon, nameText, descriptionText, levelText에 적용
-        HasData = passive != null;
-
-        if (!HasData)
-        {
-            Clear();
-            return;
-        }
-
-        SetSelected(false);
-        gameObject.SetActive(true);
+        Bind(passive != null ? RewardOption.PassiveReward(passive, isNew, level) : null);
     }
 
     public void Bind(WeaponDefinitionSO weapon, bool isNew, int level = 1)
     {
-        // TODO: WeaponDefinitionSO 데이터를 itemIcon, nameText, descriptionText, levelText에 적용
-        HasData = weapon != null;
+        Bind(weapon != null ? RewardOption.WeaponReward(weapon, isNew, level) : null);
+    }
+
+    public void Bind(RewardOption reward)
+    {
+        Reward = reward;
+        HasData = reward != null;
 
         if (!HasData)
         {
@@ -111,20 +109,45 @@ public class RewardChoicePanel : MonoBehaviour
             return;
         }
 
+        if (itemIcon != null)
+        {
+            itemIcon.sprite = reward.Icon;
+            itemIcon.enabled = reward.Icon != null;
+        }
+
+        if (nameText != null)
+            nameText.text = reward.DisplayName;
+
+        if (descriptionText != null)
+            descriptionText.text = reward.Description;
+
+        ApplyLevelDisplay(reward.IsNew, reward.Level);
         SetSelected(false);
         gameObject.SetActive(true);
     }
 
     public void Clear()
     {
+        Reward = null;
         HasData = false;
 
-        itemIcon.sprite = null;
-        itemIcon.enabled = false;
-        nameText.text = string.Empty;
-        descriptionText.text = string.Empty;
-        levelText.text = string.Empty;
-        levelTextPanelImage.color = normalItemLevelTextPanelColor;
+        if (itemIcon != null)
+        {
+            itemIcon.sprite = null;
+            itemIcon.enabled = false;
+        }
+
+        if (nameText != null)
+            nameText.text = string.Empty;
+
+        if (descriptionText != null)
+            descriptionText.text = string.Empty;
+
+        if (levelText != null)
+            levelText.text = string.Empty;
+
+        if (levelTextPanelImage != null)
+            levelTextPanelImage.color = normalItemLevelTextPanelColor;
 
         SetSelected(false);
         gameObject.SetActive(false);
@@ -133,12 +156,18 @@ public class RewardChoicePanel : MonoBehaviour
     public void SetSelected(bool isSelected)
     {
         bool showFocus = isSelected && IsSelectable;
-        focusObject.SetActive(showFocus);
+
+        if (focusObject != null)
+            focusObject.SetActive(showFocus);
+
         PlayFocusScaleTween(showFocus);
     }
 
     private void PlayFocusScaleTween(bool isFocused)
     {
+        if (scaleTarget == null)
+            return;
+
         focusScaleTween?.Kill();
 
         Vector3 targetScale = isFocused
@@ -158,21 +187,30 @@ public class RewardChoicePanel : MonoBehaviour
 
     private void ApplyLevelDisplay(bool isNew, int level)
     {
-        levelText.text = isNew ? NewLevelLabel : level.ToString();
-        levelTextPanelImage.color = isNew
-            ? newItemLevelTextPanelColor
-            : normalItemLevelTextPanelColor;
+        if (levelText != null)
+            levelText.text = isNew ? NewLevelLabel : level.ToString();
+
+        if (levelTextPanelImage != null)
+        {
+            levelTextPanelImage.color = isNew
+                ? newItemLevelTextPanelColor
+                : normalItemLevelTextPanelColor;
+        }
     }
 
     private void RegisterButtonClick()
     {
+        if (button == null)
+            return;
+
         button.onClick.RemoveListener(HandleButtonClicked);
         button.onClick.AddListener(HandleButtonClicked);
     }
 
     private void UnregisterButtonClick()
     {
-        button.onClick.RemoveListener(HandleButtonClicked);
+        if (button != null)
+            button.onClick.RemoveListener(HandleButtonClicked);
     }
 
     private void HandleButtonClicked()
