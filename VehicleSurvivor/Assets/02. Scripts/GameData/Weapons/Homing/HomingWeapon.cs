@@ -1,61 +1,105 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class HomingWeapon : WeaponBase
 {
-    [Header("Homing References")]
+    //Damage = 데미지
+    //Cooldown = 쿨타임
+    //ProjectileSpeed  = 속도
+    //ProjectileCount = 개수
+    //SpreadAngle  = 각도
+    //Range = 최대 이동 거리
+    //Radius = 탐지 반경
+    
+    [Header("Projectile References")]
     public GameObject homingProjectilePrefab;
     public ParticleSystem shootParticlePrefab;
-    public GameObject hitEffectPrefab;
 
     [Header("Fire Point")]
     public Transform firePoint;
 
-    [Header("Target Settings")]
-    public LayerMask targetLayer;
-
-    [Header("Target Settings")]
-    [FormerlySerializedAs("detectRadius")]
-    public float fallbackDetectRadius = 15f;
+    [Header("Rotation")]
+    public Vector3 projectileRotationOffset;
 
     protected override void Attack(WeaponLevelData data)
     {
-        FireHomingProjectiles(
+        if (data == null)
+            return;
+
+        FireProjectiles(
             GetFinalDamage(data.Damage),
             GetProjectileSpeed(data),
-            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
+            Mathf.Max(
+                1,
+                GetFinalProjectileCount(data.ProjectileCount)
+            ),
             data.SpreadAngle,
-            GetDetectRadius(data)
+            data.Range,
+            data.Radius
         );
     }
 
-    private void FireHomingProjectiles(
+    private void FireProjectiles(
         float finalDamage,
         float projectileSpeed,
         int count,
         float spreadAngleValue,
-        float detectRange
+        float maxTravelDistance,
+        float detectRadius
     )
     {
-        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
+        Transform resolvedFirePoint =
+            ResolveFirePoint(firePoint);
 
         if (homingProjectilePrefab == null)
+        {
+            Debug.LogWarning(
+                "[HomingWeapon] Projectile Prefab 없음"
+            );
             return;
+        }
 
         if (resolvedFirePoint == null)
+        {
+            Debug.LogWarning(
+                "[HomingWeapon] Fire Point 없음"
+            );
             return;
+        }
 
-        Transform target = FindClosestTarget(detectRange);
+        Transform target =
+            FindClosestTarget(detectRadius);
 
-        if (target == null)
-            return;
+        Vector3 direction;
+
+        if (target != null)
+        {
+            direction =
+                target.position -
+                resolvedFirePoint.position;
+
+            direction.y = 0f;
+        }
+        else
+        {
+            Debug.Log(
+                $"[HomingWeapon] 반경 {detectRadius} 내 적 없음 → 정면 발사"
+            );
+
+            direction =
+                resolvedFirePoint.forward;
+        }
+
+        Quaternion baseRotation =
+            Quaternion.LookRotation(
+                direction.normalized
+            );
 
         if (shootParticlePrefab != null)
         {
             Instantiate(
                 shootParticlePrefab,
                 resolvedFirePoint.position,
-                resolvedFirePoint.rotation
+                baseRotation
             );
         }
 
@@ -65,72 +109,102 @@ public class HomingWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex = (count - 1) * 0.5f;
-                angle = (i - centerIndex) * spreadAngleValue;
+                float centerIndex =
+                    (count - 1) * 0.5f;
+
+                angle =
+                    (i - centerIndex)
+                    * spreadAngleValue;
             }
 
-            Quaternion rotation =
-                resolvedFirePoint.rotation * Quaternion.Euler(0f, angle, 0f);
-
-            GameObject projectile = Instantiate(
-                homingProjectilePrefab,
-                resolvedFirePoint.position,
-                rotation
-            );
-
-            HomingProjectile homing = projectile.GetComponent<HomingProjectile>();
-
-            if (homing != null)
-            {
-                homing.Init(
-                    target,
-                    finalDamage,
-                    projectileSpeed,
-                    targetLayer,
-                    hitEffectPrefab
+            Quaternion shootRotation =
+                baseRotation *
+                Quaternion.Euler(
+                    0f,
+                    angle,
+                    0f
                 );
-            }
+
+            Quaternion visualRotation =
+                shootRotation *
+                Quaternion.Euler(
+                    projectileRotationOffset
+                );
+
+            GameObject projectileObject =
+                Instantiate(
+                    homingProjectilePrefab,
+                    resolvedFirePoint.position,
+                    visualRotation
+                );
+
+            HomingProjectile projectile =
+                projectileObject.GetComponent<HomingProjectile>();
+
+            if (projectile == null)
+                continue;
+
+            projectile.Initialize(
+                finalDamage,
+                projectileSpeed,
+                maxTravelDistance,
+                shootRotation * Vector3.forward,
+                target,
+                detectRadius
+            );
         }
     }
 
-    private Transform FindClosestTarget(float detectRange)
+    private Transform FindClosestTarget(
+        float detectRadius
+    )
     {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            detectRange,
-            targetLayer
-        );
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                detectRadius
+            );
 
-        Transform closestTarget = null;
-        float closestDistance = Mathf.Infinity;
+        Transform closestTarget =
+            null;
+
+        float closestDistance =
+            Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
-            Transform targetTransform = hit.transform;
-            float distance = (targetTransform.position - transform.position).sqrMagnitude;
+            float distance =
+                (
+                    hit.transform.position -
+                    transform.position
+                ).sqrMagnitude;
 
-            if (distance < closestDistance)
+            if (distance <
+                closestDistance)
             {
-                closestDistance = distance;
-                closestTarget = targetTransform;
+                closestDistance =
+                    distance;
+
+                closestTarget =
+                    hit.transform;
             }
         }
 
         return closestTarget;
     }
 
-    private float GetProjectileSpeed(WeaponLevelData data)
+    private float GetProjectileSpeed(
+        WeaponLevelData data
+    )
     {
-        return data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.BulletSpeed;
-    }
-
-    private float GetDetectRadius(WeaponLevelData data)
-    {
-        return data.Range > 0f ? data.Range : fallbackDetectRadius;
+        return data.ProjectileSpeed > 0f
+            ? data.ProjectileSpeed
+            : data.BulletSpeed;
     }
 }

@@ -2,82 +2,134 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
+   // Damage = 틱당 데미지
+   // Cooldown = 데미지 주기
+   // Range = 오라 반경
+   // Size = Range가 0일 때 대체 반경
+
     [Header("Aura References")]
     public GameObject auraEffectPrefab;
 
-    [Header("Aura Settings")]
-    public LayerMask enemyLayer;
+    private GameObject auraEffectInstance;
 
-    private GameObject auraEffect;
+    protected override void OnInitialized()
+    {
+        CreateAuraEffect();
+        UpdateAuraFromLevelData();
+    }
 
     private void Start()
     {
         CreateAuraEffect();
+        UpdateAuraFromLevelData();
     }
 
-    protected override void Update()
+    protected override void OnLevelDataChanged(WeaponLevelData data)
     {
-        base.Update();
-        UpdateAuraScale(GetAuraRadius(GetCurrentLevelData()));
+        UpdateAuraFromLevelData();
     }
 
     protected override void Attack(WeaponLevelData data)
     {
-        DealAuraDamage(
-            GetFinalDamage(data.Damage),
-            GetAuraRadius(data)
-        );
-    }
+        if (data == null)
+            return;
 
-    private void DealAuraDamage(float finalDamage, float attackRadius)
-    {
+        float radius = GetAuraRadius(data);
+        float finalDamage = GetFinalDamage(data.Damage);
+
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
-            attackRadius,
-            enemyLayer
+            radius
         );
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
             damageable.TakeDamage(finalDamage);
-            Debug.Log($"[Aura] damage: {finalDamage}");
         }
+
+        UpdateAuraScale(radius);
     }
 
     private void CreateAuraEffect()
     {
         if (auraEffectPrefab == null)
+        {
+            Debug.LogWarning("[AuraWeapon] Aura Effect Prefab이 비어있습니다.");
+            return;
+        }
+
+        if (auraEffectInstance != null)
             return;
 
-        auraEffect = Instantiate(auraEffectPrefab, transform);
-        auraEffect.transform.localPosition = Vector3.zero;
+        auraEffectInstance = Instantiate(
+            auraEffectPrefab,
+            transform
+        );
+
+        auraEffectInstance.transform.localPosition = Vector3.zero;
+        auraEffectInstance.transform.localRotation =
+            auraEffectPrefab.transform.rotation;
+
+        auraEffectInstance.SetActive(true);
     }
 
-    private void UpdateAuraScale(float attackRadius)
+    private void UpdateAuraFromLevelData()
     {
-        if (auraEffect == null)
+        WeaponLevelData data = GetCurrentLevelData();
+
+        if (data == null)
             return;
 
-        float size = attackRadius * 2f;
-        auraEffect.transform.localScale = new Vector3(size, 1f, size);
+        UpdateAuraScale(GetAuraRadius(data));
     }
 
-    private void OnDrawGizmosSelected()
+    private void UpdateAuraScale(float radius)
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, GetAuraRadius(GetCurrentLevelData()));
+        if (auraEffectInstance == null)
+            return;
+
+        float size = radius * 2f;
+
+        auraEffectInstance.transform.localScale =
+            new Vector3(size, size, size);
     }
 
     private float GetAuraRadius(WeaponLevelData data)
     {
-        if (data == null)
-            return 0f;
+        if (data.Range > 0f)
+            return data.Range;
 
-        return data.Range > 0f ? data.Range : data.Radius;
+        return data.Size;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        WeaponLevelData data = GetCurrentLevelData();
+
+        if (data == null)
+            return;
+
+        Gizmos.color = Color.cyan;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            GetAuraRadius(data)
+        );
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        if (auraEffectInstance != null)
+        {
+            Destroy(auraEffectInstance);
+        }
     }
 }

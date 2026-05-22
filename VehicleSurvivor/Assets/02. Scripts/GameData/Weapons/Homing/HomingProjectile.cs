@@ -2,82 +2,103 @@ using UnityEngine;
 
 public class HomingProjectile : MonoBehaviour
 {
-    [Header("유도탄 설정")]
-    public float damage = 10f;
-    public float speed = 15f;
+    [Header("Homing")]
     public float rotateSpeed = 10f;
-    public float lifeTime = 5f;
-    public float hitDistance = 0.8f;
-    public float retargetRadius = 10f;
+
+    private float damage;
+    private float speed;
+    private float maxTravelDistance;
+
+    private Vector3 moveDirection;
+    private Vector3 spawnPosition;
 
     private Transform target;
-    private LayerMask targetLayer;
-    private GameObject hitEffectPrefab;
+    private float detectRadius;
 
-    private void Start()
+    public void Initialize(
+        float newDamage,
+        float newSpeed,
+        float newMaxTravelDistance,
+        Vector3 newMoveDirection,
+        Transform newTarget,
+        float newDetectRadius
+    )
     {
-        Destroy(gameObject, lifeTime);
+        damage = newDamage;
+        speed = newSpeed;
+        maxTravelDistance =
+            newMaxTravelDistance;
+
+        moveDirection =
+            newMoveDirection.normalized;
+
+        spawnPosition =
+            transform.position;
+
+        target =
+            newTarget;
+
+        detectRadius =
+            newDetectRadius;
     }
 
     private void Update()
     {
-        if (target == null || !target.gameObject.activeInHierarchy)
+        UpdateTarget();
+
+        if (target != null)
         {
-            FindNewTarget();
+            Vector3 targetDirection =
+                (
+                    target.position -
+                    transform.position
+                ).normalized;
+
+            moveDirection =
+                Vector3.Lerp(
+                    moveDirection,
+                    targetDirection,
+                    rotateSpeed *
+                    Time.deltaTime
+                ).normalized;
+
+            transform.rotation =
+                Quaternion.LookRotation(
+                    moveDirection
+                );
         }
 
-        if (target == null)
+        transform.position +=
+            moveDirection *
+            speed *
+            Time.deltaTime;
+
+        float distance =
+            Vector3.Distance(
+                spawnPosition,
+                transform.position
+            );
+
+        if (distance >=
+            maxTravelDistance)
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
-            return;
+            Destroy(gameObject);
         }
-
-        Vector3 direction = target.position - transform.position;
-        direction.y = 0f;
-
-        if (direction.magnitude <= hitDistance)
-        {
-            HitTarget();
-            return;
-        }
-
-        Quaternion targetRotation =
-            Quaternion.LookRotation(direction.normalized);
-
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            rotateSpeed * Time.deltaTime
-        );
-
-        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    public void Init(
-        Transform firstTarget,
-        float newDamage,
-        float newSpeed,
-        LayerMask newTargetLayer,
-        GameObject newHitEffectPrefab
-    )
+    private void UpdateTarget()
     {
-        target = firstTarget;
-        damage = newDamage;
-        speed = newSpeed;
-        targetLayer = newTargetLayer;
-        hitEffectPrefab = newHitEffectPrefab;
-    }
+        if (target != null)
+            return;
 
-    private void FindNewTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            retargetRadius,
-            targetLayer
-        );
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                detectRadius
+            );
 
-        Transform closestTarget = null;
-        float closestDistance = Mathf.Infinity;
+        float closestDistance =
+            Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
@@ -88,37 +109,26 @@ public class HomingProjectile : MonoBehaviour
                 continue;
 
             float distance =
-                (hit.transform.position - transform.position).sqrMagnitude;
+                (
+                    hit.transform.position -
+                    transform.position
+                ).sqrMagnitude;
 
-            if (distance < closestDistance)
+            if (distance <
+                closestDistance)
             {
-                closestDistance = distance;
-                closestTarget = hit.transform;
+                closestDistance =
+                    distance;
+
+                target =
+                    hit.transform;
             }
         }
-
-        target = closestTarget;
     }
 
-    private void HitTarget()
-    {
-        if (target != null)
-        {
-            IDamageable damageable =
-                target.GetComponentInParent<IDamageable>();
-
-            if (damageable != null)
-            {
-                damageable.TakeDamage(damage);
-            }
-
-            SpawnHitEffect(target.position);
-        }
-
-        Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(
+        Collider other
+    )
     {
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
@@ -126,24 +136,10 @@ public class HomingProjectile : MonoBehaviour
         if (damageable == null)
             return;
 
-        damageable.TakeDamage(damage);
-
-        SpawnHitEffect(transform.position);
-
-        Destroy(gameObject);
-    }
-
-    private void SpawnHitEffect(Vector3 position)
-    {
-        if (hitEffectPrefab == null)
-            return;
-
-        GameObject effect = Instantiate(
-            hitEffectPrefab,
-            position,
-            Quaternion.identity
+        damageable.TakeDamage(
+            damage
         );
 
-        Destroy(effect, 2f);
+        Destroy(gameObject);
     }
 }

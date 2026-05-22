@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38cb673275456fc4ca100e44bd7421cb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38cb673275456fc4ca100e44bd7421cb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38cb673275456fc4ca100e44bd7421cb, type: 3}
       propertyPath: m_LocalRotation.y
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38cb673275456fc4ca100e44bd7421cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 38cb673275456fc4ca100e44bd7421cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -122,6 +122,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a555abd489ab04f898fdf298b09f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileBullet
-  damage: 10
-  speed: 20
-  lifeTime: 3
+  lifeTime: 15
+  projectileRotationOffset: {x: 0, y: 0, z: 0}
