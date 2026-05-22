@@ -2,59 +2,81 @@ using UnityEngine;
 
 public class BouncyProjectile : MonoBehaviour
 {
-    [Header("탱탱볼 데이터")]
-    public float damage = 10f;
-    public float speed = 20f;
-    public int bounceCount = 1;
-    public float lifeTime = 5f;
+    private float damage;
+    private float maxTravelDistance;
+    private int bounceCount;
 
-    private LayerMask enemyLayer;
     private LayerMask bounceLayer;
 
-    private Vector3 moveDirection;
+    private float gravity;
+    private float bounciness;
 
-    public void Init(
+    private Vector3 velocity;
+    private Vector3 spawnPosition;
+
+    public void Initialize(
         float newDamage,
-        float newSpeed,
+        Vector3 startVelocity,
+        float newMaxTravelDistance,
         int newBounceCount,
-        LayerMask newEnemyLayer,
         LayerMask newBounceLayer,
-        Vector3 direction
+        float newGravity,
+        float newBounciness
     )
     {
         damage = newDamage;
-        speed = newSpeed;
+        velocity = startVelocity;
+
+        maxTravelDistance = newMaxTravelDistance;
         bounceCount = newBounceCount;
-        enemyLayer = newEnemyLayer;
         bounceLayer = newBounceLayer;
-        moveDirection = direction.normalized;
 
-        transform.rotation = Quaternion.LookRotation(moveDirection);
+        gravity = newGravity;
+        bounciness = Mathf.Clamp01(newBounciness);
 
-        Destroy(gameObject, lifeTime);
+        spawnPosition = transform.position;
+
+        if (maxTravelDistance <= 0f)
+        {
+            maxTravelDistance = 20f;
+        }
     }
 
     private void Update()
     {
-        transform.position += moveDirection * speed * Time.deltaTime;
+        velocity += Vector3.down * gravity * Time.deltaTime;
+
+        transform.position += velocity * Time.deltaTime;
+
+        if (velocity != Vector3.zero)
+        {
+            transform.rotation =
+                Quaternion.LookRotation(velocity.normalized);
+        }
+
+        float traveledDistance =
+            Vector3.Distance(spawnPosition, transform.position);
+
+        if (traveledDistance >= maxTravelDistance)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        int otherLayerMask = 1 << other.gameObject.layer;
+        IDamageable damageable =
+            other.GetComponentInParent<IDamageable>();
 
-        if ((enemyLayer.value & otherLayerMask) != 0)
+        if (damageable != null)
         {
-            Enemy enemy = other.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-                Debug.Log($"[Bouncy] {enemy.name} 피격 / 데미지: {damage}");
-            }
-
+            damageable.TakeDamage(damage);
+            Destroy(gameObject);
             return;
         }
+
+        int otherLayerMask =
+            1 << other.gameObject.layer;
 
         if ((bounceLayer.value & otherLayerMask) != 0)
         {
@@ -70,17 +92,28 @@ public class BouncyProjectile : MonoBehaviour
             return;
         }
 
-        Vector3 closestPoint = other.ClosestPoint(transform.position);
-        Vector3 normal = (transform.position - closestPoint).normalized;
+        Vector3 normal = GetBounceNormal(other);
+
+        velocity =
+            Vector3.Reflect(velocity, normal) *
+            bounciness;
+
+        bounceCount--;
+    }
+
+    private Vector3 GetBounceNormal(Collider other)
+    {
+        Vector3 closestPoint =
+            other.ClosestPoint(transform.position);
+
+        Vector3 normal =
+            (transform.position - closestPoint).normalized;
 
         if (normal == Vector3.zero)
         {
-            normal = -moveDirection;
+            normal = Vector3.up;
         }
 
-        moveDirection = Vector3.Reflect(moveDirection, normal).normalized;
-        transform.rotation = Quaternion.LookRotation(moveDirection);
-
-        bounceCount--;
+        return normal;
     }
 }

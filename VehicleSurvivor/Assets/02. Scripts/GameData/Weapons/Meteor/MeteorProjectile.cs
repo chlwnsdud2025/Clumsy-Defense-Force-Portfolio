@@ -1,59 +1,75 @@
 using UnityEngine;
 
-public class MeteorProjectile : MonoBehaviour
+public class MeteorProjectile
+    : MonoBehaviour
 {
-    [Header("폭발 이펙트")]
+    [Header("Effect")]
     public GameObject explosionEffectPrefab;
 
-    [Header("메테오 설정")]
-    public float damage = 40f;
-    public float explosionRadius = 5f;
-    public float fallSpeed = 25f;
+    private float damage;
+    private float speed;
+    private float explosionRadius;
+    private float delay;
 
-    private float delayTimer;
-    private float meteorDelay;
-
-    private LayerMask enemyLayer;
     private Vector3 targetPosition;
 
     private bool isFalling;
 
-    public void Init(
-        float newDamage,
-        float newExplosionRadius,
-        float newMeteorDelay,
-        LayerMask newEnemyLayer,
-        Vector3 newTargetPosition
-    )
+    public void Initialize(
+    float newDamage,
+    float newSpeed,
+    float newExplosionRadius,
+    float newDelay,
+    Vector3 newTargetPosition
+)
     {
         damage = newDamage;
+        speed = newSpeed;
         explosionRadius = newExplosionRadius;
-        meteorDelay = newMeteorDelay;
-        enemyLayer = newEnemyLayer;
+        delay = newDelay;
+
         targetPosition = newTargetPosition;
+
+        Vector3 direction =
+            (
+                targetPosition -
+                transform.position
+            ).normalized;
+
+        transform.rotation =
+            Quaternion.LookRotation(direction);
+
+        Invoke(
+            nameof(StartFall),
+            delay
+        );
+    }
+
+    private void StartFall()
+    {
+        isFalling = true;
     }
 
     private void Update()
     {
         if (!isFalling)
-        {
-            delayTimer += Time.deltaTime;
-
-            if (delayTimer >= meteorDelay)
-            {
-                isFalling = true;
-            }
-
             return;
-        }
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPosition,
-            fallSpeed * Time.deltaTime
-        );
+        transform.position =
+            Vector3.MoveTowards(
+                transform.position,
+                targetPosition,
+                speed *
+                Time.deltaTime
+            );
 
-        if (Vector3.Distance(transform.position, targetPosition) <= 0.2f)
+        float distance =
+            Vector3.Distance(
+                transform.position,
+                targetPosition
+            );
+
+        if (distance <= 0.1f)
         {
             Explode();
         }
@@ -61,38 +77,32 @@ public class MeteorProjectile : MonoBehaviour
 
     private void Explode()
     {
-        Collider[] hits = Physics.OverlapSphere(
-            targetPosition,
-            explosionRadius,
-            enemyLayer
-        );
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                explosionRadius
+            );
 
         foreach (Collider hit in hits)
         {
-            if (!hit.CompareTag("Enemy"))
+            IDamageable damageable =
+                hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
                 continue;
 
-            IDamageable damageable =
-                  hit.GetComponentInParent<IDamageable>();
-
-            if (damageable != null)
-            {
-                damageable.TakeDamage(damage);
-            }
+            damageable.TakeDamage(
+                damage
+            );
         }
 
         if (explosionEffectPrefab != null)
         {
-            Vector3 effectPosition = targetPosition;
-            effectPosition.y += 0.2f;
-
-            GameObject effect = Instantiate(
+            Instantiate(
                 explosionEffectPrefab,
-                effectPosition,
-                Quaternion.identity
+                transform.position,
+                explosionEffectPrefab.transform.rotation
             );
-
-            Destroy(effect, 3f);
         }
 
         Destroy(gameObject);
@@ -100,7 +110,12 @@ public class MeteorProjectile : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(targetPosition, explosionRadius);
+        Gizmos.color =
+            Color.red;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            explosionRadius
+        );
     }
 }
