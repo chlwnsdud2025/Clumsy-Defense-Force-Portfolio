@@ -171,7 +171,7 @@ public class UI_CharacterSelect : UIScene
         if (characters == null || characters.Count == 0)
             return null;
 
-        CharacterDefinitionSO currentSelection = characterService?.GetSelectedCharacter();
+        CharacterDefinitionSO currentSelection = characterService?.SelectedCharacter;
         if (currentSelection != null)
         {
             for (int i = 0; i < characters.Count; i++)

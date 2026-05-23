@@ -1128,6 +1128,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3995477809224048631, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: MoveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995477809224048631, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: _runAnimReferenceSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4008947004728662970, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1968,6 +1976,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7123456789012345678, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: _debugCharacterDefinition
+      value: 
+      objectReference: {fileID: 11400000, guid: a43eb92c71a8440418419911fd5482e9, type: 2}
     - target: {fileID: 7137988382446314383, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6

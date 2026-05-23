@@ -8,10 +8,10 @@ public class CharacterService : ICharacterService
     private readonly Dictionary<string, CharacterDefinitionSO> _characterLookup = new Dictionary<string, CharacterDefinitionSO>();
 
     private CharacterDefinitionTableSO _characterTable;
-    private CharacterDefinitionSO _defaultCharacter;
-    private CharacterDefinitionSO _selectedCharacter;
 
     public bool IsInitialized { get; private set; }
+    public CharacterDefinitionSO DefaultCharacter { get; private set; }
+    public CharacterDefinitionSO SelectedCharacter { get; private set; }
 
     public async UniTask<bool> InitializeAsync(IResourceService resourceService)
     {
@@ -31,8 +31,7 @@ public class CharacterService : ICharacterService
 
         _characterTable = loadedTable;
         BuildLookup();
-        _defaultCharacter = ResolveDefaultCharacter(_characterTable.DefaultCharacterId);
-        _selectedCharacter = _defaultCharacter;
+        DefaultCharacter = ResolveDefaultCharacter(_characterTable.DefaultCharacterId);
         IsInitialized = true;
 
         return true;
@@ -44,16 +43,6 @@ public class CharacterService : ICharacterService
             return Array.Empty<CharacterDefinitionSO>();
 
         return _characterTable.Characters;
-    }
-
-    public CharacterDefinitionSO GetDefaultCharacter()
-    {
-        return _defaultCharacter;
-    }
-
-    public CharacterDefinitionSO GetSelectedCharacter()
-    {
-        return _selectedCharacter != null ? _selectedCharacter : _defaultCharacter;
     }
 
     public bool TryGetCharacter(string characterId, out CharacterDefinitionSO characterDefinition)
@@ -72,7 +61,7 @@ public class CharacterService : ICharacterService
         if (!TryGetCharacter(characterId, out CharacterDefinitionSO characterDefinition))
             return false;
 
-        _selectedCharacter = characterDefinition;
+        SelectedCharacter = characterDefinition;
         return true;
     }
 
@@ -90,12 +79,12 @@ public class CharacterService : ICharacterService
             return;
         }
 
-        _selectedCharacter = registeredCharacter;
+        SelectedCharacter = registeredCharacter;
     }
 
     public void ResetSelectedCharacter()
     {
-        _selectedCharacter = _defaultCharacter;
+        SelectedCharacter = null;
     }
 
     private void BuildLookup()
@@ -135,8 +124,8 @@ public class CharacterService : ICharacterService
     {
         IsInitialized = false;
         _characterTable = null;
-        _defaultCharacter = null;
-        _selectedCharacter = null;
+        DefaultCharacter = null;
+        SelectedCharacter = null;
         _characterLookup.Clear();
     }
 
