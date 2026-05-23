@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 5290101143707185595}
   - component: {fileID: 7016714960088384505}
   - component: {fileID: 8161555342933045766}
+  - component: {fileID: 9569156716970534265}
   m_Layer: 11
   m_Name: Basic_Suicide_1
   m_TagString: Enemy
@@ -218,10 +219,6 @@ MonoBehaviour:
   slowClimbSpeed: 3
   contactDamage: 10
   gravity: -20
-  modelRenderers:
-  - {fileID: 4493728612852676105}
-  flashDuration: 0.1
-  flashCooldown: 0.1
   fuseTime: 2
   explosionRadius: 3.5
   explosionDamage: 50
@@ -409,3 +406,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6482508342259214648, guid: 43ac643cd0f2a51429a9d2ae1ce4193e, type: 3}
   m_PrefabInstance: {fileID: 4932868726431824581}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9569156716970534265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539001815701513887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 4493728612852676105}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2138267118152702828}
   - component: {fileID: 3133348798152688132}
   - component: {fileID: 3654316385166426488}
+  - component: {fileID: 7585557088816424824}
   m_Layer: 11
   m_Name: Bee_Boss
   m_TagString: Enemy
@@ -62,10 +63,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 0.1
-  modelRenderers:
-  - {fileID: 6902694358655248130}
-  flashDuration: 0.1
-  flashCooldown: 0.1
+  hitFlash: {fileID: 0}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -141,6 +139,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7585557088816424824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4415725177970483417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 6902694358655248130}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  colorPropertyName: _BaseColor
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.5
 --- !u!1 &6902694358650038784
 GameObject:
   m_ObjectHideFlags: 0

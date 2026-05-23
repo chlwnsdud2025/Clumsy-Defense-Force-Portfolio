@@ -10,9 +10,16 @@ public sealed class Player : MonoBehaviour
     public PlayerExperiencePickupCollector ExperienceCollector { get; private set; }
     public PlayerWeaponSpawner WeaponSpawner { get; private set; }
     public Animator Animator { get; private set; }
-    public PlayerRuntime Runtime { get; private set; }
 
     public Transform FollowTransform => Controller != null ? Controller.transform : transform;
+
+#if UNITY_EDITOR
+    [Header("Debug")]
+    [Tooltip("에디터에서 InGameScene 직접 실행 시 사용할 캐릭터. Title 캐릭터 선택으로 진입하면 무시됩니다.")]
+    [SerializeField] private CharacterDefinitionSO _debugCharacterDefinition;
+
+    public CharacterDefinitionSO DebugCharacterDefinition => _debugCharacterDefinition;
+#endif
 
     private void Awake()
     {
@@ -30,37 +37,46 @@ public sealed class Player : MonoBehaviour
         }
 
         await Visual.InitializeFromCharacterAsync(character);
-        CacheComponents();
     }
 
     public void BindRuntime(PlayerRuntime runtime)
     {
         CacheComponents();
-        Runtime = runtime;
+
+        if (Controller != null)
+            Controller.BindRuntime(runtime);
 
         if (DamageReceiver != null)
-        {
             DamageReceiver.BindRuntime(runtime);
-        }
 
         if (ExperienceCollector != null)
-        {
             ExperienceCollector.BindRuntime(runtime);
-        }
 
         if (WeaponSpawner != null)
-        {
             WeaponSpawner.BindRuntime(runtime);
-        }
     }
+
+    public void UnbindRuntime() => BindRuntime(null);
+
 
     private void CacheComponents()
     {
-        Visual = GetComponentInChildren<PlayerVisual>(true);
-        Controller = GetComponentInChildren<PlayerController>(true);
-        DamageReceiver = GetComponentInChildren<PlayerDamageReceiver>(true);
-        ExperienceCollector = GetComponentInChildren<PlayerExperiencePickupCollector>(true);
-        WeaponSpawner = GetComponentInChildren<PlayerWeaponSpawner>(true);
-        Animator = GetComponentInChildren<Animator>(true);
+        if (Visual == null)
+            Visual = GetComponentInChildren<PlayerVisual>(true);
+
+        if (Controller == null)
+            Controller = GetComponentInChildren<PlayerController>(true);
+
+        if (DamageReceiver == null)
+            DamageReceiver = GetComponentInChildren<PlayerDamageReceiver>(true);
+
+        if (ExperienceCollector == null)
+            ExperienceCollector = GetComponentInChildren<PlayerExperiencePickupCollector>(true);
+
+        if (WeaponSpawner == null)
+            WeaponSpawner = GetComponentInChildren<PlayerWeaponSpawner>(true);
+
+        if (Animator == null)
+            Animator = GetComponentInChildren<Animator>(true);
     }
 }

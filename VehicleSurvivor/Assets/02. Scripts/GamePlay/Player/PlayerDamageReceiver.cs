@@ -10,8 +10,16 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
     private Vector3 knockbackVelocity;
     private float knockbackTimer;
     private PlayerRuntime runtime;
+    private HitFlashEffect hitFlash;
 
     public bool IsKnockback => knockbackTimer > 0f;
+
+    private void Awake()
+    {
+        PlayerVisual visual = GetComponentInParent<PlayerVisual>();
+        if (visual != null)
+            hitFlash = visual.HitFlash;
+    }
 
     public void BindRuntime(PlayerRuntime runtime)
     {
@@ -35,7 +43,11 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         if (playerRuntime.Health.CurrentHp <= 0f)
             return;
 
+        float previousHp = playerRuntime.Health.CurrentHp;
         playerRuntime.Health.TakeDamage(damage);
+
+        if (playerRuntime.Health.CurrentHp < previousHp)
+            hitFlash?.TriggerHitFlash();
     }
 
     public void Heal(float amount)
@@ -47,20 +59,6 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
             return;
 
         playerRuntime.Health.Heal(amount);
-    }
-
-    public void AddExp(int expAmount)
-    {
-        if (expAmount <= 0)
-            return;
-
-        if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
-            return;
-
-        if (playerRuntime.Health.CurrentHp <= 0f)
-            return;
-
-        playerRuntime.Level.AddExp(expAmount);
     }
 
     private void OnTriggerStay(Collider other)
@@ -101,11 +99,11 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return false;
 
-        RunContext runContext = runManager.RunContext;
-        if (runContext == null)
+        RunSession runSession = runManager.RunSession;
+        if (runSession == null)
             return false;
 
-        playerRuntime = runContext.Player;
+        playerRuntime = runSession.Player;
         return playerRuntime != null;
     }
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections; // [추가] 코루틴 사용을 위해 필요
 
 // 잡몹(Enemy)과는 완전히 분리된, 보스들만의 새로운 최상위 부모 클래스!
 public abstract class BossEnemy : MonoBehaviour, IDamageable
@@ -33,23 +32,14 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     protected float currentAttackCooldown;
 
     private RaycastHit[] hitBuffer = new RaycastHit[10];
-    // 자식 클래스에서 패턴 시전 중임을 알릴 때 사용하는 플래그
     protected bool isCastingPattern = false;
 
-    // ==========================================
-    // [신규] 피격 점멸 (Hit Flash) 설정
-    // ==========================================
-    [Header("Hit Flash Settings")]
-    [Tooltip("색상을 바꿀 보스의 모델링 렌더러들을 넣어주세요.")]
-    public Renderer[] modelRenderers;
-    [Tooltip("하얗게 유지되는 시간")]
-    public float flashDuration = 0.1f;
-    [Tooltip("다음 점멸까지의 쿨타임 (이 시간 동안은 맞아도 안 번쩍임)")]
-    public float flashCooldown = 0.1f;
+    [SerializeField] private HitFlashEffect hitFlash;
 
-    private Color[] originalColors;
-    private bool isFlashing = false;
-    // ==========================================
+    protected virtual void Awake()
+    {
+        ResolveHitFlash();
+    }
 
     protected virtual void Start()
     {
@@ -60,17 +50,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) playerTarget = player.transform;
-        }
-
-        // [신규] 보스의 원래 색상들을 기억해 둡니다.
-        if (modelRenderers != null && modelRenderers.Length > 0)
-        {
-            originalColors = new Color[modelRenderers.Length];
-            for (int i = 0; i < modelRenderers.Length; i++)
-            {
-                if (modelRenderers[i] != null)
-                    originalColors[i] = modelRenderers[i].material.color;
-            }
         }
     }
 
@@ -94,12 +73,10 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected abstract void Attack();
 
-    // (지형 이동 로직은 동일하게 유지)
     private void MoveAndSnapToGround(float dt)
     {
         Vector3 playerDir = playerTarget.position - transform.position;
         playerDir.y = 0;
-        float distanceToPlayer = playerDir.magnitude;
         playerDir = playerDir.normalized;
 
         Vector3 horizontalVelocity = playerDir * moveSpeed;
@@ -114,10 +91,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
             Vector3 highRayStart = nextPosXZ + Vector3.up * dynamicHeight;
 
-            // [최적화 적용] RaycastAll 대신 RaycastNonAlloc 사용! (hitBuffer 상자 재활용)
             int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
 
-            // 상자에 담긴 개수(hitCount)만큼만 검사합니다.
             if (hitCount > 0)
             {
                 float closestDiff = float.MaxValue;
@@ -140,7 +115,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             {
                 Vector3 highRayStart = nextPosXZ + Vector3.up * raycastStartHeight;
 
-                // [최적화 적용] 여기도 동일하게 교체해 줍니다.
                 int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
 
                 if (hitCount > 0)
@@ -198,7 +172,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
 
-        TriggerHitFlash(); // 점멸 효과 발동!
+        hitFlash?.TriggerHitFlash();
 
         if (currentHealth <= 0)
         {
@@ -209,43 +183,15 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
+        hitFlash?.ResetFlash();
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
         StageRunManager.Instance.OnMidBossDefeated();
         Destroy(gameObject);
     }
 
-    
-    protected void TriggerHitFlash()
+    private void ResolveHitFlash()
     {
-        if (!isFlashing && modelRenderers != null && modelRenderers.Length > 0)
-        {
-            StartCoroutine(HitFlashRoutine());
-        }
-    }
-
-    private IEnumerator HitFlashRoutine()
-    {
-        isFlashing = true;
-
-        for (int i = 0; i < modelRenderers.Length; i++)
-        {
-            if (modelRenderers[i] != null)
-                modelRenderers[i].material.color = Color.white;
-        }
-
-        yield return new WaitForSeconds(flashDuration);
-
-        if (modelRenderers != null && originalColors != null)
-        {
-            for (int i = 0; i < modelRenderers.Length; i++)
-            {
-                if (modelRenderers[i] != null)
-                    modelRenderers[i].material.color = originalColors[i];
-            }
-        }
-
-        yield return new WaitForSeconds(flashCooldown);
-
-        isFlashing = false;
+        if (hitFlash == null)
+            hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
 }
