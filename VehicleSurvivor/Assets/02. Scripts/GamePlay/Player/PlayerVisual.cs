@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -14,10 +15,17 @@ public class PlayerVisual : MonoBehaviour
 
     private GameObject spawnedVisual;
     private CancellationTokenSource applyCharacterCts;
+    private HitFlashEffect hitFlash;
+
+    public HitFlashEffect HitFlash => hitFlash;
 
     private void Awake()
     {
-        ResolveAnimator();
+        if (animator == null && visualRoot != null)
+            animator = visualRoot.GetComponentInParent<Animator>();
+
+        if (hitFlash == null)
+            hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
 
     private void OnDestroy()
@@ -63,12 +71,14 @@ public class PlayerVisual : MonoBehaviour
 
             await UniTask.NextFrame(cancellationToken: cancellationToken);
 
-            ResolveAnimator();
             if (animator != null)
             {
                 animator.Rebind();
                 animator.Update(0f);
             }
+
+            if (hitFlash != null)
+                hitFlash.RefreshRenderersFrom(spawnedVisual.transform);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -81,12 +91,6 @@ public class PlayerVisual : MonoBehaviour
                 applyCharacterCts = null;
             }
         }
-    }
-
-    private void ResolveAnimator()
-    {
-        if (animator == null && visualRoot != null)
-            animator = visualRoot.GetComponentInParent<Animator>();
     }
 
     private void ClearVisual(Transform parent)

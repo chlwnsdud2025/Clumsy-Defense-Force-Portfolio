@@ -10,8 +10,16 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
     private Vector3 knockbackVelocity;
     private float knockbackTimer;
     private PlayerRuntime runtime;
+    private HitFlashEffect hitFlash;
 
     public bool IsKnockback => knockbackTimer > 0f;
+
+    private void Awake()
+    {
+        PlayerVisual visual = GetComponentInParent<PlayerVisual>();
+        if (visual != null)
+            hitFlash = visual.HitFlash;
+    }
 
     public void BindRuntime(PlayerRuntime runtime)
     {
@@ -35,7 +43,11 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         if (playerRuntime.Health.CurrentHp <= 0f)
             return;
 
+        float previousHp = playerRuntime.Health.CurrentHp;
         playerRuntime.Health.TakeDamage(damage);
+
+        if (playerRuntime.Health.CurrentHp < previousHp)
+            hitFlash?.TriggerHitFlash();
     }
 
     public void Heal(float amount)

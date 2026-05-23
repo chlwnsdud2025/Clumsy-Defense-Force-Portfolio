@@ -18365,7 +18365,6 @@ MonoBehaviour:
   MoveSpeed: 10
   SpeedChangeRate: 10
   RotationSmoothTime: 0.12
-  MaxAirMoveSpeed: 15
   AirAccelerationSpeed: 10
   AirDrag: 0.1
   JumpHeight: 1.2
@@ -26672,6 +26671,7 @@ GameObject:
   - component: {fileID: 812345678901234571}
   - component: {fileID: 6059743573716432343}
   - component: {fileID: 7063496194685437577}
+  - component: {fileID: 1800134789915332674}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
   m_TagString: Untagged
@@ -26757,6 +26757,25 @@ MonoBehaviour:
   _magnetPullSpeed: 20
   _contactAbsorbRadius: 0.45
   _showPickupRangeGizmo: 1
+--- !u!114 &1800134789915332674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4137169524317950769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  colorPropertyName: _BaseColor
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.5
 --- !u!1 &4138996222422021185
 GameObject:
   m_ObjectHideFlags: 0
