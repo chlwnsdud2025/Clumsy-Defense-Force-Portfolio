@@ -6,35 +6,30 @@ using UnityEngine;
 
 public class UI_LevelUp : UIPopup
 {
-    [Header("Reward Choice Panels")]
+    [Header("보상 선택 패널")]
     [SerializeField] private List<RewardChoicePanel> panels = new();
 
     [Header("Popup Content")]
     [SerializeField] private RectTransform popupContent;
     [SerializeField] private TMP_Text titleText;
+    [SerializeField] private PlayerStatsPanel playerStatsPanel;
 
-    [Header("Open Animation")]
+    [Header("열기 애니메이션")]
     [SerializeField] private float openScaleDuration = 0.35f;
     [SerializeField] private Ease openScaleEase = Ease.OutBack;
-
-    [Header("Focus Effect")]
-    [SerializeField] private float focusedScale = 1.05f;
-    [SerializeField] private float focusTweenDuration = 0.15f;
-    [SerializeField] private Ease focusTweenEase = Ease.OutQuad;
 
     private List<RewardOption> rewards = new();
     private System.Action<RewardOption> onRewardSelected;
     private int selectedIndex = -1;
     private Tween openScaleTween;
-
-    private void Awake()
-    {
-        ConfigurePanels();
-    }
+    private bool hasPlayedPlayerStatsEnterAnimation;
 
     public override async UniTask InitializeAsync()
     {
-        ConfigurePanels();
+        if (playerStatsPanel == null)
+            playerStatsPanel = GetComponentInChildren<PlayerStatsPanel>(true);
+
+        ConfigurePlayerStatsPanel();
         RegisterPanelEvents();
 
         await UniTask.Yield();
@@ -45,12 +40,16 @@ public class UI_LevelUp : UIPopup
         base.OnShow();
         ClearSelection();
         SetSelectedIndex(FindFirstNavigableIndex());
+        RefreshPlayerStats();
     }
 
     public override void OnHide()
     {
+        playerStatsPanel?.StopEnterAnimation();
+        playerStatsPanel?.Unbind();
         KillOpenTween();
         ClearSelection();
+        hasPlayedPlayerStatsEnterAnimation = false;
         base.OnHide();
     }
 
@@ -59,35 +58,46 @@ public class UI_LevelUp : UIPopup
         List<RewardOption> rewardOptions,
         int currentLevel)
     {
-        UpdateTitle(currentLevel);
-
         BindRewards(
             rewardOptions,
             reward => rewardManager?.ApplyReward(reward));
 
+        RefreshPlayerStats();
         PlayOpenAnimation();
     }
 
-    private void UpdateTitle(int currentLevel)
+    private void RefreshPlayerStats()
     {
-        if (titleText == null)
+        if (playerStatsPanel == null)
             return;
 
-        titleText.text = $"레벨업! Lv.{currentLevel}";
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+        {
+            playerStatsPanel.Unbind();
+            return;
+        }
+
+        playerStatsPanel.Bind(runManager.RunSession?.Player);
     }
 
     private void PlayOpenAnimation()
     {
         KillOpenTween();
 
-        if (popupContent == null)
+        if (popupContent != null)
+        {
+            popupContent.localScale = Vector3.zero;
+            openScaleTween = popupContent
+                .DOScale(Vector3.one, openScaleDuration)
+                .SetEase(openScaleEase)
+                .SetUpdate(true);
+        }
+
+        if (hasPlayedPlayerStatsEnterAnimation)
             return;
 
-        popupContent.localScale = Vector3.zero;
-        openScaleTween = popupContent
-            .DOScale(Vector3.one, openScaleDuration)
-            .SetEase(openScaleEase)
-            .SetUpdate(true);
+        playerStatsPanel?.PlayEnterAnimation();
+        hasPlayedPlayerStatsEnterAnimation = true;
     }
 
     private void KillOpenTween()
@@ -120,6 +130,7 @@ public class UI_LevelUp : UIPopup
 
     private void OnDestroy()
     {
+        playerStatsPanel?.StopEnterAnimation();
         KillOpenTween();
         UnregisterPanelEvents();
     }
@@ -151,20 +162,12 @@ public class UI_LevelUp : UIPopup
         }
     }
 
-    private void ConfigurePanels()
+    private void ConfigurePlayerStatsPanel()
     {
-        RewardChoiceFocusSettings focusSettings = new RewardChoiceFocusSettings(
-            focusedScale,
-            focusTweenDuration,
-            focusTweenEase);
+        if (playerStatsPanel == null)
+            return;
 
-        for (int i = 0; i < panels.Count; i++)
-        {
-            if (panels[i] == null)
-                continue;
-
-            panels[i].Configure(focusSettings);
-        }
+        playerStatsPanel.Configure(openScaleDuration, openScaleEase);
     }
 
     private void HandlePanelClicked(RewardChoicePanel panel)
@@ -220,7 +223,7 @@ public class UI_LevelUp : UIPopup
             return;
 
         RewardOption selectedReward = selectedPanel.Reward;
-        Debug.Log($"[UI_LevelUp] Reward selected: index={selectedIndex}, name={selectedReward.DisplayName}");
+        Debug.Log($"[UI_LevelUp] 보상 선택: index={selectedIndex}, name={selectedReward.DisplayName}");
 
         onRewardSelected?.Invoke(selectedReward);
     }

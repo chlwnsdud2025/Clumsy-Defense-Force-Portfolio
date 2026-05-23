@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1532958470828112532}
   - component: {fileID: 3603261484497233054}
   - component: {fileID: 8046493170022611316}
+  - component: {fileID: 6607746560336226846}
   m_Layer: 11
   m_Name: EnemyType2(Ranged) 1
   m_TagString: Enemy
@@ -92,13 +93,6 @@ MonoBehaviour:
   slowClimbSpeed: 3
   contactDamage: 10
   gravity: -20
-  modelRenderers:
-  - {fileID: 150190812492260097}
-  flashDuration: 0.2
-  flashCooldown: 0.1
-  colorPropertyName: _Color
-  flashIntensity: 5
-  flashAlpha: 0.7
   bulletPrefab: {fileID: 8987020003840325061, guid: c9e9fd46fdb29a84683905f5f1bbf4c7, type: 3}
   firePoint: {fileID: 2256778290825846030}
   bulletArcHeight: 2
@@ -370,3 +364,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1631902507202501892, guid: 7bf76839a6ed9f54e93a7c839b2723a1, type: 3}
   m_PrefabInstance: {fileID: 4889663592976505782}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6607746560336226846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3976847350399919973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 150190812492260097}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}

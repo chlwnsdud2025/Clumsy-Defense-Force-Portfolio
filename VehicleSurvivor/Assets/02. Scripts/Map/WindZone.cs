@@ -10,16 +10,16 @@ public class WindZone : MonoBehaviour
     [Tooltip("바람의 중심점으로부터 올라갈 수 있는 최대 높이(거리)")]
     public float maxDistance = 15f;
 
-    private List<PlayerExternalMechanics> _playersInWind = new List<PlayerExternalMechanics>();
+    private List<PlayerEnvironmentReceiver> _playersInWind = new List<PlayerEnvironmentReceiver>();
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
-            if (mechanics != null && !_playersInWind.Contains(mechanics))
+            PlayerEnvironmentReceiver receiver = other.GetComponentInParent<PlayerEnvironmentReceiver>();
+            if (receiver != null && !_playersInWind.Contains(receiver))
             {
-                _playersInWind.Add(mechanics);
+                _playersInWind.Add(receiver);
             }
         }
     }
@@ -28,11 +28,11 @@ public class WindZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
-            if (mechanics != null && _playersInWind.Contains(mechanics))
+            PlayerEnvironmentReceiver receiver = other.GetComponentInParent<PlayerEnvironmentReceiver>();
+            if (receiver != null && _playersInWind.Contains(receiver))
             {
-                mechanics.RemoveWindForce();
-                _playersInWind.Remove(mechanics);
+                receiver.RemoveWindForce();
+                _playersInWind.Remove(receiver);
             }
         }
     }
@@ -46,7 +46,7 @@ public class WindZone : MonoBehaviour
             // 리스트에서 요소를 삭제할 때는 역순(for문 뒤에서부터)으로 돌아야 에러가 안 납니다.
             for (int i = _playersInWind.Count - 1; i >= 0; i--)
             {
-                PlayerExternalMechanics player = _playersInWind[i];
+                PlayerEnvironmentReceiver player = _playersInWind[i];
                 float currentHeight = player.transform.position.y - transform.position.y;
 
                 // 1. 아직 목표 높이에 도달하지 않았을 때 (바람으로 밀어올림)

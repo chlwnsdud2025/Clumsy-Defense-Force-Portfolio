@@ -140,6 +140,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         playerRuntime.Health.OnDied += HandlePlayerDied;
         playerRuntime.Level.OnExpChanged += HandleExpChanged;
         playerRuntime.Level.OnLevelChanged += HandlePlayerLevelChanged;
+        playerRuntime.Inventory.Changed += HandleInventoryChanged;
     }
 
     private void UnbindPlayerRuntime(PlayerRuntime playerRuntime)
@@ -151,6 +152,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
         playerRuntime.Health.OnDied -= HandlePlayerDied;
         playerRuntime.Level.OnExpChanged -= HandleExpChanged;
         playerRuntime.Level.OnLevelChanged -= HandlePlayerLevelChanged;
+        playerRuntime.Inventory.Changed -= HandleInventoryChanged;
     }
 
     private void BindRunSession(RunSession runSession)
@@ -248,6 +250,17 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         _eventBus.Publish(new GoldChangedEvent(gold));
     }
+
+    private void PublishInventoryChanged(EInventoryCategory category, int slotIndex)
+    {
+        if (_eventBus == null)
+            return;
+
+        _eventBus.Publish(new InventoryChangedEvent(category, slotIndex));
+    }
+
+    private void HandleInventoryChanged(EInventoryCategory category, int slotIndex) =>
+        PublishInventoryChanged(category, slotIndex);
 
     private void HandleHpChanged(float currentHp, float maxHp) =>
         PublishHpChanged(currentHp, maxHp);

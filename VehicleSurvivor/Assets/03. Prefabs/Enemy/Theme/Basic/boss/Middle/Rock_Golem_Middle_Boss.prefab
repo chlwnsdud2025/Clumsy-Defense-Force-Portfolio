@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1343500330905437072}
   - component: {fileID: 4785367763826190215}
   - component: {fileID: 2917032684728997593}
+  - component: {fileID: 3399125898996550414}
   m_Layer: 11
   m_Name: Rock_Golem_Middle_Boss
   m_TagString: Enemy
@@ -82,10 +83,6 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
-  modelRenderers:
-  - {fileID: 8697754700194449235}
-  flashDuration: 0.1
-  flashCooldown: 0.1
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -179,3 +176,20 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8088169074377837538, guid: 812ddbf09810e754bbf24d7bbd9f760b, type: 3}
   m_PrefabInstance: {fileID: 615395810364116145}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3399125898996550414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717250689072296721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 8697754700194449235}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}

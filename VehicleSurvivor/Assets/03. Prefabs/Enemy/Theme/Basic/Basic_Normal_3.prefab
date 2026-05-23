@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8566303924165516245}
   - component: {fileID: 5290101143707185595}
   - component: {fileID: 5283696946010704654}
+  - component: {fileID: 7195512406507090203}
   m_Layer: 11
   m_Name: Basic_Normal_3
   m_TagString: Enemy
@@ -117,13 +118,6 @@ MonoBehaviour:
   slowClimbSpeed: 5
   contactDamage: 10
   gravity: -20
-  modelRenderers:
-  - {fileID: 510731679741933136}
-  flashDuration: 0.2
-  flashCooldown: 0.1
-  colorPropertyName: _Color
-  flashIntensity: 5
-  flashAlpha: 0.7
 --- !u!1 &8486141435203068221
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,3 +232,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4190286303908347237, guid: 48bdbdec4d5a56a47970547c4020273d, type: 3}
   m_PrefabInstance: {fileID: 3078497757302652893}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7195512406507090203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539001815701513887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 510731679741933136}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}

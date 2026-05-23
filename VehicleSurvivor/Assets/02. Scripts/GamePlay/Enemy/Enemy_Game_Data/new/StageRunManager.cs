@@ -103,14 +103,17 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && playerTeleportPoint != null)
         {
-            CharacterController cc = player.GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.Teleport(playerTeleportPoint.position, playerTeleportPoint.rotation);
+            }
+            else
+            {
+                player.transform.SetPositionAndRotation(playerTeleportPoint.position, playerTeleportPoint.rotation);
+            }
 
-            player.transform.position = playerTeleportPoint.position;
-            player.transform.rotation = playerTeleportPoint.rotation;
             player.transform.SetParent(bossMap);
-
-            if (cc != null) cc.enabled = true;
         }
 
         if (plazaMap != null)

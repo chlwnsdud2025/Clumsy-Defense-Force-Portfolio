@@ -6,19 +6,11 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     [Header("Base References")]
     public Transform playerTarget;
 
-    // [신규 추가] 보스도 데미지 텍스트를 띄울 위치가 필요합니다!
-    [Header("UI")]
-    public Transform damageTextSpawnpoint;
-
     [Header("Base Stats")]
     public float maxHealth = 10f;
     protected float currentHealth;
     public float moveSpeed = 3f;
     public float rotationSpeed = 3f;
-
-    [Header("Rewards")]
-    public int expReward = 500;   // 보스용 대량 경험치
-    public int moneyReward = 300; // 보스용 대량 골드
 
     [Header("Combat Base")]
     public float contactDamage = 30f;
@@ -40,28 +32,14 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     protected float currentAttackCooldown;
 
     private RaycastHit[] hitBuffer = new RaycastHit[10];
-    // 자식 클래스에서 패턴 시전 중임을 알릴 때 사용하는 플래그
     protected bool isCastingPattern = false;
 
-    // ==========================================
-    // [최적화됨] 피격 점멸 (Hit Flash) 설정 (Enemy와 동일)
-    // ==========================================
-    [Header("Hit Flash Settings (Optimized)")]
-    public Renderer[] modelRenderers;
-    public float flashDuration = 0.1f;
-    public float flashCooldown = 0.1f;
-    public string colorPropertyName = "_Color"; // URP라면 "_BaseColor" 로 변경
-    public float flashIntensity = 5f;
-    [Range(0f, 1f)] public float flashAlpha = 0.4f;
+    [SerializeField] private HitFlashEffect hitFlash;
 
-    private Color[] originalColors;
-    private Color[] precalculatedFlashColors;
-    private int colorPropertyID;
-
-    private MaterialPropertyBlock propBlock;
-    private float flashTimer = 0f;
-    private float flashCooldownTimer = 0f;
-    // ==========================================
+    protected virtual void Awake()
+    {
+        ResolveHitFlash();
+    }
 
     protected virtual void Start()
     {
@@ -72,29 +50,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) playerTarget = player.transform;
-        }
-
-        // [최적화 적용] 몹이 태어날 때 미리 색상과 ID를 계산해 둡니다.
-        propBlock = new MaterialPropertyBlock();
-        colorPropertyID = Shader.PropertyToID(colorPropertyName);
-
-        if (modelRenderers != null && modelRenderers.Length > 0)
-        {
-            originalColors = new Color[modelRenderers.Length];
-            precalculatedFlashColors = new Color[modelRenderers.Length];
-
-            for (int i = 0; i < modelRenderers.Length; i++)
-            {
-                if (modelRenderers[i] != null && modelRenderers[i].sharedMaterial != null)
-                {
-                    if (modelRenderers[i].sharedMaterial.HasProperty(colorPropertyID))
-                        originalColors[i] = modelRenderers[i].sharedMaterial.GetColor(colorPropertyID);
-                    else
-                        originalColors[i] = Color.white;
-
-                    precalculatedFlashColors[i] = Color.Lerp(originalColors[i], Color.white * flashIntensity, flashAlpha);
-                }
-            }
         }
     }
 
@@ -118,12 +73,10 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected abstract void Attack();
 
-    // (지형 이동 로직은 동일하게 유지)
     private void MoveAndSnapToGround(float dt)
     {
         Vector3 playerDir = playerTarget.position - transform.position;
         playerDir.y = 0;
-        float distanceToPlayer = playerDir.magnitude;
         playerDir = playerDir.normalized;
 
         Vector3 horizontalVelocity = playerDir * moveSpeed;
@@ -219,14 +172,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
 
-        // [신규 적용] 보스도 데미지 텍스트를 띄웁니다!
-        if (damageTextSpawnpoint != null && DamageTextPool.Instance != null)
-        {
-            GameObject textObj = DamageTextPool.Instance.GetDamageText();
-            textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
-        }
-
-        TriggerHitFlash(); // 점멸 효과 발동!
+        hitFlash?.TriggerHitFlash();
 
         if (currentHealth <= 0)
         {
@@ -237,100 +183,15 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
+        hitFlash?.ResetFlash();
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
-
-        DropExpOrbs(); // [신규] 보스 경험치 드랍
-        DropMoney();   // [신규] 보스 재화 드랍
-
-
-        if (StageRunManager.Instance != null)
-        {
-            StageRunManager.Instance.OnMidBossDefeated();
-        }
+        StageRunManager.Instance.OnMidBossDefeated();
         Destroy(gameObject);
     }
 
-    // 피격 점멸 적용 로직 (Enemy.cs와 동일)
-    protected void TriggerHitFlash()
+    private void ResolveHitFlash()
     {
-        if (flashCooldownTimer <= 0f)
-        {
-            flashTimer = flashDuration;
-            flashCooldownTimer = flashDuration + flashCooldown;
-        }
-    }
-
-    protected virtual void LateUpdate()
-    {
-        if (flashCooldownTimer > 0f) flashCooldownTimer -= Time.deltaTime;
-
-        if (flashTimer > 0f)
-        {
-            flashTimer -= Time.deltaTime;
-
-            ApplyFlashColor(precalculatedFlashColors);
-
-            if (flashTimer <= 0f)
-            {
-                RestoreOriginalColors();
-            }
-        }
-    }
-
-    private void ApplyFlashColor(Color[] colorsToApply)
-    {
-        if (modelRenderers == null || colorsToApply == null) return;
-
-        for (int i = 0; i < modelRenderers.Length; i++)
-        {
-            if (modelRenderers[i] != null)
-            {
-                modelRenderers[i].GetPropertyBlock(propBlock);
-                propBlock.SetColor(colorPropertyID, colorsToApply[i]);
-                modelRenderers[i].SetPropertyBlock(propBlock);
-            }
-        }
-    }
-
-    private void RestoreOriginalColors()
-    {
-        if (modelRenderers == null || originalColors == null) return;
-
-        for (int i = 0; i < modelRenderers.Length; i++)
-        {
-            if (modelRenderers[i] != null)
-            {
-                modelRenderers[i].GetPropertyBlock(propBlock);
-                propBlock.SetColor(colorPropertyID, originalColors[i]);
-                modelRenderers[i].SetPropertyBlock(propBlock);
-            }
-        }
-    }
-
-
-    private void DropExpOrbs()
-    {
-        Vector3 dropPos = transform.position;
-        dropPos.y += 0.5f;
-
-        if (ExpManager.Instance != null)
-        {
-            // 보스의 거대한 경험치(예: 500)를 던져주면, 
-            // 매니저가 알아서 "앗 50 이상이네! 제일 큰 구슬(Large) 줘야지!" 하고 처리합니다.
-            ExpManager.Instance.SpawnExp(dropPos, expReward);
-        }
-    }
-
-    private void DropMoney()
-    {
-        Vector3 dropPos = transform.position;
-        dropPos.y += 0.5f;
-
-        if (MoneyManager.Instance != null && playerTarget != null)
-        {
-      
-            MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
-            
-        }
+        if (hitFlash == null)
+            hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
 }

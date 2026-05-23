@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
 {
-    [Tooltip("스폰될 플레이어 루트 프리팹(Player 컴포넌트 포함)")]
-    [SerializeField] private Player playerRootPrefab;
-
-    [Tooltip("기존 씬 호환용 플레이어 프리팹 참조(PlayerVisual 컴포넌트)")]
-    [SerializeField] private PlayerVisual playerPrefab;
+    [Tooltip("스폰될 플레이어 프리팹(Player 컴포넌트 포함)")]
+    [SerializeField] private Player playerPrefab;
 
     [Tooltip("플레이어가 스폰될 위치")]
     [SerializeField] private Transform playerSpawnPoint;
@@ -67,14 +64,23 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
 
         try
         {
-            CharacterDefinitionSO selectedCharacter = null;
             if (!ServiceLocator.TryGet(out ICharacterService characterService))
             {
                 Debug.LogError("[InGameSceneManager] ICharacterService를 찾을 수 없어 인게임 초기화를 진행할 수 없습니다.");
                 return;
             }
 
-            selectedCharacter = characterService.GetSelectedCharacter();
+            CharacterDefinitionSO selectedCharacter = characterService.SelectedCharacter;
+            if (selectedCharacter == null)
+            {
+#if UNITY_EDITOR
+                if (playerPrefab != null)
+                    selectedCharacter = playerPrefab.DebugCharacterDefinition;
+#endif
+                if (selectedCharacter == null)
+                    selectedCharacter = characterService.DefaultCharacter;
+            }
+
             if (selectedCharacter == null)
             {
                 Debug.LogError("[InGameSceneManager] 선택된 캐릭터가 없어 인게임 초기화를 진행할 수 없습니다.");
@@ -114,9 +120,9 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         if (selected == null)
             return false;
 
-        if (playerRootPrefab == null && playerPrefab == null)
+        if (playerPrefab == null)
         {
-            Debug.LogError("[InGameSceneManager] Player 프리팹(playerPrefab)이 할당되어 있지 않습니다.");
+            Debug.LogError("[InGameSceneManager] Player 프리팹이 할당되어 있지 않습니다.");
             return false;
         }
 
@@ -126,7 +132,7 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         await UniTask.Yield();
 
         Transform spawn = playerSpawnPoint != null ? playerSpawnPoint : transform;
-        spawnedPlayer = InstantiatePlayer(spawn.position, spawn.rotation);
+        spawnedPlayer = Instantiate(playerPrefab, spawn.position, spawn.rotation);
 
         if (spawnedPlayer == null)
         {
@@ -135,46 +141,21 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         }
 
         await spawnedPlayer.InitializeVisualAsync(selected);
-        WireEnemyManagerToPlayer(ResolvePlayerFollowTransform(spawnedPlayer));
+        WireEnemyManagerToPlayer(spawnedPlayer);
         return true;
     }
 
-    private Player InstantiatePlayer(Vector3 position, Quaternion rotation)
-    {
-        if (playerRootPrefab != null)
-        {
-            return Instantiate(playerRootPrefab, position, rotation);
-        }
-
-        PlayerVisual visual = Instantiate(playerPrefab, position, rotation);
-        Player player = visual != null ? visual.GetComponentInParent<Player>() : null;
-
-        if (player == null && visual != null)
-        {
-            player = visual.gameObject.AddComponent<Player>();
-        }
-
-        return player;
-    }
-
     /// <summary>
-    /// CharacterController가 움직이는 본체(통상 PlayerController가 붙은 오브젝트)의 Transform을 반환합니다.
+    /// EnemyManager가 추적할 Player Transform을 연결합니다.
     /// </summary>
-    private static Transform ResolvePlayerFollowTransform(Player player)
+    private void WireEnemyManagerToPlayer(Player player)
     {
         if (player == null)
-            return null;
-
-        if (player.FollowTransform == player.transform)
-            Debug.LogWarning("[InGameSceneManager] PlayerController를 찾을 수 없어 EnemyManager에 Player.transform을 연결합니다.");
-
-        return player.FollowTransform;
-    }
-
-    private static void WireEnemyManagerToPlayer(Transform playerFollowTransform)
-    {
-        if (playerFollowTransform == null)
             return;
+
+        Transform playerFollowTransform = player.FollowTransform;
+        if (playerFollowTransform == player.transform)
+            Debug.LogWarning("[InGameSceneManager] PlayerController를 찾을 수 없어 EnemyManager에 Player.transform을 연결합니다.");
 
         if (EnemyManager.Instance == null)
         {
@@ -194,7 +175,7 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
         spawnedPlayer = null;
     }
 
-    private static void DestroyAllPlayerInstances()
+    private void DestroyAllPlayerInstances()
     {
         Player[] players = FindObjectsByType<Player>(FindObjectsInactive.Include);
 
@@ -210,7 +191,7 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
     /// 플레이어 스폰 전에 씬에 남아 있는 카메라의 AudioListener를 끕니다.
     /// 스폰되는 플레이어 카메라 리스너만 활성 상태로 남기기 위함입니다.
     /// </summary>
-    private static void DisableAudioListenersOnSceneCameras()
+    private void DisableAudioListenersOnSceneCameras()
     {
         Camera[] cameras = FindObjectsByType<Camera>(FindObjectsInactive.Include);
 
