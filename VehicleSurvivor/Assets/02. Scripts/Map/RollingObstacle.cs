@@ -13,8 +13,8 @@ public class RollingObstacle : MonoBehaviour
         // 플레이어를 쳤을 때 넉백!
         if (other.CompareTag("Player") && Time.time >= _lastHitTime + 0.5f)
         {
-            PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
-            if (mechanics != null)
+            PlayerEnvironmentReceiver receiver = other.GetComponentInParent<PlayerEnvironmentReceiver>();
+            if (receiver != null)
             {
                 _lastHitTime = Time.time;
 
@@ -22,7 +22,7 @@ public class RollingObstacle : MonoBehaviour
                 Vector3 pushDirection = other.transform.position - transform.position;
                 pushDirection.y = 0f;
 
-                mechanics.ApplyTargetHeightJump(knockbackHeight, knockbackForce, pushDirection.normalized);
+                receiver.ApplyTargetHeightJump(knockbackHeight, knockbackForce, pushDirection.normalized);
             }
         }
     }

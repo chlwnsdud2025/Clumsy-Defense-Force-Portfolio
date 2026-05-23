@@ -377,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.20000005, y: 73, z: -10}
+  m_LocalPosition: {x: 0.20000005, y: 1.375, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -675,7 +675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &663870440
 Transform:
   m_ObjectHideFlags: 0
@@ -839,8 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a6e5d4c3b2a1908f7e6d5c4b3a2910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGameSceneManager
-  playerRootPrefab: {fileID: 7123456789012345678, guid: c1719f26313ba2649b9c78101940321a, type: 3}
-  playerPrefab: {fileID: 995045826313509485, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+  playerPrefab: {fileID: 4254791629272571124, guid: c1719f26313ba2649b9c78101940321a, type: 3}
   playerSpawnPoint: {fileID: 1135997121}
 --- !u!4 &921667730 stripped
 Transform:
@@ -1046,9 +1045,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1064527645185230068, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299426306427362991, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3333750421715907767, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4013464891056521226, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
       propertyPath: m_Name
       value: Map (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115752392764064929, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115752392764064929, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -2,42 +2,43 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
+[DefaultExecutionOrder(-150)]
 public sealed class MapConveyorBelt : MonoBehaviour
 {
     [SerializeField] private Vector3 moveDirection = Vector3.back;
     [SerializeField] private float beltSpeed = 5f;
 
-    private readonly List<CharacterController> playersOnBelt = new List<CharacterController>();
+    private readonly List<PlayerMotor> playersOnBelt = new List<PlayerMotor>();
 
     private void OnTriggerEnter(Collider other)
     {
-        CharacterController controller = ResolvePlayerController(other);
-        if (controller != null && !playersOnBelt.Contains(controller))
-            playersOnBelt.Add(controller);
+        PlayerMotor motor = ResolvePlayerMotor(other);
+        if (motor != null && !playersOnBelt.Contains(motor))
+            playersOnBelt.Add(motor);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        CharacterController controller = ResolvePlayerController(other);
-        if (controller != null)
-            playersOnBelt.Remove(controller);
+        PlayerMotor motor = ResolvePlayerMotor(other);
+        if (motor != null)
+            playersOnBelt.Remove(motor);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        playersOnBelt.RemoveAll(controller => controller == null);
+        playersOnBelt.RemoveAll(motor => motor == null);
 
         if (playersOnBelt.Count == 0)
             return;
 
         Vector3 worldDirection = transform.TransformDirection(moveDirection.normalized);
-        Vector3 movement = worldDirection * beltSpeed * Time.deltaTime;
+        Vector3 conveyorVelocity = worldDirection * beltSpeed;
 
         for (int i = 0; i < playersOnBelt.Count; i++)
-            playersOnBelt[i].Move(movement);
+            playersOnBelt[i].SetConveyorVelocity(conveyorVelocity);
     }
 
-    private static CharacterController ResolvePlayerController(Collider other)
+    private static PlayerMotor ResolvePlayerMotor(Collider other)
     {
         if (other == null)
             return null;
@@ -46,6 +47,6 @@ public sealed class MapConveyorBelt : MonoBehaviour
         if (player == null && !other.CompareTag("Player"))
             return null;
 
-        return other.GetComponentInParent<CharacterController>();
+        return other.GetComponentInParent<PlayerMotor>();
     }
 }
