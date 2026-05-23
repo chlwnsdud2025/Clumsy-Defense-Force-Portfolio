@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -5,16 +7,11 @@ using UnityEngine.UI;
 
 public class UI_InGameHUD : UIScene
 {
-    private IEventBus _eventBus;
-    private bool _isSubscribed;
-
     [Header("Player UI")]
-    [SerializeField] private TextMeshProUGUI characterNameText;
     [SerializeField] private Slider hpSlider;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private Slider boostSlider;
 
     [Header("Game Info UI")]
     [SerializeField] private TextMeshProUGUI goldText;
@@ -29,8 +26,13 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private float waveTimerNightmarePunchPower = 0.15f;
     [SerializeField] private float waveTimerStyleTweenDuration = 0.3f;
 
-    [Header("Game UI")]
-    [SerializeField] private RectTransform pauseButtonRect;
+    [Header("Loadout UI")]
+    [SerializeField] private Transform weaponSlotRoot;
+    [SerializeField] private LoadoutSlot weaponSlotPrefab;
+    [SerializeField] private Transform passiveSlotRoot;
+    [SerializeField] private LoadoutSlot passiveSlotPrefab;
+    [SerializeField] private Transform itemSlotRoot;
+    [SerializeField] private LoadoutSlot itemSlotPrefab;
 
     [Header("HP Tween")]
     [SerializeField] private float hpTweenDuration = 0.25f;
@@ -40,34 +42,41 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private float expTweenDuration = 0.25f;
     [SerializeField] private Ease expTweenEase = Ease.OutQuad;
 
-    [Header("Boost Tween")]
-    [SerializeField] private float boostTweenDuration = 0.25f;
-    [SerializeField] private Ease boostTweenEase = Ease.OutQuad;
-
     [Header("HP Warning")]
     [SerializeField] private float hpWarningThreshold = 0.2f;
     [SerializeField] private float hpWarningFadeDuration = 0.35f;
     [SerializeField] private float hpWarningTargetAlpha = 0.35f;
     [SerializeField] private Ease hpWarningEase = Ease.Linear;
 
-    [Header("Pause Button Tween")]
-    [SerializeField] private float pauseButtonPunchPower = 0.12f;
-    [SerializeField] private float pauseButtonTweenDuration = 0.15f;
+    private readonly List<LoadoutSlot> _weaponSlots = new();
+    private readonly List<LoadoutSlot> _passiveSlots = new();
+    private readonly List<LoadoutSlot> _itemSlots = new();
 
     private Tween hpTween;
     private Tween expTween;
-    private Tween boostTween;
     private Tween hpWarningTween;
-    private Tween pauseButtonTween;
     private Tween waveTimerStyleTween;
     private Tween waveTimerPunchTween;
 
+    private IEventBus _eventBus;
+
+    private bool _isSubscribed;
     private bool _isWaveNightmare;
 
     private void Awake()
     {
         if (waveTimerRect == null && waveTimerText != null)
             waveTimerRect = waveTimerText.rectTransform;
+    }
+
+    public async override UniTask InitializeAsync()
+    {
+        EnsureSlotCount(_weaponSlots, weaponSlotRoot, weaponSlotPrefab, PlayerInventory.DefaultMaxWeaponSlots);
+        EnsureSlotCount(_passiveSlots, passiveSlotRoot, passiveSlotPrefab, PlayerInventory.DefaultMaxPassiveSlots);
+        EnsureSlotCount(_itemSlots, itemSlotRoot, itemSlotPrefab, PlayerInventory.DefaultMaxItemSlots);
+        ClearAllLoadoutSlots();
+
+        await UniTask.Yield();
     }
 
     public override void OnShow()
@@ -87,30 +96,27 @@ public class UI_InGameHUD : UIScene
     {
         if (character == null)
         {
-            UpdateCharacterName(string.Empty);
             UpdateHpGauge(0, 1);
             UpdateExpGauge(0, 1);
             UpdateLevelUI(1);
-            UpdateBoostGauge(0, 1);
             UpdateGoldUI(0);
             UpdateKillUI(0);
             UpdateTotalTimerUI(0f);
             UpdateWaveTimerUI(0f, false);
+            ClearAllLoadoutSlots();
             return;
         }
-
-        UpdateCharacterName(character.DisplayName);
 
         int maxHp = Mathf.RoundToInt(character.Combat.MaxHealth);
         UpdateHpGauge(maxHp, maxHp);
 
         UpdateExpGauge(0, 1);
         UpdateLevelUI(1);
-        UpdateBoostGauge(0, 1);
         UpdateGoldUI(0);
         UpdateKillUI(0);
         UpdateTotalTimerUI(0f);
         UpdateWaveTimerUI(0f, false);
+        ClearAllLoadoutSlots();
     }
 
     private void SubscribeEvents()
@@ -128,6 +134,7 @@ public class UI_InGameHUD : UIScene
         _eventBus.Subscribe<TimeChangeEvent>(OnTimeChanged);
         _eventBus.Subscribe<WaveTimeChangedEvent>(OnWaveTimeChanged);
         _eventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
+        _eventBus.Subscribe<InventoryChangedEvent>(OnInventoryChanged);
 
         _isSubscribed = true;
     }
@@ -146,15 +153,10 @@ public class UI_InGameHUD : UIScene
             _eventBus.Unsubscribe<TimeChangeEvent>(OnTimeChanged);
             _eventBus.Unsubscribe<WaveTimeChangedEvent>(OnWaveTimeChanged);
             _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
+            _eventBus.Unsubscribe<InventoryChangedEvent>(OnInventoryChanged);
         }
 
         _isSubscribed = false;
-    }
-
-    public void UpdateCharacterName(string characterName)
-    {
-        if (characterNameText != null)
-            characterNameText.text = characterName;
     }
 
     public void UpdateHpGauge(int current, int max)
@@ -177,20 +179,6 @@ public class UI_InGameHUD : UIScene
             StartWarningHp();
         else
             StopWarningHp();
-    }
-
-    public void UpdateBoostGauge(int current, int max)
-    {
-        float ratio = max > 0 ? (float)current / max : 0f;
-        ratio = Mathf.Clamp01(ratio);
-
-        if (boostSlider != null)
-        {
-            boostTween?.Kill();
-            boostTween = boostSlider
-                .DOValue(ratio, boostTweenDuration)
-                .SetEase(boostTweenEase);
-        }
     }
 
     public void UpdateExpGauge(int current, int max)
@@ -282,39 +270,142 @@ public class UI_InGameHUD : UIScene
         }
     }
 
-    private void OnHpChanged(HpChangedEvent e)
+    private void UpdateLoadoutSlot(EInventoryCategory category, int slotIndex)
     {
-        UpdateHpGauge(e.Current, e.Max);
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+            return;
+
+        PlayerInventory inventory = runManager.RunSession?.Player?.Inventory;
+
+        if (inventory == null)
+        {
+            Debug.LogWarning("[UI_InGameHUD] Player Inventory가 존재하지 않아 LoadoutSlot을 업데이트할 수 없습니다.");
+            return;
+        }
+
+        switch (category)
+        {
+            case EInventoryCategory.Weapon:
+                UpdateWeaponSlot(inventory, slotIndex);
+                break;
+            case EInventoryCategory.Passive:
+                UpdatePassiveSlot(inventory, slotIndex);
+                break;
+            case EInventoryCategory.Item:
+                UpdateItemSlot(inventory, slotIndex);
+                break;
+        }
     }
 
-    private void OnExpChanged(ExpChangedEvent e)
+    private void OnHpChanged(HpChangedEvent e) => UpdateHpGauge(e.Current, e.Max);
+    private void OnExpChanged(ExpChangedEvent e) => UpdateExpGauge(e.Current, e.Required);
+    private void OnLevelChanged(LevelChangedEvent e) => UpdateLevelUI(e.Level);
+    private void OnKillChanged(KillCountEvent e) => UpdateKillUI(e.KillCount);
+    private void OnTimeChanged(TimeChangeEvent e) => UpdateTotalTimerUI(e.Time);
+    private void OnWaveTimeChanged(WaveTimeChangedEvent e) => UpdateWaveTimerUI(e.DisplayTime, e.IsNightmare);
+    private void OnGoldChanged(GoldChangedEvent e) => UpdateGoldUI(e.Gold);
+    private void OnInventoryChanged(InventoryChangedEvent e) => UpdateLoadoutSlot(e.Category, e.SlotIndex);
+
+    private void UpdateWeaponSlot(PlayerInventory inventory, int slotIndex)
     {
-        UpdateExpGauge(e.Current, e.Required);
+        if (!TryGetSlot(_weaponSlots, inventory.MaxWeaponSlots, slotIndex, out LoadoutSlot slot))
+            return;
+
+        WeaponInstance weapon = inventory.Weapons[slotIndex];
+        slot.Bind(weapon.Definition.Icon, weapon.CurrentLevel);
     }
 
-    private void OnLevelChanged(LevelChangedEvent e)
+    private void UpdatePassiveSlot(PlayerInventory inventory, int slotIndex)
     {
-        UpdateLevelUI(e.Level);
+        if (!TryGetSlot(_passiveSlots, inventory.MaxPassiveSlots, slotIndex, out LoadoutSlot slot))
+            return;
+
+        PassiveInstance passive = inventory.Passives[slotIndex];
+        slot.Bind(passive.Definition.Icon, passive.CurrentLevel);
+
     }
 
-    private void OnKillChanged(KillCountEvent e)
+    private void UpdateItemSlot(PlayerInventory inventory, int slotIndex)
     {
-        UpdateKillUI(e.KillCount);
+        if (!TryGetSlot(_itemSlots, inventory.MaxItemSlots, slotIndex, out LoadoutSlot slot))
+            return;
+
+        ItemInstance item = inventory.Items[slotIndex];
+        int displayValue = item.StackCount > 1 ? item.StackCount : 0;
+        slot.Bind(item.Definition.Icon, displayValue);
     }
 
-    private void OnTimeChanged(TimeChangeEvent e)
+    private static bool TryGetSlot(
+        List<LoadoutSlot> slots,
+        int maxSlotCount,
+        int slotIndex,
+        out LoadoutSlot slot)
     {
-        UpdateTotalTimerUI(e.Time);
+        slot = null;
+
+        if (slotIndex < 0 || slotIndex >= maxSlotCount || slotIndex >= slots.Count)
+            return false;
+
+        slot = slots[slotIndex];
+        return slot != null;
     }
 
-    private void OnWaveTimeChanged(WaveTimeChangedEvent e)
+    private void EnsureSlotCount(List<LoadoutSlot> pool, Transform root, LoadoutSlot prefab, int maxCount)
     {
-        UpdateWaveTimerUI(e.DisplayTime, e.IsNightmare);
+        if (root == null)
+            return;
+
+        maxCount = Mathf.Max(0, maxCount);
+
+        pool.RemoveAll(slot => slot == null);
+
+        for (int i = 0; i < root.childCount; i++)
+        {
+            if (!root.GetChild(i).TryGetComponent(out LoadoutSlot existingSlot))
+                continue;
+
+            if (!pool.Contains(existingSlot))
+                pool.Add(existingSlot);
+        }
+
+        while (pool.Count < maxCount)
+        {
+            if (prefab == null)
+            {
+                Debug.LogError($"[UI_InGameHUD] {root.name}의 Loadout 슬롯 프리팹이 할당되지 않았습니다.");
+                break;
+            }
+
+            LoadoutSlot slot = Instantiate(prefab, root);
+            pool.Add(slot);
+        }
+
+        for (int i = 0; i < pool.Count; i++)
+        {
+            LoadoutSlot slot = pool[i];
+            bool isWithinMax = i < maxCount;
+            slot.gameObject.SetActive(isWithinMax);
+
+            if (!isWithinMax)
+                continue;
+
+            slot.ClearEmpty();
+        }
     }
 
-    private void OnGoldChanged(GoldChangedEvent e)
+    private void ClearAllLoadoutSlots()
     {
-        UpdateGoldUI(e.Gold);
+        ClearEmptySlots(_weaponSlots, PlayerInventory.DefaultMaxWeaponSlots);
+        ClearEmptySlots(_passiveSlots, PlayerInventory.DefaultMaxPassiveSlots);
+        ClearEmptySlots(_itemSlots, PlayerInventory.DefaultMaxItemSlots);
+    }
+
+    private void ClearEmptySlots(List<LoadoutSlot> slots, int maxSlotCount)
+    {
+        int slotCount = Mathf.Min(maxSlotCount, slots.Count);
+
+        for (int i = 0; i < slotCount; i++)
+            slots[i].ClearEmpty();
     }
 
     private void StartWarningHp()
@@ -344,34 +435,19 @@ public class UI_InGameHUD : UIScene
     {
         hpTween?.Kill();
         expTween?.Kill();
-        boostTween?.Kill();
         hpWarningTween?.Kill();
-        pauseButtonTween?.Kill();
         waveTimerStyleTween?.Kill();
         waveTimerPunchTween?.Kill();
 
         hpTween = null;
         expTween = null;
-        boostTween = null;
         hpWarningTween = null;
-        pauseButtonTween = null;
         waveTimerStyleTween = null;
         waveTimerPunchTween = null;
     }
 
-    private void PlayPauseButtonTween()
-    {
-        if (pauseButtonRect == null)
-            return;
-
-        pauseButtonTween?.Kill();
-        pauseButtonRect.localScale = Vector3.one;
-        pauseButtonTween = pauseButtonRect.DOPunchScale(Vector3.one * pauseButtonPunchPower, pauseButtonTweenDuration);
-    }
-
     public void OnClickPausePopup()
     {
-        PlayPauseButtonTween();
         UIManager.Instance.ShowPopup(EPopupUIType.Pause);
     }
 

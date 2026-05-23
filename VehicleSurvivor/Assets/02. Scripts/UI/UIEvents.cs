@@ -73,3 +73,15 @@ public readonly struct LevelChangedEvent
         Level = level;
     }
 }
+
+public readonly struct InventoryChangedEvent
+{
+    public readonly EInventoryCategory Category;
+    public readonly int SlotIndex;
+
+    public InventoryChangedEvent(EInventoryCategory category, int slotIndex)
+    {
+        Category = category;
+        SlotIndex = slotIndex;
+    }
+}
