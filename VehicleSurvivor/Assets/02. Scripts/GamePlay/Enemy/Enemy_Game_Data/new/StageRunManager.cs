@@ -11,27 +11,27 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     [Header("Runtime Info (디버그용)")]
     public int currentPhaseIndex = 0;
 
-    [Header("최종 보스 전환 연출 (Final Transition)")]
-    [Tooltip("가라앉을 기존 광장 맵의 최상위 부모 오브젝트")]
-    public Transform plazaMap;
+    [Header("Debug Options")]
+    [Tooltip("체크하고 게임을 시작하면 1~6페이즈를 건너뛰고 바로 최종 포탈을 생성합니다.")]
+    public bool debugSkipToFinalBoss = false;
 
-    [Tooltip("솟아오를 최종 보스 맵의 최상위 부모 오브젝트 (미리 꺼두지 마시고 씬에 배치만 해두세요)")]
-    public Transform bossMap;
+    [Header("Skybox Settings (스카이박스 연출)")]
+    [Tooltip("일반 스테이지(광장 맵)에서 사용할 기본 스카이박스 마티리얼")]
+    public Material defaultSkybox;
 
-    [Tooltip("최종 보스 프리팹")]
-    public GameObject finalBossPrefab;
+    [Tooltip("최종 보스방에서 사용할 어둡거나 기괴한 보스전 전용 스카이박스 마티리얼")]
+    public Material bossSkybox;
 
-    [Tooltip("최종 보스가 스폰될 위치 (보스 맵의 정중앙 등)")]
-    public Transform finalBossSpawnPoint;
+    [Header("최종 보스 포탈 연출 (Final Portal)")]
+    public GameObject finalPortalPrefab;
+    public Transform portalSpawnPoint;
 
-    [Tooltip("연출이 시작될 때 플레이어가 순간이동할 안전한 위치 (보스 맵 끄트머리 등)")]
+    [Space(10)]
+    public GameObject plazaMap;
+    public GameObject bossMap;
     public Transform playerTeleportPoint;
-
-    [Tooltip("맵이 오르내리는 시간 (초)")]
-    public float transitionDuration = 4f;
-
-    [Tooltip("맵이 지하로 얼마나 깊이 내려갈지")]
-    public float mapDropDistance = 50f;
+    public GameObject finalBossPrefab;
+    public Transform finalBossSpawnPoint;
 
     private void Start()
     {
@@ -42,13 +42,26 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
         if (bossMap != null)
         {
-            bossMap.position += Vector3.down * mapDropDistance;
-            bossMap.gameObject.SetActive(false);
+            bossMap.SetActive(false);
         }
+
+        // 게임 시작 시 기본 스카이박스로 안전하게 세팅
+        ApplySkybox(defaultSkybox);
     }
 
     public void InitializeForRun()
     {
+        // 런이 새로 시작될 때 기본 스카이박스로 초기화
+        ApplySkybox(defaultSkybox);
+
+        if (debugSkipToFinalBoss)
+        {
+            Debug.LogWarning("디버그 모드 작동: 모든 페이즈를 스킵하고 최종 보스 포탈을 생성합니다!");
+            currentPhaseIndex = 5;
+            OnMidBossDefeated();
+            return;
+        }
+
         StartPhase(0);
     }
 
@@ -56,6 +69,8 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     {
         StopAllCoroutines();
         currentPhaseIndex = 0;
+        // 게임 오버나 로비로 나갈 때 스카이박스 복구
+        ApplySkybox(defaultSkybox);
     }
 
     private void StartPhase(int phaseIndex)
@@ -65,11 +80,10 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
         if (phaseIndex >= currentTheme.phases.Count)
         {
-            Debug.LogError("모든 페이즈 클리어! 최종 보스전 돌입!");
             return;
         }
 
-        Debug.Log("다음 페이즈 시작!");
+        Debug.Log($"페이즈 {phaseIndex + 1} 시작!");
 
         currentPhaseIndex = phaseIndex;
         StagePhase currentPhase = currentTheme.phases[currentPhaseIndex];
@@ -90,18 +104,34 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     {
         if (currentPhaseIndex >= 5)
         {
-            Debug.Log("6개 스테이지 모두 클리어! 최종 보스 연출을 시작합니다!");
-            StartCoroutine(FinalTransitionRoutine());
+            Debug.Log("6개 스테이지 모두 클리어 (또는 디버그)! 중앙에 포탈을 생성합니다!");
+
+            if (finalPortalPrefab != null && portalSpawnPoint != null)
+            {
+                Instantiate(finalPortalPrefab, portalSpawnPoint.position, finalPortalPrefab.transform.rotation);
+            }
             return;
         }
 
         StartPhase(currentPhaseIndex + 1);
     }
 
-    private IEnumerator FinalTransitionRoutine()
+    public void TransitionToFinalBoss(GameObject player)
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null && playerTeleportPoint != null)
+        StartCoroutine(PortalTransitionRoutine(player));
+    }
+
+    private IEnumerator PortalTransitionRoutine(GameObject player)
+    {
+        if (plazaMap != null) plazaMap.SetActive(false);
+        if (bossMap != null) bossMap.SetActive(true);
+
+        // ==========================================
+        // 🌌 [핵심 추가] 포탈을 타는 순간 보스전 스카이박스로 변경!
+        // ==========================================
+        ApplySkybox(bossSkybox);
+
+        if (playerTeleportPoint != null)
         {
             PlayerController playerController = player.GetComponent<PlayerController>();
             if (playerController != null)
@@ -112,50 +142,9 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
             {
                 player.transform.SetPositionAndRotation(playerTeleportPoint.position, playerTeleportPoint.rotation);
             }
-
-            player.transform.SetParent(bossMap);
         }
 
-        if (plazaMap != null)
-        {
-            Vector3 plazaStartPos = plazaMap.position;
-            Vector3 plazaEndPos = plazaStartPos + Vector3.down * mapDropDistance;
-
-            float percent = 0f;
-            while (percent < 1f)
-            {
-                percent += Time.deltaTime / transitionDuration;
-                plazaMap.position = Vector3.Lerp(plazaStartPos, plazaEndPos, percent);
-                yield return null;
-            }
-            plazaMap.gameObject.SetActive(false);
-        }
-
-        yield return new WaitForSeconds(1f);
-
-        if (bossMap != null)
-        {
-            bossMap.gameObject.SetActive(true);
-
-            Vector3 bossStartPos = bossMap.position;
-            Vector3 bossEndPos = bossStartPos + Vector3.up * mapDropDistance;
-
-            float percent = 0f;
-            while (percent < 1f)
-            {
-                percent += Time.deltaTime / transitionDuration;
-                bossMap.position = Vector3.Lerp(bossStartPos, bossEndPos, percent);
-                yield return null;
-            }
-            bossMap.position = bossEndPos;
-        }
-
-        if (player != null)
-        {
-            player.transform.SetParent(null);
-        }
-
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.0f);
 
         if (finalBossPrefab != null && finalBossSpawnPoint != null)
         {
@@ -166,19 +155,41 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
     public WaveEnemy_DataSO GetCurrentWave()
     {
-        if (currentTheme == null || currentTheme.phases == null)
-            return null;
-
-        if (currentPhaseIndex < 0 || currentPhaseIndex >= currentTheme.phases.Count)
-            return null;
-
-        if (!RunManager.TryGetInstance(out RunManager runManager))
-            return null;
+        if (currentTheme == null || currentTheme.phases == null) return null;
+        if (currentPhaseIndex < 0 || currentPhaseIndex >= currentTheme.phases.Count) return null;
+        if (!RunManager.TryGetInstance(out RunManager runManager)) return null;
 
         WavePhaseTimer waveTimer = runManager.WaveTimer;
-        if (waveTimer == null)
-            return null;
+        if (waveTimer == null) return null;
 
-        return WaveSelection.GetCurrentWave(currentTheme.phases[currentPhaseIndex], waveTimer);
+        return WaveSelection.GetCurrentWave(currentTheme.phases[currentTheme.phases.Count - 1], waveTimer);
+    }
+
+    [ContextMenu("디버그: 최종 포탈 즉시 생성")]
+    public void DebugSpawnFinalPortal()
+    {
+        Debug.LogWarning("인스펙터 강제 명령: 최종 보스 포탈을 즉시 생성합니다!");
+
+        if (RunManager.TryGetInstance(out RunManager runManager))
+        {
+            runManager.StopAllCoroutines();
+        }
+
+        currentPhaseIndex = 5;
+        OnMidBossDefeated();
+    }
+
+    // ==========================================
+    // 스카이박스 교체 및 라이팅 환경 갱신 헬퍼 함수
+    // ==========================================
+    private void ApplySkybox(Material skyboxMaterial)
+    {
+        if (skyboxMaterial == null) return;
+
+        // 1. 유니티 렌더 설정의 스카이박스 변경
+        RenderSettings.skybox = skyboxMaterial;
+
+        // 2. 실시간 환경광(글로벌 일루미네이션)을 사용하는 경우, 스카이박스 변경에 맞춰 주변 빛 색감도 동적으로 갱신해줍니다.
+        DynamicGI.UpdateEnvironment();
     }
 }
