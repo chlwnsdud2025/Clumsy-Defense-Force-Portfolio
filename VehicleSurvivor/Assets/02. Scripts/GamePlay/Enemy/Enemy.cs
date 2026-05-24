@@ -25,6 +25,9 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("Exp Reward")]
     public int expReward = 34;
 
+    [Header("Money Reward")]
+    public int moneyReward = 15;
+
     [Header("Separation Settings")]
     public float separationRadius = 1.5f;
     public float separationWeight = 0.5f;
@@ -275,6 +278,8 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         hitFlash?.ResetFlash();
         DropExpOrbs();
+
+        DropMoney();
         RunManager.Instance.AddKill();
 
         if (myManager != null)
@@ -292,13 +297,21 @@ public class Enemy : MonoBehaviour, IDamageable
         Vector3 dropPos = transform.position;
         dropPos.y += 0.05f;
 
-        ExpType typeToDrop = ExpType.Small;
-        if (expReward >= 50) typeToDrop = ExpType.Large;
-        else if (expReward >= 10) typeToDrop = ExpType.Medium;
-
         if (ExpManager.Instance != null)
         {
-            ExpManager.Instance.SpawnExp(typeToDrop, dropPos, expReward);
+            ExpManager.Instance.SpawnExp(dropPos, expReward);
+        }
+    }
+
+    private void DropMoney()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f;
+
+        if (MoneyManager.Instance != null && playerTarget != null)
+        {
+            // 루프 없이 단 1개의 돈에 전체 금액을 담아서 드랍
+            MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
         }
     }
 

@@ -12,6 +12,10 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float moveSpeed = 3f;
     public float rotationSpeed = 3f;
 
+    [Header("Rewards")]
+    public int expReward = 10;   
+    public int moneyReward = 10;
+
     [Header("Combat Base")]
     public float contactDamage = 30f;
     public float ContactDamage => contactDamage;
@@ -185,6 +189,10 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         hitFlash?.ResetFlash();
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
+
+        DropExpOrbs();
+        DropMoney();
+
         StageRunManager.Instance.OnMidBossDefeated();
         Destroy(gameObject);
     }
@@ -194,4 +202,26 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         if (hitFlash == null)
             hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
+    private void DropExpOrbs()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f;
+
+        if (ExpManager.Instance != null)
+        {
+
+            ExpManager.Instance.SpawnExp(dropPos, expReward);
+
+        }
+    }
+
+    private void DropMoney()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f;
+
+        if (MoneyManager.Instance != null && playerTarget != null)
+            MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
+
+    }    
 }
