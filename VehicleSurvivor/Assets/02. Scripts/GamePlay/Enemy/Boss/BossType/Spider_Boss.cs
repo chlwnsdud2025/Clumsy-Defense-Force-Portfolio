@@ -150,6 +150,7 @@ public class Spider_Boss : BossEnemy
             }
         }
 
+ 
         yield return new WaitForSeconds(0.5f);
         isCastingPattern = false;
         currentAttackCooldown = attackCooltime;
