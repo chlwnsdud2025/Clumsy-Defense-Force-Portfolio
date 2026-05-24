@@ -29,12 +29,13 @@ Transform:
   m_GameObject: {fileID: 4415725177970483417}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 40.44}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6902694358649812514}
   - {fileID: 6352528037479208903}
+  - {fileID: 6720801822484076126}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2138267118152702828
@@ -50,9 +51,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeeMidBoss
   playerTarget: {fileID: 0}
-  maxHealth: 10
+  damageTextSpawnpoint: {fileID: 6720801822484076126}
+  maxHealth: 1000
   moveSpeed: 2
   rotationSpeed: 10
+  expReward: 10
+  moneyReward: 10
   contactDamage: 30
   groundLayer:
     serializedVersion: 2
@@ -109,9 +113,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 5.59
-  m_Height: 10.28
+  m_Height: 14.37
   m_Direction: 1
-  m_Center: {x: 0, y: 7.3, z: 0}
+  m_Center: {x: 0, y: 6.1, z: 0}
 --- !u!54 &3654316385166426488
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -159,6 +163,37 @@ MonoBehaviour:
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashIntensity: 5
   flashAlpha: 0.5
+--- !u!1 &6338972821931853846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6720801822484076126}
+  m_Layer: 11
+  m_Name: DamageTextPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6720801822484076126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338972821931853846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 7.63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5413531643696276268}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6902694358650038784
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,8 +251,8 @@ Transform:
   m_GameObject: {fileID: 6902694358650038786}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalPosition: {x: 0, y: -2.11, z: 0}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6902694358649812512}

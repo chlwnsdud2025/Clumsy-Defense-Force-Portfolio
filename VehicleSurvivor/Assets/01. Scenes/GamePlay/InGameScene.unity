@@ -676,7 +676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &663870440
 Transform:
   m_ObjectHideFlags: 0
@@ -1128,8 +1128,7 @@ MonoBehaviour:
   currentTheme: {fileID: 11400000, guid: 8a6eed4cc2491914382848b657c59537, type: 2}
   midBossSpawnPoint: {fileID: 5495165552676313689}
   midBossPrefabs:
-  - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}
-  - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}
+  - {fileID: 3262231036004950073, guid: d85e740e33a6afc4bbce43efe347f408, type: 3}
   - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}
   - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}
   - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}

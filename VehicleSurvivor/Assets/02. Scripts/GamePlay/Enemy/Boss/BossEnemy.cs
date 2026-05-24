@@ -6,6 +6,9 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     [Header("Base References")]
     public Transform playerTarget;
 
+    [Header("UI")]
+    public Transform damageTextSpawnpoint;
+
     [Header("Base Stats")]
     public float maxHealth = 10f;
     protected float currentHealth;
@@ -176,6 +179,9 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
 
+        GameObject textObj = DamageTextPool.Instance.GetDamageText();
+        textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
+
         hitFlash?.TriggerHitFlash();
 
         if (currentHealth <= 0)
@@ -193,8 +199,14 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         DropExpOrbs();
         DropMoney();
 
-        StageRunManager.Instance.OnMidBossDefeated();
+        HandleStageClear();
+
         Destroy(gameObject);
+    }
+
+    protected virtual void HandleStageClear()
+    {
+        StageRunManager.Instance.OnMidBossDefeated();
     }
 
     private void ResolveHitFlash()
