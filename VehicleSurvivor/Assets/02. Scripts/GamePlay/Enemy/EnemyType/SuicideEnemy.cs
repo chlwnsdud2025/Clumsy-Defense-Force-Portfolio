@@ -20,6 +20,10 @@ public class SuicideEnemy : Enemy
     [Header("VFX")]
     public GameObject explosionEffectPrefab;
 
+    // 보스에 의해 소환 되었을 시
+    private bool _useSelfUpdate = false;
+
+
     private bool isFusing = false;
     private float fuseTimer;
     private float originalSeparation;
@@ -133,5 +137,23 @@ public class SuicideEnemy : Enemy
         Gizmos.color = Color.red;
         Vector3 center = transform.position + Vector3.up * sphereHeightOffset;
         Gizmos.DrawWireSphere(center, explosionRadius);
+    }
+
+
+    // 매니저의 추적 리스트에 들어가지 않고 보스 등에 의해 직접 Instantiate 된 경우
+
+
+    public void EnableSelfUpdate()
+    {
+        _useSelfUpdate = true;
+    }
+
+    private void Update()
+    {
+        // 스스로 ManagedUpdate를 실행하여 플레이어를 정상 추격하게 만듭니다!
+        if (_useSelfUpdate)
+        {
+            ManagedUpdate(Time.deltaTime);
+        }
     }
 }

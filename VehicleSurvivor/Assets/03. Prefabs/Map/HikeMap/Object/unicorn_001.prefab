@@ -13,6 +13,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a2230cc8bc8a39948804eb8fef911eb9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a2230cc8bc8a39948804eb8fef911eb9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a2230cc8bc8a39948804eb8fef911eb9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a2230cc8bc8a39948804eb8fef911eb9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -144,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4546e222ba463754f9c8c2d71179db91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RollingObstacle
-  knockbackForce: 20
+  knockbackForce: 35
   knockbackHeight: 1
 --- !u!136 &2622458580722649558
 CapsuleCollider:

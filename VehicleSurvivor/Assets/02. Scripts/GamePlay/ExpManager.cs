@@ -61,14 +61,16 @@ public class ExpManager : MonoBehaviour
         orbPools.Add(type, pool); // 딕셔너리에 완성된 풀 추가
     }
 
-    public void SpawnExp(ExpType type, Vector3 position, int expAmount)
+    public void SpawnExp(Vector3 position, int expAmount)
     {
-        if (orbPools[type].Count > 0)
+        // 매니저가 액수를 보고 스스로 구슬 크기를 결정합니다.
+        ExpType typeToDrop = ExpType.Small;
+        if (expAmount >= 50) typeToDrop = ExpType.Large;
+        else if (expAmount >= 10) typeToDrop = ExpType.Medium;
+
+        if (orbPools[typeToDrop].Count > 0)
         {
-            ExpOrb orb = orbPools[type].Dequeue();
-
-            // activeOrbs.Add(orb); 
-
+            ExpOrb orb = orbPools[typeToDrop].Dequeue();
             orb.Spawn(position, expAmount);
         }
     }
