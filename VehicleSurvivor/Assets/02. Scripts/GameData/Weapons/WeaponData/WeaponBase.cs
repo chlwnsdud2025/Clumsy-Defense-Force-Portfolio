@@ -170,6 +170,15 @@ public class WeaponBase : MonoBehaviour
         return weaponProjectileCount + projectileBonus;
     }
 
+    protected float GetFinalWeaponScale(float baseScale)
+    {
+        PlayerRuntime playerRuntime = GetOwnerRuntime();
+        if (playerRuntime == null)
+            return baseScale;
+
+        return baseScale * playerRuntime.Stats.GetValue(EStatType.WeaponSizeMultiplier);
+    }
+
     private PlayerRuntime GetOwnerRuntime()
     {
         if (ownerRuntime != null)

@@ -32,8 +32,8 @@ public class ProjectileWeapon : WeaponBase
             GetProjectileSpeed(data),
             Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
             data.SpreadAngle,
-            data.Range,
-            data.Radius,
+            GetFinalWeaponScale(data.Range),
+            GetFinalWeaponScale(data.Radius),
             data.PierceCount
         );
     }

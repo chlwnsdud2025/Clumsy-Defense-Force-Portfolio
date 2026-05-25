@@ -102,10 +102,11 @@ public class AuraWeapon : WeaponBase
 
     private float GetAuraRadius(WeaponLevelData data)
     {
-        if (data.Range > 0f)
-            return data.Range;
+        float baseRadius = data.Range > 0f
+            ? data.Range
+            : data.Size;
 
-        return data.Size;
+        return GetFinalWeaponScale(baseRadius);
     }
 
     private void OnDrawGizmosSelected()
