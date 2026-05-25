@@ -155,15 +155,22 @@ public class PlayerStatsPanel : MonoBehaviour
             case EStatType.HealthRegen:
             case EStatType.Defense:
             case EStatType.ProjectileCount:
+            case EStatType.Luck:
                 return Mathf.RoundToInt(value).ToString();
             case EStatType.CooldownReduction:
                 return $"{Mathf.RoundToInt(Mathf.Clamp01(value) * 100f)}%";
+            case EStatType.CriticalChance:
+                return $"{Mathf.RoundToInt(value * 100f)}%";
             case EStatType.MoveSpeedMultiplier:
             case EStatType.DamageMultiplier:
-            case EStatType.ExpGainMultiplier:
-            case EStatType.PickupRangeMultiplier:
+            case EStatType.MagicDamageMultiplier:
+            case EStatType.EvolvedWeaponDamage:
+            case EStatType.CriticalDamageMultiplier:
             case EStatType.WeaponSizeMultiplier:
-                return $"{Mathf.RoundToInt(value * 100f)}%";
+            case EStatType.ExpGainMultiplier:
+            case EStatType.GoldGainMultiplier:
+            case EStatType.PickupRangeMultiplier:
+                return $"x{value:0.##}";
             default:
                 return value.ToString("0.##");
         }
