@@ -140,7 +140,14 @@ public class WeaponBase : MonoBehaviour
         if (playerRuntime == null)
             return baseDamage;
 
-        return baseDamage * playerRuntime.Stats.GetValue(EStatType.DamageMultiplier);
+        RuntimeStats stats = playerRuntime.Stats;
+        float damage = baseDamage * stats.GetValue(EStatType.DamageMultiplier);
+
+        float criticalChance = stats.GetValue(EStatType.CriticalChance);
+        if (Random.value < criticalChance)
+            damage *= stats.GetValue(EStatType.CriticalDamageMultiplier);
+
+        return damage;
     }
 
     protected float GetFinalCooldown(float weaponCooldown)

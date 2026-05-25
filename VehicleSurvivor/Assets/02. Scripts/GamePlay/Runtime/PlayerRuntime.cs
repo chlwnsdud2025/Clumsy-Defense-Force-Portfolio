@@ -24,18 +24,24 @@ public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
         CharacterCombatStats combat = character.Combat;
 
         Stats.SetBaseStat(EStatType.MaxHealth, combat.MaxHealth);
+        Stats.SetBaseStat(EStatType.HealthRegen, 0f);
         Stats.SetBaseStat(EStatType.Defense, combat.Defense);
 
         Stats.SetBaseStat(EStatType.MoveSpeedMultiplier, combat.MoveSpeedMultiplier);
         Stats.SetBaseStat(EStatType.DamageMultiplier, combat.DamageMultiplier);
         Stats.SetBaseStat(EStatType.PickupRangeMultiplier, combat.PickupRange);
 
-        Stats.SetBaseStat(EStatType.CooldownReduction, 0f);
-        Stats.SetBaseStat(EStatType.CritChance, 0f);
-        Stats.SetBaseStat(EStatType.CritDamageMultiplier, 1.5f);
-        Stats.SetBaseStat(EStatType.SkillSizeMultiplier, 1f);
-        Stats.SetBaseStat(EStatType.ExpGainMultiplier, 1f);
+        Stats.SetBaseStat(EStatType.MagicDamageMultiplier, 1f);
+        Stats.SetBaseStat(EStatType.EvolvedWeaponDamage, 1f);
 
+        Stats.SetBaseStat(EStatType.CooldownReduction, 0f);
+        Stats.SetBaseStat(EStatType.CriticalChance, 0f);
+        Stats.SetBaseStat(EStatType.CriticalDamageMultiplier, 1.5f);
+        Stats.SetBaseStat(EStatType.WeaponSizeMultiplier, 1f);
         Stats.SetBaseStat(EStatType.ProjectileCount, 0f);
+
+        Stats.SetBaseStat(EStatType.ExpGainMultiplier, 1f);
+        Stats.SetBaseStat(EStatType.GoldGainMultiplier, 1f);
+        Stats.SetBaseStat(EStatType.Luck, 0f);
     }
 }

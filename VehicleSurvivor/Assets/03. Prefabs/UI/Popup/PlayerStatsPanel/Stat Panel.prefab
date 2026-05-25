@@ -465,5 +465,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3c2e91b4d4678901abcdef1234567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatPanel
-  statType: 2
+  statType: 100
   valueText: {fileID: 1312202056849513037}

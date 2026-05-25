@@ -152,6 +152,7 @@ public class PlayerStatsPanel : MonoBehaviour
         switch (statType)
         {
             case EStatType.MaxHealth:
+            case EStatType.HealthRegen:
             case EStatType.Defense:
             case EStatType.ProjectileCount:
                 return Mathf.RoundToInt(value).ToString();
@@ -161,7 +162,7 @@ public class PlayerStatsPanel : MonoBehaviour
             case EStatType.DamageMultiplier:
             case EStatType.ExpGainMultiplier:
             case EStatType.PickupRangeMultiplier:
-            case EStatType.SkillSizeMultiplier:
+            case EStatType.WeaponSizeMultiplier:
                 return $"{Mathf.RoundToInt(value * 100f)}%";
             default:
                 return value.ToString("0.##");

@@ -16,21 +16,21 @@ MonoBehaviour:
   passiveName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
   description: "\uACF5\uACA9\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
-  statType: 1
+  statType: 300
   maxLevel: 5
   levelModifiers:
-  - statType: 1
+  - statType: 300
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 300
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 300
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 300
     value: 0.08
     isPercent: 1
-  - statType: 1
+  - statType: 300
     value: 0.08
     isPercent: 1
