@@ -57,6 +57,7 @@ public sealed class RunSession
         bool wasNightmare = _waveTimer.IsNightmare;
         _runTimer.Tick(deltaTime);
         _waveTimer.Tick(deltaTime);
+        Player.Health.TickRegen(deltaTime);
 
         if (_waveTimer.IsNightmare && !wasNightmare)
             _lastDisplayedWaveSecond = -1;

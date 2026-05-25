@@ -10,6 +10,7 @@ public sealed class PlayerHealth
     //사망 이벤트 발생
 
     private readonly RuntimeStats stats;
+    private float regenAccumulator;
 
     public float CurrentHp { get; private set; }
     public float MaxHp => stats.GetValue(EStatType.MaxHealth);
@@ -46,6 +47,22 @@ public sealed class PlayerHealth
         CurrentHp = Mathf.Min(CurrentHp + amount, MaxHp);
 
         OnHpChanged?.Invoke(CurrentHp, MaxHp);
+    }
+
+    public void TickRegen(float deltaTime)
+    {
+        float regenPerSecond = stats.GetValue(EStatType.HealthRegen);
+        if (regenPerSecond <= 0f || CurrentHp >= MaxHp)
+            return;
+
+        regenAccumulator += regenPerSecond * deltaTime;
+
+        if (regenAccumulator < 1f)
+            return;
+
+        float healAmount = Mathf.Floor(regenAccumulator);
+        regenAccumulator -= healAmount;
+        Heal(healAmount);
     }
 
     private void HandleStatChanged(EStatType statType, float oldValue, float newValue)

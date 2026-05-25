@@ -24,7 +24,7 @@ public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
         CharacterCombatStats combat = character.Combat;
 
         Stats.SetBaseStat(EStatType.MaxHealth, combat.MaxHealth);
-        Stats.SetBaseStat(EStatType.HealthRegen, 0f);
+        Stats.SetBaseStat(EStatType.HealthRegen, 1f);
         Stats.SetBaseStat(EStatType.Defense, combat.Defense);
 
         Stats.SetBaseStat(EStatType.MoveSpeedMultiplier, combat.MoveSpeedMultiplier);
