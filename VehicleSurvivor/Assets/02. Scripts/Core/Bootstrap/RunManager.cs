@@ -1,4 +1,7 @@
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 public class RunManager : MonoSceneSingleton<RunManager>
 {
@@ -59,6 +62,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
             _runSession.EndRun();
 
         Time.timeScale = 1f;
+        ApplyGameplayControl(false);
         _runSession = null;
         playerInstance = null;
     }
@@ -294,10 +298,35 @@ public class RunManager : MonoSceneSingleton<RunManager>
                  nextState == ERunState.Cleared)
             Time.timeScale = 1f;
 
+        ApplyGameplayControl(nextState == ERunState.Playing);
+
         if (nextState != ERunState.GameOver && nextState != ERunState.Ended)
             return;
 
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.OnRunFinished();
+    }
+
+    private void ApplyGameplayControl(bool enabled)
+    {
+        if (playerInstance?.Controller == null)
+            return;
+
+        PlayerController controller = playerInstance.Controller;
+        PlayerInputs inputs = controller.GetComponent<PlayerInputs>();
+        inputs?.SetGameplayControlEnabled(enabled);
+
+        controller.LockCameraPosition = !enabled;
+
+#if ENABLE_INPUT_SYSTEM
+        PlayerInput playerInput = controller.GetComponent<PlayerInput>();
+        if (playerInput == null)
+            return;
+
+        if (enabled)
+            playerInput.ActivateInput();
+        else
+            playerInput.DeactivateInput();
+#endif
     }
 }

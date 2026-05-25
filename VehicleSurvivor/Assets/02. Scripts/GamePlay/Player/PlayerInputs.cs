@@ -53,13 +53,28 @@ public class PlayerInputs : MonoBehaviour
         jump = newJumpState;
     }
 
-    private void OnApplicationFocus(bool hasFocus)
+    public void SetGameplayControlEnabled(bool enabled)
     {
-        SetCursorState(cursorLocked);
+        cursorLocked = enabled;
+        cursorInputForLook = enabled;
+        ApplyCursorState();
+        Cursor.visible = !enabled;
+
+        if (!enabled)
+        {
+            move = Vector2.zero;
+            look = Vector2.zero;
+            jump = false;
+        }
     }
 
-    private void SetCursorState(bool newState)
+    private void OnApplicationFocus(bool hasFocus)
     {
-        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+        ApplyCursorState();
+    }
+
+    private void ApplyCursorState()
+    {
+        Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }
