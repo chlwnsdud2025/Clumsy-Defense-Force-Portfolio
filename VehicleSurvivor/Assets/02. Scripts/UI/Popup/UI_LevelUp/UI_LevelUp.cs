@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -20,9 +21,12 @@ public class UI_LevelUp : UIPopup
 
     private List<RewardOption> rewards = new();
     private System.Action<RewardOption> onRewardSelected;
-    private int selectedIndex = -1;
+
     private Tween openScaleTween;
     private bool hasPlayedPlayerStatsEnterAnimation;
+
+    private int selectedIndex = -1;
+    private bool hasConfirmed;
 
     public override async UniTask InitializeAsync()
     {
@@ -137,7 +141,7 @@ public class UI_LevelUp : UIPopup
 
     private void Update()
     {
-        if (!gameObject.activeInHierarchy)
+        if (!gameObject.activeInHierarchy || hasConfirmed)
             return;
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
@@ -145,8 +149,7 @@ public class UI_LevelUp : UIPopup
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             MoveSelection(1);
         else if (Input.GetKeyDown(KeyCode.Return) ||
-                 Input.GetKeyDown(KeyCode.KeypadEnter) ||
-                 Input.GetKeyDown(KeyCode.Space))
+                 Input.GetKeyDown(KeyCode.KeypadEnter))
             ConfirmSelection();
     }
 
@@ -157,6 +160,8 @@ public class UI_LevelUp : UIPopup
             if (panels[i] == null)
                 continue;
 
+            panels[i].Hovered -= HandlePanelHovered;
+            panels[i].Hovered += HandlePanelHovered;
             panels[i].Clicked -= HandlePanelClicked;
             panels[i].Clicked += HandlePanelClicked;
         }
@@ -170,13 +175,37 @@ public class UI_LevelUp : UIPopup
         playerStatsPanel.Configure(openScaleDuration, openScaleEase);
     }
 
-    private void HandlePanelClicked(RewardChoicePanel panel)
+    private void HandlePanelHovered(RewardChoicePanel panel)
     {
+        if (hasConfirmed)
+            return;
+
         int index = panels.IndexOf(panel);
         if (index < 0)
             return;
 
         SetSelectedIndex(index);
+    }
+
+    private void HandlePanelClicked(RewardChoicePanel panel)
+    {
+        if (hasConfirmed)
+            return;
+
+        int index = panels.IndexOf(panel);
+        if (index < 0 || !panels[index].HasData)
+            return;
+
+        hasConfirmed = true;
+        SetSelectedIndex(index);
+        ConfirmAfterFocusAsync(panel, index).Forget();
+    }
+
+    private async UniTaskVoid ConfirmAfterFocusAsync(RewardChoicePanel panel, int index)
+    {
+        float delay = panel.FocusTweenDuration;
+        await UniTask.Delay(TimeSpan.FromSeconds(delay), ignoreTimeScale: true);
+        ApplyRewardAtIndex(index);
     }
 
     private void MoveSelection(int direction)
@@ -215,15 +244,30 @@ public class UI_LevelUp : UIPopup
 
     private void ConfirmSelection()
     {
+        if (hasConfirmed)
+            return;
+
         if (selectedIndex < 0 || selectedIndex >= panels.Count)
             return;
 
-        RewardChoicePanel selectedPanel = panels[selectedIndex];
+        if (!panels[selectedIndex].HasData)
+            return;
+
+        hasConfirmed = true;
+        ApplyRewardAtIndex(selectedIndex);
+    }
+
+    private void ApplyRewardAtIndex(int index)
+    {
+        if (index < 0 || index >= panels.Count)
+            return;
+
+        RewardChoicePanel selectedPanel = panels[index];
         if (!selectedPanel.HasData)
             return;
 
         RewardOption selectedReward = selectedPanel.Reward;
-        Debug.Log($"[UI_LevelUp] 보상 선택: index={selectedIndex}, name={selectedReward.DisplayName}");
+        Debug.Log($"[UI_LevelUp] 보상 선택: index={index}, name={selectedReward.DisplayName}");
 
         onRewardSelected?.Invoke(selectedReward);
     }
@@ -234,6 +278,7 @@ public class UI_LevelUp : UIPopup
             panels[selectedIndex].SetSelected(false);
 
         selectedIndex = -1;
+        hasConfirmed = false;
     }
 
     private int FindFirstNavigableIndex()
@@ -270,8 +315,11 @@ public class UI_LevelUp : UIPopup
     {
         for (int i = 0; i < panels.Count; i++)
         {
-            if (panels[i] != null)
-                panels[i].Clicked -= HandlePanelClicked;
+            if (panels[i] == null)
+                continue;
+
+            panels[i].Hovered -= HandlePanelHovered;
+            panels[i].Clicked -= HandlePanelClicked;
         }
     }
 

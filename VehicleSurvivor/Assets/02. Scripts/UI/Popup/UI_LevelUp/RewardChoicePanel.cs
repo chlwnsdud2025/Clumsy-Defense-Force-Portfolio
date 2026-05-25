@@ -2,9 +2,10 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RewardChoicePanel : MonoBehaviour
+public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
 {
     private const string NewLevelLabel = "NEW!";
 
@@ -28,6 +29,9 @@ public class RewardChoicePanel : MonoBehaviour
     [SerializeField] private float focusTweenDuration = 0.15f;
     [SerializeField] private Ease focusTweenEase = Ease.OutQuad;
 
+    public float FocusTweenDuration => focusTweenDuration;
+
+    public event Action<RewardChoicePanel> Hovered;
     public event Action<RewardChoicePanel> Clicked;
 
     public RewardOption Reward { get; private set; }
@@ -153,7 +157,16 @@ public class RewardChoicePanel : MonoBehaviour
 
         focusScaleTween = scaleTarget
             .DOScale(targetScale, focusTweenDuration)
-            .SetEase(focusTweenEase);
+            .SetEase(focusTweenEase)
+            .SetUpdate(true);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!IsSelectable || !HasData)
+            return;
+
+        Hovered?.Invoke(this);
     }
 
     private void KillFocusTweens()
@@ -192,7 +205,7 @@ public class RewardChoicePanel : MonoBehaviour
 
     private void HandleButtonClicked()
     {
-        if (!IsSelectable)
+        if (!IsSelectable || !HasData)
             return;
 
         Clicked?.Invoke(this);
