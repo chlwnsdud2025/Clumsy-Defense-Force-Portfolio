@@ -134,9 +134,10 @@ MonoBehaviour:
   maxHealth: 20
   rotationSpeed: 2
   expReward: 5
+  moneyReward: 15
   separationRadius: 1.5
   separationWeight: 0.5
-  attackRange: 0
+  attackRange: 1
   attackCooltime: 2
   groundLayer:
     serializedVersion: 2

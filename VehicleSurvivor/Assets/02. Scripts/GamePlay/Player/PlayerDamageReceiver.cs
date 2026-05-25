@@ -2,17 +2,10 @@ using UnityEngine;
 
 public class PlayerDamageReceiver : MonoBehaviour, IDamageable
 {
-    [Header("Knockback")]
-    public float knockbackPower = 5f;
-    public float knockbackDuration = 0.15f;
     public float ContactDamage => 1f;
 
-    private Vector3 knockbackVelocity;
-    private float knockbackTimer;
     private PlayerRuntime runtime;
     private HitFlashEffect hitFlash;
-
-    public bool IsKnockback => knockbackTimer > 0f;
 
     private void Awake()
     {
@@ -24,15 +17,6 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
     public void BindRuntime(PlayerRuntime runtime)
     {
         this.runtime = runtime;
-    }
-
-    private void Update()
-    {
-        if (knockbackTimer <= 0f)
-            return;
-
-        transform.position += knockbackVelocity * Time.deltaTime;
-        knockbackTimer -= Time.deltaTime;
     }
 
     public void TakeDamage(float damage)
@@ -59,35 +43,6 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
             return;
 
         playerRuntime.Health.Heal(amount);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!other.CompareTag("Enemy"))
-            return;
-
-        if (knockbackTimer > 0f)
-            return;
-
-        IDamageable damageable = other.GetComponent<IDamageable>() ?? other.GetComponentInParent<IDamageable>();
-        if (damageable == null)
-            return;
-
-        float damage = damageable.ContactDamage;
-        TakeDamage(damage);
-
-        Component enemyComponent = damageable as Component;
-        if (enemyComponent == null)
-            return;
-
-        Vector3 pushDir = transform.position - enemyComponent.transform.position;
-        pushDir.y = 0f;
-
-        if (pushDir == Vector3.zero)
-            pushDir = -transform.forward;
-
-        knockbackVelocity = pushDir.normalized * knockbackPower;
-        knockbackTimer = knockbackDuration;
     }
 
     private bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)

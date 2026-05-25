@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     protected Transform playerTarget;
     protected EnemyManager myManager;
+    private IDamageable playerDamageable;
 
     [Header("UI")]
     public Transform damageTextSpawnpoint;
@@ -73,6 +74,9 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         myManager = manager;
         playerTarget = target;
+        playerDamageable = target != null
+            ? target.GetComponentInChildren<IDamageable>()
+            : null;
         transform.position = spawnPosition;
         gameObject.SetActive(true);
         currentHealth = maxHealth;
@@ -256,7 +260,15 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Attack()
     {
-        Debug.Log("기본 근접 몹 공격!");
+        if (playerTarget == null || playerDamageable == null)
+            return;
+
+        Vector3 toPlayer = playerTarget.position - transform.position;
+        toPlayer.y = 0f;
+        if (toPlayer.sqrMagnitude > attackRange * attackRange)
+            return;
+
+        playerDamageable.TakeDamage(contactDamage);
     }
 
     public virtual void TakeDamage(float damage)
