@@ -7,17 +7,17 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlayerVisual : MonoBehaviour
 {
-    [Tooltip("Parent transform for the selected character visual prefab.")]
+    [Tooltip("선택된 캐릭터 비주얼 프리팹이 붙을 부모 트랜스폼")]
     [SerializeField] private Transform visualRoot;
 
-    [Tooltip("Animator used by the character visual.")]
+    [Tooltip("캐릭터 비주얼에 사용되는 Animator")]
     [SerializeField] private Animator animator;
+
+    [Tooltip("피격 시 플래시 효과")]
+    [SerializeField] private HitFlashEffect hitFlash;
 
     private GameObject spawnedVisual;
     private CancellationTokenSource applyCharacterCts;
-    private HitFlashEffect hitFlash;
-
-    public HitFlashEffect HitFlash => hitFlash;
 
     private void Awake()
     {

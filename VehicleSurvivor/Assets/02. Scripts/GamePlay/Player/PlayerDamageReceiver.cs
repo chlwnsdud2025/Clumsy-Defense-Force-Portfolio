@@ -4,14 +4,29 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
 {
     public float ContactDamage => 1f;
 
-    private PlayerRuntime runtime;
-    private HitFlashEffect hitFlash;
+    [SerializeField] private HitFlashEffect hitFlash;
+    [SerializeField] private PlayerHitCameraShake cameraShake;
 
-    private void Awake()
+    private PlayerRuntime runtime;
+
+    private HitFlashEffect HitFlash
     {
-        PlayerVisual visual = GetComponentInParent<PlayerVisual>();
-        if (visual != null)
-            hitFlash = visual.HitFlash;
+        get
+        {
+            if (hitFlash == null)
+                hitFlash = GetComponentInParent<HitFlashEffect>();
+            return hitFlash;
+        }
+    }
+
+    private PlayerHitCameraShake CameraShake
+    {
+        get
+        {
+            if (cameraShake == null)
+                cameraShake = GetComponentInParent<PlayerHitCameraShake>();
+            return cameraShake;
+        }
     }
 
     public void BindRuntime(PlayerRuntime runtime)
@@ -27,11 +42,10 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         if (playerRuntime.Health.CurrentHp <= 0f)
             return;
 
-        float previousHp = playerRuntime.Health.CurrentHp;
         playerRuntime.Health.TakeDamage(damage);
 
-        if (playerRuntime.Health.CurrentHp < previousHp)
-            hitFlash?.TriggerHitFlash();
+        HitFlash?.TriggerHitFlash();
+        CameraShake?.TriggerShake();
     }
 
     public void Heal(float amount)

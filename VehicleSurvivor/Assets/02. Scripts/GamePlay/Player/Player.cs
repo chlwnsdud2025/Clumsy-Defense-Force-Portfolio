@@ -58,7 +58,6 @@ public sealed class Player : MonoBehaviour
 
     public void UnbindRuntime() => BindRuntime(null);
 
-
     private void CacheComponents()
     {
         if (Visual == null)
