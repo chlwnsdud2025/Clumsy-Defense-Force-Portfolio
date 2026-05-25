@@ -122,3 +122,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b35e2f5e851ffd146a743453cb79045d, type: 2}
     - {fileID: 11400000, guid: 8b340bec18d37634b8372d4829925bdc, type: 2}
     - {fileID: 11400000, guid: a69bbd399a414b54590ca6ccb138a569, type: 2}
+  - timeLimit: 600
+    phaseWaves: []
+    nightmareWaves:
+    - {fileID: 11400000, guid: bbe2a98b40ddb1d409071f01d184bc36, type: 2}
+    - {fileID: 11400000, guid: 1c3609ad89f4ca94eb055144058b0b93, type: 2}
+    - {fileID: 11400000, guid: fa821e2af7164694093fefd06f9d1091, type: 2}
+    - {fileID: 11400000, guid: b35e2f5e851ffd146a743453cb79045d, type: 2}
+    - {fileID: 11400000, guid: 8b340bec18d37634b8372d4829925bdc, type: 2}
+    - {fileID: 11400000, guid: a69bbd399a414b54590ca6ccb138a569, type: 2}
