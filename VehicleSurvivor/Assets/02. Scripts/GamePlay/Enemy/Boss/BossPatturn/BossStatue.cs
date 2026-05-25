@@ -42,7 +42,7 @@ public class BossStatue : MonoBehaviour, IDamageable
         if (!isActive) return; // 불이 안 들어왔을 땐 데미지 무시
 
         currentHealth -= damage;
-
+        Debug.Log("석상 체력 : " + currentHealth);
         // 데미지 텍스트 띄우기 (기존 보스 시스템 활용)
         if (DamageTextPool.Instance != null)
         {
@@ -64,6 +64,9 @@ public class BossStatue : MonoBehaviour, IDamageable
         {
             Instantiate(destroyVfx, transform.position, Quaternion.identity);
         }
+
+        Debug.Log("석상 부숴짐");
+
 
         // 보스에게 "나 부서졌어! 무적 풀어!" 라고 알림
         if (myBoss != null)

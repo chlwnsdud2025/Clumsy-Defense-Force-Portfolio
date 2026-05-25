@@ -316,6 +316,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8990663429142220233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2256288900268382256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7677211998866077695}
+  m_Layer: 11
+  m_Name: DamageText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7677211998866077695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2256288900268382256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.68, z: 2.99}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8407777789024543137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2281821095581706831
 GameObject:
   m_ObjectHideFlags: 0
@@ -5178,8 +5209,8 @@ Transform:
   m_GameObject: {fileID: 2396393922302653898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalPosition: {x: 0, y: -1.62, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1557034720648372571}
@@ -5373,6 +5404,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1932891102286236519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3435795692426172423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4651495633561584785}
+  m_Layer: 11
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4651495633561584785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435795692426172423}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 7.84, z: 3.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8407777789024543137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3483618059664493413
 GameObject:
   m_ObjectHideFlags: 0
@@ -5513,7 +5575,7 @@ GameObject:
   - component: {fileID: 4607941258978376543}
   - component: {fileID: 8372861815642862759}
   m_Layer: 11
-  m_Name: GameOver_Boss
+  m_Name: Final_Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5533,6 +5595,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3029342825795907440}
+  - {fileID: 7677211998866077695}
+  - {fileID: 4651495633561584785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4643626434872597704
@@ -5548,8 +5612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
   playerTarget: {fileID: 0}
-  damageTextSpawnpoint: {fileID: 0}
-  maxHealth: 1000
+  damageTextSpawnpoint: {fileID: 7677211998866077695}
+  maxHealth: 100
   moveSpeed: 2
   rotationSpeed: 2
   expReward: 10
@@ -5569,26 +5633,72 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
-  baseDamage: 30
-  baseRadius: 3.5
-  telegraphDuration: 0.7
-  explosionEffectPrefab: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
-  shieldVfx: {fileID: 0}
   statues: []
   phaseThresholds:
   - 0.75
   - 0.5
   - 0.25
+  shieldVfx: {fileID: 459848745414500885, guid: 545e60eb5a5022544a9e4e501e7eedb8, type: 3}
+  sequencedVfx: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
+  seqDamage: 40
+  seqRadius: 3.5
+  seqDuration: 1.5
   timeBetweenPhases: 0.7
-  trackingCount: 10
-  trackingInterval: 0.5
+  spreadConeVfx: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
+  coneDamage: 25
+  coneRadius: 2.5
+  coneDuration: 1.2
   coneRows: 10
   rowForwardSpacing: 8
   circleSideSpacing: 6
   coneRowTelegraphDelay: 0.4
+  oneLineVfx: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
+  lineDamage: 35
+  lineRadius: 3
+  lineDuration: 1.3
   lineCount: 15
   lineForwardSpacing: 5
   lineTelegraphDelay: 0.2
+  chaseVfx: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
+  chaseDamage: 30
+  chaseRadius: 3
+  chaseDuration: 1.5
+  trackingCount: 10
+  trackingInterval: 0.5
+  multiLaserCount: 3
+  multiLaserDamage: 30
+  multiLaserLength: 100
+  multiLaserChargeTime: 0.5
+  multiLaserDelay: 0.2
+  shotgunPelletCount: 15
+  spreadAngle: 40
+  shotgunLaserDamage: 30
+  shotgunLaserLength: 100
+  shotgunLaserChargeTime: 1.2
+  firePoint: {fileID: 4651495633561584785}
+  laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
+  laserWarningVfx: {fileID: 0}
+  laserFireVfx: {fileID: 0}
+  laserStartRadius: 3
+  laserEndRadius: 0.3
+  laserCoreRadius: 0.3
+  bigCircleVfx: {fileID: 0}
+  bigCircleDamage: 60
+  bigCircleRadius: 8
+  bigCircleDuration: 5
+  suicideEnemyPrefab: {fileID: 7539001815701513887, guid: e7612061d793fde48b683358da9b969f, type: 3}
+  spiderSpawnWarningVfx: {fileID: 0}
+  spiderSpawnCount: 5
+  spiderSpawnRadius: 8
+  spiderSpawnDelay: 1.5
+  bossModel: {fileID: 2396393922302653898}
+  disappearVfxPrefab: {fileID: 5007752678101014402, guid: 8b9c961017a221946a5af2c380bc08c9, type: 3}
+  appearVfxPrefab: {fileID: 4654283702912762952, guid: 23055f9003391a042bb1f7f059368afc, type: 3}
+  teleportDamage: 40
+  teleportRadius: 4
+  teleportDuration: 1.5
+  disappearAnimTime: 0.3
+  appearAnimTime: 0.3
 --- !u!136 &4607941258978376543
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5608,10 +5718,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 4.92
+  m_Height: 13.93
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 6.1, z: 0}
 --- !u!54 &8372861815642862759
 Rigidbody:
   m_ObjectHideFlags: 0
