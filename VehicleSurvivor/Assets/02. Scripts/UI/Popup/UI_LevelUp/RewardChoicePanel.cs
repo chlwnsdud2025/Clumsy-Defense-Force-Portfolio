@@ -178,7 +178,7 @@ public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
     private void ApplyLevelDisplay(bool isNew, int level)
     {
         if (levelText != null)
-            levelText.text = isNew ? NewLevelLabel : level.ToString();
+            levelText.text = isNew ? NewLevelLabel : $"Lv {level}";
 
         if (levelTextPanelImage != null)
         {
