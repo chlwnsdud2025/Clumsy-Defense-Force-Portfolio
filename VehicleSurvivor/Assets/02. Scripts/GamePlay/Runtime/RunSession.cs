@@ -95,7 +95,12 @@ public sealed class RunSession
         if (!ShouldUpdateGameplay)
             return false;
 
-        _gold += amount;
+        float goldGainMultiplier = Player.Stats.GetValue(EStatType.GoldGainMultiplier);
+        int finalAmount = Mathf.Max(0, Mathf.RoundToInt(amount * goldGainMultiplier));
+        if (finalAmount <= 0)
+            return false;
+
+        _gold += finalAmount;
         OnGoldChanged?.Invoke(_gold);
         return true;
     }

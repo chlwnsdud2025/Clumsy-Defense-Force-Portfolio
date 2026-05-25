@@ -61,10 +61,8 @@ public class MoneyItem : MonoBehaviour
 
     private void Collect()
     {
-        // ==========================================
-        // TODO: 여기서 플레이어 재화 증가 함수를 호출하세요!
-        // ==========================================
-        Debug.Log($"<color=yellow>돈 {moneyAmount}G 획득!</color> (연출 종료)");
+        if (RunManager.TryGetInstance(out RunManager runManager))
+            runManager.AddGold(moneyAmount);
 
         myManager.ReturnToPool(this);
     }
