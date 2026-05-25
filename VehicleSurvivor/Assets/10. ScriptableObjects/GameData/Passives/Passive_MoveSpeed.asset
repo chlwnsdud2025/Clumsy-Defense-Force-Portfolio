@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_move_speed
   passiveName: "\uC774\uB3D9\uC18D\uB3C4 \uC99D\uAC00"
-  description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
   statType: 200
   maxLevel: 5

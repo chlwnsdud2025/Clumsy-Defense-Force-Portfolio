@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_defense
   passiveName: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
-  description: "\uBC29\uC5B4\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  description: "\uBC29\uC5B4\uB825\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
   statType: 102
   maxLevel: 5
