@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class ProjectileWeapon : WeaponBase
 {
-
-   //Damage = 데미지
-  // Cooldown = 발사 간격
-  // ProjectileSpeed 또는 BulletSpeed = 당근 속도
-  // ProjectileCount = 당근 개수
-  // SpreadAngle = 여러 발일 때 퍼짐 각도
-  // PierceCount = 관통 횟수
-  // Radius = 타겟 탐지 반경
-  // Range = 투사체 최대 이동 거리
+    //Damage = 데미지
+    // Cooldown = 발사 간격
+    // ProjectileSpeed 또는 BulletSpeed = 당근 속도
+    // ProjectileCount = 당근 개수
+    // SpreadAngle = 여러 발일 때 퍼짐 각도
+    // PierceCount = 관통 횟수
+    // Radius = 타겟 탐지 반경
+    // Range = 투사체 최대 이동 거리
 
     [Header("Projectile References")]
     public GameObject projectilePrefab;
@@ -62,26 +61,31 @@ public class ProjectileWeapon : WeaponBase
             return;
         }
 
-        Transform target = FindClosestTarget(detectRadius);
+        // [수정됨] Transform 대신 Collider를 반환받아 정확한 크기와 중심을 알아냅니다.
+        Collider targetCollider = FindClosestTarget(detectRadius);
 
         Vector3 direction;
 
-        if (target != null)
+        if (targetCollider != null)
         {
-            direction = target.position - resolvedFirePoint.position;
-            direction.y = 0f;
+            // [수정됨] 몬스터 콜라이더의 정확한 중심(Center)을 조준합니다.
+            Vector3 targetCenter = targetCollider.bounds.center;
+            direction = targetCenter - resolvedFirePoint.position;
+
+            // direction.y = 0f; <--- 삭제됨: Y축(높이차)을 무시하지 않고 3D로 직접 겨냥합니다.
         }
         else
         {
             Debug.Log($"[ProjectileWeapon] 반경 {detectRadius} 내 Enemy 대상 없음 → 정면 발사");
 
             direction = resolvedFirePoint.forward;
-            direction.y = 0f;
+            direction.y = 0f; // 타겟이 없을 때는 기존처럼 수평으로 발사
         }
 
         if (direction == Vector3.zero)
             return;
 
+        // Quaternion.LookRotation이 Y축 방향(위/아래)까지 고려하여 자연스럽게 포신을 꺾어줍니다.
         Quaternion baseRotation = Quaternion.LookRotation(direction.normalized);
 
         if (shootParticlePrefab != null)
@@ -107,6 +111,7 @@ public class ProjectileWeapon : WeaponBase
                     spreadAngleValue;
             }
 
+            // 부채꼴 퍼짐 각도 적용 (수평면 기준)
             Quaternion shootRotation =
                 baseRotation *
                 Quaternion.Euler(
@@ -115,7 +120,7 @@ public class ProjectileWeapon : WeaponBase
                     0f
                 );
 
-            // Y -90 고정
+            // Y -90 고정 (프리팹 모델링 방향 보정)
             Quaternion visualRotation =
                 shootRotation *
                 Quaternion.Euler(
@@ -147,19 +152,20 @@ public class ProjectileWeapon : WeaponBase
                 projectileSpeed,
                 pierceCount,
                 maxTravelDistance,
-                shootRotation * Vector3.forward
+                shootRotation * Vector3.forward // 발사 방향도 정확한 3D 각도로 전달
             );
         }
     }
 
-    private Transform FindClosestTarget(float detectRadius)
+    // [수정됨] Transform 대신 Collider를 반환하도록 변경
+    private Collider FindClosestTarget(float detectRadius)
     {
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             detectRadius
         );
 
-        Transform closestTarget = null;
+        Collider closestTarget = null;
         float closestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)
@@ -179,7 +185,7 @@ public class ProjectileWeapon : WeaponBase
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closestTarget = hit.transform;
+                closestTarget = hit; // transform이 아닌 collider 자체를 캐싱
             }
         }
 
