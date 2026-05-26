@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: WD_CrownBoomerang
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_crownboomerang
-  weaponName: "크라운 부메랑"
-  description: "왕관 부메랑이 왕복하며 적에게 피해를 줍니다."
-  icon: {fileID: 0}
+  weaponName: "?щ씪??遺硫붾옉"
+  description: "?뺢? 遺硫붾옉???뺣났?섎ŉ ?곸뿉寃??쇳빐瑜?以띾땲??"
+  icon: {fileID: 21300000, guid: 167a768589122d341815f85c7670ffb8, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "투사체"
-  - "왕복"
-  - "왕실"
+  - "?ъ궗泥?
+  - "?뺣났"
+  - "?뺤떎"
   levelDataList:
   - bulletSpeed: 10
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "기본 왕복 공격"
+    description: "湲곕낯 ?뺣났 怨듦꺽"
     cooldown: 1
     damage: 10
     projectileSpeed: 10
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "사거리 증가"
+    description: "?ш굅由?利앷?"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "크기 증가"
+    description: "?ш린 利앷?"
     cooldown: 0.9
     damage: 14
     projectileSpeed: 11
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 0.85
     damage: 16
     projectileSpeed: 11
@@ -105,3 +105,4 @@ MonoBehaviour:
     range: 8.5
   evolutionWeaponId: weapon_evolved_royal_road
   requiredPassiveId: passive_max_hp
+

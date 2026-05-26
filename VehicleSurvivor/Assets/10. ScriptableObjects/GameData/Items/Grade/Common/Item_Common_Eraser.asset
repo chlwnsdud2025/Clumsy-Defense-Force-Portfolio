@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Item_Common_Eraser
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_common_eraser
-  itemName: "말끔 지우개"
-  description: "쿨타임이 감소합니다."
+  itemName: "留먮걫 吏?곌컻"
+  description: "荑⑦??꾩씠 媛먯냼?⑸땲??"
   itemCategory: 0
   rarity: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4d19c4b80cdc9884fbaea090098db9aa, type: 3}
   isOneTimeUse: 0
   statModifiers:
   - statType: 500
     value: 0.06
     isPercent: 1
+

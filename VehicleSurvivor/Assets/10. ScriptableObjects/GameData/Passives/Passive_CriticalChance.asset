@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,7 +15,7 @@ MonoBehaviour:
   passiveId: passive_critical_chance
   passiveName: "\uCE58\uBA85\uD0C0\uC728 \uC99D\uAC00"
   description: "\uCE58\uBA85\uD0C0 \uD655\uB960\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a396150fe594840409e3ab21c4d6745d, type: 3}
   statType: 400
   maxLevel: 5
   levelModifiers:
@@ -23,14 +23,17 @@ MonoBehaviour:
     value: 0.05
     isPercent: 1
   - statType: 400
-    value: 0.05
+    value: 0.1
     isPercent: 1
   - statType: 400
-    value: 0.05
+    value: 0.15
     isPercent: 1
   - statType: 400
-    value: 0.05
+    value: 0.2
     isPercent: 1
   - statType: 400
-    value: 0.05
+    value: 0.25
     isPercent: 1
+
+
+
