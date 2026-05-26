@@ -77,3 +77,12 @@ MonoBehaviour:
       m_EditorAssetChanged: 1
     _lifetimePolicy: 0
     _releaseAssetOnClose: 0
+  - _type: 5
+    _prefabReference:
+      m_AssetGUID: 5b120b8bd7a97554ab0ce9ef75687614
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _lifetimePolicy: 0
+    _releaseAssetOnClose: 0

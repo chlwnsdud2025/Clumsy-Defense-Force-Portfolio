@@ -27,5 +27,6 @@ public enum EPopupUIType
     Pause,
     LevelUp,
     SelectCard,
-    GameOver
+    GameOver,
+    Setting
 }
