@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Item_Rare_HonorNote
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_rare_honor_student_note
-  itemName: "?곕벑???명듃"
-  description: "寃쏀뿕移??띾뱷??利앷??⑤떦 怨듦꺽?μ씠 利앷??⑸땲??"
+  itemName: "우등생 노트"
+  description: "경험치 획득량 증가율에 비례해 공격력이 증가합니다."
   itemCategory: 0
   rarity: 3
   icon: {fileID: 21300000, guid: 61a6df7f87ee4c446872c700fc3333c8, type: 3}

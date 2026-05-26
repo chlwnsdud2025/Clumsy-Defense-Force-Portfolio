@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Passive_AttackPower
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_attack_power
-  passiveName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  description: "\uACF5\uACA9\uB825\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveName: "공격력 증가"
+  description: "공격력이 {0} 증가합니다."
   icon: {fileID: 21300000, guid: 96320845a0f808548ae2a9bdf8dc897c, type: 3}
   statType: 300
   maxLevel: 5

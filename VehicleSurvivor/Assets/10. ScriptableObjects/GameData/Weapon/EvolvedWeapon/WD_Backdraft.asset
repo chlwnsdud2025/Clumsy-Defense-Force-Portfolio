@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_backdraft
   weaponName: "백드래프트"
-  description: "방화선이 폭발성 화염 지대로 진화합니다."
+  description: "피해를 받은 적이 확률적으로 폭발합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 2

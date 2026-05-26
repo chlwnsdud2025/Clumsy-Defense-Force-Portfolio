@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_ShieldSoapBubble
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_shieldsoapbubble
+  weaponId: weapon_common_soap_bubble
   weaponName: "비눗방울"
-  description: "보호막을 생성하고 방어 시 반격합니다."
+  description: "보호막을 획득하고, 피해 방어 시 반격 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 5
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "기본 보호막"
+    description: "보호막량 증가"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2.2
     meteorDelay: 1
-    description: "보호막량 증가"
+    description: "반격 피해 증가"
     cooldown: 1.15
     damage: 11
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2.2
     meteorDelay: 1
-    description: "반격 피해 증가"
+    description: "재생 쿨타임 감소"
     cooldown: 1.1
     damage: 13
     projectileSpeed: 0.1

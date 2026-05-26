@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_RudolphSleigh
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_rudolphsleigh
-  weaponName: "猷⑤룎???곕ℓ"
-  description: "?곕ℓ媛 留듭쓣 媛濡쒖?瑜대ŉ 寃쎈줈 ?쇳빐瑜?以띾땲??"
+  weaponId: weapon_common_rudolph_sleigh
+  weaponName: "루돌프 썰매"
+  description: "거대한 썰매와 루돌프가 맵을 가로질러 경로 피해를 줍니다."
   icon: {fileID: 21300000, guid: 79b6f9ee9b16fd142b4f60fdd124cd41, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 6
   tags:
-  - "踰붿쐞"
-  - "?쇱씤"
-  - "?〓떒"
+  - "범위"
+  - "라인"
+  - "횡단"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "湲곕낯 寃쎈줈 ?뚯쭊"
+    description: "피해량 증가"
     cooldown: 4
     damage: 14
     projectileSpeed: 12
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "크기 증가"
     cooldown: 3.8
     damage: 16
     projectileSpeed: 12.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?ш린 利앷?"
+    description: "쿨타임 감소"
     cooldown: 3.6
     damage: 16
     projectileSpeed: 12.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "荑⑦???媛먯냼"
+    description: "쿨타임 감소"
     cooldown: 3.3
     damage: 18
     projectileSpeed: 13
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 3
     damage: 21
     projectileSpeed: 13.5

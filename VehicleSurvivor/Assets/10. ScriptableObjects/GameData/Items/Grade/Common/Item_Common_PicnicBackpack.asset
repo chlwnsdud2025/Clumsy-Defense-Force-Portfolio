@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Common_PicnicBackpack
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_common_picnic_backpack
-  itemName: "?뚰뭾 諛곕궘"
-  description: "?꾩씠???띾뱷 諛섍꼍??利앷??⑸땲??"
+  itemId: item_common_backpack
+  itemName: "소풍 배낭"
+  description: "아이템 획득 반경이 50% 증가합니다."
   itemCategory: 0
   rarity: 1
   icon: {fileID: 21300000, guid: 1ecfc200f9611a141a52527822701192, type: 3}

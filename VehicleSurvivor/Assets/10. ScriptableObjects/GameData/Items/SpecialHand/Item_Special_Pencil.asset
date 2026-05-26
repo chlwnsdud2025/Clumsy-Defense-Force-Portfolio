@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Special_Pencil
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_special_model_student_pencil
+  itemId: item_hand_honor_pencil
   itemName: "모범생 연필"
-  description: "경험치 획득량이 증가하고 레벨업 선택지가 늘어납니다."
+  description: "경험치 획득량이 증가하고 레벨업 선택지 수가 증가합니다."
   itemCategory: 1
   rarity: 0
   icon: {fileID: 0}

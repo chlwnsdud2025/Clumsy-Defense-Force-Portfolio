@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Rare_GoldStar
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_rare_gold_star
-  itemName: "李??섑뻽?댁슂"
-  description: "怨듦꺽 ???뺣쪧濡?移?갔 ?ㅽ떚而ㅻ? 遺李⑺빐 ?쇳빐 利앷?? ?뷀솕瑜?遺?ы빀?덈떎."
+  itemId: item_rare_good_job_stamp
+  itemName: "참 잘했어요 도장"
+  description: "공격 시 일정 확률로 적에게 칭찬 도장을 추가합니다. 도장이 찍힌 적은 받는 피해가 증가하고 이동속도가 감소합니다."
   itemCategory: 0
   rarity: 3
   icon: {fileID: 21300000, guid: e732b8f816eab854994f24be227a69dc, type: 3}

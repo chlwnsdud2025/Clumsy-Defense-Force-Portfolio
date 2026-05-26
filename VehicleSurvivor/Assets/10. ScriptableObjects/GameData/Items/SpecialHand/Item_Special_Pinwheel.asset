@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Special_Pinwheel
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_special_pinwheel
+  itemId: item_hand_pinwheel
   itemName: "빙글빙글 바람개비"
   description: "이동속도 증가율만큼 공격력이 증가합니다."
   itemCategory: 1

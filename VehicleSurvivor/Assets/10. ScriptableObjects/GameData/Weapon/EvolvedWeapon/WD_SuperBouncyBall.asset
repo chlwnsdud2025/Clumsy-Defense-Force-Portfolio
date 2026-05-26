@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_SuperBouncyBall
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_super_bouncy_ball
-  weaponName: "?덊띁 ?깊꺊蹂?
-  description: "?깊꺊蹂쇱쓽 ?ш린? 諛섏궗 ?깅뒫??媛뺥솕?⑸땲??"
+  weaponName: "슈퍼 탱탱볼"
+  description: "벽에 튕기며 적을 관통하고, 튕길 때마다 피해량이 증가합니다."
   icon: {fileID: 21300000, guid: d8a812a922f132a41b24bda988d97930, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

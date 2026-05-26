@@ -8,7 +8,7 @@ public struct CharacterCombatStats
     [Min(0f)] public float Defense;
     [Min(0f)] public float MoveSpeedMultiplier;
     [Min(0f)] public float DamageMultiplier;
-    [Min(0f)] public float PickupRange;
+    [Min(0f)] public float PickupRangeMultiplier;
 }
 
 [System.Serializable]
@@ -69,7 +69,7 @@ public class CharacterDefinitionSO : ScriptableObject
         Defense = 0f,
         MoveSpeedMultiplier = 1f,
         DamageMultiplier = 1f,
-        PickupRange = 1f,
+        PickupRangeMultiplier = 1f,
     };
 
     [Header("Loadout")]
@@ -114,7 +114,7 @@ public class CharacterDefinitionSO : ScriptableObject
         _combat.Defense = Mathf.Max(0f, _combat.Defense);
         _combat.MoveSpeedMultiplier = Mathf.Max(0f, _combat.MoveSpeedMultiplier);
         _combat.DamageMultiplier = Mathf.Max(0f, _combat.DamageMultiplier);
-        _combat.PickupRange = Mathf.Max(0f, _combat.PickupRange);
+        _combat.PickupRangeMultiplier = Mathf.Max(0f, _combat.PickupRangeMultiplier);
 
         _loadout.StartingWeaponId = _loadout.StartingWeaponId?.Trim() ?? string.Empty;
         _loadout.UniqueTraitId = _loadout.UniqueTraitId?.Trim() ?? string.Empty;

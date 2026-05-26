@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_space_chaos
   weaponName: "우주 대소동"
-  description: "장난감 위성이 더 넓은 폭격을 수행합니다."
+  description: "폭격 횟수와 폭격 범위가 증가합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 6

@@ -38,7 +38,8 @@ public class DamageText : MonoBehaviour
         transform.localScale = isCritical
             ? Vector3.one * criticalScaleMultiplier
             : Vector3.one;
-        textMesh.text = isCritical ? $"{damage}!" : damage.ToString();
+        int displayDamage = Mathf.RoundToInt(damage);
+        textMesh.text = isCritical ? $"{displayDamage}!" : displayDamage.ToString();
         textMesh.color = isCritical ? criticalColor : Color.white;
         textMesh.alpha = 1f;
 
