@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "래빗 스트라이크"
   description: "당근 수가 증가하고 적을 관통합니다."
   icon: {fileID: 21300000, guid: 9518bf90574f11b4d936bb57918f26a8, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
   weaponType: 0
   tags: []
   levelDataList:

@@ -80,6 +80,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         bool applied = _rewardApplier.Apply(
             _runSession.Player,
             reward,
+            weaponDatabase,
             playerWeaponSpawner,
             _playerInstance != null ? _playerInstance.transform : null);
 
@@ -108,6 +109,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         bool applied = _rewardApplier.Apply(
             _runSession.Player,
             reward,
+            weaponDatabase,
             playerWeaponSpawner,
             _playerInstance != null ? _playerInstance.transform : null);
 

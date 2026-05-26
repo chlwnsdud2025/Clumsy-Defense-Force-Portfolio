@@ -68,6 +68,22 @@ public sealed class PlayerInventory
         return passives.Find(existing => existing.Definition.PassiveId == definition.PassiveId);
     }
 
+    public bool HasPassive(string passiveId)
+    {
+        if (string.IsNullOrWhiteSpace(passiveId))
+            return false;
+
+        string normalizedId = passiveId.Trim();
+
+        foreach (PassiveInstance passive in passives)
+        {
+            if (passive?.Definition != null && passive.Definition.PassiveId == normalizedId)
+                return true;
+        }
+
+        return false;
+    }
+
     public ItemInstance GetItem(ItemDefinitionSO definition)
     {
         if (definition == null)
@@ -97,6 +113,21 @@ public sealed class PlayerInventory
         weapons.Add(weapon);
         NotifyChanged(EInventoryCategory.Weapon, weapons.Count - 1);
         return weapon;
+    }
+
+    public WeaponInstance ReplaceWeapon(WeaponInstance oldWeapon, WeaponDefinitionSO newDefinition)
+    {
+        if (oldWeapon == null || newDefinition == null)
+            return null;
+
+        int index = weapons.IndexOf(oldWeapon);
+        if (index < 0)
+            return null;
+
+        WeaponInstance newWeapon = new(newDefinition);
+        weapons[index] = newWeapon;
+        NotifyChanged(EInventoryCategory.Weapon, index);
+        return newWeapon;
     }
 
     public void AddOrLevelUpPassive(PassiveDefinitionSO definition)

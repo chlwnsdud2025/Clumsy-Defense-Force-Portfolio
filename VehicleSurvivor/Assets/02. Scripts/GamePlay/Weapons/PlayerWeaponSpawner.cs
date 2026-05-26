@@ -56,6 +56,23 @@ public class PlayerWeaponSpawner : MonoBehaviour
         return true;
     }
 
+    public bool ReplaceSpawnedWeapon(string oldWeaponId, WeaponInstance newWeapon, Transform owner)
+    {
+        if (string.IsNullOrWhiteSpace(oldWeaponId))
+            return false;
+
+        if (newWeapon == null || newWeapon.Definition == null)
+            return false;
+
+        string normalizedOldWeaponId = oldWeaponId.Trim();
+
+        if (spawnedWeapons.TryGetValue(normalizedOldWeaponId, out WeaponBase oldWeapon) && oldWeapon != null)
+            Destroy(oldWeapon.gameObject);
+
+        spawnedWeapons.Remove(normalizedOldWeaponId);
+        return TrySpawnWeapon(newWeapon, owner);
+    }
+
     private Transform ResolveFirePoint(Transform owner)
     {
         if (firePoint != null)
