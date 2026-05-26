@@ -13,26 +13,19 @@ MonoBehaviour:
   m_Name: WD_ForestMarch
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_forest_march
-  weaponName: "숲친구 대행진"
-  description: "더 많은 숲친구가 따라다니며 빠르게 주변 적을 공격합니다."
+  weaponName: "\uC232\uCE5C\uAD6C \uB300\uD589\uC9C4"
+  description: "\uB354 \uB9CE\uC740 \uC232\uCE5C\uAD6C\uAC00 \uB530\uB77C\uB2E4\uB2C8\uBA70
+    \uBE60\uB974\uAC8C \uC8FC\uBCC0 \uC801\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 47207a55b7db59c498eef06e20e3acce, type: 3}
   weaponPrefab: {fileID: 7355625637186128406, guid: 84d2caa596a6f604993d4dff122fa855, type: 3}
   weaponType: 3
   tags:
-  - "소환"
-  - "자동공격"
-  - "자연"
+  - "\uC18C\uD658"
+  - "\uC790\uB3D9\uACF5\uACA9"
+  - "\uC790\uC5F0"
   levelDataList:
-  - bulletSpeed: 9
-    spreadAngle: 0
-    radius: 8
-    bounceCount: 3
-    pierceCount: 0
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 1.2
-    meteorDelay: 1
-    description: "진화 완료: 숲친구 수가 크게 증가하고 더 빠르게 공격합니다."
+  - description: "\uC9C4\uD654 \uC644\uB8CC: \uC232\uCE5C\uAD6C \uC218\uAC00 \uD06C\uAC8C
+      \uC99D\uAC00\uD558\uACE0 \uB354 \uBE60\uB974\uAC8C \uACF5\uACA9\uD569\uB2C8\uB2E4."
     cooldown: 0.55
     damage: 24
     projectileSpeed: 9
@@ -41,6 +34,20 @@ MonoBehaviour:
     projectileCount: 5
     tickInterval: 0.35
     range: 8
+    bulletSpeed: 9
+    spreadAngle: 0
+    radius: 8
+    bounceCount: 3
+    pierceCount: 6
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.2
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
   evolutionWeaponId: 
   requiredBadgeId: 
-

@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Item_Legendary_Mask
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_legendary_cat_mask
-  itemName: "고양이 가면"
-  description: "이동속도가 크게 증가합니다."
+  itemName: "\uACE0\uC591\uC774 \uAC00\uBA74"
+  description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 \uD06C\uAC8C \uC99D\uAC00\uD569\uB2C8\uB2E4."
   itemCategory: 0
   rarity: 5
   icon: {fileID: 21300000, guid: fb23b2881828a1c428a9f6c8aa0d453b, type: 3}
   isOneTimeUse: 0
-  statModifiers: []
+  statModifiers:
+  - statType: 200
+    value: 0.4
+    isPercent: 1
