@@ -497,6 +497,8 @@ MonoBehaviour:
   maxHealth: 30
   moveSpeed: 8
   rotationSpeed: 3
+  contactRange: 3
+  contactCooltime: 1
   expReward: 10
   moneyReward: 10
   contactDamage: 30
@@ -1292,6 +1294,8 @@ MonoBehaviour:
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3
+  contactRange: 3
+  contactCooltime: 1
   expReward: 10
   moneyReward: 10
   contactDamage: 30

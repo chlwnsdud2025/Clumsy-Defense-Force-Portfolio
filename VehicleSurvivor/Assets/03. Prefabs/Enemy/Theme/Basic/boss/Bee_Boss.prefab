@@ -55,6 +55,8 @@ MonoBehaviour:
   maxHealth: 50
   moveSpeed: 2
   rotationSpeed: 10
+  contactRange: 3
+  contactCooltime: 1
   expReward: 10
   moneyReward: 10
   contactDamage: 30

@@ -16618,7 +16618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccTransformRotator
   rotationAxis: 1
-  rotationSpeed: 200
+  rotationSpeed: 100
 --- !u!1 &520842565862596213
 GameObject:
   m_ObjectHideFlags: 0
@@ -32427,7 +32427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureChest
   requiredGold: 100
-  rewardPanel: {fileID: 0}
   interactText: {fileID: 398705875653530734}
   requiredGoldText: {fileID: 1305164876967555908}
 --- !u!135 &5756706862984111221
@@ -52675,7 +52674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ithappy.Battle_Stadium::ithappy.Battle_Stadium.RotationScript
   rotationAxis: 1
-  rotationSpeed: 50
+  rotationSpeed: 20
 --- !u!1 &1695846072535605368
 GameObject:
   m_ObjectHideFlags: 0
@@ -81608,7 +81607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 8491884961011173563}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &2685468999919946278
 GameObject:
   m_ObjectHideFlags: 0
@@ -86979,7 +86978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ithappy.Battle_Stadium::ithappy.Battle_Stadium.OscillateRotation
   rotationAxis: {x: 0, y: 0, z: 1}
   rotationAngle: 90
-  duration: 1.6
+  duration: 2.2
   useRandomDelay: 1
   maxRandomDelay: 0
   useLocalAxes: 1
@@ -91269,7 +91268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 8792765252627600155}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &3100025201084049502
 GameObject:
   m_ObjectHideFlags: 0
@@ -99616,7 +99615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 9160045652695525024}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &3458016414035609011
 GameObject:
   m_ObjectHideFlags: 0
@@ -101190,7 +101189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 7052832819116591625}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &3539423196659273835
 GameObject:
   m_ObjectHideFlags: 0
@@ -153134,8 +153133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f62de48b977314f82a1c975c92441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleBouncer
-  bounceForce: 2
-  bounceHeight: 0.1
+  bounceForce: 1
+  bounceHeight: 0
 --- !u!65 &8565586681959967847
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -155789,7 +155788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 44098653793922218}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &5799671365388694116
 GameObject:
   m_ObjectHideFlags: 0
@@ -156841,7 +156840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 3978546323238227}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &5831765140622438509
 GameObject:
   m_ObjectHideFlags: 0
@@ -160938,7 +160937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 237744693798297886}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &6031642973775812638
 GameObject:
   m_ObjectHideFlags: 0
@@ -162921,7 +162920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccTransformRotator
   rotationAxis: 1
-  rotationSpeed: 200
+  rotationSpeed: 100
 --- !u!1 &6130465546866503924
 GameObject:
   m_ObjectHideFlags: 0
@@ -166795,7 +166794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 544966791104752111}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &6304304581988776176
 GameObject:
   m_ObjectHideFlags: 0
@@ -194144,7 +194143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
   Mover: {fileID: 4241278410956764672}
   rotationAxis: 1
-  rotationSpeed: 100
+  rotationSpeed: 50
 --- !u!1 &7658846505871012125
 GameObject:
   m_ObjectHideFlags: 0
@@ -197715,7 +197714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccTransformRotator
   rotationAxis: 1
-  rotationSpeed: 200
+  rotationSpeed: 100
 --- !u!1 &7816763309565889260
 GameObject:
   m_ObjectHideFlags: 0
@@ -215366,8 +215365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f62de48b977314f82a1c975c92441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleBouncer
-  bounceForce: 2
-  bounceHeight: 0.1
+  bounceForce: 1
+  bounceHeight: 0
 --- !u!65 &5432625408202598791
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -229986,7 +229985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ithappy.Battle_Stadium::ithappy.Battle_Stadium.RotationScript
   rotationAxis: 1
-  rotationSpeed: 50
+  rotationSpeed: 20
 --- !u!1 &9208243453253913179
 GameObject:
   m_ObjectHideFlags: 0
