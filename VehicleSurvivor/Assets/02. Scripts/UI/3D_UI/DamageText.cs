@@ -16,7 +16,11 @@ public class DamageText : MonoBehaviour
 
     private Sequence tweenSequence;
 
-    public void Setup(float damage, Vector3 hitSpawnpointPosition) // 매개변수 이름을 알아보기 쉽게 변경
+    [Header("Critical Settings")]
+    public Color criticalColor = Color.yellow;
+    public float criticalScaleMultiplier = 1.3f;
+
+    public void Setup(float damage, Vector3 hitSpawnpointPosition, bool isCritical = false)
     {
         // 1. 기존 트윈 강제 종료
         tweenSequence?.Kill();
@@ -31,8 +35,11 @@ public class DamageText : MonoBehaviour
         // ----------------------------------------
 
         // 2. 상태 초기화
-        transform.localScale = Vector3.one;
-        textMesh.text = damage.ToString();
+        transform.localScale = isCritical
+            ? Vector3.one * criticalScaleMultiplier
+            : Vector3.one;
+        textMesh.text = isCritical ? $"{damage}!" : damage.ToString();
+        textMesh.color = isCritical ? criticalColor : Color.white;
         textMesh.alpha = 1f;
 
         // 3. 목표 위치 계산 (여기도 랜덤을 섞어 이동하면서 더 사방으로 터지게)
@@ -57,7 +64,10 @@ public class DamageText : MonoBehaviour
         tweenSequence.Append(transform.DOMove(targetPosition, duration).SetEase(Ease.OutBack));
 
         transform.localScale = Vector3.zero;
-        tweenSequence.Join(transform.DOScale(Vector3.one, duration * 0.5f).SetEase(Ease.OutBounce));
+        Vector3 targetScale = isCritical
+            ? Vector3.one * criticalScaleMultiplier
+            : Vector3.one;
+        tweenSequence.Join(transform.DOScale(targetScale, duration * 0.5f).SetEase(Ease.OutBounce));
 
         tweenSequence.Insert(duration * 0.5f, textMesh.DOFade(0f, duration * 0.5f));
 

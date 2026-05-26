@@ -64,6 +64,7 @@ public class MoneyItem : MonoBehaviour
         if (RunManager.TryGetInstance(out RunManager runManager))
             runManager.AddGold(moneyAmount);
 
+        SoundPlayback.PlaySfx(ESoundId.SFX_Pickup_Gold);
         myManager.ReturnToPool(this);
     }
 }

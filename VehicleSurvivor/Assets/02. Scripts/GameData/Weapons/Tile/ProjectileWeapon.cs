@@ -39,7 +39,7 @@ public class ProjectileWeapon : WeaponBase
     }
 
     private void FireProjectiles(
-        float finalDamage,
+        DamageInfo damageInfo,
         float projectileSpeed,
         int count,
         float spreadAngleValue,
@@ -143,7 +143,7 @@ public class ProjectileWeapon : WeaponBase
             }
 
             projectileBullet.Initialize(
-                finalDamage,
+                damageInfo,
                 projectileSpeed,
                 pierceCount,
                 maxTravelDistance,

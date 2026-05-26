@@ -93,6 +93,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             if (currentAttackCooldown <= 0)
             {
                 Attack();
+                SoundPlayback.PlaySfx(ESoundId.SFX_Boss_Attack);
             }
         }
 
@@ -196,12 +197,12 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     }
 
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(DamageInfo damageInfo)
     {
-        currentHealth -= damage;
+        currentHealth -= damageInfo.Amount;
 
         GameObject textObj = DamageTextPool.Instance.GetDamageText();
-        textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
+        textObj.GetComponent<DamageText>().Setup(damageInfo.Amount, damageTextSpawnpoint.position, damageInfo.IsCritical);
 
         hitFlash?.TriggerHitFlash();
         PublishHpChanged();
@@ -317,7 +318,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             {
                 if (currentContactCooldown <= 0)
                 {
-                    player.TakeDamage(contactDamage);
+                    player.TakeDamage(DamageInfo.Normal(contactDamage));
                     currentContactCooldown = contactCooltime;
                 }
             }

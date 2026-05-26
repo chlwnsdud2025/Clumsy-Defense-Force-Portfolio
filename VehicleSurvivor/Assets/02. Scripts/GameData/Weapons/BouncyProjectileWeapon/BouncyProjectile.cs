@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BouncyProjectile : MonoBehaviour
 {
-    private float damage;
+    private DamageInfo damageInfo;
     private float maxTravelDistance;
     private int bounceCount;
 
@@ -15,7 +15,7 @@ public class BouncyProjectile : MonoBehaviour
     private SphereCollider sphereCollider;
 
     public void Initialize(
-        float newDamage,
+        DamageInfo newDamageInfo,
         Vector3 startVelocity,
         float newMaxTravelDistance,
         int newBounceCount,
@@ -24,7 +24,7 @@ public class BouncyProjectile : MonoBehaviour
         float newBounciness
     )
     {
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         velocity = startVelocity;
 
         maxTravelDistance = newMaxTravelDistance;
@@ -97,10 +97,10 @@ public class BouncyProjectile : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
+            damageable.TakeDamage(damageInfo);
 
             Debug.Log(
-                $"[BouncyProjectile] {other.name} 에게 {damage} 데미지"
+                $"[BouncyProjectile] {other.name} 에게 {damageInfo.Amount} 데미지"
             );
         }
 
@@ -117,10 +117,10 @@ public class BouncyProjectile : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
+            damageable.TakeDamage(damageInfo);
 
             Debug.Log(
-                $"[BouncyProjectile] {other.name} 에게 {damage} 데미지"
+                $"[BouncyProjectile] {other.name} 에게 {damageInfo.Amount} 데미지"
             );
 
             Bounce(other);

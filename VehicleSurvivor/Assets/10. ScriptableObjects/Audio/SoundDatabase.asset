@@ -1,0 +1,226 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3, type: 3}
+  m_Name: SoundDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDatabaseSO
+  sfxEntries:
+  - id: 1
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 2
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 3
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 4
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 5
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 6
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 7
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 8
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 9
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 10
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 11
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 12
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 13
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 14
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 15
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 16
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 17
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 18
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 19
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 20
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 21
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 22
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 23
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 24
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 25
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 26
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  - id: 27
+    variations: []
+    volume: 1
+    pitchMin: 0.95
+    pitchMax: 1.05
+    cooldownSeconds: 0
+    priority: 1
+  bgmEntries:
+  - id: 1
+    clip: {fileID: 0}
+    volume: 1
+  - id: 2
+    clip: {fileID: 0}
+    volume: 1
+  - id: 3
+    clip: {fileID: 0}
+    volume: 1
+  - id: 4
+    clip: {fileID: 0}
+    volume: 1
+  - id: 5
+    clip: {fileID: 0}
+    volume: 1
+  - id: 6
+    clip: {fileID: 0}
+    volume: 1
+  - id: 7
+    clip: {fileID: 0}
+    volume: 1

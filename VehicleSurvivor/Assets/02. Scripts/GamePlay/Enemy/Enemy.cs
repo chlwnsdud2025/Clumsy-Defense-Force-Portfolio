@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(float damage);
+    void TakeDamage(DamageInfo damageInfo);
     float ContactDamage { get; }
 }
 
@@ -251,7 +251,7 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             if (currentContactCooldown <= 0)
             {
-                playerDamageable.TakeDamage(contactDamage);
+                playerDamageable.TakeDamage(DamageInfo.Normal(contactDamage));
                 currentContactCooldown = contactCooltime; // 쿨타임 돌입
             }
         }
@@ -301,11 +301,12 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     // --- (TakeDamage, Die 등 기타 함수 동일) ---
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(DamageInfo damageInfo)
     {
-        currentHealth -= damage;
+        currentHealth -= damageInfo.Amount;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Hit);
         GameObject textObj = DamageTextPool.Instance.GetDamageText();
-        textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
+        textObj.GetComponent<DamageText>().Setup(damageInfo.Amount, damageTextSpawnpoint.position, damageInfo.IsCritical);
 
         hitFlash?.TriggerHitFlash();
 
@@ -319,6 +320,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         hitFlash?.ResetFlash();
+        SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Death);
         DropExpOrbs();
         DropMoney();
         RunManager.Instance.AddKill();

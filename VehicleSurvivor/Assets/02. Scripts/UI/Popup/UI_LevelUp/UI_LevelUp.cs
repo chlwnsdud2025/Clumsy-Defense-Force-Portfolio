@@ -197,6 +197,7 @@ public class UI_LevelUp : UIPopup
             return;
 
         hasConfirmed = true;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Select);
         SetSelectedIndex(index);
         ConfirmAfterFocusAsync(panel, index).Forget();
     }
@@ -254,6 +255,7 @@ public class UI_LevelUp : UIPopup
             return;
 
         hasConfirmed = true;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Select);
         ApplyRewardAtIndex(selectedIndex);
     }
 
@@ -269,6 +271,7 @@ public class UI_LevelUp : UIPopup
         RewardOption selectedReward = selectedPanel.Reward;
         Debug.Log($"[UI_LevelUp] 보상 선택: index={index}, name={selectedReward.DisplayName}");
 
+        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Apply);
         onRewardSelected?.Invoke(selectedReward);
     }
 

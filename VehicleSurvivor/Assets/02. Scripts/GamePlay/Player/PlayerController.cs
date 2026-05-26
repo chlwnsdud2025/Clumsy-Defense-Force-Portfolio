@@ -214,16 +214,12 @@ public class PlayerController : MonoBehaviour
     private void OnFootstep(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            // TODO 발걸음 사운드 재생
-        }
+            SoundPlayback.PlaySfx(ESoundId.SFX_Player_Footstep);
     }
 
     private void OnLand(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            // TODO 착지 사운드 재생
-        }
+            SoundPlayback.PlaySfx(ESoundId.SFX_Player_Land);
     }
 }

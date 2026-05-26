@@ -24,6 +24,7 @@ public class FinalPortal : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
+            SoundPlayback.PlaySfx(ESoundId.SFX_Env_Portal);
             Debug.Log("플레이어가 최종 보스 포탈에 탑승했습니다!");
 
             if (StageRunManager.Instance != null)

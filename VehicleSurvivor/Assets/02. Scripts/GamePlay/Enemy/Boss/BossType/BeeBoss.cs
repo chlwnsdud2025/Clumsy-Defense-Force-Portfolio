@@ -135,7 +135,7 @@ public class BeeBoss : BossEnemy
         Collider[] hits = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.LookRotation(lockedDir), playerLayerMask);
         foreach (Collider hit in hits)
         {
-            hit.GetComponent<IDamageable>()?.TakeDamage(laserDamage);
+            hit.GetComponent<IDamageable>()?.TakeDamage(DamageInfo.Normal(laserDamage));
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -193,7 +193,7 @@ public class BeeBoss : BossEnemy
             Collider[] hits = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.LookRotation(lockedDir), playerLayerMask);
             foreach (Collider hit in hits)
             {
-                hit.GetComponent<IDamageable>()?.TakeDamage(laserDamage);
+                hit.GetComponent<IDamageable>()?.TakeDamage(DamageInfo.Normal(laserDamage));
             }
 
             if (i < multiLaserCount - 1) yield return new WaitForSeconds(multiLaserDelay);

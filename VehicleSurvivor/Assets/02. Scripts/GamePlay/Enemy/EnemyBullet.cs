@@ -64,7 +64,7 @@ public class EnemyBullet : MonoBehaviour
             IDamageable target = hit.GetComponent<IDamageable>();
             if (target != null)
             {
-                target.TakeDamage(damage);
+                target.TakeDamage(DamageInfo.Normal(damage));
             }
         }
 

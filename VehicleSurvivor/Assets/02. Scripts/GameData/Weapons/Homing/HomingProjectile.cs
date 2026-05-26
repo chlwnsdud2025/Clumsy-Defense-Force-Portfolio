@@ -5,7 +5,7 @@ public class HomingProjectile : MonoBehaviour
     [Header("Homing")]
     public float rotateSpeed = 10f;
 
-    private float damage;
+    private DamageInfo damageInfo;
     private float speed;
     private float maxTravelDistance;
 
@@ -16,7 +16,7 @@ public class HomingProjectile : MonoBehaviour
     private float detectRadius;
 
     public void Initialize(
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newSpeed,
         float newMaxTravelDistance,
         Vector3 newMoveDirection,
@@ -24,7 +24,7 @@ public class HomingProjectile : MonoBehaviour
         float newDetectRadius
     )
     {
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         speed = newSpeed;
         maxTravelDistance =
             newMaxTravelDistance;
@@ -147,9 +147,9 @@ public class HomingProjectile : MonoBehaviour
             return;
 
         damageable.TakeDamage(
-            damage
+            damageInfo
         );
-        Debug.Log($"비행기 데미지 들어감: {damage}");
+        Debug.Log($"비행기 데미지 들어감: {damageInfo.Amount}");
 
         Destroy(gameObject);
     }

@@ -152,7 +152,7 @@ public class ChasingTornado : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, targetLayer);
         foreach (Collider hit in hits)
         {
-            hit.GetComponent<IDamageable>()?.TakeDamage(damage);
+            hit.GetComponent<IDamageable>()?.TakeDamage(DamageInfo.Normal(damage));
         }
     }
 
