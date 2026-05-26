@@ -12,6 +12,8 @@ public class BouncyProjectile : MonoBehaviour
     private Vector3 velocity;
     private Vector3 spawnPosition;
 
+    private SphereCollider sphereCollider;
+
     public void Initialize(
         float newDamage,
         Vector3 startVelocity,
@@ -25,95 +27,113 @@ public class BouncyProjectile : MonoBehaviour
         damage = newDamage;
         velocity = startVelocity;
 
-        maxTravelDistance =
-            newMaxTravelDistance;
+        maxTravelDistance = newMaxTravelDistance;
+        bounceCount = newBounceCount;
 
-        bounceCount =
-            newBounceCount;
+        gravity = newGravity;
+        bounciness = Mathf.Clamp01(newBounciness);
 
-        gravity =
-            newGravity;
+        spawnPosition = transform.position;
 
-        bounciness =
-            Mathf.Clamp01(
-                newBounciness
-            );
+        sphereCollider = GetComponent<SphereCollider>();
 
-        spawnPosition =
-            transform.position;
-
-        if (
-            maxTravelDistance <= 0f
-        )
-        {
+        if (maxTravelDistance <= 0f)
             maxTravelDistance = 20f;
-        }
     }
 
     private void Update()
     {
-        velocity +=
-            Vector3.down *
-            gravity *
-            Time.deltaTime;
+        velocity += Vector3.down * gravity * Time.deltaTime;
 
-        transform.position +=
-            velocity *
-            Time.deltaTime;
+        Vector3 moveDelta = velocity * Time.deltaTime;
+
+        if (moveDelta != Vector3.zero)
+        {
+            float radius = GetSphereRadius();
+
+            if (Physics.SphereCast(
+                    transform.position,
+                    radius,
+                    moveDelta.normalized,
+                    out RaycastHit hit,
+                    moveDelta.magnitude
+                ))
+            {
+                if (!IsPlayerLayer(hit.collider))
+                {
+                    transform.position =
+                        hit.point + hit.normal * radius;
+
+                    HandleHit(hit.collider, hit.normal);
+                    return;
+                }
+            }
+        }
+
+        transform.position += moveDelta;
 
         if (velocity != Vector3.zero)
         {
             transform.rotation =
-                Quaternion.LookRotation(
-                    velocity.normalized
-                );
+                Quaternion.LookRotation(velocity.normalized);
         }
 
         float traveledDistance =
-            Vector3.Distance(
-                spawnPosition,
-                transform.position
-            );
+            Vector3.Distance(spawnPosition, transform.position);
 
-        if (
-            traveledDistance >=
-            maxTravelDistance
-        )
+        if (traveledDistance >= maxTravelDistance)
         {
             Destroy(gameObject);
         }
     }
 
-    private void OnTriggerEnter(
-        Collider other
-    )
+    private void HandleHit(Collider other, Vector3 normal)
     {
-        // 플레이어만 무시
         if (IsPlayerLayer(other))
             return;
 
-        // 적이면 데미지
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
         if (damageable != null)
         {
-            damageable.TakeDamage(
-                damage
-            );
+            damageable.TakeDamage(damage);
 
             Debug.Log(
                 $"[BouncyProjectile] {other.name} 에게 {damage} 데미지"
             );
         }
 
-        // 플레이어 제외 모든 오브젝트 Bounce
-        Bounce(other);
+        BounceByNormal(normal, other);
     }
 
-    private void Bounce(
-        Collider other
-    )
+    private void OnTriggerEnter(Collider other)
+    {
+        if (IsPlayerLayer(other))
+            return;
+
+        IDamageable damageable =
+            other.GetComponentInParent<IDamageable>();
+
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+
+            Debug.Log(
+                $"[BouncyProjectile] {other.name} 에게 {damage} 데미지"
+            );
+
+            Bounce(other);
+        }
+    }
+
+    private void Bounce(Collider other)
+    {
+        Vector3 normal = GetBounceNormal(other);
+        BounceByNormal(normal, other);
+    }
+
+    private void BounceByNormal(Vector3 normal, Collider other)
     {
         if (bounceCount <= 0)
         {
@@ -121,14 +141,9 @@ public class BouncyProjectile : MonoBehaviour
             return;
         }
 
-        Vector3 normal =
-            GetBounceNormal(other);
-
         velocity =
-            Vector3.Reflect(
-                velocity,
-                normal
-            ) * bounciness;
+            Vector3.Reflect(velocity, normal) *
+            bounciness;
 
         bounceCount--;
 
@@ -137,54 +152,50 @@ public class BouncyProjectile : MonoBehaviour
         );
     }
 
-    private Vector3 GetBounceNormal(
-        Collider other
-    )
+    private float GetSphereRadius()
+    {
+        if (sphereCollider == null)
+            sphereCollider = GetComponent<SphereCollider>();
+
+        if (sphereCollider == null)
+            return 0.25f;
+
+        float maxScale = Mathf.Max(
+            transform.lossyScale.x,
+            transform.lossyScale.y,
+            transform.lossyScale.z
+        );
+
+        return sphereCollider.radius * maxScale;
+    }
+
+    private Vector3 GetBounceNormal(Collider other)
     {
         Vector3 closestPoint =
-            other.ClosestPoint(
-                transform.position
-            );
+            other.ClosestPoint(transform.position);
 
         Vector3 normal =
-            (
-                transform.position -
-                closestPoint
-            ).normalized;
+            (transform.position - closestPoint).normalized;
 
         if (normal == Vector3.zero)
-        {
             normal = Vector3.up;
-        }
 
         return normal;
     }
 
-    private bool IsPlayerLayer(
-        Collider other
-    )
+    private bool IsPlayerLayer(Collider other)
     {
         int playerLayer =
-            LayerMask.NameToLayer(
-                "Player"
-            );
+            LayerMask.NameToLayer("Player");
 
         if (playerLayer == -1)
             return false;
 
-        if (
-            other.gameObject.layer ==
-            playerLayer
-        )
-        {
+        if (other.gameObject.layer == playerLayer)
             return true;
-        }
 
-        Transform root =
-            other.transform.root;
+        Transform root = other.transform.root;
 
-        return
-            root.gameObject.layer ==
-            playerLayer;
+        return root.gameObject.layer == playerLayer;
     }
 }
