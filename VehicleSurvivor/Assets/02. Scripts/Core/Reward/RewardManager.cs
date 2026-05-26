@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +15,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
     private RewardSystem _rewardSystem;
     private readonly RewardApplier _rewardApplier = new();
     private readonly LevelUpRewardFlow _levelUpRewardFlow = new();
+    private readonly ChestRewardFlow _chestRewardFlow = new();
 
     public RunSession RunSession => _runSession;
     public WeaponDatabaseSO WeaponDatabase => weaponDatabase;
@@ -38,6 +38,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
     private void ResetRunState()
     {
         _levelUpRewardFlow.Reset();
+        _chestRewardFlow.Reset();
     }
 
     public void OnLevelChanged(RunSession runSession, int levelsGained)
@@ -48,6 +49,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
     public void OnRunFinished()
     {
         _levelUpRewardFlow.OnRunFinished();
+        _chestRewardFlow.OnRunFinished();
     }
 
     public List<RewardOption> GenerateLevelUpRewardOptions()
@@ -88,11 +90,32 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         return true;
     }
 
-    //TODO : 상자 보상 UI 연결
-    private async UniTaskVoid ShowChestRewardPopupAsync(UIManager uiManager)
+    public void BeginChestReward()
     {
-        //UI_OpenChest rewardPopup = await uiManager.ShowPopupAsync<UI_LevelUp>(EPopupUIType.LevelUp, remember: false);
-        //List<RewardOption> rewardOptions = GenerateChestRewardOptions();
+        if (_runSession == null)
+            return;
+
+        _chestRewardFlow.BeginChestReward(_runSession, this);
+    }
+
+    public bool ApplyChestReward(RewardOption reward)
+    {
+        if (_runSession == null || reward == null)
+            return false;
+
+        PlayerWeaponSpawner playerWeaponSpawner = ResolveWeaponSpawner();
+
+        bool applied = _rewardApplier.Apply(
+            _runSession.Player,
+            reward,
+            playerWeaponSpawner,
+            _playerInstance != null ? _playerInstance.transform : null);
+
+        if (!applied)
+            return false;
+
+        _chestRewardFlow.OnRewardApplied(_runSession);
+        return true;
     }
 
     private void ApplyStartingLoadout()

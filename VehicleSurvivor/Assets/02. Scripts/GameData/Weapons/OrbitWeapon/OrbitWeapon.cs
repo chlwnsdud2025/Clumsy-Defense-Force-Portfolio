@@ -136,13 +136,19 @@ public class OrbitWeapon : WeaponBase
             float radian = angle * Mathf.Deg2Rad;
 
             Vector3 offset = new Vector3(
-                Mathf.Cos(radian),
-                0f,
-                Mathf.Sin(radian)
-            ) * radius;
+    Mathf.Cos(radian),
+    0f,
+    Mathf.Sin(radian)
+) * radius;
+
+            Vector3 orbitPosition =
+                transform.position + offset;
+
+            orbitPosition.y =
+                transform.position.y + 1f;
 
             orbit.transform.position =
-                transform.position + offset;
+                orbitPosition;
         }
     }
 

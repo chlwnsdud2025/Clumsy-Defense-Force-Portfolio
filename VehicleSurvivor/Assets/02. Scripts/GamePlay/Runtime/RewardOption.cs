@@ -19,6 +19,7 @@ public sealed class RewardOption
     public bool IsNew { get; }
     public int Level { get; }
 
+    public EItemRarity ItemRarity => Item?.Rarity ?? EItemRarity.None;
 
     public string DisplayName
     {

@@ -99,28 +99,46 @@ public class ProjectileWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex = (count - 1) * 0.5f;
-                angle = (i - centerIndex) * spreadAngleValue;
+                float centerIndex =
+                    (count - 1) * 0.5f;
+
+                angle =
+                    (i - centerIndex) *
+                    spreadAngleValue;
             }
 
             Quaternion shootRotation =
-                baseRotation * Quaternion.Euler(0f, angle, 0f);
+                baseRotation *
+                Quaternion.Euler(
+                    0f,
+                    angle,
+                    0f
+                );
 
+            // Y -90 고정
             Quaternion visualRotation =
-                shootRotation * Quaternion.Euler(projectileRotationOffset);
+                shootRotation *
+                Quaternion.Euler(
+                    0f,
+                    -90f,
+                    0f
+                );
 
-            GameObject projectileObject = Instantiate(
-                projectilePrefab,
-                resolvedFirePoint.position,
-                visualRotation
-            );
+            GameObject projectileObject =
+                Instantiate(
+                    projectilePrefab,
+                    resolvedFirePoint.position,
+                    visualRotation
+                );
 
             ProjectileBullet projectileBullet =
                 projectileObject.GetComponent<ProjectileBullet>();
 
             if (projectileBullet == null)
             {
-                Debug.LogWarning("[ProjectileWeapon] ProjectileBullet 컴포넌트가 없습니다.");
+                Debug.LogWarning(
+                    "[ProjectileWeapon] ProjectileBullet 컴포넌트가 없습니다."
+                );
                 continue;
             }
 

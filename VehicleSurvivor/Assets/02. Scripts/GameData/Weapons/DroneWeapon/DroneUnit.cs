@@ -3,7 +3,8 @@ using UnityEngine;
 public class DroneUnit : MonoBehaviour
 {
     [Header("Follow")]
-    public float followSmoothTime = 0.15f;
+    public float followSmoothTime =
+        0.15f;
 
     private Vector3 followVelocity;
 
@@ -11,6 +12,8 @@ public class DroneUnit : MonoBehaviour
 
     private GameObject projectilePrefab;
     private ParticleSystem shootParticlePrefab;
+
+    private LayerMask targetLayer;
 
     private float damage;
     private float attackCooldown;
@@ -25,6 +28,7 @@ public class DroneUnit : MonoBehaviour
         Transform newOwner,
         GameObject newProjectilePrefab,
         ParticleSystem newShootParticlePrefab,
+        LayerMask newTargetLayer,
         float newDamage,
         float newAttackCooldown,
         float newProjectileSpeed,
@@ -34,16 +38,33 @@ public class DroneUnit : MonoBehaviour
     )
     {
         owner = newOwner;
-        projectilePrefab = newProjectilePrefab;
-        shootParticlePrefab = newShootParticlePrefab;
 
-        damage = newDamage;
-        attackCooldown = newAttackCooldown;
-        projectileSpeed = newProjectileSpeed;
-        projectileRange = newProjectileRange;
-        detectRadius = newDetectRadius;
+        projectilePrefab =
+            newProjectilePrefab;
 
-        offset = newOffset;
+        shootParticlePrefab =
+            newShootParticlePrefab;
+
+        targetLayer =
+            newTargetLayer;
+
+        damage =
+            newDamage;
+
+        attackCooldown =
+            newAttackCooldown;
+
+        projectileSpeed =
+            newProjectileSpeed;
+
+        projectileRange =
+            newProjectileRange;
+
+        detectRadius =
+            newDetectRadius;
+
+        offset =
+            newOffset;
     }
 
     private void Update()
@@ -58,13 +79,17 @@ public class DroneUnit : MonoBehaviour
     private void FollowOwner()
     {
         Vector3 worldOffset =
-            owner.TransformDirection(offset);
+            owner.TransformDirection(
+                offset
+            );
 
         Vector3 targetPosition =
-            owner.position + worldOffset;
+            owner.position +
+            worldOffset;
 
         Vector3 moveDirection =
-            targetPosition - transform.position;
+            targetPosition -
+            transform.position;
 
         transform.position =
             Vector3.SmoothDamp(
@@ -76,82 +101,84 @@ public class DroneUnit : MonoBehaviour
 
         moveDirection.y = 0f;
 
-        if (moveDirection != Vector3.zero)
+        if (
+            moveDirection !=
+            Vector3.zero
+        )
         {
             Quaternion targetRotation =
-                Quaternion.LookRotation(moveDirection.normalized);
+                Quaternion.LookRotation(
+                    moveDirection.normalized
+                );
 
             transform.rotation =
                 Quaternion.Slerp(
                     transform.rotation,
                     targetRotation,
-                    8f * Time.deltaTime
+                    8f *
+                    Time.deltaTime
                 );
         }
     }
 
-
     private void TryAttack()
     {
-        attackTimer += Time.deltaTime;
+        attackTimer +=
+            Time.deltaTime;
 
-        if (attackTimer < attackCooldown)
+        if (
+            attackTimer <
+            attackCooldown
+        )
+        {
             return;
+        }
 
-        Transform target = FindClosestTarget();
+        Transform target =
+            FindClosestTarget();
 
         if (target == null)
             return;
 
         attackTimer = 0f;
 
-        FireProjectile(target);
+        FireProjectile(
+            target
+        );
     }
 
-    private void FireProjectile(Transform target)
+    private void FireProjectile(
+        Transform target
+    )
     {
-        if (projectilePrefab == null)
-        {
-            Debug.LogWarning("[DroneUnit] Projectile Prefab 없음");
+        if (
+            projectilePrefab ==
+            null
+        )
             return;
-        }
 
         Vector3 direction =
-            target.position - transform.position;
-
-        direction.y = 0f;
-
-        if (direction == Vector3.zero)
-            return;
+            target.position -
+            transform.position;
 
         Quaternion rotation =
-            Quaternion.LookRotation(direction.normalized);
+            Quaternion.LookRotation(
+                direction.normalized
+            );
 
-        if (shootParticlePrefab != null)
-        {
+        GameObject projectileObject =
             Instantiate(
-                shootParticlePrefab,
+                projectilePrefab,
                 transform.position,
                 rotation
             );
-        }
-
-        GameObject projectileObject = Instantiate(
-            projectilePrefab,
-            transform.position,
-            rotation
-        );
 
         DroneProjectile projectile =
-            projectileObject.GetComponent<DroneProjectile>();
-
-        if (projectile == null)
-        {
-            Debug.LogWarning("[DroneUnit] DroneProjectile 없음");
-            return;
-        }
+            projectileObject
+            .GetComponent<DroneProjectile>();
 
         projectile.Initialize(
+            targetLayer,
             damage,
             projectileSpeed,
             projectileRange,
@@ -163,32 +190,43 @@ public class DroneUnit : MonoBehaviour
 
     private Transform FindClosestTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            detectRadius
-        );
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                detectRadius,
+                targetLayer
+            );
 
-        Transform closestTarget = null;
-        float closestDistance = Mathf.Infinity;
+        Transform closest =
+            null;
 
-        foreach (Collider hit in hits)
+        float closestDistance =
+            Mathf.Infinity;
+
+        foreach (
+            Collider hit
+            in hits
+        )
         {
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
-
-            if (damageable == null)
-                continue;
-
             float distance =
-                (hit.transform.position - transform.position).sqrMagnitude;
+                (
+                    hit.transform.position -
+                    transform.position
+                ).sqrMagnitude;
 
-            if (distance < closestDistance)
+            if (
+                distance <
+                closestDistance
+            )
             {
-                closestDistance = distance;
-                closestTarget = hit.transform;
+                closestDistance =
+                    distance;
+
+                closest =
+                    hit.transform;
             }
         }
 
-        return closestTarget;
+        return closest;
     }
 }

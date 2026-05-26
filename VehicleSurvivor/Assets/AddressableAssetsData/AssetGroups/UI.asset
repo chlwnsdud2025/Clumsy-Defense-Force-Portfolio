@@ -26,7 +26,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 54e798e2fbc86614cad5201938d0d11f
-    m_Address: Assets/03. Prefabs/UI/Popup/UI_SelectCard.prefab
+    m_Address: Assets/03. Prefabs/UI/Popup/UI_SelectCard/UI_SelectCard.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

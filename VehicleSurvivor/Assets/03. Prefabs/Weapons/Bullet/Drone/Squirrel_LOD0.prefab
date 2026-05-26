@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.112808
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000004968952
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -33.05524
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalRotation.w
@@ -90,3 +90,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02b06ee9f02220438cc09c4b71604dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneUnit
+  followSmoothTime: 0.15
