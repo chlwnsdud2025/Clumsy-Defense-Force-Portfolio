@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2100966215075707669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10.45, z: 3.34}
+  m_LocalPosition: {x: 0, y: 5.86, z: 7.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -171,7 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
-  modelRenderers: []
+  modelRenderers:
+  - {fileID: 9220383817028693519}
   flashDuration: 0.2
   flashCooldown: 0.1
   colorPropertyName: _Color
