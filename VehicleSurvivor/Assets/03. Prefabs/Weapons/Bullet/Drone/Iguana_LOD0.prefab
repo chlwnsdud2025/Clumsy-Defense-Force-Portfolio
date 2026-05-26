@@ -90,4 +90,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02b06ee9f02220438cc09c4b71604dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneUnit
-  followSmoothTime: 0.15
+  followSpeed: 8
+  spinSpeed: 360
