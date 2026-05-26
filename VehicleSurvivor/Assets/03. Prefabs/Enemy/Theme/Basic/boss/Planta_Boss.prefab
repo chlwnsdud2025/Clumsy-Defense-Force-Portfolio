@@ -492,8 +492,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf0ebd231d45af4499cdedecc5cec58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Geezer
+  bossName: 
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 1205074186043561273}
+  displayName: Planta_Geezer
   maxHealth: 30
   moveSpeed: 8
   rotationSpeed: 3
@@ -1289,8 +1291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18557f4339eb36f4aa3190be20d2d0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Queen
+  bossName: 
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 9051413299716602695}
+  displayName: Planta_Queen
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3

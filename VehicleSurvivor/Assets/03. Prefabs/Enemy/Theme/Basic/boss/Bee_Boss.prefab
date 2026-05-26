@@ -52,7 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeeMidBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 6720801822484076126}
-  maxHealth: 50
+  displayName: Bee_King
+  maxHealth: 1000
   moveSpeed: 2
   rotationSpeed: 10
   contactRange: 3
@@ -74,8 +75,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   laserDamage: 40
-  laserLength: 90
-  laserChargeTime: 1
+  laserLength: 300
+  laserChargeTime: 2
   firePoint: {fileID: 6352528037479208903}
   laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
   startRadius: 2

@@ -15,6 +15,16 @@ public class FinalBoss : BossEnemy
     public BossStatue[] statues;
     public float[] phaseThresholds = { 0.75f, 0.50f, 0.25f };
     public GameObject shieldVfx;
+    private GameObject activeShieldInstance;
+
+    // ==========================================
+    // ⏱️ [핵심 추가] 2페이즈 이상 추가 패턴 전용 쿨타임 시스템
+    // ==========================================
+    [Header("Phase 2+ Extra Attack Settings")]
+    [Tooltip("1페이즈 패턴과 별개로 돌아가는 2페이즈 이상 패턴들의 독립 쿨타임")]
+    public float extraAttackCooltime = 6.0f;
+    private float currentExtraAttackCooldown;
+    private bool isCastingExtraPattern = false;
 
     // ==========================================
     // 🔴 1페이즈 패턴 설정
@@ -58,8 +68,8 @@ public class FinalBoss : BossEnemy
 
     [Header("Phase 2: Multi Laser (꿀벌 연속 레이저)")]
     public int multiLaserCount = 3;
-    public float multiLaserDamage = 30f;      // [추가] 연속 레이저 데미지
-    public float multiLaserLength = 30f;      // [추가] 연속 레이저 길이
+    public float multiLaserDamage = 30f;
+    public float multiLaserLength = 30f;
     public float multiLaserChargeTime = 0.5f;
     public float multiLaserDelay = 0.2f;
 
@@ -69,8 +79,8 @@ public class FinalBoss : BossEnemy
     [Header("Phase 3: Shotgun Laser (전갈 산탄 레이저)")]
     public int shotgunPelletCount = 15;
     public float spreadAngle = 40f;
-    public float shotgunLaserDamage = 30f;    // [분리] 산탄 레이저 데미지
-    public float shotgunLaserLength = 30f;    // [분리] 산탄 레이저 길이
+    public float shotgunLaserDamage = 30f;
+    public float shotgunLaserLength = 30f;
     public float shotgunLaserChargeTime = 1.2f;
 
     [Header("Common Laser Assets (2, 3페이즈 공용)")]
@@ -99,10 +109,9 @@ public class FinalBoss : BossEnemy
     public float spiderSpawnDelay = 1.5f;
 
     [Header("Phase 4: Teleport Strike (팬텀 순간이동 강타)")]
-    [Tooltip("애니메이션을 적용할 보스의 실제 모델링 (Mesh) 오브젝트")]
     public GameObject bossModel;
     public GameObject disappearVfxPrefab;
-    public GameObject appearVfxPrefab;        // [핵심 추가] 나타날 때(터질 때) 이펙트!
+    public GameObject appearVfxPrefab;
     public float teleportDamage = 40f;
     public float teleportRadius = 4.0f;
     public float teleportDuration = 1.5f;
@@ -123,14 +132,37 @@ public class FinalBoss : BossEnemy
     {
         base.Start();
 
+        // [추가] 2페이즈 전용 쿨타임 초기화
+        currentExtraAttackCooldown = extraAttackCooltime;
+
         bossCollider = GetComponent<Collider>();
         if (bossModel != null)
         {
             originalModelScale = bossModel.transform.localScale;
             originalModelLocalPos = bossModel.transform.localPosition;
         }
+    }
 
-        if (shieldVfx != null) shieldVfx.SetActive(false);
+    // ==========================================
+    // ⏱️ [핵심 추가] 두 개의 쿨타임을 동시에 돌리는 Update 오버라이드
+    // ==========================================
+    protected override void Update()
+    {
+        // 부모(BossEnemy)의 Update를 실행합니다. 
+        // 여기서 이동, 충돌 체크, 그리고 [1페이즈 기본 패턴(Attack)]의 쿨타임이 독립적으로 돌아갑니다.
+        base.Update();
+
+        if (playerTarget == null) return;
+
+        // [추가 패턴 쿨타임] 2페이즈 이상일 때, 별개의 쿨타임을 돌려서 동시 다발적인 공격을 수행합니다.
+        if (currentPhase >= 2 && !isCastingExtraPattern)
+        {
+            currentExtraAttackCooldown -= Time.deltaTime;
+            if (currentExtraAttackCooldown <= 0)
+            {
+                ExtraAttack(); // 추가 패턴 발동!
+            }
+        }
     }
 
     // ==========================================
@@ -138,11 +170,7 @@ public class FinalBoss : BossEnemy
     // ==========================================
     public override void TakeDamage(DamageInfo damageInfo)
     {
-        if (isInvincible)
-        {
-            Debug.Log("최종 보스는 무적 상태입니다! 불이 켜진 석상을 먼저 파괴하세요!");
-            return;
-        }
+        if (isInvincible) return;
 
         base.TakeDamage(damageInfo);
 
@@ -159,15 +187,14 @@ public class FinalBoss : BossEnemy
 
     private void TriggerInvincibilityPhase()
     {
-        Debug.Log($"최종 보스: 체력 임계점 도달! {brokenStatueCount + 1}번째 석상 가동 및 무적 전개!");
         isInvincible = true;
 
-        if (shieldVfx != null) shieldVfx.SetActive(true);
-
-        if (statues[brokenStatueCount] != null)
+        if (shieldVfx != null && activeShieldInstance == null)
         {
-            statues[brokenStatueCount].ActivateStatue();
+            activeShieldInstance = Instantiate(shieldVfx, transform.position, transform.rotation, transform);
         }
+
+        if (statues[brokenStatueCount] != null) statues[brokenStatueCount].ActivateStatue();
     }
 
     public void OnStatueDestroyed()
@@ -176,45 +203,49 @@ public class FinalBoss : BossEnemy
         currentPhase++;
         isInvincible = false;
 
-        if (shieldVfx != null) shieldVfx.SetActive(false);
-
-        Debug.Log($"석상 파괴됨! 무적이 해제되었습니다! 현재 페이즈: {currentPhase}");
+        if (activeShieldInstance != null)
+        {
+            Destroy(activeShieldInstance);
+            activeShieldInstance = null;
+        }
     }
 
     // ==========================================
-    // ⚔️ 페이즈별 과거 보스 패턴 집대성
+    // ⚔️ [1페이즈] 기본 패턴 전담 (부모의 Attack 쿨타임을 따름)
     // ==========================================
     protected override void Attack()
     {
-        if (isCastingPattern || isInvincible) return;
+        if (isCastingPattern) return;
         isCastingPattern = true;
+
+        // 이제 Attack()은 1페이즈 패턴(0, 1, 2)만 전담하여 쿨타임을 돌립니다.
+        int selectedPattern = Random.Range(0, 3);
+
+        switch (selectedPattern)
+        {
+            case 0: StartCoroutine(SpawnSequencedAttack()); break;
+            case 1: StartCoroutine(SpawnSpreadConeAttack()); break;
+            case 2: StartCoroutine(SpawnOneLineAttack()); break;
+        }
+    }
+
+    // ==========================================
+    // ⚔️ [2페이즈 이상] 추가 패턴 전담 (독립된 Extra 쿨타임을 따름)
+    // ==========================================
+    private void ExtraAttack()
+    {
+        isCastingExtraPattern = true;
 
         List<int> patternPool = new List<int>();
 
-        // [1페이즈] 연쇄 장판, 원뿔 확장, 직선 장판
-        patternPool.Add(0);
-        patternPool.Add(1);
-        patternPool.Add(2);
+        if (currentPhase >= 2) { patternPool.Add(3); patternPool.Add(4); }
+        if (currentPhase >= 3) { patternPool.Add(5); patternPool.Add(6); }
+        if (currentPhase >= 4) { patternPool.Add(7); patternPool.Add(8); }
 
-        // [2페이즈] 쌍둥이 연속 추적, 꿀벌 연속 레이저 합류
-        if (currentPhase >= 2)
+        if (patternPool.Count == 0)
         {
-            patternPool.Add(3);
-            patternPool.Add(4);
-        }
-
-        // [3페이즈] 전갈 산탄 레이저, 볼케이노 강한 한방 합류
-        if (currentPhase >= 3)
-        {
-            patternPool.Add(5);
-            patternPool.Add(6);
-        }
-
-        // [4페이즈 발악] 거미 잡몹 소환, 팬텀 순간이동 강타 합류
-        if (currentPhase >= 4)
-        {
-            patternPool.Add(7);
-            patternPool.Add(8);
+            isCastingExtraPattern = false;
+            return;
         }
 
         int randomIndex = Random.Range(0, patternPool.Count);
@@ -222,9 +253,6 @@ public class FinalBoss : BossEnemy
 
         switch (selectedPattern)
         {
-            case 0: StartCoroutine(SpawnSequencedAttack()); break;
-            case 1: StartCoroutine(SpawnSpreadConeAttack()); break;
-            case 2: StartCoroutine(SpawnOneLineAttack()); break;
             case 3: StartCoroutine(SpawnChaseCircleAttack()); break;
             case 4: StartCoroutine(MultiStingerLaserRoutine()); break;
             case 5: StartCoroutine(ShotgunLaserRoutine()); break;
@@ -235,24 +263,23 @@ public class FinalBoss : BossEnemy
     }
 
     // ==========================================
-    // 🔴 1페이즈 코루틴들
+    // 🔴 1페이즈 코루틴들 (기본 쿨타임 변수 해제)
     // ==========================================
     private IEnumerator SpawnSequencedAttack()
     {
-        Debug.Log("최종 보스: [1페이즈] 연쇄 장판 시전!");
         Vector3 originPos = playerTarget.position;
         SpawnOneTelegraph(originPos, sequencedVfx, seqDamage, seqRadius, seqDuration);
         yield return new WaitForSeconds(timeBetweenPhases);
         SpawnRingTelegraphs(originPos, 7f, 6, sequencedVfx, seqDamage, seqRadius, seqDuration);
         yield return new WaitForSeconds(timeBetweenPhases);
         SpawnRingTelegraphs(originPos, 14f, 12, sequencedVfx, seqDamage, seqRadius, seqDuration);
+
         isCastingPattern = false;
         currentAttackCooldown = attackCooltime;
     }
 
     private IEnumerator SpawnSpreadConeAttack()
     {
-        Debug.Log($"최종 보스: [1페이즈] 원뿔 확장 장판 시전!");
         Vector3 bossPos = transform.position;
         Vector3 targetPos = playerTarget.position;
         Vector3 forwardDir = (targetPos - bossPos).normalized;
@@ -279,7 +306,6 @@ public class FinalBoss : BossEnemy
 
     private IEnumerator SpawnOneLineAttack()
     {
-        Debug.Log($"최종 보스: [1페이즈] 직선 일렬 장판 시전!");
         Vector3 bossPos = transform.position;
         Vector3 targetPos = playerTarget.position;
         Vector3 forwardDir = (targetPos - bossPos).normalized;
@@ -298,26 +324,24 @@ public class FinalBoss : BossEnemy
     }
 
     // ==========================================
-    // 🟠 2페이즈 코루틴들
+    // 🟠 2, 3, 4페이즈 코루틴들 (Extra 쿨타임 변수 해제 적용!)
     // ==========================================
     private IEnumerator SpawnChaseCircleAttack()
     {
-        Debug.Log($"최종 보스: [2페이즈] 연속 추적 장판 시전!");
         for (int i = 0; i < trackingCount; i++)
         {
             Vector3 currentPos = playerTarget.position;
             SpawnOneTelegraph(currentPos, chaseVfx, chaseDamage, chaseRadius, chaseDuration);
             yield return new WaitForSeconds(trackingInterval);
         }
-        isCastingPattern = false;
-        currentAttackCooldown = attackCooltime;
+        // [수정] 2페이즈 이상 패턴들은 모두 Extra 변수를 해제합니다!
+        isCastingExtraPattern = false;
+        currentExtraAttackCooldown = extraAttackCooltime;
     }
 
     private IEnumerator MultiStingerLaserRoutine()
     {
-        Debug.Log($"최종 보스: [2페이즈] 연속 레이저 시전!");
         Transform vfxFolder = GetVfxContainer();
-
         for (int i = 0; i < multiLaserCount; i++)
         {
             Vector3 startPoint = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
@@ -327,7 +351,6 @@ public class FinalBoss : BossEnemy
             GameObject activeIndicator = null;
             if (laserIndicatorPrefab != null)
             {
-                // [수정됨] multiLaserLength 사용
                 Vector3 indicatorPos = startPoint + (lockedDir * (multiLaserLength / 2f));
                 activeIndicator = Instantiate(laserIndicatorPrefab, indicatorPos, Quaternion.LookRotation(lockedDir), vfxFolder);
                 LaserIndicator script = activeIndicator.GetComponent<LaserIndicator>();
@@ -353,7 +376,6 @@ public class FinalBoss : BossEnemy
                 Destroy(fireVfx, 2f);
             }
 
-            // [수정됨] multiLaserLength 및 multiLaserDamage 사용
             Vector3 boxCenter = startPoint + (lockedDir * (multiLaserLength / 2f));
             Vector3 halfExtents = new Vector3(laserEndRadius, laserEndRadius, multiLaserLength / 2f);
             Collider[] hits = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.LookRotation(lockedDir), playerLayerMask);
@@ -362,16 +384,13 @@ public class FinalBoss : BossEnemy
             if (i < multiLaserCount - 1) yield return new WaitForSeconds(multiLaserDelay);
         }
         yield return new WaitForSeconds(0.5f);
-        isCastingPattern = false;
-        currentAttackCooldown = attackCooltime;
+
+        isCastingExtraPattern = false;
+        currentExtraAttackCooldown = extraAttackCooltime;
     }
 
-    // ==========================================
-    // 🟡 3페이즈 코루틴들
-    // ==========================================
     private IEnumerator ShotgunLaserRoutine()
     {
-        Debug.Log($"최종 보스: [3페이즈] 산탄 레이저 차징!");
         Vector3 startPoint = firePoint != null ? firePoint.position : transform.position + Vector3.up * 1f;
         Vector3 targetPos = playerTarget.position + Vector3.up * 1.0f;
         Vector3 baseDir = (targetPos - startPoint).normalized;
@@ -396,7 +415,6 @@ public class FinalBoss : BossEnemy
 
             if (laserIndicatorPrefab != null)
             {
-                // [수정됨] shotgunLaserLength 사용
                 Vector3 indicatorPos = startPoint + (fireDir * (shotgunLaserLength / 2f));
                 GameObject indicator = Instantiate(laserIndicatorPrefab, indicatorPos, Quaternion.LookRotation(fireDir), vfxFolder);
                 LaserIndicator script = indicator.GetComponent<LaserIndicator>();
@@ -428,7 +446,6 @@ public class FinalBoss : BossEnemy
                 Destroy(fireVfx, 2f);
             }
 
-            // [수정됨] shotgunLaserLength 및 shotgunLaserDamage 사용
             Vector3 boxCenter = startPoint + (dir * (shotgunLaserLength / 2f));
             Vector3 halfExtents = new Vector3(laserEndRadius, laserEndRadius, shotgunLaserLength / 2f);
             Collider[] hits = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.LookRotation(dir), playerLayerMask);
@@ -443,26 +460,23 @@ public class FinalBoss : BossEnemy
             }
         }
         yield return new WaitForSeconds(0.5f);
-        isCastingPattern = false;
-        currentAttackCooldown = attackCooltime;
+
+        isCastingExtraPattern = false;
+        currentExtraAttackCooldown = extraAttackCooltime;
     }
 
     private IEnumerator SlowLargeCircleRoutine()
     {
-        Debug.Log("최종 보스: [3페이즈] 강한 한방 거대 장판 시전!");
         Vector3 originPos = playerTarget.position;
         SpawnOneTelegraph(originPos, bigCircleVfx, bigCircleDamage, bigCircleRadius, bigCircleDuration);
         yield return new WaitForSeconds(bigCircleDuration + 0.5f);
-        isCastingPattern = false;
-        currentAttackCooldown = attackCooltime;
+
+        isCastingExtraPattern = false;
+        currentExtraAttackCooldown = extraAttackCooltime;
     }
 
-    // ==========================================
-    // 🟣 4페이즈 코루틴들
-    // ==========================================
     private IEnumerator SpawnSuicideSpidersRoutine()
     {
-        Debug.Log("최종 보스: [4페이즈] 잡몹 기습 소환!");
         Vector3 centerPos = playerTarget.position;
         List<Vector3> validSpawnPoints = new List<Vector3>();
         Transform vfxContainer = GetVfxContainer();
@@ -495,25 +509,24 @@ public class FinalBoss : BossEnemy
             }
         }
         yield return new WaitForSeconds(1.0f);
-        isCastingPattern = false;
-        currentAttackCooldown = attackCooltime;
+
+        isCastingExtraPattern = false;
+        currentExtraAttackCooldown = extraAttackCooltime;
     }
 
     private IEnumerator TeleportStrikeRoutine()
     {
         if (bossModel == null)
         {
-            isCastingPattern = false;
+            isCastingExtraPattern = false;
             yield break;
         }
-        Debug.Log("최종 보스: [4페이즈] 순간이동 강타 시전!");
         Transform vfxContainer = GetVfxContainer();
 
         Vector3 spawnPosition = playerTarget.position;
         Vector3 rayStart = spawnPosition + Vector3.up * raycastStartHeight;
         if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer)) spawnPosition = hit.point;
 
-        // [핵심 수정] 기존에 bigCircleVfx를 쓰던 부분을 appearVfxPrefab으로 변경했습니다!
         SpawnOneTelegraph(spawnPosition, appearVfxPrefab, teleportDamage, teleportRadius, teleportDuration);
 
         float waitBeforeDisappear = teleportDuration - disappearAnimTime;
@@ -541,8 +554,9 @@ public class FinalBoss : BossEnemy
         if (bossCollider != null) bossCollider.enabled = true;
 
         yield return new WaitForSeconds(0.5f);
-        isCastingPattern = false;
-        currentAttackCooldown = attackCooltime;
+
+        isCastingExtraPattern = false;
+        currentExtraAttackCooldown = extraAttackCooltime;
     }
 
     // ==========================================
@@ -596,13 +610,18 @@ public class FinalBoss : BossEnemy
         }
     }
 
-    // 보스가 DOTween 애니메이션 도중 죽었을 때 에러(메모리 릭) 방지
     protected override void Die()
     {
         if (bossModel != null)
         {
             bossModel.transform.DOKill();
         }
+
+        if (activeShieldInstance != null)
+        {
+            Destroy(activeShieldInstance);
+        }
+
         base.Die();
     }
 }

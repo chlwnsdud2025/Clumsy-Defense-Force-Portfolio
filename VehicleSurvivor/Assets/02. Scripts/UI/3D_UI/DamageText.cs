@@ -48,14 +48,16 @@ public class DamageText : MonoBehaviour
         float randomZ = Random.Range(-targetOffsetRange, targetOffsetRange);
         Vector3 targetPosition = initialPosition + new Vector3(randomX, moveDistance, randomZ);
 
-        Renderer renderer = textMesh.GetComponent<Renderer>();
-        if (renderer != null)
+        Renderer textRenderer = textMesh.GetComponent<Renderer>();
+        if (textRenderer != null)
         {
-            // 렌더링 큐를 Transparent(3000)보다 높은 값으로 설정하여 항상 나중에 그리게 함
-            renderer.material.renderQueue = 4000;
+            Material mat = textRenderer.material;
 
-            // Z-Test를 아예 끔 (깊이 체크 무시)
-            renderer.material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
+            // 렌더링 큐 최상단 배치
+            mat.renderQueue = 4000;
+
+            // _ZTest가 아니라 _ZTestMode 입니다! (8은 Always를 의미)
+            mat.SetInt("_ZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
         }
 
         // 4. DoTween 시퀀스 생성 (이전과 동일)

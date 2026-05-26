@@ -976,9 +976,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scorpion_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 2841512129314865220}
+  displayName: Scorpion King
   maxHealth: 30
   moveSpeed: 5
   rotationSpeed: 3
+  contactRange: 2
+  contactCooltime: 1
   expReward: 500
   moneyReward: 300
   contactDamage: 30
@@ -999,11 +1002,11 @@ MonoBehaviour:
   pelletCount: 10
   spreadAngle: 15
   laserDamage: 20
-  laserLength: 200
+  laserLength: 300
   laserChargeTime: 1.2
   laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
   laserWarningVfx: {fileID: 0}
-  laserFireVfx: {fileID: 0}
+  laserFireVfx: {fileID: 6918360732641903940, guid: 9f547db3d1b1c424c8382d5cfc6b0ad4, type: 3}
   startRadius: 3
   endRadius: 0.3
   coreRadius: 0.3
