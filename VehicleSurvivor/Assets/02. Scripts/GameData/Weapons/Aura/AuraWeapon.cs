@@ -51,6 +51,7 @@ public class AuraWeapon : WeaponBase
                 continue;
 
             damageable.TakeDamage(finalDamage);
+            Debug.Log("오라 데미지 들어감");
         }
 
         UpdateAuraScale(radius);

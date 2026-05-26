@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class ChainLightningWeapon : WeaponBase
 {
-
-    //Damage = 번개 데미지
-    //Cooldown = 공격 주기
-    //Radius = 첫 대상 탐지 반경
-    //ChainCount = 연쇄 횟수
-    //ChainRadius = 다음 대상 탐지 반경
-
     [Header("Lightning References")]
     public GameObject lightningEffectPrefab;
 
@@ -23,6 +16,7 @@ public class ChainLightningWeapon : WeaponBase
 
         float detectRadius = GetFinalWeaponScale(data.Radius);
         float chainRadius = GetFinalWeaponScale(data.ChainRadius);
+        float finalDamage = GetFinalDamage(data.Damage);
 
         Transform firstTarget = FindClosestTarget(
             transform.position,
@@ -32,7 +26,7 @@ public class ChainLightningWeapon : WeaponBase
 
         if (firstTarget == null)
         {
-            Debug.Log($"[ChainLightning] 반경 {detectRadius} 내 IDamageable 대상 없음");
+            Debug.Log($"[ChainLightning] 반경 {detectRadius} 내 대상 없음");
             return;
         }
 
@@ -44,7 +38,7 @@ public class ChainLightningWeapon : WeaponBase
             hitTargets,
             data.ChainCount,
             chainRadius,
-            GetFinalDamage(data.Damage)
+            finalDamage
         );
     }
 
@@ -75,6 +69,10 @@ public class ChainLightningWeapon : WeaponBase
         );
 
         damageable.TakeDamage(finalDamage);
+
+        Debug.Log(
+            $"[ChainLightning] {currentTarget.name} 에게 {finalDamage} 데미지"
+        );
 
         hitTargets.Add(currentTarget);
 
@@ -116,15 +114,19 @@ public class ChainLightningWeapon : WeaponBase
 
         foreach (Collider hit in hits)
         {
+            if (IsPlayerLayer(hit))
+                continue;
+
             IDamageable damageable =
                 hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
-            Transform target = damageable is MonoBehaviour mono
-                ? mono.transform
-                : hit.transform;
+            Transform target =
+                damageable is MonoBehaviour mono
+                    ? mono.transform
+                    : hit.transform;
 
             if (ignoreTargets != null &&
                 ignoreTargets.Contains(target))
@@ -169,6 +171,21 @@ public class ChainLightningWeapon : WeaponBase
         Destroy(effect, effectLifeTime);
     }
 
+    private bool IsPlayerLayer(Collider other)
+    {
+        int playerLayer = LayerMask.NameToLayer("Player");
+
+        if (playerLayer == -1)
+            return false;
+
+        if (other.gameObject.layer == playerLayer)
+            return true;
+
+        Transform root = other.transform.root;
+
+        return root.gameObject.layer == playerLayer;
+    }
+
     private void OnDrawGizmosSelected()
     {
         WeaponLevelData data = GetCurrentLevelData();
@@ -177,6 +194,10 @@ public class ChainLightningWeapon : WeaponBase
             return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, GetFinalWeaponScale(data.Radius));
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            GetFinalWeaponScale(data.Radius)
+        );
     }
 }

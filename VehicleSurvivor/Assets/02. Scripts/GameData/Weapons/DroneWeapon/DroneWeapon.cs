@@ -3,84 +3,93 @@ using UnityEngine;
 
 public class DroneWeapon : WeaponBase
 {
-
-    // Damage = 유도탄 데미지
-    // Cooldown = 드론 공격 간격
-    // ProjectileCount = 드론 개수
-    // ProjectileSpeed 또는 BulletSpeed = 유도탄 속도
-    // Range = 유도탄 최대 이동 거리
-    // Radius = 드론 탐지 반경
-
     [Header("Drone References")]
     public GameObject[] dronePrefabs;
-    public GameObject droneProjectilePrefab;
+    public GameObject[] droneProjectilePrefabs;
     public ParticleSystem shootParticlePrefab;
 
+    [Header("Target")]
+    public LayerMask targetLayer;
+
     [Header("Drone Position")]
-    public Vector3 baseOffset = new Vector3(0f, 2.5f, -2f);
+    public Vector3 baseOffset =
+        new Vector3(0f, 2.5f, -2f);
+
     public float spacing = 1.5f;
 
-    private readonly List<DroneUnit> drones = new List<DroneUnit>();
+    private readonly List<DroneUnit> drones =
+        new List<DroneUnit>();
 
     protected override void OnInitialized()
     {
         SyncDrones(GetCurrentLevelData());
     }
 
-    protected override void OnLevelDataChanged(WeaponLevelData data)
+    protected override void OnLevelDataChanged(
+        WeaponLevelData data
+    )
     {
         SyncDrones(data);
     }
 
-    protected override void Attack(WeaponLevelData data)
+    protected override void Attack(
+        WeaponLevelData data
+    )
     {
         SyncDrones(data);
     }
 
-    private void SyncDrones(WeaponLevelData data)
+    private void SyncDrones(
+        WeaponLevelData data
+    )
     {
         if (data == null)
             return;
 
-        if (dronePrefabs == null || dronePrefabs.Length == 0)
+        if (dronePrefabs == null ||
+            dronePrefabs.Length == 0)
         {
-            Debug.LogWarning("[DroneWeapon] Drone Prefabs 없음");
+            Debug.LogWarning(
+                "[DroneWeapon] Drone Prefabs 없음"
+            );
             return;
         }
 
-        int targetCount = Mathf.Max(
-            1,
-            GetFinalProjectileCount(data.ProjectileCount)
-        );
+        int targetCount =
+            Mathf.Max(
+                1,
+                GetFinalProjectileCount(
+                    data.ProjectileCount
+                )
+            );
 
         while (drones.Count < targetCount)
         {
-            int prefabIndex = Mathf.Clamp(
-                drones.Count,
-                0,
-                dronePrefabs.Length - 1
-            );
+            int prefabIndex =
+                Mathf.Clamp(
+                    drones.Count,
+                    0,
+                    dronePrefabs.Length - 1
+                );
 
-            GameObject selectedPrefab = dronePrefabs[prefabIndex];
+            GameObject selectedPrefab =
+                dronePrefabs[prefabIndex];
 
-            if (selectedPrefab == null)
-            {
-                Debug.LogWarning($"[DroneWeapon] Drone Prefabs Element {prefabIndex} 비어있음");
-                return;
-            }
+            GameObject droneObject =
+                Instantiate(
+                    selectedPrefab,
+                    transform.position,
+                    selectedPrefab.transform.rotation,
+                    transform
+                );
 
-            GameObject droneObject = Instantiate(
-                selectedPrefab,
-                transform.position,
-                selectedPrefab.transform.rotation,
-                transform
-            );
-
-            DroneUnit drone = droneObject.GetComponent<DroneUnit>();
+            DroneUnit drone =
+                droneObject.GetComponent<DroneUnit>();
 
             if (drone == null)
             {
-                drone = droneObject.AddComponent<DroneUnit>();
+                drone =
+                    droneObject.AddComponent<DroneUnit>();
             }
 
             drones.Add(drone);
@@ -88,12 +97,18 @@ public class DroneWeapon : WeaponBase
 
         while (drones.Count > targetCount)
         {
-            DroneUnit removeTarget = drones[drones.Count - 1];
-            drones.RemoveAt(drones.Count - 1);
+            DroneUnit removeTarget =
+                drones[drones.Count - 1];
+
+            drones.RemoveAt(
+                drones.Count - 1
+            );
 
             if (removeTarget != null)
             {
-                Destroy(removeTarget.gameObject);
+                Destroy(
+                    removeTarget.gameObject
+                );
             }
         }
 
@@ -102,28 +117,51 @@ public class DroneWeapon : WeaponBase
             Vector3 offset =
                 baseOffset +
                 new Vector3(
-                    (i - (targetCount - 1) * 0.5f) * spacing,
+                    (
+                        i -
+                        (targetCount - 1) * 0.5f
+                    ) * spacing,
                     0f,
                     0f
                 );
 
+            int projectileIndex =
+                Mathf.Clamp(
+                    i,
+                    0,
+                    droneProjectilePrefabs.Length - 1
+                );
+
+            GameObject projectilePrefab =
+                droneProjectilePrefabs[
+                    projectileIndex
+                ];
+
             drones[i].Initialize(
                 transform,
-                droneProjectilePrefab,
+                projectilePrefab,
                 shootParticlePrefab,
-                GetFinalDamage(data.Damage),
+                targetLayer,
+                GetFinalDamage(
+                    data.Damage
+                ),
                 data.Cooldown,
-                GetProjectileSpeed(data),
-                GetFinalWeaponScale(data.Range),
-                GetFinalWeaponScale(data.Radius),
+                GetProjectileSpeed(
+                    data
+                ),
+                data.Range,
+                data.Radius,
                 offset
             );
         }
     }
 
-    private float GetProjectileSpeed(WeaponLevelData data)
+    private float GetProjectileSpeed(
+        WeaponLevelData data
+    )
     {
-        return data.ProjectileSpeed > 0f
+        return
+            data.ProjectileSpeed > 0f
             ? data.ProjectileSpeed
             : data.BulletSpeed;
     }

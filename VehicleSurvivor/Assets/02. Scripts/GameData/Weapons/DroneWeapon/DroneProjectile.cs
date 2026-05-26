@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class DroneProjectile : MonoBehaviour
+public class DroneProjectile
+    : MonoBehaviour
 {
     [Header("Homing")]
     public float rotateSpeed = 8f;
+
+    private LayerMask targetLayer;
 
     private float damage;
     private float speed;
@@ -16,6 +19,7 @@ public class DroneProjectile : MonoBehaviour
     private float detectRadius;
 
     public void Initialize(
+        LayerMask newTargetLayer,
         float newDamage,
         float newSpeed,
         float newMaxDistance,
@@ -24,51 +28,84 @@ public class DroneProjectile : MonoBehaviour
         float newDetectRadius
     )
     {
-        damage = newDamage;
-        speed = newSpeed;
-        maxDistance = newMaxDistance;
+        targetLayer =
+            newTargetLayer;
 
-        moveDirection = newMoveDirection.normalized;
-        spawnPosition = transform.position;
+        damage =
+            newDamage;
 
-        target = newTarget;
-        detectRadius = newDetectRadius;
+        speed =
+            newSpeed;
+
+        maxDistance =
+            newMaxDistance;
+
+        moveDirection =
+            newMoveDirection.normalized;
+
+        spawnPosition =
+            transform.position;
+
+        target =
+            newTarget;
+
+        detectRadius =
+            newDetectRadius;
     }
 
     private void Update()
     {
         if (target == null)
         {
-            target = FindClosestTarget();
+            target =
+                FindClosestTarget();
         }
 
         if (target != null)
         {
-            Vector3 targetPosition = target.position;
-            targetPosition.y += 0.8f; // 적 몸통 높이 보정
+            Vector3 targetPos =
+                target.position;
+
+            targetPos.y += 0.8f;
 
             Vector3 targetDirection =
-                targetPosition - transform.position;
+                targetPos -
+                transform.position;
 
-            if (targetDirection != Vector3.zero)
+            if (
+                targetDirection !=
+                Vector3.zero
+            )
             {
                 Quaternion targetRotation =
-                    Quaternion.LookRotation(targetDirection.normalized);
+                    Quaternion.LookRotation(
+                        targetDirection.normalized
+                    );
 
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    targetRotation,
-                    rotateSpeed * Time.deltaTime
-                );
+                transform.rotation =
+                    Quaternion.Slerp(
+                        transform.rotation,
+                        targetRotation,
+                        rotateSpeed *
+                        Time.deltaTime
+                    );
 
-                moveDirection = transform.forward;
+                moveDirection =
+                    transform.forward;
             }
         }
 
         transform.position +=
-            moveDirection * speed * Time.deltaTime;
+            moveDirection *
+            speed *
+            Time.deltaTime;
 
-        if (Vector3.Distance(spawnPosition, transform.position) >= maxDistance)
+        if (
+            Vector3.Distance(
+                spawnPosition,
+                transform.position
+            ) >= maxDistance
+        )
         {
             Destroy(gameObject);
         }
@@ -76,44 +113,69 @@ public class DroneProjectile : MonoBehaviour
 
     private Transform FindClosestTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            detectRadius
-        );
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                detectRadius,
+                targetLayer
+            );
 
-        Transform closestTarget = null;
-        float closestDistance = Mathf.Infinity;
+        Transform closest =
+            null;
 
-        foreach (Collider hit in hits)
+        float closestDistance =
+            Mathf.Infinity;
+
+        foreach (
+            Collider hit
+            in hits
+        )
         {
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
-
-            if (damageable == null)
-                continue;
-
             float distance =
-                (hit.transform.position - transform.position).sqrMagnitude;
+                (
+                    hit.transform.position -
+                    transform.position
+                ).sqrMagnitude;
 
-            if (distance < closestDistance)
+            if (
+                distance <
+                closestDistance
+            )
             {
-                closestDistance = distance;
-                closestTarget = hit.transform;
+                closestDistance =
+                    distance;
+
+                closest =
+                    hit.transform;
             }
         }
 
-        return closestTarget;
+        return closest;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(
+    Collider other
+)
     {
+        Transform root =
+            other.transform.root;
+
+        if (root.gameObject.layer ==
+            LayerMask.NameToLayer("Player"))
+        {
+            return;
+        }
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
         if (damageable == null)
             return;
 
-        damageable.TakeDamage(damage);
+        damageable.TakeDamage(
+            damage
+        );
+        Debug.Log($"드론 데미지 들어감: {damage}");
 
         Destroy(gameObject);
     }
