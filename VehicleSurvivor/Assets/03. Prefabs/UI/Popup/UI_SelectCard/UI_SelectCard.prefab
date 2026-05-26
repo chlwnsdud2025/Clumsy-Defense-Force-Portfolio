@@ -137,6 +137,15 @@ MonoBehaviour:
   - {fileID: 7218525935634794336}
   - {fileID: 3623163725346015499}
   rarityVisuals: {fileID: 11400000, guid: c5d6e7f8091234567890abcdef012345, type: 2}
+  introScaleDuration: 0.4
+  introScaleEase: 27
+  flipDelayAfterScale: 0.15
+  flipGroupInterval: 0.2
+  flipGroupThreshold: 2
+  premiumFlipPauseDuration: 0.25
+  premiumFlipShakeDuration: 0.35
+  premiumFlipShakeStrength: 12
+  premiumFlipDelayAfterShake: 1
 --- !u!1001 &1785494632543302774
 PrefabInstance:
   m_ObjectHideFlags: 0
