@@ -17,7 +17,7 @@ public class DroneUnit : MonoBehaviour
 
     private LayerMask targetLayer;
 
-    private float damage;
+    private DamageInfo damageInfo;
     private float attackCooldown;
     private float projectileSpeed;
     private float projectileRange;
@@ -31,7 +31,7 @@ public class DroneUnit : MonoBehaviour
         GameObject newProjectilePrefab,
         ParticleSystem newShootParticlePrefab,
         LayerMask newTargetLayer,
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newAttackCooldown,
         float newProjectileSpeed,
         float newProjectileRange,
@@ -50,8 +50,7 @@ public class DroneUnit : MonoBehaviour
         targetLayer =
             newTargetLayer;
 
-        damage =
-            newDamage;
+        damageInfo = newDamageInfo;
 
         attackCooldown =
             newAttackCooldown;
@@ -161,7 +160,7 @@ public class DroneUnit : MonoBehaviour
 
         projectile.Initialize(
             targetLayer,
-            damage,
+            damageInfo,
             projectileSpeed,
             projectileRange,
             direction.normalized,

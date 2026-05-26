@@ -228,7 +228,7 @@ public class ScorpionBoss : BossEnemy
                 IDamageable damageable = hit.GetComponent<IDamageable>();
                 if (damageable != null && !hitTargets.Contains(damageable))
                 {
-                    damageable.TakeDamage(laserDamage);
+                    damageable.TakeDamage(DamageInfo.Normal(laserDamage));
                     hitTargets.Add(damageable);
                 }
             }

@@ -16,7 +16,7 @@ public class ChainLightningWeapon : WeaponBase
 
         float detectRadius = GetFinalWeaponScale(data.Radius);
         float chainRadius = GetFinalWeaponScale(data.ChainRadius);
-        float finalDamage = GetFinalDamage(data.Damage);
+        DamageInfo damageInfo = GetFinalDamage(data.Damage);
 
         Transform firstTarget = FindClosestTarget(
             transform.position,
@@ -38,7 +38,7 @@ public class ChainLightningWeapon : WeaponBase
             hitTargets,
             data.ChainCount,
             chainRadius,
-            finalDamage
+            damageInfo
         );
     }
 
@@ -48,7 +48,7 @@ public class ChainLightningWeapon : WeaponBase
         List<Transform> hitTargets,
         int remainChainCount,
         float chainRadius,
-        float finalDamage
+        DamageInfo damageInfo
     )
     {
         if (currentTarget == null)
@@ -68,10 +68,10 @@ public class ChainLightningWeapon : WeaponBase
             currentTarget.position
         );
 
-        damageable.TakeDamage(finalDamage);
+        damageable.TakeDamage(damageInfo);
 
         Debug.Log(
-            $"[ChainLightning] {currentTarget.name} 에게 {finalDamage} 데미지"
+            $"[ChainLightning] {currentTarget.name} 에게 {damageInfo.Amount} 데미지"
         );
 
         hitTargets.Add(currentTarget);
@@ -94,7 +94,7 @@ public class ChainLightningWeapon : WeaponBase
             hitTargets,
             remainChainCount - 1,
             chainRadius,
-            finalDamage
+            damageInfo
         );
     }
 

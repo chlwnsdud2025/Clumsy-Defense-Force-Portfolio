@@ -4,9 +4,10 @@ using UnityEngine;
 public class BoomerangProjectile : MonoBehaviour
 {
     [Header("부메랑 데이터")]
-    public float damage;
     public float speed;
     public float maxDistance;
+
+    private DamageInfo damageInfo;
 
     [Header("회전 연출")]
     public float rotateSpeed = 720f;
@@ -23,14 +24,14 @@ public class BoomerangProjectile : MonoBehaviour
 
     public void Init(
         Transform newOwner,
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newSpeed,
         float newMaxDistance,
         LayerMask newEnemyLayer
     )
     {
         owner = newOwner;
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         speed = newSpeed;
         maxDistance = newMaxDistance;
         enemyLayer = newEnemyLayer;
@@ -109,9 +110,9 @@ public class BoomerangProjectile : MonoBehaviour
         if (hitEnemies.Contains(enemy))
             return;
 
-        enemy.TakeDamage(damage);
+        enemy.TakeDamage(damageInfo);
         hitEnemies.Add(enemy);
 
-        Debug.Log($"[Boomerang] {enemy.name} 피격 / 데미지: {damage}");
+        Debug.Log($"[Boomerang] {enemy.name} 피격 / 데미지: {damageInfo.Amount}");
     }
 }

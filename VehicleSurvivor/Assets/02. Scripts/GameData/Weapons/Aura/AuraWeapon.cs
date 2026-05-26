@@ -35,7 +35,7 @@ public class AuraWeapon : WeaponBase
             return;
 
         float radius = GetAuraRadius(data);
-        float finalDamage = GetFinalDamage(data.Damage);
+        DamageInfo damageInfo = GetFinalDamage(data.Damage);
 
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
@@ -50,7 +50,7 @@ public class AuraWeapon : WeaponBase
             if (damageable == null)
                 continue;
 
-            damageable.TakeDamage(finalDamage);
+            damageable.TakeDamage(damageInfo);
             Debug.Log("오라 데미지 들어감");
         }
 

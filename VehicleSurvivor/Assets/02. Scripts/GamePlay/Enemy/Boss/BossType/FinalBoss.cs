@@ -136,7 +136,7 @@ public class FinalBoss : BossEnemy
     // ==========================================
     // 🛡️ 무적 및 석상 파괴 (페이즈 관리)
     // ==========================================
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(DamageInfo damageInfo)
     {
         if (isInvincible)
         {
@@ -144,7 +144,7 @@ public class FinalBoss : BossEnemy
             return;
         }
 
-        base.TakeDamage(damage);
+        base.TakeDamage(damageInfo);
 
         float healthPercent = currentHealth / maxHealth;
 
@@ -357,7 +357,7 @@ public class FinalBoss : BossEnemy
             Vector3 boxCenter = startPoint + (lockedDir * (multiLaserLength / 2f));
             Vector3 halfExtents = new Vector3(laserEndRadius, laserEndRadius, multiLaserLength / 2f);
             Collider[] hits = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.LookRotation(lockedDir), playerLayerMask);
-            foreach (Collider hit in hits) hit.GetComponent<IDamageable>()?.TakeDamage(multiLaserDamage);
+            foreach (Collider hit in hits) hit.GetComponent<IDamageable>()?.TakeDamage(DamageInfo.Normal(multiLaserDamage));
 
             if (i < multiLaserCount - 1) yield return new WaitForSeconds(multiLaserDelay);
         }
@@ -437,7 +437,7 @@ public class FinalBoss : BossEnemy
                 IDamageable damageable = hit.GetComponent<IDamageable>();
                 if (damageable != null && !hitTargets.Contains(damageable))
                 {
-                    damageable.TakeDamage(shotgunLaserDamage);
+                    damageable.TakeDamage(DamageInfo.Normal(shotgunLaserDamage));
                     hitTargets.Add(damageable);
                 }
             }

@@ -33,6 +33,8 @@ public class PiercingRaycastWeapon : WeaponBase
         List<Enemy> damagedEnemies =
             new List<Enemy>();
 
+        DamageInfo damageInfo = GetFinalDamage(data.Damage);
+
         foreach (RaycastHit hit in hits)
         {
             if (!hit.collider.CompareTag("Enemy"))
@@ -47,14 +49,12 @@ public class PiercingRaycastWeapon : WeaponBase
             if (damagedEnemies.Contains(enemy))
                 continue;
 
-            enemy.TakeDamage(
-                GetFinalDamage(data.Damage)
-            );
+            enemy.TakeDamage(damageInfo);
 
             damagedEnemies.Add(enemy);
 
             Debug.Log(
-                $"[Laser] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.Damage)}"
+                $"[Laser] {enemy.name} 피격 / 데미지: {damageInfo.Amount}"
             );
         }
 

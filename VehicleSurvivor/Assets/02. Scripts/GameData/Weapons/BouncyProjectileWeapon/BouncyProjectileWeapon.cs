@@ -37,7 +37,7 @@ public class BouncyProjectileWeapon : WeaponBase
     }
 
     private void FireProjectiles(
-        float finalDamage,
+        DamageInfo damageInfo,
         float projectileSpeed,
         int count,
         float spreadAngleValue,
@@ -119,7 +119,7 @@ public class BouncyProjectileWeapon : WeaponBase
             startVelocity.y += upwardForce;
 
             projectile.Initialize(
-                finalDamage,
+                damageInfo,
                 startVelocity,
                 maxTravelDistance,
                 bounceCount,

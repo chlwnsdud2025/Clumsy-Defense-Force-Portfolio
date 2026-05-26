@@ -8,7 +8,7 @@ public class MeteorProjectile : MonoBehaviour
     [Header("Effect Life Time")]
     public float explosionEffectLifeTime = 3f;
 
-    private float damage;
+    private DamageInfo damageInfo;
     private float speed;
     private float explosionRadius;
     private float delay;
@@ -18,14 +18,14 @@ public class MeteorProjectile : MonoBehaviour
     private bool hasExploded;
 
     public void Initialize(
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newSpeed,
         float newExplosionRadius,
         float newDelay,
         Vector3 newTargetPosition
     )
     {
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         speed = newSpeed;
         explosionRadius = newExplosionRadius;
         delay = newDelay;
@@ -89,9 +89,9 @@ public class MeteorProjectile : MonoBehaviour
             if (damageable == null)
                 continue;
 
-            damageable.TakeDamage(damage);
+            damageable.TakeDamage(damageInfo);
 
-            Debug.Log($"[Meteor] {hit.name} 에게 {damage} 데미지");
+            Debug.Log($"[Meteor] {hit.name} 에게 {damageInfo.Amount} 데미지");
         }
 
         SoundPlayback.PlaySfx(ESoundId.SFX_Weapon_Explosion);
