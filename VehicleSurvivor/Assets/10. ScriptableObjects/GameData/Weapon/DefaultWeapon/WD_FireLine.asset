@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_FireLine
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_unique_fireline
+  weaponId: weapon_unique_fire_line
   weaponName: "방화선"
-  description: "주변에 불길 장판을 생성해 지속 피해를 줍니다."
+  description: "캐릭터 주변에 불길 장판을 생성해 주기적으로 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 2
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "기본 화염 지대"
+    description: "Lv1: 기본 범위"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "범위 증가"
+    description: "Lv2: 범위 증가"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "Lv3: 피해량 증가"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "피해 주기 감소"
+    description: "Lv4: 범위 증가"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "Lv5: 피해 주기 감소"
     cooldown: 1
     damage: 15
     projectileSpeed: 0.1
@@ -104,4 +104,4 @@ MonoBehaviour:
     tickInterval: 0.3
     range: 3.5
   evolutionWeaponId: weapon_evolved_backdraft
-  requiredPassiveId: passive_max_hp
+  requiredPassiveId: passive_max_health

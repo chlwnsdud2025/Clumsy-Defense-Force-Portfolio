@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: Passive_ProjectileCount
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_projectile_count
-  passiveName: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00"
-  description: "\uC77C\uBD80 \uC2A4\uD0AC\uC758 \uD22C\uC0AC\uCCB4 \uC218\uAC00 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveName: "투사체 증가"
+  description: "특정 레벨에서 투사체 수가 증가합니다. 현재 증가량: {0}"
   icon: {fileID: 21300000, guid: 56efae29f10e23648b516c5ab6831672, type: 3}
   statType: 501
   maxLevel: 5
   levelModifiers:
   - statType: 501
-    value: 1
+    value: 0
     isPercent: 0
   - statType: 501
     value: 1
     isPercent: 0
   - statType: 501
-    value: 2
+    value: 1
     isPercent: 0
   - statType: 501
     value: 2

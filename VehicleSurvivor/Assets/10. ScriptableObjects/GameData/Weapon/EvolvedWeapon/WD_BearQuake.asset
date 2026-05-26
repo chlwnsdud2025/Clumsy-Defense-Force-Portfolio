@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_bear_quake
   weaponName: "베어 퀘이크"
-  description: "곰발바닥 충격파가 거대한 지진파로 강화됩니다."
+  description: "피해량이 증가하고 충격파가 연쇄 발생합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 0

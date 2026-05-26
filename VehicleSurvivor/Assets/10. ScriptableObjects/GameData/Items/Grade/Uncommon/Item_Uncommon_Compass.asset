@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Item_Uncommon_Compass
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_uncommon_compass
-  itemName: "毓곗”??而댄띁??
-  description: "?꾩씠???띾뱷 諛섍꼍 利앷??⑤떦 移섎챸? ?뺣쪧??利앷??⑸땲??"
+  itemName: "뾰족한 컴퍼스"
+  description: "아이템 획득 반경 증가율에 비례해 치명타 확률이 증가합니다."
   itemCategory: 0
   rarity: 2
   icon: {fileID: 21300000, guid: f30900f7e41dee945bb83e55b4a47c2d, type: 3}

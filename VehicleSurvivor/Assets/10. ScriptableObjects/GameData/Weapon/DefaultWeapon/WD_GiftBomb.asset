@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_GiftBomb
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_unique_giftbomb
-  weaponName: "?좊Ъ ??깂"
-  description: "?좊Ъ ?곸옄瑜??섏졇 ??컻 ?쇳빐瑜?以띾땲??"
+  weaponId: weapon_unique_gift_bomb
+  weaponName: "선물 폭탄"
+  description: "주변 적을 향해 선물 상자를 던져 폭발 피해를 줍니다."
   icon: {fileID: 21300000, guid: f073a28643d7cdd4c86e0120840497d1, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "?ъ쿃"
-  - "??컻"
-  - "踰붿쐞"
+  - "투척"
+  - "폭발"
+  - "범위"
   levelDataList:
   - bulletSpeed: 9
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "湲곕낯 ??깂 ?ъ쿃"
+    description: "Lv1: 기본 쿨타임"
     cooldown: 1.2
     damage: 12
     projectileSpeed: 9
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "荑⑦???媛먯냼"
+    description: "Lv2: 쿨타임 감소"
     cooldown: 1.05
     damage: 12
     projectileSpeed: 9.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "??컻 踰붿쐞 利앷?"
+    description: "Lv3: 폭발 범위 증가"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 9.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "Lv4: 쿨타임 감소"
     cooldown: 1
     damage: 15
     projectileSpeed: 10
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "荑⑦???媛먯냼"
+    description: "Lv5: 폭발 피해 증가"
     cooldown: 0.9
     damage: 18
     projectileSpeed: 10

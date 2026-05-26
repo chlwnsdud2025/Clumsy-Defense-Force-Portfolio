@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_RoyalRoad
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_royal_road
-  weaponName: "濡쒖뿴 濡쒕뱶"
-  description: "?щ씪??遺硫붾옉???볦? ?뺣났 寃쎈줈瑜?洹몃┰?덈떎."
+  weaponName: "로열 로드"
+  description: "왕관이 왕복하며 지나간 자리에 빛나는 왕의 길을 남기고 추가 피해를 줍니다."
   icon: {fileID: 21300000, guid: 167a768589122d341815f85c7670ffb8, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

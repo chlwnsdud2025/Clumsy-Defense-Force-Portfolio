@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Item_Epic_PajamaInvitation
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_epic_pajama_party_invitation
-  itemName: "?뚯옄留??뚰떚 珥덈???
-  description: "二쇰???蹂대Ъ??3媛쒕? ?앹꽦?⑸땲??"
+  itemName: "파자마 파티 초대장"
+  description: "주변에 보물함 3개를 생성합니다."
   itemCategory: 0
   rarity: 4
   icon: {fileID: 21300000, guid: ade1fcd3bddf45b41906865cf4d59152, type: 3}
