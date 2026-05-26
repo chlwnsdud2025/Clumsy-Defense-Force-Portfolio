@@ -32,7 +32,7 @@ public class BouncyProjectileWeapon : WeaponBase
             data.SpreadAngle,
             data.Range,
             data.BounceCount,
-            data.Size
+            GetFinalWeaponScale(data.Size)
         );
     }
 

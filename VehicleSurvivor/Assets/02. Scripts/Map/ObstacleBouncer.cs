@@ -10,15 +10,15 @@ public class ObstacleBouncer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
-            if (mechanics != null)
+            PlayerEnvironmentReceiver receiver = other.GetComponentInParent<PlayerEnvironmentReceiver>();
+            if (receiver != null)
             {
                 // [핵심] 이번에는 방해물의 중심(본체)이 아니라, 
                 // 부딪힌 트리거 오브젝트의 위치를 기준으로 방향을 잡아야 더 정확합니다.
                 Vector3 bounceDirection = (other.transform.position - transform.position).normalized;
                 bounceDirection.y = 0f;
 
-                mechanics.ApplyTargetHeightJump(bounceHeight, bounceForce, bounceDirection);
+                receiver.ApplyTargetHeightJump(bounceHeight, bounceForce, bounceDirection);
             }
         }
     }

@@ -80,13 +80,13 @@ public class BumperCar : MonoBehaviour
         // 플레이어 타격 로직 (이전과 동일)
         if (other.CompareTag("Player") && Time.time >= _lastHitTime + 0.5f)
         {
-            PlayerExternalMechanics mechanics = other.GetComponent<PlayerExternalMechanics>();
-            if (mechanics != null)
+            PlayerEnvironmentReceiver receiver = other.GetComponentInParent<PlayerEnvironmentReceiver>();
+            if (receiver != null)
             {
                 _lastHitTime = Time.time;
                 Vector3 pushDirection = other.transform.position - transform.position;
                 pushDirection.y = 0f;
-                mechanics.ApplyTargetHeightJump(knockbackHeight, knockbackForce, pushDirection.normalized);
+                receiver.ApplyTargetHeightJump(knockbackHeight, knockbackForce, pushDirection.normalized);
             }
         }
     }

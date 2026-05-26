@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8548543140267095818}
   - component: {fileID: 6867517290545493175}
   - component: {fileID: 324134642784515406}
+  - component: {fileID: 2779952254108692103}
   m_Layer: 11
   m_Name: Basic_fly_1
   m_TagString: Enemy
@@ -115,10 +116,6 @@ MonoBehaviour:
   slowClimbSpeed: 5
   contactDamage: 10
   gravity: -20
-  modelRenderers:
-  - {fileID: 578584582048572451}
-  flashDuration: 0.1
-  flashCooldown: 0.1
   flyingHeightOffset: 1.2
 --- !u!1 &7947364614208741903
 GameObject:
@@ -234,3 +231,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
   m_PrefabInstance: {fileID: 2710811228412180413}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2779952254108692103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6743300894795504222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 578584582048572451}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}

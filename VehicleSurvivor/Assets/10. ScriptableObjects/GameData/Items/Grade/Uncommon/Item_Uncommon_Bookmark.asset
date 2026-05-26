@@ -20,6 +20,6 @@ MonoBehaviour:
   icon: {fileID: 0}
   isOneTimeUse: 0
   statModifiers:
-  - statType: 11
+  - statType: 300
     value: 0.1
     isPercent: 1

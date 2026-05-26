@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_critical_chance
   passiveName: "\uCE58\uBA85\uD0C0\uC728 \uC99D\uAC00"
-  description: "\uCE58\uBA85\uD0C0 \uD655\uB960\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  description: "\uCE58\uBA85\uD0C0 \uD655\uB960\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
-  statType: 6
+  statType: 400
   maxLevel: 5
   levelModifiers:
-  - statType: 6
+  - statType: 400
     value: 0.05
     isPercent: 1
-  - statType: 6
+  - statType: 400
     value: 0.05
     isPercent: 1
-  - statType: 6
+  - statType: 400
     value: 0.05
     isPercent: 1
-  - statType: 6
+  - statType: 400
     value: 0.05
     isPercent: 1
-  - statType: 6
+  - statType: 400
     value: 0.05
     isPercent: 1

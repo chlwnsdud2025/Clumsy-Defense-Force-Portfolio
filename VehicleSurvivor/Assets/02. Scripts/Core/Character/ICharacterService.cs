@@ -5,8 +5,8 @@ public interface ICharacterService
 {
     UniTask<bool> InitializeAsync(IResourceService resourceService);
     IReadOnlyList<CharacterDefinitionSO> GetAllCharacters();
-    CharacterDefinitionSO GetDefaultCharacter();
-    CharacterDefinitionSO GetSelectedCharacter();
+    CharacterDefinitionSO DefaultCharacter { get; }
+    CharacterDefinitionSO SelectedCharacter { get; }
     bool TryGetCharacter(string characterId, out CharacterDefinitionSO characterDefinition);
     bool SetSelectedCharacter(string characterId);
     void SetSelectedCharacter(CharacterDefinitionSO characterDefinition);

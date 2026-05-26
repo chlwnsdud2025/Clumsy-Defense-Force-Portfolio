@@ -16,10 +16,11 @@ public class ShockwaveWeapon : WeaponBase
     {
         Vector3 origin = transform.position;
         Vector3 forward = transform.forward;
+        float shockwaveRange = GetFinalWeaponScale(data.ShockwaveRange);
 
         Collider[] hits = Physics.OverlapSphere(
             origin,
-            data.ShockwaveRange,
+            shockwaveRange,
             enemyLayer
         );
 
@@ -58,10 +59,10 @@ public class ShockwaveWeapon : WeaponBase
             }
         }
 
-        SpawnEffect(data);
+        SpawnEffect(data, shockwaveRange);
     }
 
-    private void SpawnEffect(WeaponLevelData data)
+    private void SpawnEffect(WeaponLevelData data, float shockwaveRange)
     {
         if (shockwaveEffectPrefab == null)
             return;
@@ -76,10 +77,8 @@ public class ShockwaveWeapon : WeaponBase
             transform.rotation
         );
 
-        float size = data.ShockwaveRange;
-
         effect.transform.localScale =
-            new Vector3(size, 1f, size);
+            new Vector3(shockwaveRange, 1f, shockwaveRange);
 
         Destroy(effect, effectLifeTime);
     }
@@ -95,7 +94,7 @@ public class ShockwaveWeapon : WeaponBase
 
         Gizmos.DrawWireSphere(
             transform.position,
-            data.ShockwaveRange
+            GetFinalWeaponScale(data.ShockwaveRange)
         );
     }
 }

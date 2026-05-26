@@ -1,23 +1,31 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class PlayerVisual : MonoBehaviour
 {
-    [Tooltip("Parent transform for the selected character visual prefab.")]
+    [Tooltip("선택된 캐릭터 비주얼 프리팹이 붙을 부모 트랜스폼")]
     [SerializeField] private Transform visualRoot;
 
-    [Tooltip("Animator used by the character visual.")]
+    [Tooltip("캐릭터 비주얼에 사용되는 Animator")]
     [SerializeField] private Animator animator;
+
+    [Tooltip("피격 시 플래시 효과")]
+    [SerializeField] private HitFlashEffect hitFlash;
 
     private GameObject spawnedVisual;
     private CancellationTokenSource applyCharacterCts;
 
     private void Awake()
     {
-        ResolveAnimator();
+        if (animator == null && visualRoot != null)
+            animator = visualRoot.GetComponentInParent<Animator>();
+
+        if (hitFlash == null)
+            hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
 
     private void OnDestroy()
@@ -63,12 +71,14 @@ public class PlayerVisual : MonoBehaviour
 
             await UniTask.NextFrame(cancellationToken: cancellationToken);
 
-            ResolveAnimator();
             if (animator != null)
             {
                 animator.Rebind();
                 animator.Update(0f);
             }
+
+            if (hitFlash != null)
+                hitFlash.RefreshRenderersFrom(spawnedVisual.transform);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -81,12 +91,6 @@ public class PlayerVisual : MonoBehaviour
                 applyCharacterCts = null;
             }
         }
-    }
-
-    private void ResolveAnimator()
-    {
-        if (animator == null && visualRoot != null)
-            animator = visualRoot.GetComponentInParent<Animator>();
     }
 
     private void ClearVisual(Transform parent)

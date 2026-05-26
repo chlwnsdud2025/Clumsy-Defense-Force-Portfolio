@@ -100,7 +100,13 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        if (playerTransform == null || StageRunManager.Instance == null) return;
+        if (playerTransform == null || StageRunManager.Instance == null)
+            return;
+
+        if (!RunManager.TryGetInstance(out RunManager runManager) ||
+            runManager.RunSession == null ||
+            !runManager.RunSession.ShouldUpdateGameplay)
+            return;
 
         // 1. 페이즈(스테이지 클리어)가 바뀌었는지 감지
         if (StageRunManager.Instance.currentPhaseIndex != lastPhaseIndex)
@@ -141,9 +147,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    // ==========================================
-    // [부활한 로직] 웨이브 시작 시 1회성 미니 보스 소환
-    // ==========================================
     private void OnWaveStarted(WaveEnemy_DataSO newWave)
     {
         Debug.Log($"[Wave Start] 새로운 웨이브('{newWave.name}') 시작!");
@@ -182,7 +185,6 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-    // ==========================================
 
     private WaveEnemy_Data GetRandomEnemyDataFromWave(WaveEnemy_DataSO currentWave)
     {
@@ -259,6 +261,23 @@ public class EnemyManager : MonoBehaviour
         activeEnemies.Remove(enemy);
         if (enemy.originPool != null && enemyPools.ContainsKey(enemy.originPool)) enemyPools[enemy.originPool].Enqueue(enemy);
         else Destroy(enemy.gameObject);
+    }
+
+    // 맵 전환 시 필드의 모든 잡몹을 풀로 즉시 강제 회수
+    
+    public void ClearAllActiveEnemies()
+    {
+        // 리스트에서 항목이 삭제(Remove)되므로 반드시 뒤에서부터 순회해야 에러가 나지 않습니다.
+        for (int i = activeEnemies.Count - 1; i >= 0; i--)
+        {
+            Enemy enemy = activeEnemies[i];
+            if (enemy != null)
+            {
+                // 경험치/돈 드롭 없이 즉시 풀로 되돌려 보냅니다.
+                ReturnToPool(enemy);
+            }
+        }
+        Debug.Log("[EnemyManager] 필드의 모든 잡몹을 풀로 회수 완료했습니다!");
     }
 
     private void UpdateGrid()

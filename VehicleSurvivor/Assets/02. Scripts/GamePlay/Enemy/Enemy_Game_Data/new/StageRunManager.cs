@@ -1,11 +1,8 @@
 using UnityEngine;
-using System.Collections; // 코루틴을 위해 추가
-using System.Collections.Generic;
+using System.Collections;
 
-public class StageRunManager : MonoBehaviour
+public class StageRunManager : MonoSceneSingleton<StageRunManager>
 {
-    public static StageRunManager Instance;
-
     [Header("Stage Data")]
     public StageTheme_SO currentTheme;
     public Transform midBossSpawnPoint;
@@ -13,39 +10,29 @@ public class StageRunManager : MonoBehaviour
 
     [Header("Runtime Info (디버그용)")]
     public int currentPhaseIndex = 0;
-    public float phaseTimeLeft = 300f;
-    public float phaseElapsedTime = 0f;
-    public float nightmareElapsedTime = 0f;
 
-    public bool isTimerPaused = false;
-    public bool isNightmareMode = false;
+    [Header("Debug Options")]
+    [Tooltip("체크하고 게임을 시작하면 1~6페이즈를 건너뛰고 바로 최종 포탈을 생성합니다.")]
+    public bool debugSkipToFinalBoss = false;
 
-    [Header("최종 보스 전환 연출 (Final Transition)")]
-    [Tooltip("가라앉을 기존 광장 맵의 최상위 부모 오브젝트")]
-    public Transform plazaMap;
+    [Header("Skybox Settings (스카이박스 연출)")]
+    public Material defaultSkybox;
+    public Material bossSkybox;
 
-    [Tooltip("솟아오를 최종 보스 맵의 최상위 부모 오브젝트 (미리 꺼두지 마시고 씬에 배치만 해두세요)")]
-    public Transform bossMap;
+    [Header("최종 보스 포탈 연출 (Final Portal)")]
+    public GameObject finalPortalPrefab;
+    public Transform portalSpawnPoint;
 
-    [Tooltip("최종 보스 프리팹")]
+    [Space(10)]
+    public GameObject plazaMap;
+    public GameObject bossMap;
+    public Transform playerTeleportPoint;
     public GameObject finalBossPrefab;
-
-    [Tooltip("최종 보스가 스폰될 위치 (보스 맵의 정중앙 등)")]
     public Transform finalBossSpawnPoint;
 
-    [Tooltip("연출이 시작될 때 플레이어가 순간이동할 안전한 위치 (보스 맵 끄트머리 등)")]
-    public Transform playerTeleportPoint;
-
-    [Tooltip("맵이 오르내리는 시간 (초)")]
-    public float transitionDuration = 4f;
-
-    [Tooltip("맵이 지하로 얼마나 깊이 내려갈지")]
-    public float mapDropDistance = 50f;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    [Header("최종 보스전 씬 오브젝트")]
+    [Tooltip("씬에 이미 배치되어 있는 석상 3개를 순서대로 드래그해서 넣으세요.")]
+    public BossStatue[] sceneStatues;
 
     private void Start()
     {
@@ -54,63 +41,56 @@ public class StageRunManager : MonoBehaviour
             EnemyManager.Instance.ApplyTheme(currentTheme);
         }
 
-        // 시작 시 보스 맵은 보이지 않도록 아래로 내려놓고 꺼둡니다.
         if (bossMap != null)
         {
-            bossMap.position += Vector3.down * mapDropDistance;
-            bossMap.gameObject.SetActive(false);
+            bossMap.SetActive(false);
+        }
+
+        ApplySkybox(defaultSkybox);
+    }
+
+    public void InitializeForRun()
+    {
+        ApplySkybox(defaultSkybox);
+
+        if (debugSkipToFinalBoss)
+        {
+            Debug.LogWarning("디버그 모드 작동: 모든 페이즈를 스킵하고 최종 보스 포탈을 생성합니다!");
+            currentPhaseIndex = 5; // 6번째 보스를 잡은 상태로 세팅
+            OnMidBossDefeated();   // 포탈 소환
+            return;
         }
 
         StartPhase(0);
     }
 
-    private void Update()
+    public void ReleaseRun()
     {
-        if (isTimerPaused) return;
-
-        float dt = Time.deltaTime;
-        phaseTimeLeft -= dt;
-
-        if (phaseTimeLeft > 0f)
-        {
-            phaseElapsedTime += dt;
-        }
-        else
-        {
-            if (!isNightmareMode)
-            {
-                isNightmareMode = true;
-                nightmareElapsedTime = 0f;
-                Debug.LogWarning("제한 시간 초과! 악몽 웨이브 시작!");
-            }
-            nightmareElapsedTime += dt;
-        }
+        StopAllCoroutines();
+        currentPhaseIndex = 0;
+        ApplySkybox(defaultSkybox);
     }
 
     private void StartPhase(int phaseIndex)
     {
-        if (phaseIndex >= currentTheme.phases.Count)
-        {
-            Debug.LogError("모든 페이즈 클리어! 최종 보스전 돌입!");
+        if (currentTheme == null || currentTheme.phases == null)
             return;
-        }
-        Debug.Log("다음 페이즈 시작!");
+
+        if (phaseIndex >= currentTheme.phases.Count)
+            return;
+
+        Debug.Log($"페이즈 {phaseIndex + 1} 시작!");
 
         currentPhaseIndex = phaseIndex;
         StagePhase currentPhase = currentTheme.phases[currentPhaseIndex];
 
-        phaseTimeLeft = currentPhase.timeLimit;
-        phaseElapsedTime = 0f;
-        nightmareElapsedTime = 0f;
-
-        isNightmareMode = false;
-        isTimerPaused = false;
+        // 인스펙터에 설정된 timeLimit(최종 보스전은 600)으로 타이머가 알아서 세팅됩니다!
+        if (RunManager.TryGetInstance(out RunManager runManager))
+            runManager.StartWavePhase(currentPhase.timeLimit);
     }
 
     public void OnStageCleared()
     {
-        isTimerPaused = true;
-
         if (midBossPrefabs != null && currentPhaseIndex < midBossPrefabs.Length)
         {
             Instantiate(midBossPrefabs[currentPhaseIndex], midBossSpawnPoint.position, Quaternion.identity);
@@ -119,113 +99,111 @@ public class StageRunManager : MonoBehaviour
 
     public void OnMidBossDefeated()
     {
+        // 6번째 보스(인덱스 5) 격파 시
         if (currentPhaseIndex >= 5)
         {
-            Debug.Log("6개 스테이지 모두 클리어! 최종 보스 연출을 시작합니다!");
+            Debug.Log("6번째 보스 처치! 다음 페이즈로 바로 넘어가지 않고 포탈을 생성합니다!");
 
-            // [추가됨] 6스테이지 클리어 시 맵 교체 연출 코루틴 실행
-            StartCoroutine(FinalTransitionRoutine());
+            // (선택 사항) 포탈을 타기 전까지 잡몹이 안 나오게 하려면 여기서 타이머를 일시정지 해도 좋습니다.
+            // if (RunManager.TryGetInstance(out RunManager rm)) rm.WaveTimer.PauseTimer();
+
+            if (finalPortalPrefab != null && portalSpawnPoint != null)
+            {
+                Instantiate(finalPortalPrefab, portalSpawnPoint.position, finalPortalPrefab.transform.rotation);
+            }
+            // 여기서 return 하여 StartPhase가 호출되지 않게 막습니다! (포탈 대기 상태)
             return;
         }
 
+        // 1~5번째 보스라면 처치 즉시 다음 페이즈로 정상 진행
         StartPhase(currentPhaseIndex + 1);
     }
 
-    // ==========================================
-    // [신규 기능] 최종 맵 교체 연출 코루틴
-    // ==========================================
-    private IEnumerator FinalTransitionRoutine()
+    public void TransitionToFinalBoss(GameObject player)
     {
-        // 1. 플레이어를 솟아오를 보스 맵의 안전지대로 텔레포트
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null && playerTeleportPoint != null)
+        StartCoroutine(PortalTransitionRoutine(player));
+    }
+
+    private IEnumerator PortalTransitionRoutine(GameObject player)
+    {
+        // 맵을 끄기 전에 필드에 남은 모든 적을 풀로 되돌려 보냅니다!
+        if (EnemyManager.Instance != null)
         {
-            CharacterController cc = player.GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false; // 텔레포트 전 물리 충돌 끄기
-
-            player.transform.position = playerTeleportPoint.position;
-            player.transform.rotation = playerTeleportPoint.rotation;
-            // 보스 맵의 자식으로 임시 지정하여 맵과 함께 올라가게 함
-            player.transform.SetParent(bossMap);
-
-            if (cc != null) cc.enabled = true;
+            // 개발자님의 EnemyManager 스크립트에 있는 '전체 회수' 함수를 호출합니다.
+            EnemyManager.Instance.ClearAllActiveEnemies();
+            Debug.Log("필드에 남은 모든 몹을 풀로 회수했습니다.");
         }
 
-        // 2. 광장 맵 지하로 가라앉기
-        if (plazaMap != null)
-        {
-            Vector3 plazaStartPos = plazaMap.position;
-            Vector3 plazaEndPos = plazaStartPos + Vector3.down * mapDropDistance;
+        // 1. 맵 전환
+        if (plazaMap != null) plazaMap.SetActive(false);
+        if (bossMap != null) bossMap.SetActive(true);
 
-            float percent = 0f;
-            while (percent < 1f)
+        ApplySkybox(bossSkybox);
+
+        // 2. 플레이어 순간이동
+        if (playerTeleportPoint != null)
+        {
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
             {
-                percent += Time.deltaTime / transitionDuration;
-                plazaMap.position = Vector3.Lerp(plazaStartPos, plazaEndPos, percent);
-                yield return null;
+                playerController.Teleport(playerTeleportPoint.position, playerTeleportPoint.rotation);
             }
-            plazaMap.gameObject.SetActive(false); // 완전히 내려가면 비활성화
-        }
-
-        // 3. 1초 대기 (긴장감 조성)
-        yield return new WaitForSeconds(1f);
-
-        // 4. 보스 맵 위로 솟아오르기
-        if (bossMap != null)
-        {
-            bossMap.gameObject.SetActive(true); // 맵 켜기
-
-            Vector3 bossStartPos = bossMap.position;
-            Vector3 bossEndPos = bossStartPos + Vector3.up * mapDropDistance; // 위로 올림
-
-            float percent = 0f;
-            while (percent < 1f)
+            else
             {
-                percent += Time.deltaTime / transitionDuration;
-                bossMap.position = Vector3.Lerp(bossStartPos, bossEndPos, percent);
-                yield return null;
+                player.transform.SetPositionAndRotation(playerTeleportPoint.position, playerTeleportPoint.rotation);
             }
-            bossMap.position = bossEndPos; // 오차 보정
         }
 
-        // 5. 플레이어 부모 관계 해제 (다시 월드 종속으로 복구)
-        if (player != null)
-        {
-            player.transform.SetParent(null);
-        }
+        yield return new WaitForSeconds(1.0f);
 
-        // 6. 극적인 1초 대기 후 최종 보스 스폰!
-        yield return new WaitForSeconds(1f);
+        // 3. 마지막 7번째 페이즈(10분) 진입
+        StartPhase(currentPhaseIndex + 1);
 
+        // 4. 최종 보스 소환
         if (finalBossPrefab != null && finalBossSpawnPoint != null)
         {
-            Instantiate(finalBossPrefab, finalBossSpawnPoint.position, finalBossSpawnPoint.rotation);
-            Debug.Log("최종 보스 강림!!!");
+            GameObject bossObj = Instantiate(finalBossPrefab, finalBossSpawnPoint.position, finalBossSpawnPoint.rotation);
+            FinalBoss finalBoss = bossObj.GetComponent<FinalBoss>();
 
-            // (선택) 여기서 브금(BGM)을 최종 보스전 음악으로 바꾸는 코드를 넣으면 완벽합니다!
+            if (finalBoss != null)
+            {
+                finalBoss.InitializeStatues(sceneStatues);
+            }
+
+            Debug.Log("최종 보스 강림!!!");
         }
     }
 
     public WaveEnemy_DataSO GetCurrentWave()
     {
-        StagePhase currentPhase = currentTheme.phases[currentPhaseIndex];
-        WaveEnemy_DataSO activeWave = null;
+        if (currentTheme == null || currentTheme.phases == null) return null;
+        if (currentPhaseIndex < 0 || currentPhaseIndex >= currentTheme.phases.Count) return null;
+        if (!RunManager.TryGetInstance(out RunManager runManager)) return null;
 
-        if (isNightmareMode)
+        WavePhaseTimer waveTimer = runManager.WaveTimer;
+        if (waveTimer == null) return null;
+
+        return WaveSelection.GetCurrentWave(currentTheme.phases[currentPhaseIndex], waveTimer);
+    }
+
+    [ContextMenu("디버그: 최종 포탈 즉시 생성")]
+    public void DebugSpawnFinalPortal()
+    {
+        Debug.LogWarning("인스펙터 강제 명령: 최종 보스 포탈을 즉시 생성합니다!");
+
+        if (RunManager.TryGetInstance(out RunManager runManager))
         {
-            foreach (WaveEnemy_DataSO wave in currentPhase.nightmareWaves)
-            {
-                if (wave.waveStartTime <= nightmareElapsedTime) activeWave = wave;
-            }
-        }
-        else
-        {
-            foreach (WaveEnemy_DataSO wave in currentPhase.phaseWaves)
-            {
-                if (wave.waveStartTime <= phaseElapsedTime) activeWave = wave;
-            }
+            runManager.StopAllCoroutines();
         }
 
-        return activeWave;
+        currentPhaseIndex = 5;
+        OnMidBossDefeated();
+    }
+
+    private void ApplySkybox(Material skyboxMaterial)
+    {
+        if (skyboxMaterial == null) return;
+        RenderSettings.skybox = skyboxMaterial;
+        DynamicGI.UpdateEnvironment();
     }
 }

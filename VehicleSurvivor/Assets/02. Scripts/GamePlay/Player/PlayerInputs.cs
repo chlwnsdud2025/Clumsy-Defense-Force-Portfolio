@@ -9,7 +9,6 @@ public class PlayerInputs : MonoBehaviour
     public Vector2 move;
     public Vector2 look;
     public bool jump;
-    public bool sprint;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -36,11 +35,6 @@ public class PlayerInputs : MonoBehaviour
     {
         JumpInput(value.isPressed);
     }
-
-    public void OnSprint(InputValue value)
-    {
-        SprintInput(value.isPressed);
-    }
 #endif
 
 
@@ -59,18 +53,28 @@ public class PlayerInputs : MonoBehaviour
         jump = newJumpState;
     }
 
-    public void SprintInput(bool newSprintState)
+    public void SetGameplayControlEnabled(bool enabled)
     {
-        sprint = newSprintState;
+        cursorLocked = enabled;
+        cursorInputForLook = enabled;
+        ApplyCursorState();
+        Cursor.visible = !enabled;
+
+        if (!enabled)
+        {
+            move = Vector2.zero;
+            look = Vector2.zero;
+            jump = false;
+        }
     }
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        SetCursorState(cursorLocked);
+        ApplyCursorState();
     }
 
-    private void SetCursorState(bool newState)
+    private void ApplyCursorState()
     {
-        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }

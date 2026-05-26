@@ -25,10 +25,6 @@ public sealed class RewardSystem
         this.itemTable = itemTable;
     }
     
-
-
-    
-
     public List<RewardOption> GenerateLevelUp(PlayerRuntime player, int count) //레벨업시 3개 선택지 무기, 패시브 중에 랜덤하나
     {
         List<RewardOption> candidates = new();
@@ -63,7 +59,7 @@ public sealed class RewardSystem
             candidates.Add(RewardOption.HealReward(Mathf.Max(1f, player.Health.MaxHp * 0.25f)));
         }
 
-        return PickRandomByItemRarity(candidates, Mathf.Max(0, count));
+        return PickRandomByItemRarity(candidates, Mathf.Max(0, count), player.Stats.GetValue(EStatType.Luck));
     }
 
 
@@ -234,14 +230,14 @@ public sealed class RewardSystem
         return DefaultRewardWeight;
     }
 
-    private static List<RewardOption> PickRandomByItemRarity(List<RewardOption> candidates, int count)
+    private static List<RewardOption> PickRandomByItemRarity(List<RewardOption> candidates, int count, float luck)
     {
         List<RewardOption> pool = new(candidates);
         List<RewardOption> selected = new();
 
         while (selected.Count < count && pool.Count > 0)
         {
-            int index = PickWeightedItemIndex(pool);
+            int index = PickWeightedItemIndex(pool, luck);
 
             if (index < 0)
             {
@@ -255,7 +251,7 @@ public sealed class RewardSystem
         return selected;
     }
 
-    private static int PickWeightedItemIndex(List<RewardOption> pool)
+    private static int PickWeightedItemIndex(List<RewardOption> pool, float luck)
     {
         float totalWeight = 0f;
 
@@ -263,7 +259,7 @@ public sealed class RewardSystem
         {
             if (pair.Value > 0f && HasItemRarity(pool, pair.Key))
             {
-                totalWeight += pair.Value;
+                totalWeight += GetAdjustedChestRarityWeight(pair.Key, luck);
             }
         }
 
@@ -278,7 +274,7 @@ public sealed class RewardSystem
             if (pair.Value <= 0f || !HasItemRarity(pool, pair.Key))
                 continue;
 
-            currentWeight += pair.Value;
+            currentWeight += GetAdjustedChestRarityWeight(pair.Key, luck);
 
             if (randomValue <= currentWeight)
             {
@@ -287,6 +283,36 @@ public sealed class RewardSystem
         }
 
         return -1;
+    }
+
+    private static float GetAdjustedChestRarityWeight(EItemRarity rarity, float luck)
+    {
+        if (!ChestRarityWeights.TryGetValue(rarity, out float baseWeight) || baseWeight <= 0f)
+            return 0f;
+
+        if (luck == 0f)
+            return baseWeight;
+
+        int rarityTier = GetRarityTier(rarity);
+        float luckShift = luck * 0.02f;
+
+        // Rare를 기준으로 저등급은 가중치 ↓, 고등급은 ↑
+        float multiplier = Mathf.Max(0.01f, 1f + luckShift * (rarityTier - GetRarityTier(EItemRarity.Rare)));
+        return baseWeight * multiplier;
+    }
+
+    private static int GetRarityTier(EItemRarity rarity)
+    {
+        return rarity switch
+        {
+            EItemRarity.Common => 0,
+            EItemRarity.Uncommon => 1,
+            EItemRarity.Rare => 2,
+            EItemRarity.Epic => 3,
+            EItemRarity.Legendary => 4,
+            EItemRarity.Mythic => 5,
+            _ => 0,
+        };
     }
 
     private static bool HasItemRarity(List<RewardOption> pool, EItemRarity rarity)
