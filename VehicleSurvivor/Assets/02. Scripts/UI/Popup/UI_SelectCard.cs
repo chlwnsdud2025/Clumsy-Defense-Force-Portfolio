@@ -162,6 +162,7 @@ public class UI_SelectCard : UIPopup
             return;
 
         hasConfirmed = true;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Select);
         SetSelectedIndex(index);
         ApplyRewardAtIndex(index);
     }
@@ -212,6 +213,7 @@ public class UI_SelectCard : UIPopup
             return;
 
         hasConfirmed = true;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Select);
         ApplyRewardAtIndex(selectedIndex);
     }
 
@@ -227,6 +229,7 @@ public class UI_SelectCard : UIPopup
         RewardOption selectedReward = selectedFrame.Reward;
         Debug.Log($"[UI_SelectCard] 보상 선택: index={index}, 이름={selectedReward.DisplayName}");
 
+        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Apply);
         onRewardSelected?.Invoke(selectedReward);
     }
 

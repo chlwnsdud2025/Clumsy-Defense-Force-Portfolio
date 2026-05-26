@@ -22,6 +22,7 @@ public class JumpPad : MonoBehaviour
                 // 첫 번째 true: Y축 낙하 속도 0으로 초기화 (무조건 동일한 높이로 점프)
                 // 두 번째 true: XZ축 달리기 속도 0으로 초기화 (달려오던 관성을 무시하고 점프대 방향으로만 날아감)
                 receiver.ApplyTargetHeightJump(targetHeight, horizontalForce, launchDirection.normalized, true, true);
+                SoundPlayback.PlaySfx(ESoundId.SFX_Env_JumpPad);
 
                 Debug.Log($"점프대 작동! 궤적 완전 고정. 방향: {launchDirection}, 밀어내는 힘: {horizontalForce}");
             }

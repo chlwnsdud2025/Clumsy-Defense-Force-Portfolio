@@ -84,6 +84,7 @@ public class WeaponBase : MonoBehaviour
             return;
 
         Attack(data);
+        SoundPlayback.PlaySfx(ESoundId.SFX_Weapon_Fire);
         RuntimeData.ResetCooldown(GetFinalCooldown(data.Cooldown));
     }
 

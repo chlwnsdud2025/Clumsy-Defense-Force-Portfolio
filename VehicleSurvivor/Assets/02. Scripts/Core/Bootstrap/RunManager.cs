@@ -49,6 +49,13 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         ActivateRunSession();
         PublishInitialHudEvents();
+
+        if (SoundManager.TryGetInstance(out SoundManager soundManager) &&
+            soundManager.TryGetComponent(out SoundBgmController bgmController))
+        {
+            bgmController.ResetRunState();
+            bgmController.PlayInGameBgm();
+        }
     }
 
     public void EndRun()
@@ -280,6 +287,9 @@ public class RunManager : MonoSceneSingleton<RunManager>
     {
         PublishLevelChanged(newLevel);
 
+        if (levelsGained > 0)
+            SoundPlayback.PlaySfx(ESoundId.SFX_LevelUp);
+
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.OnLevelChanged(_runSession, levelsGained);
     }
@@ -289,12 +299,14 @@ public class RunManager : MonoSceneSingleton<RunManager>
         if (_runSession == null)
             return;
 
+        SoundPlayback.PlaySfx(ESoundId.SFX_Player_Death);
         _runSession.GameOver();
     }
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
     {
-        if (nextState == ERunState.RewardSelection)
+        if (nextState == ERunState.RewardSelection ||
+            nextState == ERunState.Paused)
             Time.timeScale = 0f;
         else if (nextState == ERunState.Playing ||
                  nextState == ERunState.Ended ||
