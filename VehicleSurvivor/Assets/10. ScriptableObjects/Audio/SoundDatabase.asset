@@ -49,21 +49,24 @@ MonoBehaviour:
     cooldownSeconds: 0
     priority: 1
   - id: 6
-    variations: []
+    variations:
+    - {fileID: 8300000, guid: e65bc88646e25d6448d901f667058de7, type: 3}
     volume: 1
     pitchMin: 0.95
     pitchMax: 1.05
     cooldownSeconds: 0
     priority: 1
   - id: 7
-    variations: []
+    variations:
+    - {fileID: 8300000, guid: e65bc88646e25d6448d901f667058de7, type: 3}
     volume: 1
     pitchMin: 0.95
     pitchMax: 1.05
     cooldownSeconds: 0
     priority: 1
   - id: 8
-    variations: []
+    variations:
+    - {fileID: 8300000, guid: e65bc88646e25d6448d901f667058de7, type: 3}
     volume: 1
     pitchMin: 0.95
     pitchMax: 1.05
@@ -133,7 +136,8 @@ MonoBehaviour:
     cooldownSeconds: 0
     priority: 1
   - id: 18
-    variations: []
+    variations:
+    - {fileID: 8300000, guid: 304c80f6ecbca6740aa0ce4775ff5a6a, type: 3}
     volume: 1
     pitchMin: 0.95
     pitchMax: 1.05
@@ -204,7 +208,7 @@ MonoBehaviour:
     priority: 1
   bgmEntries:
   - id: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: afc14147eda25ab4c9e7494317ea2b6a, type: 3}
     volume: 1
   - id: 2
     clip: {fileID: 0}
