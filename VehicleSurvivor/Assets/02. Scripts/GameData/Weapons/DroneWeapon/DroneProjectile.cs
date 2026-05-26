@@ -1,19 +1,19 @@
 using UnityEngine;
 
-public class DroneProjectile
-    : MonoBehaviour
+public class DroneProjectile : MonoBehaviour
 {
     [Header("Homing")]
     public float rotateSpeed = 8f;
 
     private LayerMask targetLayer;
-
     private DamageInfo damageInfo;
     private float speed;
     private float maxDistance;
 
     private Vector3 moveDirection;
-    private Vector3 spawnPosition;
+
+    // [수정] 스폰 위치 대신 '누적 이동 거리'를 추적합니다.
+    private float traveledDistance;
 
     private Transform target;
     private float detectRadius;
@@ -28,83 +28,66 @@ public class DroneProjectile
         float newDetectRadius
     )
     {
-        targetLayer =
-            newTargetLayer;
-
+        targetLayer = newTargetLayer;
         damageInfo = newDamageInfo;
+        speed = newSpeed;
+        maxDistance = newMaxDistance;
+        moveDirection = newMoveDirection.normalized;
 
-        speed =
-            newSpeed;
+        traveledDistance = 0f; // 초기화
 
-        maxDistance =
-            newMaxDistance;
-
-        moveDirection =
-            newMoveDirection.normalized;
-
-        spawnPosition =
-            transform.position;
-
-        target =
-            newTarget;
-
-        detectRadius =
-            newDetectRadius;
+        target = newTarget;
+        detectRadius = newDetectRadius;
     }
 
     private void Update()
     {
+        // [수정] 타겟이 비활성화(풀링/사망처리) 되었으면 타겟을 초기화합니다.
+        if (target != null && !target.gameObject.activeInHierarchy)
+        {
+            target = null;
+        }
+
         if (target == null)
         {
-            target =
-                FindClosestTarget();
+            target = FindClosestTarget();
         }
 
         if (target != null)
         {
-            Vector3 targetPos =
-                target.position;
-
+            Vector3 targetPos = target.position;
             targetPos.y += 0.8f;
 
-            Vector3 targetDirection =
-                targetPos -
-                transform.position;
+            Vector3 targetDirection = targetPos - transform.position;
 
-            if (
-                targetDirection !=
-                Vector3.zero
-            )
+            // [수정] 타겟 중심 반경 0.5 이내로 진입했는데 충돌 처리가 안 났다면 (적이 이미 죽었거나 콜라이더가 없음) 강제 파괴합니다.
+            if (targetDirection.sqrMagnitude < 0.25f)
             {
-                Quaternion targetRotation =
-                    Quaternion.LookRotation(
-                        targetDirection.normalized
-                    );
+                Destroy(gameObject);
+                return;
+            }
 
-                transform.rotation =
-                    Quaternion.Slerp(
-                        transform.rotation,
-                        targetRotation,
-                        rotateSpeed *
-                        Time.deltaTime
-                    );
+            if (targetDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection.normalized);
 
-                moveDirection =
-                    transform.forward;
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    rotateSpeed * Time.deltaTime
+                );
+
+                moveDirection = transform.forward;
             }
         }
 
-        transform.position +=
-            moveDirection *
-            speed *
-            Time.deltaTime;
+        // 이동 처리
+        float moveStep = speed * Time.deltaTime;
+        transform.position += moveDirection * moveStep;
 
-        if (
-            Vector3.Distance(
-                spawnPosition,
-                transform.position
-            ) >= maxDistance
-        )
+        // [수정] 직선거리가 아닌 '실제로 비행한 누적 거리'를 체크하여 확실하게 파괴되도록 합니다.
+        traveledDistance += moveStep;
+        if (traveledDistance >= maxDistance)
         {
             Destroy(gameObject);
         }
@@ -112,70 +95,68 @@ public class DroneProjectile
 
     private Transform FindClosestTarget()
     {
-        Collider[] hits =
-            Physics.OverlapSphere(
-                transform.position,
-                detectRadius,
-                targetLayer
-            );
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position,
+            detectRadius,
+            targetLayer
+        );
 
-        Transform closest =
-            null;
+        Transform closest = null;
+        float closestDistance = Mathf.Infinity;
 
-        float closestDistance =
-            Mathf.Infinity;
-
-        foreach (
-            Collider hit
-            in hits
-        )
+        foreach (Collider hit in hits)
         {
-            float distance =
-                (
-                    hit.transform.position -
-                    transform.position
-                ).sqrMagnitude;
+            // [수정] 재탐색 시 플레이어 본인은 타겟팅하지 않음
+            if (IsPlayerLayer(hit))
+                continue;
 
-            if (
-                distance <
-                closestDistance
-            )
+            // [수정] IDamageable이 있는지(유효한 적인지) 확인
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+            if (damageable == null)
+                continue;
+
+            float distance = (hit.transform.position - transform.position).sqrMagnitude;
+
+            if (distance < closestDistance)
             {
-                closestDistance =
-                    distance;
-
-                closest =
-                    hit.transform;
+                closestDistance = distance;
+                closest = hit.transform;
             }
         }
 
         return closest;
     }
 
-    private void OnTriggerEnter(
-    Collider other
-)
+    private void OnTriggerEnter(Collider other)
     {
-        Transform root =
-            other.transform.root;
-
-        if (root.gameObject.layer ==
-            LayerMask.NameToLayer("Player"))
+        if (IsPlayerLayer(other))
         {
             return;
         }
 
-        IDamageable damageable =
-            other.GetComponentInParent<IDamageable>();
+        IDamageable damageable = other.GetComponentInParent<IDamageable>();
 
         if (damageable == null)
             return;
 
-        damageable.TakeDamage(
-            damageInfo
-        );
+        damageable.TakeDamage(damageInfo);
         Debug.Log($"드론 데미지 들어감: {damageInfo.Amount}");
 
         Destroy(gameObject);
+    }
+
+    // [추가] 통합된 플레이어 판별 로직
+    private bool IsPlayerLayer(Collider other)
+    {
+        int playerLayer = LayerMask.NameToLayer("Player");
+
+        if (playerLayer == -1)
+            return false;
+
+        if (other.gameObject.layer == playerLayer)
+            return true;
+
+        Transform root = other.transform.root;
+        return root.gameObject.layer == playerLayer;
     }
 }

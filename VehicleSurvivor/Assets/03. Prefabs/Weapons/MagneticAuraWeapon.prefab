@@ -72,4 +72,4 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon
   weaponName: Weapon
-  auraEffectPrefab: {fileID: 5766691976136461342, guid: 43d1d06cf70fcb2488255051aaae40a5, type: 3}
+  auraEffectPrefab: {fileID: 3879890615736701425, guid: d6e1ae9b9b630554eba9f865a531ee5e, type: 3}

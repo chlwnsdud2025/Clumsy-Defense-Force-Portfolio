@@ -89,7 +89,7 @@ PrefabInstance:
     - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: auraEffectPrefab
       value: 
-      objectReference: {fileID: 5766691976136461342, guid: 43d1d06cf70fcb2488255051aaae40a5, type: 3}
+      objectReference: {fileID: 3879890615736701425, guid: d6e1ae9b9b630554eba9f865a531ee5e, type: 3}
     - target: {fileID: -6524408752427016921, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: editorTestLevelData.size
       value: 3
@@ -3119,6 +3119,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5949708466658436146}
     m_Modifications:
+    - target: {fileID: 2287465809821637663, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
+      propertyPath: spacing
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2287465809821637663, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
+      propertyPath: hoverHeight
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 2287465809821637663, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
       propertyPath: baseOffset.y
       value: 2.5

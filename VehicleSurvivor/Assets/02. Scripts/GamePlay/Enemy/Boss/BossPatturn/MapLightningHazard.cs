@@ -118,7 +118,7 @@ public class MapLightningHazard : MonoBehaviour
             IDamageable damageable = hitCol.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(damage);
+                //damageable.TakeDamage(damage);
             }
         }
     }
