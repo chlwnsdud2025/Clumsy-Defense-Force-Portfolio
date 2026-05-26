@@ -2449,10 +2449,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
-  modelRenderers: []
+  modelRenderers:
+  - {fileID: 1734572081993647880}
   flashDuration: 0.2
   flashCooldown: 0.1
-  colorPropertyName: _Color
+  colorPropertyName: _BaseColor
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashIntensity: 5
   flashAlpha: 0.7
