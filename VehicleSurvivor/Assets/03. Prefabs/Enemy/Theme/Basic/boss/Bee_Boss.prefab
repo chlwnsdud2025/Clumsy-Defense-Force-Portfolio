@@ -74,8 +74,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   laserDamage: 40
-  laserLength: 90
-  laserChargeTime: 1
+  laserLength: 300
+  laserChargeTime: 2
   firePoint: {fileID: 6352528037479208903}
   laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
   startRadius: 2

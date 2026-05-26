@@ -41,14 +41,18 @@ public class DamageText : MonoBehaviour
         float randomZ = Random.Range(-targetOffsetRange, targetOffsetRange);
         Vector3 targetPosition = initialPosition + new Vector3(randomX, moveDistance, randomZ);
 
-        Renderer renderer = textMesh.GetComponent<Renderer>();
-        if (renderer != null)
+        Renderer textRenderer = textMesh.GetComponent<Renderer>();
+        if (textRenderer != null)
         {
-            // 렌더링 큐를 Transparent(3000)보다 높은 값으로 설정하여 항상 나중에 그리게 함
-            renderer.material.renderQueue = 4000;
+            // 1. 머티리얼 인스턴스를 확실하게 복제해서 수정 (중요)
+            Material mat = textRenderer.material;
 
-            // Z-Test를 아예 끔 (깊이 체크 무시)
-            renderer.material.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
+            // 2. 렌더링 순서 강제 (몹이 불투명이라면 3000대일 것이므로 4000은 무조건 그 위입니다)
+            mat.renderQueue = 4000;
+
+            // 3. Z-Test를 완전히 끔 (이게 가장 핵심입니다)
+            // 셰이더가 Mobile/Distance Field라도 이 명령은 강제로 먹힙니다.
+            mat.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always);
         }
 
         // 4. DoTween 시퀀스 생성 (이전과 동일)
