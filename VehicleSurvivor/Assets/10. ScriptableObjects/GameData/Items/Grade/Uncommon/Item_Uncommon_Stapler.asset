@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Item_Uncommon_Stapler
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_uncommon_stapler
-  itemName: "꾹꾹 스테이플러"
-  description: "치명타율만큼 치명타 피해량이 증가합니다."
+  itemName: "袁밴씁 ?ㅽ뀒?댄뵆??
+  description: "移섎챸??⑤쭔??移섎챸? ?쇳빐?됱씠 利앷??⑸땲??"
   itemCategory: 0
   rarity: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e9da8d193b8709548b0a03f51410564d, type: 3}
   isOneTimeUse: 0
   statModifiers:
   - statType: 401
     value: 0.1
     isPercent: 1
+

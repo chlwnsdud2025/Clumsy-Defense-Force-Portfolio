@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Item_Epic_Diploma
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_epic_diploma
-  itemName: "졸업장"
-  description: "진화 무기 피해량이 증가합니다."
+  itemName: "議몄뾽??
+  description: "吏꾪솕 臾닿린 ?쇳빐?됱씠 利앷??⑸땲??"
   itemCategory: 0
   rarity: 4
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 60ffd6ee9dbaef245bf103283cea26ef, type: 3}
   isOneTimeUse: 0
   statModifiers:
   - statType: 302
     value: 0.15
     isPercent: 1
+
