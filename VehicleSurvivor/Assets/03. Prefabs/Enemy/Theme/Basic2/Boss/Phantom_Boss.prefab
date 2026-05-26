@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8486833167814479376}
   - component: {fileID: 2635940212946764432}
   - component: {fileID: 2781719643303844042}
+  - component: {fileID: -1816189496532326200}
   m_Layer: 11
   m_Name: Phantom_Boss
   m_TagString: Enemy
@@ -131,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Phantom_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 8566155135462255924}
-  maxHealth: 10
+  maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3
   expReward: 10
@@ -146,7 +147,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
-  hitFlash: {fileID: 0}
+  hitFlash: {fileID: -1816189496532326200}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -163,6 +164,25 @@ MonoBehaviour:
   kamikazeCount: 5
   arcRadius: 8
   arcHeightOffset: 6
+--- !u!114 &-1816189496532326200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4677578714304132432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &5887565856054724736
 GameObject:
   m_ObjectHideFlags: 0

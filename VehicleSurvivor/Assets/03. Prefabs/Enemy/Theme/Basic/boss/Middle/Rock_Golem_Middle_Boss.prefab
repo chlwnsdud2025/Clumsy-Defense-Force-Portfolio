@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1493282822270531262}
+  - {fileID: 4500637288152994137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4785367763826190215
@@ -70,9 +71,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rock_Golem_Middle_Boss
   playerTarget: {fileID: 0}
+  damageTextSpawnpoint: {fileID: 4500637288152994137}
   maxHealth: 10
   moveSpeed: 3
   rotationSpeed: 3
+  expReward: 10
+  moneyReward: 10
   contactDamage: 30
   groundLayer:
     serializedVersion: 2
@@ -83,6 +87,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
+  hitFlash: {fileID: 3399125898996550414}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -93,6 +98,57 @@ MonoBehaviour:
   trackingCount: 3
   trackingInterval: 1
   explosionEffectPrefab: {fileID: 5550403049875251295, guid: a1ec5084af0426e4b8c0e48774636073, type: 3}
+--- !u!114 &3399125898996550414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717250689072296721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 8697754700194449235}
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
+--- !u!1 &4526393206148004776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4500637288152994137}
+  m_Layer: 0
+  m_Name: DamageText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4500637288152994137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526393206148004776}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.64257, y: 5.33, z: -9.23597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1343500330905437072}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &615395810364116145
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,20 +232,3 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8088169074377837538, guid: 812ddbf09810e754bbf24d7bbd9f760b, type: 3}
   m_PrefabInstance: {fileID: 615395810364116145}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3399125898996550414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2717250689072296721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
-  modelRenderers:
-  - {fileID: 8697754700194449235}
-  flashDuration: 0.1
-  flashCooldown: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}

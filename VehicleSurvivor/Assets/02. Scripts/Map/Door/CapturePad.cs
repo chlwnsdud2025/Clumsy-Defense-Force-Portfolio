@@ -1,41 +1,42 @@
 using UnityEngine;
 using UnityEngine.Events;
-using TMPro; // TextMeshPro를 사용하기 위해 반드시 필요한 네임스페이스!
+using TMPro;
 
 public class CapturePad : MonoBehaviour
 {
     [Header("Capture Settings")]
-    public float requiredTime = 3.0f; // 점령에 필요한 시간
-    public bool resetOnLeave = false; // 나갔을 때 게이지 초기화 여부
+    public float requiredTime = 3.0f;
+    public bool resetOnLeave = false;
 
-    [Tooltip("쉐이더 색상 프로퍼티 이름 (URP 환경이면 _BaseColor, 일반 3D면 _Color)")]
-    public string colorPropertyName = "_BaseColor"; // [수정] URP 기본값으로 변경
+    public string colorPropertyName = "_BaseColor";
 
     [Header("UI Settings")]
-    [Tooltip("점령 진행도를 표시할 3D TextMeshPro 오브젝트를 연결하세요.")]
     public TextMeshPro progressText;
 
     [Header("Events (점령 완료 시 실행할 작업들)")]
-    [Tooltip("여기에 문 열기, 범퍼카 끄기, 점프대 켜기 등을 인스펙터에서 추가하세요.")]
     public UnityEvent onCaptureComplete;
 
     private float currentCaptureTime = 0f;
     private bool isCaptured = false;
     private Renderer padRenderer;
 
-    // [최적화용 변수]
     private MaterialPropertyBlock propBlock;
     private int colorPropertyID;
+
+    // 원래 텍스트 색상을 기억해둘 변수
+    private Color originalTextColor = Color.white;
 
     void Start()
     {
         padRenderer = GetComponent<Renderer>();
-
-        // [최적화 세팅]
         propBlock = new MaterialPropertyBlock();
         colorPropertyID = Shader.PropertyToID(colorPropertyName);
 
-        // 게임 시작 시 0%로 초기화
+        if (progressText != null)
+        {
+            originalTextColor = progressText.color;
+        }
+
         UpdateProgressText(0f);
     }
 
@@ -45,15 +46,25 @@ public class CapturePad : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            currentCaptureTime += Time.deltaTime;
+            // ==========================================
+            // 🔒 [핵심 방어] 보스가 살아있으면 점령 게이지 상승 차단!
+            // ==========================================
+            if (StageRunManager.Instance != null && StageRunManager.Instance.isBossActive)
+            {
+                if (progressText != null)
+                {
+                    progressText.text = "보스 처치 필요!";
+                    progressText.color = Color.red; // 시각적 경고
+                }
+                return; // 게이지가 오르지 않도록 즉시 종료
+            }
 
-            // 점령 진행도 (0.0 ~ 1.0)
+            // 보스가 죽었거나 없을 때 정상적으로 게이지가 오르는 로직
+            currentCaptureTime += Time.deltaTime;
             float progress = currentCaptureTime / requiredTime;
 
-            // [복구 완료!] 실시간으로 퍼센트 텍스트 업데이트
             UpdateProgressText(progress);
 
-            // [최적화 적용] 매테리얼 복제 없이 색상만 부드럽게 변경!
             Color currentColor = Color.Lerp(Color.gray, Color.green, progress);
             if (padRenderer != null)
             {
@@ -74,8 +85,6 @@ public class CapturePad : MonoBehaviour
                 }
 
                 UpdateProgressText(1f);
-
-                // 점령 완료 이벤트 실행!
                 onCaptureComplete?.Invoke();
             }
         }
@@ -87,6 +96,13 @@ public class CapturePad : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
+            // 보스 경고 텍스트가 떠있었다면, 발판에서 나갔을 때 원래 퍼센트 텍스트로 원상복구 해줍니다.
+            if (StageRunManager.Instance != null && StageRunManager.Instance.isBossActive)
+            {
+                if (progressText != null) progressText.color = originalTextColor;
+                UpdateProgressText(currentCaptureTime / requiredTime);
+            }
+
             if (resetOnLeave)
             {
                 currentCaptureTime = 0f;
@@ -97,29 +113,27 @@ public class CapturePad : MonoBehaviour
                     propBlock.SetColor(colorPropertyID, Color.white);
                     padRenderer.SetPropertyBlock(propBlock);
                 }
-
-                
+                UpdateProgressText(0f); // 리셋 시 텍스트도 0%로
             }
         }
     }
 
-    
     private void UpdateProgressText(float progress)
     {
         if (progressText != null)
         {
-            // progress(예: 0.453)를 100을 곱해 45.3으로 만들고, 소수점을 버려서 깔끔한 45 정수로 만듭니다.
             int percent = Mathf.Clamp(Mathf.FloorToInt(progress * 100f), 0, 100);
 
             if (isCaptured)
             {
-                // 점령이 끝났을 때는 100% 대신 "MAX"나 "완료!" 같은 텍스트를 띄우고 싶다면 여기를 수정하세요.
                 progressText.text = "100%";
-                progressText.color = Color.green; // 텍스트 색상도 초록색으로 짠! 하고 바꿔줍니다.
+                progressText.color = Color.green;
             }
             else
             {
                 progressText.text = $"{percent}%";
+                // 정상 진행 중일 때는 기존 색상 유지
+                if (progressText.color == Color.red) progressText.color = originalTextColor;
             }
         }
     }

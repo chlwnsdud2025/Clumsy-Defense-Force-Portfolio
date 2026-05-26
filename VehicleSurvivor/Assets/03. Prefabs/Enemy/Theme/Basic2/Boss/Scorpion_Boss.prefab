@@ -937,6 +937,7 @@ GameObject:
   - component: {fileID: 7810938959094612569}
   - component: {fileID: 5750236462390360565}
   - component: {fileID: 7842226478693718201}
+  - component: {fileID: -738368001356365636}
   m_Layer: 11
   m_Name: Scorpion_Boss
   m_TagString: Enemy
@@ -975,7 +976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scorpion_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 2841512129314865220}
-  maxHealth: 1000
+  maxHealth: 30
   moveSpeed: 5
   rotationSpeed: 3
   expReward: 500
@@ -990,13 +991,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
-  modelRenderers:
-  - {fileID: 566579080406886096}
-  flashDuration: 0.2
-  flashCooldown: 0.1
-  colorPropertyName: _Color
-  flashIntensity: 5
-  flashAlpha: 0.7
+  hitFlash: {fileID: -738368001356365636}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1069,6 +1064,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-738368001356365636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4415725177970483417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &4784138973641757316
 GameObject:
   m_ObjectHideFlags: 0

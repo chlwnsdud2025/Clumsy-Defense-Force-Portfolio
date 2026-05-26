@@ -195,5 +195,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f62de48b977314f82a1c975c92441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleBouncer
-  bounceForce: 20
-  bounceHeight: 5
+  bounceForce: 10
+  bounceHeight: 1
