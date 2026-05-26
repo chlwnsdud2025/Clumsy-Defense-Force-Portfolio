@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Rare_PencilCase
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_rare_full_pencil_case
-  itemName: "苑?李??꾪넻"
-  description: "蹂댁쑀 以묒씤 ?꾩씠???섏뿉 鍮꾨???怨듦꺽?μ씠 利앷??⑸땲??"
+  itemId: item_rare_pencil_case
+  itemName: "꽉 찬 필통"
+  description: "보유 중인 아이템 수에 비례해 공격력이 증가합니다."
   itemCategory: 0
   rarity: 3
   icon: {fileID: 21300000, guid: 599ece66ac3d5a74e86f440f971358a8, type: 3}

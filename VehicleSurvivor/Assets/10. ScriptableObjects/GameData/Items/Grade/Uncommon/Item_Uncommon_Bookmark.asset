@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Uncommon_Bookmark
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_uncommon_bookmark_spell
+  itemId: item_uncommon_favorite_spell
   itemName: "즐겨찾기 주문"
-  description: "특정 무기 피해량이 증가합니다."
+  description: "특정 마법 피해량이 증가합니다."
   itemCategory: 0
   rarity: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5dd766ce8e460254fb1cff3450bbf4d5, type: 3}
   isOneTimeUse: 0
   statModifiers:
   - statType: 300

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_MerryCritiboom
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_merry_critiboom
-  weaponName: "硫붾━ ?щ━?곕텗"
-  description: "?좊Ъ ??깂???붿슧 ????컻怨?移섎챸?곸씤 ?쇳빐瑜?以띾땲??"
+  weaponName: "메리 크리티붐"
+  description: "폭발 범위가 증가하고 깜짝 선물 지뢰를 생성합니다."
   icon: {fileID: 21300000, guid: f073a28643d7cdd4c86e0120840497d1, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

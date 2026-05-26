@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Item_Uncommon_Stapler
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_uncommon_stapler
-  itemName: "袁밴씁 ?ㅽ뀒?댄뵆??
-  description: "移섎챸??⑤쭔??移섎챸? ?쇳빐?됱씠 利앷??⑸땲??"
+  itemName: "꾹꾹 스테이플러"
+  description: "치명타율에 비례해 치명타 피해량이 증가합니다."
   itemCategory: 0
   rarity: 2
   icon: {fileID: 21300000, guid: e9da8d193b8709548b0a03f51410564d, type: 3}

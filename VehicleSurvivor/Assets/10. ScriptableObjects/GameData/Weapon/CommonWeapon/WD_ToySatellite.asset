@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_ToySatellite
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_toysatellite
+  weaponId: weapon_common_toy_satellite
   weaponName: "장난감 위성"
-  description: "무작위 적에게 위성포를 발사합니다."
+  description: "무작위 적에게 장난감 위성포를 발사합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 6
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "기본 위성포"
+    description: "피해량 증가"
     cooldown: 1.2
     damage: 11
     projectileSpeed: 9
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "범위 증가"
     cooldown: 1.15
     damage: 13
     projectileSpeed: 9.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "범위 증가"
+    description: "쿨타임 감소"
     cooldown: 1.1
     damage: 13
     projectileSpeed: 9.5

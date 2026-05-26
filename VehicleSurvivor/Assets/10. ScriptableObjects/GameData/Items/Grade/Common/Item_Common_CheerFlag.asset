@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Common_CheerFlag
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_common_cheer_flag
-  itemName: "?묒썝 源껊컻"
-  description: "怨듦꺽?μ씠 利앷??⑸땲??"
+  itemId: item_common_flag
+  itemName: "응원 깃발"
+  description: "공격력이 증가합니다."
   itemCategory: 0
   rarity: 1
   icon: {fileID: 21300000, guid: ec1c27a20cda7e043be269bb56344a1d, type: 3}

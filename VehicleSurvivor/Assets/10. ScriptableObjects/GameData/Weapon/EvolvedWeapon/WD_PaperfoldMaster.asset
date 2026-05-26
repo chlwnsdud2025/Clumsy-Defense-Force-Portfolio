@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_PaperfoldMaster
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_paperfold_master
-  weaponName: "醫낆씠?묎린 ?꾨Ц媛"
-  description: "醫낆씠鍮꾪뻾湲?諛쒖궗 ?섏? 鍮꾪뻾 嫄곕━媛 利앷??⑸땲??"
+  weaponName: "종이접기 전문가"
+  description: "발사 수가 증가하고 적을 관통합니다."
   icon: {fileID: 21300000, guid: 0631dd2889f5c754995588d2ba5a7107, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

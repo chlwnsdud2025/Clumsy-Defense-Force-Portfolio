@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_BearPaw
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_unique_bearpaw
+  weaponId: weapon_unique_bear_paw
   weaponName: "곰발바닥"
-  description: "발바닥 충격파를 발사해 범위 피해를 줍니다."
+  description: "가까운 적을 향해 발바닥 충격파를 발사합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "기본 충격파"
+    description: "Lv1: 기본 충격파"
     cooldown: 1.1
     damage: 11
     projectileSpeed: 8
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "Lv2: 피해량 증가"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 8.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "크기 증가"
+    description: "Lv3: 충격파 크기 증가"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 8.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "Lv4: 피해량 증가"
     cooldown: 1
     damage: 15
     projectileSpeed: 9
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "크기 증가"
+    description: "Lv5: 충격파 크기 증가"
     cooldown: 0.95
     damage: 18
     projectileSpeed: 9.5

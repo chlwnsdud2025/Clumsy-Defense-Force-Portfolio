@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Special_Wand
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_special_magician_wand
+  itemId: item_hand_magician_wand
   itemName: "마술사의 지팡이"
-  description: "일정 확률로 사용한 무기가 한 번 더 발동합니다."
+  description: "일정 확률로 사용한 스킬이 한 번 더 발동합니다."
   itemCategory: 1
   rarity: 0
   icon: {fileID: 0}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_common_yoyo
   weaponName: "요요"
-  description: "요요가 나갔다 돌아오며 관통 피해를 줍니다."
+  description: "가까운 적에게 요요를 던지고 되돌아오며 다시 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "기본 요요 공격"
+    description: "피해량 증가"
     cooldown: 1
     damage: 10
     projectileSpeed: 10
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "사거리 증가"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "사거리 증가"
+    description: "속도 증가"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Common_Shoes
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_common_sports_shoes
-  itemName: "?대룞???대룞??
-  description: "?대룞?띾룄媛 利앷??⑸땲??"
+  itemId: item_common_shoes
+  itemName: "운동회 운동화"
+  description: "이동속도가 증가합니다."
   itemCategory: 0
   rarity: 1
   icon: {fileID: 21300000, guid: a773c4bfe7065db4fb6f472a46034a1a, type: 3}
