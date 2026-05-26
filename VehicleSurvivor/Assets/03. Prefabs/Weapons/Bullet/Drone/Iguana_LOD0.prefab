@@ -71,14 +71,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100004, guid: 7295d4cbefe52a34dbda21bbe87af420, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6269004693707544612}
+      addedObject: {fileID: -4603151206332595888}
   m_SourcePrefab: {fileID: 100100000, guid: 7295d4cbefe52a34dbda21bbe87af420, type: 3}
 --- !u!1 &3295875434363318977 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100004, guid: 7295d4cbefe52a34dbda21bbe87af420, type: 3}
   m_PrefabInstance: {fileID: 3295875434363286629}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6269004693707544612
+--- !u!114 &-4603151206332595888
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,8 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3295875434363318977}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02b06ee9f02220438cc09c4b71604dd, type: 3}
+  m_Script: {fileID: 11500000, guid: e2392bd4bddd2ca4e8db613755bdb88c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DroneUnit
-  followSpeed: 8
-  spinSpeed: 360
+  m_EditorClassIdentifier: Assembly-CSharp::TestOrbitDroneUnit
+  selfSpinSpeed: 360
