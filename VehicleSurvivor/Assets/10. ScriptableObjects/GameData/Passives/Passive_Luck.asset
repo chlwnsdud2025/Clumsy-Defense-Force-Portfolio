@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Passive_Luck
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_luck
-  passiveName: "\uD589\uC6B4 \uC99D\uAC00"
-  description: "\uD589\uC6B4\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveName: "행운 증가"
+  description: "행운이 {0} 증가합니다."
   icon: {fileID: 21300000, guid: c0d7194c94966f9418168eeaf0435df6, type: 3}
   statType: 602
   maxLevel: 5

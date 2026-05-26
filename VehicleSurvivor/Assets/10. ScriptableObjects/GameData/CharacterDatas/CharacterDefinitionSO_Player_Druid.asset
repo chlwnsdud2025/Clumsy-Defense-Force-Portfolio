@@ -20,7 +20,7 @@ MonoBehaviour:
   _previewPrefab: {fileID: 4476796615752694500, guid: 204117511c32ee5488184b1fb7d13bc6, type: 3}
   _visualPrefab: {fileID: 4476796615752694500, guid: 0e725edc53ed4e5418e7fd566d245e88, type: 3}
   uniqueSkill: {fileID: 0}
-  defaultWeaponId: weapon_unique_forestfriend
+  defaultWeaponId: weapon_unique_forest_friend
   _combat:
     MaxHealth: 444
     Defense: 4
@@ -28,7 +28,7 @@ MonoBehaviour:
     DamageMultiplier: 4
     PickupRange: 4
   _loadout:
-    StartingWeaponId: weapon_unique_forestfriend
+    StartingWeaponId: weapon_unique_forest_friend
     UniqueTraitId: 
     TraitDescription: 
     PassiveIds: []

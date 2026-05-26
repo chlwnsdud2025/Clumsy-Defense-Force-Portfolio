@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_BlockTrap
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_BlockTrap
+  weaponId: weapon_common_block_trap
   weaponName: "블록 트랩"
-  description: "지나간 자리에 블록 함정을 생성합니다."
+  description: "지나간 자리에 블록 함정을 남기고, 밟은 적에게 주기적으로 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 2
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "기본 함정 생성"
+    description: "지속시간 증가"
     cooldown: 1.1
     damage: 10
     projectileSpeed: 0.1

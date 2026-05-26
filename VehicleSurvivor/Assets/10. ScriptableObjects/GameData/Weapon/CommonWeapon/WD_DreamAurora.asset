@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_DreamAurora
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_dreamaurora
-  weaponName: "轅덈튆 ?ㅻ줈??
-  description: "二쇰? ?ㅻ줈??踰붿쐞??吏???쇳빐瑜?以띾땲??"
+  weaponId: weapon_common_heart_aurora
+  weaponName: "하트 오로라"
+  description: "주변 오로라 범위 안 적에게 최대 체력 비례 지속 피해를 줍니다."
   icon: {fileID: 21300000, guid: d1f291f6de10b2e40a680f208b019d76, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 1
   tags:
-  - "?ㅻ씪"
-  - "?ν뙋"
-  - "泥대젰鍮꾨?"
+  - "오라"
+  - "장판"
+  - "체력비례"
   levelDataList:
   - bulletSpeed: 0.1
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "湲곕낯 ?ㅻ줈??
+    description: "범위 증가"
     cooldown: 1
     damage: 10
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "踰붿쐞 利앷?"
+    description: "범위 증가"
     cooldown: 1
     damage: 11
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 0.1
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "踰붿쐞 利앷?"
+    description: "범위 증가"
     cooldown: 0.9
     damage: 13
     projectileSpeed: 0.1
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 0.85
     damage: 15
     projectileSpeed: 0.1
@@ -104,5 +104,5 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 3.8
   evolutionWeaponId: weapon_evolved_sleeping_starlight
-  requiredPassiveId: passive_max_hp
+  requiredPassiveId: passive_max_health
 

@@ -19,7 +19,7 @@ MonoBehaviour:
   _portrait: {fileID: 0}
   _previewPrefab: {fileID: 8359014467199356602, guid: 8366810c412a05741953a2d4e36a7e2c, type: 3}
   _visualPrefab: {fileID: 8359014467199356602, guid: 92a64354c4eb7014698e1af593e7872e, type: 3}
-  defaultWeaponId: weapon_unique_fireline
+  defaultWeaponId: weapon_unique_fire_line
   _combat:
     MaxHealth: 100
     Defense: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     DamageMultiplier: 1
     PickupRange: 1
   _loadout:
-    StartingWeaponId: weapon_unique_fireline
+    StartingWeaponId: weapon_unique_fire_line
     UniqueTraitId: ''
     TraitDescription: ''
     PassiveIds: []

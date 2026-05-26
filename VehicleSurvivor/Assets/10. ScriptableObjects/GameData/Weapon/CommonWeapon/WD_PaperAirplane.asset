@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_PaperAirplane
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_paperairplane
-  weaponName: "醫낆씠鍮꾪뻾湲?
-  description: "醫낆씠鍮꾪뻾湲곌? 臾댁옉??諛⑺뼢?쇰줈 ?좎븘媛묐땲??"
+  weaponId: weapon_common_paper_airplane
+  weaponName: "종이비행기"
+  description: "주변에서 종이비행기가 무작위 방향으로 날아갑니다."
   icon: {fileID: 21300000, guid: 0631dd2889f5c754995588d2ba5a7107, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "?ъ궗泥?
-  - "?쒕뜡諛⑺뼢"
-  - "?ㅻ컻"
+  - "투사체"
+  - "랜덤방향"
+  - "다발"
   levelDataList:
   - bulletSpeed: 10
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "湲곕낯 諛쒖궗 1媛?
+    description: "발사 수 증가"
     cooldown: 1
     damage: 9
     projectileSpeed: 10
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 0.95
     damage: 11
     projectileSpeed: 10.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "諛쒖궗 ??+1"
+    description: "거리 증가"
     cooldown: 0.95
     damage: 11
     projectileSpeed: 10.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "嫄곕━ 利앷?"
+    description: "거리 증가"
     cooldown: 0.9
     damage: 13
     projectileSpeed: 11
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 0.85
     damage: 15
     projectileSpeed: 11.5

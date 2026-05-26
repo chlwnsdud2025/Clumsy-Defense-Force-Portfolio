@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_TurtleTornado
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_turtle_tornado
-  weaponName: "?고? ?좊꽕?대룄"
-  description: "???ㅽ???媛뺥솕?섏뼱 ?뚯쟾 ?섏? 踰붿쐞媛 而ㅼ쭛?덈떎."
+  weaponName: "터틀 토네이도"
+  description: "등껍질 수가 증가하고 회전 속도가 증가합니다."
   icon: {fileID: 21300000, guid: 6016cf2d247eb1d49a44a119715b0f24, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 6
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

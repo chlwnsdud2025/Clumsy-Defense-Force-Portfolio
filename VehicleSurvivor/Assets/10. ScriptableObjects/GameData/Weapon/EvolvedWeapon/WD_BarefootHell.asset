@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_barefoot_hell
   weaponName: "맨발의 지옥"
-  description: "블록 트랩이 더 오래 남고 더 큰 장판 피해를 줍니다."
+  description: "범위가 증가하고 적 이동속도를 감소시킵니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 2

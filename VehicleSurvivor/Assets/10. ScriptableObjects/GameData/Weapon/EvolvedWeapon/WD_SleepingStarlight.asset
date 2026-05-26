@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_SleepingStarlight
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_sleeping_starlight
-  weaponName: "?좎옄??蹂꾨튆"
-  description: "轅덈튆 ?ㅻ줈?쇱쓽 踰붿쐞? 泥대젰 鍮꾨? ?쇳빐媛 利앷??⑸땲??"
+  weaponName: "치명적인 귀여움"
+  description: "범위가 증가하고 적을 확률적으로 수면 또는 기절 상태로 만듭니다."
   icon: {fileID: 21300000, guid: d1f291f6de10b2e40a680f208b019d76, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

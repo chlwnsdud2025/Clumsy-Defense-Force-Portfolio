@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_TwinkleShot
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_twinkleshot
-  weaponName: "?몄쐷????
-  description: "?먮퓭 踰붿쐞濡?蹂꾨튆 ?ъ궗泥대? 諛쒖궗?⑸땲??"
+  weaponId: weapon_common_twinkle_shot
+  weaponName: "트윙클 샷"
+  description: "무작위 방향 원뿔 범위로 별빛 투사체를 발사합니다."
   icon: {fileID: 21300000, guid: 6fb46fc7ee6ae4741a4fb63709fdb74b, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "?고깂"
-  - "?먮퓭"
-  - "蹂꾨튆"
+  - "산탄"
+  - "원뿔"
+  - "별빛"
   levelDataList:
   - bulletSpeed: 10
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "湲곕낯 ?고깂 3諛?
+    description: "투사체 수 증가"
     cooldown: 1.1
     damage: 10
     projectileSpeed: 10
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 1.05
     damage: 12
     projectileSpeed: 10.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "?ъ궗泥?+1"
+    description: "각도 증가"
     cooldown: 1
     damage: 12
     projectileSpeed: 10.5
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 0.9
     damage: 16
     projectileSpeed: 11
@@ -104,5 +104,5 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 6
   evolutionWeaponId: weapon_evolved_twinkle_parade
-  requiredPassiveId: passive_critical_chance
+  requiredPassiveId: passive_crit_rate
 

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WD_ArcOverdrive
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_arc_overdrive
-  weaponName: "?꾪겕 ?ㅻ쾭?쒕씪?대툕"
-  description: "由ы럡??鍮붿씠 ??留롮? 以꾧린濡?媛뺥븯寃?諛⑹텧?⑸땲??"
+  weaponName: "아크 오버드라이브"
+  description: "빔이 지속적으로 발사되며 주변을 회전합니다."
   icon: {fileID: 21300000, guid: 3c265a758da0d8c499fb3f2ba3e8bc88, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 4
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "吏꾪솕 ?꾨즺"
+    description: "진화 완료"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

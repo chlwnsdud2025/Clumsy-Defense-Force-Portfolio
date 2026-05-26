@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_GummyBearDrop
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_gummybeardrop
-  weaponName: "?ㅻ━怨??쒕∼"
-  description: "臾댁옉?????꾩튂???ㅻ━怨곗씠 ?숉븯?⑸땲??"
+  weaponId: weapon_common_gummy_bear_drop
+  weaponName: "젤리곰 드롭"
+  description: "무작위 적 위치에 젤리곰을 떨어뜨려 범위 피해를 줍니다."
   icon: {fileID: 21300000, guid: 84880b7d082a21d4dacabc24b19ead0f, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "?숉븯"
-  - "踰붿쐞"
-  - "?쒕뜡?寃?
+  - "낙하"
+  - "범위"
+  - "랜덤타겟"
   levelDataList:
   - bulletSpeed: 8
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "湲곕낯 ?숉븯 怨듦꺽"
+    description: "피해량 증가"
     cooldown: 1.4
     damage: 12
     projectileSpeed: 8
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "범위 증가"
     cooldown: 1.3
     damage: 14
     projectileSpeed: 8.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "踰붿쐞 利앷?"
+    description: "쿨타임 감소"
     cooldown: 1.25
     damage: 14
     projectileSpeed: 8.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "荑⑦???媛먯냼"
+    description: "쿨타임 감소"
     cooldown: 1.15
     damage: 15
     projectileSpeed: 9
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 1.05
     damage: 18
     projectileSpeed: 9.5

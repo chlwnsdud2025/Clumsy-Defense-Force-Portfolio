@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Passive_Defense
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_defense
-  passiveName: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
-  description: "\uBC29\uC5B4\uB825\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveName: "방어력 증가"
+  description: "방어력이 {0} 증가합니다."
   icon: {fileID: 21300000, guid: 68181675a4d99794f9c407bfef83fe1a, type: 3}
   statType: 102
   maxLevel: 5

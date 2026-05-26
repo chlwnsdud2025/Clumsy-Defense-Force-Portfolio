@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_BouncyBall
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_bouncyball
-  weaponName: "?깊꺊蹂?
-  description: "踰쎌뿉 ?뺢린??怨듭쓣 諛쒖궗?⑸땲??"
+  weaponId: weapon_common_bouncy_ball
+  weaponName: "탱탱볼"
+  description: "벽에 한 번 튕기는 공 투사체를 발사합니다."
   icon: {fileID: 21300000, guid: d8a812a922f132a41b24bda988d97930, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "?ъ궗泥?
-  - "諛섏궗"
-  - "踰쏀뒘源"
+  - "투사체"
+  - "반사"
+  - "벽튕김"
   levelDataList:
   - bulletSpeed: 11
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "湲곕낯 諛섏궗 怨?
+    description: "피해량 증가"
     cooldown: 1
     damage: 10
     projectileSpeed: 11
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "속도 증가"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 11.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?띾룄 利앷?"
+    description: "크기 증가"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 12.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?ш린 利앷?"
+    description: "크기 증가"
     cooldown: 0.9
     damage: 14
     projectileSpeed: 12.5
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "?쇳빐??利앷?"
+    description: "피해량 증가"
     cooldown: 0.85
     damage: 16
     projectileSpeed: 13
@@ -104,5 +104,5 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 7
   evolutionWeaponId: weapon_evolved_super_bouncy_ball
-  requiredPassiveId: passive_critical_chance
+  requiredPassiveId: passive_crit_rate
 

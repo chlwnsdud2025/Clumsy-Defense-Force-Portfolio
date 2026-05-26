@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a945bb538c2ffd04d8d6cc2c5f0cfb55, type: 3}
   m_Name: Passive_MaxHp
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
-  passiveId: passive_max_hp
-  passiveName: "\uCCB4\uB825 \uC99D\uAC00"
-  description: "\uCD5C\uB300 \uCCB4\uB825\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  passiveId: passive_max_health
+  passiveName: "체력 증가"
+  description: "최대 체력이 {0} 증가합니다."
   icon: {fileID: 21300000, guid: a28a35a8027454e489feb8a8bd432f7d, type: 3}
   statType: 100
   maxLevel: 5

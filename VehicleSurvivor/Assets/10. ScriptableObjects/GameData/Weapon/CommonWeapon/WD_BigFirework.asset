@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
   m_Name: WD_BigFirework
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_bigfirework
+  weaponId: weapon_common_big_firework
   weaponName: "대왕 폭죽"
-  description: "모든 일반 적을 처치하고 정예에게 큰 피해를 줍니다."
+  description: "모든 일반 적을 처치하고 정예 적에게 큰 피해를 줍니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 6
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "기본 폭죽 발동"
+    description: "정예 피해 증가"
     cooldown: 10
     damage: 30
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "정예 피해 증가"
+    description: "쿨타임 감소"
     cooldown: 9.5
     damage: 35
     projectileSpeed: 0.1

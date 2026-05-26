@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Special_Hook
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_special_hook_captain_hook
+  itemId: item_hand_hook
   itemName: "후크선장의 갈고리"
-  description: "체력이 낮은 적에게 추가 피해를 주고 처치 시 추가 골드를 획득할 수 있습니다."
+  description: "체력이 낮은 적에게 주는 피해가 증가하고, 적 처치 시 일정 확률로 골드를 추가 획득합니다."
   itemCategory: 1
   rarity: 0
   icon: {fileID: 0}
