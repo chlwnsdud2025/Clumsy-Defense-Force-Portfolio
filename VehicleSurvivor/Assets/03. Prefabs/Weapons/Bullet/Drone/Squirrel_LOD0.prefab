@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalRotation.x
@@ -46,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalRotation.z
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 5c42ac4dc0e723c47821a363bcbf8812, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -90,4 +90,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02b06ee9f02220438cc09c4b71604dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneUnit
-  followSmoothTime: 0.15
+  followSpeed: 8
+  spinSpeed: 360

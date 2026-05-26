@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1414212942567932185}
   - component: {fileID: -6524408752427016921}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: MagneticAuraWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,6 +59,7 @@ MonoBehaviour:
     spreadAngle: 15
     radius: 5
     bounceCount: 3
+    pierceCount: 0
     chainCount: 3
     chainRadius: 5
     explosionRadius: 5
@@ -71,4 +72,4 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon
   weaponName: Weapon
-  auraEffectPrefab: {fileID: 6063518424537689786, guid: bad5794a53f5c3645bb444b3a040ba01, type: 3}
+  auraEffectPrefab: {fileID: 5766691976136461342, guid: 43d1d06cf70fcb2488255051aaae40a5, type: 3}

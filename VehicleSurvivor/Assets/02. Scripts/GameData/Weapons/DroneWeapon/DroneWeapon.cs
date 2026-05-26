@@ -76,12 +76,11 @@ public class DroneWeapon : WeaponBase
                 dronePrefabs[prefabIndex];
 
             GameObject droneObject =
-                Instantiate(
-                    selectedPrefab,
-                    transform.position,
-                    selectedPrefab.transform.rotation,
-                    transform
-                );
+    Instantiate(
+        selectedPrefab,
+        transform.position,
+        selectedPrefab.transform.rotation
+    );
 
             DroneUnit drone =
                 droneObject.GetComponent<DroneUnit>();

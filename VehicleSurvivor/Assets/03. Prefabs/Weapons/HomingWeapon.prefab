@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6139863130051164646}
   - component: {fileID: 7494191184241444851}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: HomingWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,17 +44,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2cf60b80121924a9c49261bed6d02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HomingWeapon
-  currentLevel: 0
-  homingProjectilePrefab: {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 1
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
+  homingProjectilePrefab: {fileID: 7080653377519914409, guid: f8d9e4f81a5bcd14184d7fb5c445ca0a, type: 3}
   shootParticlePrefab: {fileID: 0}
-  hitEffectPrefab: {fileID: 0}
   firePoint: {fileID: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  damage: 10
-  cooldown: 1
-  bulletSpeed: 15
-  detectRadius: 15
-  projectileCount: 1
-  spreadAngle: 15
+  projectileRotationOffset: {x: 0, y: 0, z: 0}

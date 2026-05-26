@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1987249795394448581}
   - component: {fileID: 4695254130173025438}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: OrbitWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,5 +72,5 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon
   weaponName: Weapon
-  orbitObjectPrefab: {fileID: 0}
+  orbitObjectPrefab: {fileID: 5565921339195667882, guid: 72c5b6ab6714d9745af88661d22ddb7c, type: 3}
   orbitRotationOffset: {x: 0, y: 0, z: 0}
