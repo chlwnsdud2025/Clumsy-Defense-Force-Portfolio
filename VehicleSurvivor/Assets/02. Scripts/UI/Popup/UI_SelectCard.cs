@@ -1,119 +1,249 @@
+using Cysharp.Threading.Tasks;
 using System;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UI_SelectCard : UIPopup
 {
-    [SerializeField] private Button button;
-    [SerializeField] private Image iconImage;
-    [SerializeField] private TMP_Text titleText;
-    [SerializeField] private TMP_Text descriptionText;
+    [Header("보상 선택 카드")]
+    [Tooltip("비워 두면 자식 SelectCardFrame을 자동으로 찾습니다.")]
+    [SerializeField] private List<SelectCardFrame> frames = new();
 
-    private RewardOption reward;
-    private Action<RewardOption> onSelected;
+    [Header("등급 비주얼")]
+    [Tooltip("카드 등급 라벨과 Front Bg 색상")]
+    [SerializeField] private ItemRarityVisualsSO rarityVisuals;
 
-    private void Awake()
+    private readonly List<RewardOption> rewards = new();
+    private Action<RewardOption> onRewardSelected;
+
+    private int selectedIndex = -1;
+    private bool hasConfirmed;
+
+    protected override bool CanCloseOnBackdropClick => false;
+
+    public override async UniTask InitializeAsync()
     {
-        ResolveReferences();
-        RegisterButton();
+        if (frames.Count == 0)
+        {
+            SelectCardFrame[] discoveredFrames = GetComponentsInChildren<SelectCardFrame>(true);
+            frames.AddRange(discoveredFrames);
+        }
+
+        RegisterFrameEvents();
+        await UniTask.Yield();
+    }
+
+    public override void OnShow()
+    {
+        base.OnShow();
+        ClearSelection();
+        SetSelectedIndex(FindFirstNavigableIndex());
+    }
+
+    public override void OnHide()
+    {
+        ClearSelection();
+        base.OnHide();
+    }
+
+    public void ShowRewards(List<RewardOption> rewardOptions, Action<RewardOption> onSelected)
+    {
+        BindRewards(rewardOptions, onSelected);
+    }
+
+    private void BindRewards(List<RewardOption> rewardOptions, Action<RewardOption> onSelected)
+    {
+        rewards.Clear();
+        if (rewardOptions != null)
+            rewards.AddRange(rewardOptions);
+
+        onRewardSelected = onSelected;
+
+        for (int i = 0; i < frames.Count; i++)
+        {
+            if (frames[i] == null)
+                continue;
+
+            if (i < rewards.Count)
+                frames[i].Bind(rewards[i], rarityVisuals);
+            else
+                frames[i].Clear();
+        }
+
+        ClearSelection();
+        SetSelectedIndex(FindFirstNavigableIndex());
     }
 
     private void OnDestroy()
     {
-        if (button != null)
-            button.onClick.RemoveListener(HandleClicked);
+        UnregisterFrameEvents();
     }
 
-    public void Configure(RewardOption reward, Action<RewardOption> onSelected)
+    private void Update()
     {
-        ResolveReferences();
-        RegisterButton();
-
-        this.reward = reward;
-        this.onSelected = onSelected;
-
-        bool hasReward = reward != null;
-        gameObject.SetActive(hasReward);
-
-        if (!hasReward)
+        if (!gameObject.activeInHierarchy || hasConfirmed)
             return;
 
-        if (titleText != null)
-            titleText.text = reward.DisplayName;
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            MoveSelection(-1);
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            MoveSelection(1);
+        else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            ConfirmSelection();
+    }
 
-        if (descriptionText != null)
-            descriptionText.text = reward.Description;
-
-        if (iconImage != null)
+    private void RegisterFrameEvents()
+    {
+        for (int i = 0; i < frames.Count; i++)
         {
-            iconImage.sprite = reward.Icon;
-            iconImage.enabled = reward.Icon != null;
+            if (frames[i] == null)
+                continue;
+
+            frames[i].Hovered -= HandleFrameHovered;
+            frames[i].Hovered += HandleFrameHovered;
+            frames[i].Clicked -= HandleFrameClicked;
+            frames[i].Clicked += HandleFrameClicked;
         }
     }
 
-    public void Clear()
+    private void UnregisterFrameEvents()
     {
-        Configure(null, null);
-    }
-
-    private void ResolveReferences()
-    {
-        if (button == null)
-            button = GetComponent<Button>();
-
-        Image surface = GetComponent<Image>();
-        if (surface == null)
+        for (int i = 0; i < frames.Count; i++)
         {
-            surface = gameObject.AddComponent<Image>();
-            surface.color = new Color(1f, 1f, 1f, 0f);
+            if (frames[i] == null)
+                continue;
+
+            frames[i].Hovered -= HandleFrameHovered;
+            frames[i].Clicked -= HandleFrameClicked;
         }
-
-        surface.raycastTarget = true;
-
-        if (button == null)
-            button = gameObject.AddComponent<Button>();
-
-        if (button.targetGraphic == null)
-            button.targetGraphic = surface;
-
-        if (iconImage == null)
-            iconImage = FindChildComponentByName<Image>("Icon") ?? FindChildComponentByName<Image>("ItemIcon");
-
-        TMP_Text[] texts = GetComponentsInChildren<TMP_Text>(true);
-        if (titleText == null && texts.Length > 0)
-            titleText = texts[0];
-
-        if (descriptionText == null && texts.Length > 1)
-            descriptionText = texts[1];
     }
 
-    private void RegisterButton()
+    private void HandleFrameHovered(SelectCardFrame frame)
     {
-        if (button == null)
+        if (hasConfirmed)
             return;
 
-        button.onClick.RemoveListener(HandleClicked);
-        button.onClick.AddListener(HandleClicked);
-    }
-
-    private T FindChildComponentByName<T>(string childName) where T : Component
-    {
-        Transform[] children = GetComponentsInChildren<Transform>(true);
-        foreach (Transform child in children)
-        {
-            if (child.name == childName && child.TryGetComponent(out T component))
-                return component;
-        }
-
-        return null;
-    }
-
-    private void HandleClicked()
-    {
-        if (reward == null)
+        int index = frames.IndexOf(frame);
+        if (index < 0)
             return;
 
-        onSelected?.Invoke(reward);
+        SetSelectedIndex(index);
+    }
+
+    private void HandleFrameClicked(SelectCardFrame frame)
+    {
+        if (hasConfirmed)
+            return;
+
+        int index = frames.IndexOf(frame);
+        if (index < 0 || !frames[index].HasData)
+            return;
+
+        hasConfirmed = true;
+        SetSelectedIndex(index);
+        ApplyRewardAtIndex(index);
+    }
+
+    private void MoveSelection(int direction)
+    {
+        if (frames.Count == 0)
+            return;
+
+        int startIndex = selectedIndex >= 0 ? selectedIndex : 0;
+        int index = startIndex;
+
+        for (int step = 0; step < frames.Count; step++)
+        {
+            index = WrapIndex(index + direction, frames.Count);
+            if (IsFrameNavigable(frames[index]))
+            {
+                SetSelectedIndex(index);
+                return;
+            }
+        }
+    }
+
+    private void SetSelectedIndex(int index)
+    {
+        if (index < 0 || index >= frames.Count)
+            return;
+
+        if (!IsFrameNavigable(frames[index]))
+            return;
+
+        if (selectedIndex >= 0 && selectedIndex < frames.Count)
+            frames[selectedIndex].SetSelected(false);
+
+        selectedIndex = index;
+        frames[selectedIndex].SetSelected(true);
+    }
+
+    private void ConfirmSelection()
+    {
+        if (hasConfirmed)
+            return;
+
+        if (selectedIndex < 0 || selectedIndex >= frames.Count)
+            return;
+
+        if (!frames[selectedIndex].HasData)
+            return;
+
+        hasConfirmed = true;
+        ApplyRewardAtIndex(selectedIndex);
+    }
+
+    private void ApplyRewardAtIndex(int index)
+    {
+        if (index < 0 || index >= frames.Count)
+            return;
+
+        SelectCardFrame selectedFrame = frames[index];
+        if (!selectedFrame.HasData)
+            return;
+
+        RewardOption selectedReward = selectedFrame.Reward;
+        Debug.Log($"[UI_SelectCard] 보상 선택: index={index}, 이름={selectedReward.DisplayName}");
+
+        onRewardSelected?.Invoke(selectedReward);
+    }
+
+    private void ClearSelection()
+    {
+        if (selectedIndex >= 0 && selectedIndex < frames.Count)
+            frames[selectedIndex].SetSelected(false);
+
+        selectedIndex = -1;
+        hasConfirmed = false;
+    }
+
+    private int FindFirstNavigableIndex()
+    {
+        for (int i = 0; i < frames.Count; i++)
+        {
+            if (IsFrameNavigable(frames[i]))
+                return i;
+        }
+
+        return -1;
+    }
+
+    private static bool IsFrameNavigable(SelectCardFrame frame)
+    {
+        return frame != null && frame.gameObject.activeInHierarchy && frame.HasData;
+    }
+
+    private static int WrapIndex(int index, int count)
+    {
+        if (count <= 0)
+            return -1;
+
+        if (index < 0)
+            return count - 1;
+
+        if (index >= count)
+            return 0;
+
+        return index;
     }
 }

@@ -7,9 +7,6 @@ public class TreasureChest : MonoBehaviour
     [Tooltip("상자를 여는 데 필요한 골드(비용)")]
     public int requiredGold = 100; // 나중에 연동
 
-    [Tooltip("띄워줄 보상 UI 패널을 연결하세요")]
-    public GameObject rewardPanel;
-
     [Header("3D UI Reference")]
     [Tooltip("상자 위에 띄워줄 3D TextMeshPro 오브젝트를 연결하세요.")]
     public TextMeshPro interactText;
@@ -89,16 +86,12 @@ public class TreasureChest : MonoBehaviour
 
         if (requiredGoldText != null) requiredGoldText.gameObject.SetActive(false);
 
-        if (chestAnimator != null)// 애니ㅐ이션
+        if (chestAnimator != null)
         {
             chestAnimator.SetTrigger("PressE");
         }
 
-        if (rewardPanel != null)
-        {
-            rewardPanel.SetActive(true);
-        }
-
-        // TODO: 상자 열리는 애니메이션, 파티클, 사운드 등
+        if (RewardManager.TryGetInstance(out RewardManager rewardManager))
+            rewardManager.BeginChestReward();
     }
 }

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c4f21a8b3d4e5f9012a3b4c5d6e7f8, type: 3}
+  m_Name: ItemRarityVisuals
+  m_EditorClassIdentifier: Assembly-CSharp::ItemRarityVisualsSO
+  entries:
+  - rarity: 1
+    displayLabel: "\uC77C\uBC18"
+    frontBg: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+  - rarity: 2
+    displayLabel: "\uACE0\uAE09"
+    frontBg: {r: 0.29803923, g: 0.6862745, b: 0.3137255, a: 1}
+  - rarity: 3
+    displayLabel: "\uD76C\uADC0"
+    frontBg: {r: 0.25882354, g: 0.52156866, b: 0.95686275, a: 1}
+  - rarity: 4
+    displayLabel: "\uC601\uC6C5"
+    frontBg: {r: 0.6117647, g: 0.3529412, b: 0.9019608, a: 1}
+  - rarity: 5
+    displayLabel: "\uC804\uC124"
+    frontBg: {r: 1, g: 0.84313726, b: 0, a: 1}
+  - rarity: 6
+    displayLabel: "\uC2E0\uD654"
+    frontBg: {r: 0.95686275, g: 0.2627451, b: 0.21176471, a: 1}

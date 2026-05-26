@@ -87,7 +87,7 @@ public sealed class LevelUpRewardFlow
 
         List<RewardOption> rewardOptions = rewardManager.GenerateLevelUpRewardOptions();
         if (rewardOptions.Count == 0)
-            Debug.LogWarning("[LevelUpRewardFlow] LevelUp reward option list is empty.");
+            Debug.LogWarning("[LevelUpRewardFlow] 레벨업 보상 후보 목록이 비어 있습니다.");
 
         activeLevelUpPopup.ShowRewards(
             rewardManager,
@@ -104,7 +104,7 @@ public sealed class LevelUpRewardFlow
 
     private void HandleLevelUpPopupFailure(RunSession runSession)
     {
-        Debug.LogError("[LevelUpRewardFlow] LevelUp popup could not be shown.");
+        Debug.LogError("[LevelUpRewardFlow] LevelUp 팝업을 표시할 수 없습니다.");
         Reset();
         runSession?.ResumeGamePlay();
     }
