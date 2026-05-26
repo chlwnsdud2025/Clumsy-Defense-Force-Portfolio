@@ -8,7 +8,7 @@ public class DroneProjectile
 
     private LayerMask targetLayer;
 
-    private float damage;
+    private DamageInfo damageInfo;
     private float speed;
     private float maxDistance;
 
@@ -20,7 +20,7 @@ public class DroneProjectile
 
     public void Initialize(
         LayerMask newTargetLayer,
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newSpeed,
         float newMaxDistance,
         Vector3 newMoveDirection,
@@ -31,8 +31,7 @@ public class DroneProjectile
         targetLayer =
             newTargetLayer;
 
-        damage =
-            newDamage;
+        damageInfo = newDamageInfo;
 
         speed =
             newSpeed;
@@ -173,9 +172,9 @@ public class DroneProjectile
             return;
 
         damageable.TakeDamage(
-            damage
+            damageInfo
         );
-        Debug.Log($"드론 데미지 들어감: {damage}");
+        Debug.Log($"드론 데미지 들어감: {damageInfo.Amount}");
 
         Destroy(gameObject);
     }

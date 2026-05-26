@@ -59,6 +59,8 @@ public class OrbitWeapon : WeaponBase
             GetFinalProjectileCount(data.ProjectileCount)
         );
 
+        DamageInfo damageInfo = GetFinalDamage(data.Damage);
+
         while (orbitObjects.Count < targetCount)
         {
             GameObject orbitObject = Instantiate(
@@ -76,7 +78,7 @@ public class OrbitWeapon : WeaponBase
             }
 
             orbit.Initialize(
-                GetFinalDamage(data.Damage),
+                damageInfo,
                 data.Cooldown
             );
 
@@ -102,7 +104,7 @@ public class OrbitWeapon : WeaponBase
                 continue;
 
             orbit.Initialize(
-                GetFinalDamage(data.Damage),
+                damageInfo,
                 data.Cooldown
             );
         }

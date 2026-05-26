@@ -56,7 +56,7 @@ public class BossTelegraph : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, targetLayer);
         foreach (Collider hit in hits)
         {
-            hit.GetComponent<IDamageable>()?.TakeDamage(damage);
+            hit.GetComponent<IDamageable>()?.TakeDamage(DamageInfo.Normal(damage));
         }
 
         // 3. [버그 수정] 데미지 판정과 완벽히 동일한 타이밍에 폭발 이펙트 생성 및 정리!

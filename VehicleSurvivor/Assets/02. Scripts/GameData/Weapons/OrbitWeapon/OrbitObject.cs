@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class OrbitObject : MonoBehaviour
 {
-    private float damage;
+    private DamageInfo damageInfo;
     private float hitCooldown;
 
     private readonly Dictionary<IDamageable, float> hitTimers =
         new Dictionary<IDamageable, float>();
 
     public void Initialize(
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newHitCooldown
     )
     {
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         hitCooldown = Mathf.Max(0.05f, newHitCooldown);
     }
 
@@ -42,9 +42,9 @@ public class OrbitObject : MonoBehaviour
             );
         }
 
-        damageable.TakeDamage(damage);
+        damageable.TakeDamage(damageInfo);
 
-        Debug.Log($"[OrbitObject] 데미지: {damage}");
+        Debug.Log($"[OrbitObject] 데미지: {damageInfo.Amount}");
     }
 
     private void OnTriggerExit(Collider other)

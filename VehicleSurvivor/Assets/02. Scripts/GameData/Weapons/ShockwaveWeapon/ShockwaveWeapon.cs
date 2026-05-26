@@ -24,6 +24,8 @@ public class ShockwaveWeapon : WeaponBase
             enemyLayer
         );
 
+        DamageInfo damageInfo = GetFinalDamage(data.Damage);
+
         foreach (Collider hit in hits)
         {
             if (!hit.CompareTag("Enemy"))
@@ -49,12 +51,10 @@ public class ShockwaveWeapon : WeaponBase
 
             if (angle <= data.ShockwaveAngle * 0.5f)
             {
-                enemy.TakeDamage(
-                    GetFinalDamage(data.Damage)
-                );
+                enemy.TakeDamage(damageInfo);
 
                 Debug.Log(
-                    $"[Shockwave] {enemy.name} 피격 / 데미지: {GetFinalDamage(data.Damage)}"
+                    $"[Shockwave] {enemy.name} 피격 / 데미지: {damageInfo.Amount}"
                 );
             }
         }

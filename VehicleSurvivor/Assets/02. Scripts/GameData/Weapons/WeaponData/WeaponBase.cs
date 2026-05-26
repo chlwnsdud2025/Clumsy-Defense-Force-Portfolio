@@ -135,20 +135,21 @@ public class WeaponBase : MonoBehaviour
         return weaponName;
     }
 
-    protected float GetFinalDamage(float baseDamage)
+    protected DamageInfo GetFinalDamage(float baseDamage)
     {
         PlayerRuntime playerRuntime = GetOwnerRuntime();
         if (playerRuntime == null)
-            return baseDamage;
+            return DamageInfo.Normal(baseDamage);
 
         RuntimeStats stats = playerRuntime.Stats;
         float damage = baseDamage * stats.GetValue(EStatType.DamageMultiplier);
 
         float criticalChance = stats.GetValue(EStatType.CriticalChance);
-        if (Random.value < criticalChance)
+        bool isCritical = Random.value < criticalChance;
+        if (isCritical)
             damage *= stats.GetValue(EStatType.CriticalDamageMultiplier);
 
-        return damage;
+        return new DamageInfo(damage, isCritical);
     }
 
     protected float GetFinalCooldown(float weaponCooldown)

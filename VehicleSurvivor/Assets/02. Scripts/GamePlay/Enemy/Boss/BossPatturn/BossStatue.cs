@@ -37,17 +37,16 @@ public class BossStatue : MonoBehaviour, IDamageable
     }
 
     // IDamageable 인터페이스 구현 (플레이어가 때릴 때)
-    public void TakeDamage(float damage)
+    public void TakeDamage(DamageInfo damageInfo)
     {
-        if (!isActive) return; // 불이 안 들어왔을 땐 데미지 무시
+        if (!isActive) return;
 
-        currentHealth -= damage;
+        currentHealth -= damageInfo.Amount;
         Debug.Log("석상 체력 : " + currentHealth);
-        // 데미지 텍스트 띄우기 (기존 보스 시스템 활용)
         if (DamageTextPool.Instance != null)
         {
             GameObject textObj = DamageTextPool.Instance.GetDamageText();
-            textObj.GetComponent<DamageText>().Setup(damage, transform.position + Vector3.up * 2f);
+            textObj.GetComponent<DamageText>().Setup(damageInfo.Amount, transform.position + Vector3.up * 2f, damageInfo.IsCritical);
         }
 
         if (currentHealth <= 0)

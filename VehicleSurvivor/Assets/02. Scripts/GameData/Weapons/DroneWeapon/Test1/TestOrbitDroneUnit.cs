@@ -11,7 +11,7 @@ public class TestOrbitDroneUnit : MonoBehaviour
     private ParticleSystem shootParticlePrefab;
     private LayerMask targetLayer;
 
-    private float damage;
+    private DamageInfo damageInfo;
     private float attackCooldown;
     private float projectileSpeed;
     private float projectileRange;
@@ -29,7 +29,7 @@ public class TestOrbitDroneUnit : MonoBehaviour
         GameObject newProjectilePrefab,
         ParticleSystem newShootParticlePrefab,
         LayerMask newTargetLayer,
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newAttackCooldown,
         float newProjectileSpeed,
         float newProjectileRange,
@@ -45,7 +45,7 @@ public class TestOrbitDroneUnit : MonoBehaviour
         shootParticlePrefab = newShootParticlePrefab;
         targetLayer = newTargetLayer;
 
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         attackCooldown = newAttackCooldown;
         projectileSpeed = newProjectileSpeed;
         projectileRange = newProjectileRange;
@@ -155,7 +155,7 @@ public class TestOrbitDroneUnit : MonoBehaviour
 
         projectile.Initialize(
             targetLayer,
-            damage,
+            damageInfo,
             projectileSpeed,
             projectileRange,
             direction.normalized,

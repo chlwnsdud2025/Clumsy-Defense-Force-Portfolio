@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileBullet : MonoBehaviour
 {
-    private float damage;
+    private DamageInfo damageInfo;
     private float speed;
     private int pierceCount;
     private float maxTravelDistance;
@@ -11,14 +11,14 @@ public class ProjectileBullet : MonoBehaviour
     private Vector3 spawnPosition;
 
     public void Initialize(
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newSpeed,
         int newPierceCount,
         float newMaxTravelDistance,
         Vector3 newMoveDirection
     )
     {
-        damage = newDamage;
+        damageInfo = newDamageInfo;
         speed = newSpeed;
         pierceCount = newPierceCount;
         maxTravelDistance = newMaxTravelDistance;
@@ -57,8 +57,8 @@ public class ProjectileBullet : MonoBehaviour
         if (damageable == null)
             return;
 
-        damageable.TakeDamage(damage);
-        Debug.Log($"당근 데미지 들어감: {damage}");
+        damageable.TakeDamage(damageInfo);
+        Debug.Log($"당근 데미지 들어감: {damageInfo.Amount}");
 
         if (pierceCount > 0)
         {

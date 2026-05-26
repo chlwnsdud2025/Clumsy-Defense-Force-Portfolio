@@ -26,7 +26,7 @@ public class RudolphSleighWeapon : WeaponBase
     }
 
     private void SpawnSleigh(
-        float finalDamage,
+        DamageInfo damageInfo,
         float moveSpeed,
         float travelDistance,
         float spawnRadius,
@@ -110,7 +110,7 @@ public class RudolphSleighWeapon : WeaponBase
         }
 
         sleigh.Initialize(
-            finalDamage,
+            damageInfo,
             moveSpeed,
             travelDistance,
             moveDirection

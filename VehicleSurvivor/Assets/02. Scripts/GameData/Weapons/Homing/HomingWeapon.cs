@@ -39,7 +39,7 @@ public class HomingWeapon : WeaponBase
     }
 
     private void FireProjectiles(
-        float finalDamage,
+        DamageInfo damageInfo,
         float projectileSpeed,
         int count,
         float spreadAngleValue,
@@ -145,7 +145,7 @@ public class HomingWeapon : WeaponBase
                 continue;
 
             projectile.Initialize(
-                finalDamage,
+                damageInfo,
                 projectileSpeed,
                 maxTravelDistance,
                 shootRotation * Vector3.forward,

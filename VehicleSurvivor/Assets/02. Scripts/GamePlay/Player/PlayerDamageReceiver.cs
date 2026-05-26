@@ -34,7 +34,7 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         this.runtime = runtime;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(DamageInfo damageInfo)
     {
         if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
             return;
@@ -42,7 +42,7 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         if (playerRuntime.Health.CurrentHp <= 0f)
             return;
 
-        playerRuntime.Health.TakeDamage(damage);
+        playerRuntime.Health.TakeDamage(damageInfo.Amount);
         SoundPlayback.PlaySfx(ESoundId.SFX_Player_Hurt);
 
         HitFlash?.TriggerHitFlash();

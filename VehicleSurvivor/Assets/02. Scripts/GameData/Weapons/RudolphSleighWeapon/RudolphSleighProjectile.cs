@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RudolphSleighProjectile : MonoBehaviour
 {
-    private float damage;
+    private DamageInfo damageInfo;
     private float speed;
     private float travelDistance;
 
@@ -15,14 +15,13 @@ public class RudolphSleighProjectile : MonoBehaviour
         new HashSet<IDamageable>();
 
     public void Initialize(
-        float newDamage,
+        DamageInfo newDamageInfo,
         float newSpeed,
         float newTravelDistance,
         Vector3 newMoveDirection
     )
     {
-        damage =
-            newDamage;
+        damageInfo = newDamageInfo;
 
         speed =
             newSpeed;
@@ -86,9 +85,9 @@ public class RudolphSleighProjectile : MonoBehaviour
         );
 
         damageable.TakeDamage(
-            damage
+            damageInfo
         );
-        Debug.Log($"썰매 데미지 들어감: {damage}");
+        Debug.Log($"썰매 데미지 들어감: {damageInfo.Amount}");
     }
 
     private bool IsPlayerLayer(

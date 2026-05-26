@@ -41,7 +41,7 @@ public class MeteorWeapon : WeaponBase
     }
 
     private void SpawnMeteor(
-        float finalDamage,
+        DamageInfo damageInfo,
         float meteorSpeed,
         float explosionRadius,
         float meteorDelay,
@@ -115,7 +115,7 @@ public class MeteorWeapon : WeaponBase
         }
 
         meteor.Initialize(
-            finalDamage,
+            damageInfo,
             meteorSpeed,
             explosionRadius,
             meteorDelay,

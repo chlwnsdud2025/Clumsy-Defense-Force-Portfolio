@@ -118,7 +118,7 @@ public class SuicideEnemy : Enemy
             IDamageable target = hit.GetComponent<IDamageable>();
             if (target != null)
             {
-                target.TakeDamage(explosionDamage);
+                target.TakeDamage(DamageInfo.Normal(explosionDamage));
             }
         }
 
