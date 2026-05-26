@@ -105,6 +105,21 @@ public sealed class RunSession
         return true;
     }
 
+    public bool CanAfford(int cost) => _gold >= cost;
+
+    public bool TrySpendGold(int amount)
+    {
+        if (!ShouldUpdateGameplay)
+            return false;
+
+        if (amount <= 0 || _gold < amount)
+            return false;
+
+        _gold -= amount;
+        OnGoldChanged?.Invoke(_gold);
+        return true;
+    }
+
     public void StartWavePhase(float timeLimit)
     {
         _waveTimer.StartPhase(timeLimit);

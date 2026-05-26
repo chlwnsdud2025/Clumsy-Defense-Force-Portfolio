@@ -2,26 +2,33 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    private Camera mainCamera;
+    [SerializeField] private Camera mainCamera;
 
-    void Start()
+    public Camera TargetCamera
     {
-        // 최적화를 위해 메인 카메라를 캐싱해둡니다.
-        mainCamera = Camera.main;
+        get
+        {
+            ResolveCamera();
+            return mainCamera;
+        }
     }
 
-    // Update가 아닌 LateUpdate를 사용하는 이유:
-    // 카메라가 이동을 마친 '후'에 텍스트가 카메라를 바라보게 해야 떨림(Jittering)이 없습니다.
-    void LateUpdate()
+    private void Start() => ResolveCamera();
+
+    private void LateUpdate()
     {
-        if (mainCamera != null)
+        if (mainCamera == null)
         {
-            // 텍스트의 앞면이 카메라의 앞면과 같은 방향을 보게 합니다.
-            transform.forward = mainCamera.transform.forward;
+            ResolveCamera();
+            return;
         }
-        else
-        {
+
+        transform.forward = mainCamera.transform.forward;
+    }
+
+    private void ResolveCamera()
+    {
+        if (mainCamera == null)
             mainCamera = Camera.main;
-        }
     }
 }
