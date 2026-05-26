@@ -6,8 +6,6 @@ public class BouncyProjectile : MonoBehaviour
     private float maxTravelDistance;
     private int bounceCount;
 
-    private LayerMask bounceLayer;
-
     private float gravity;
     private float bounciness;
 
@@ -27,16 +25,26 @@ public class BouncyProjectile : MonoBehaviour
         damage = newDamage;
         velocity = startVelocity;
 
-        maxTravelDistance = newMaxTravelDistance;
-        bounceCount = newBounceCount;
-        bounceLayer = newBounceLayer;
+        maxTravelDistance =
+            newMaxTravelDistance;
 
-        gravity = newGravity;
-        bounciness = Mathf.Clamp01(newBounciness);
+        bounceCount =
+            newBounceCount;
 
-        spawnPosition = transform.position;
+        gravity =
+            newGravity;
 
-        if (maxTravelDistance <= 0f)
+        bounciness =
+            Mathf.Clamp01(
+                newBounciness
+            );
+
+        spawnPosition =
+            transform.position;
+
+        if (
+            maxTravelDistance <= 0f
+        )
         {
             maxTravelDistance = 20f;
         }
@@ -80,9 +88,11 @@ public class BouncyProjectile : MonoBehaviour
         Collider other
     )
     {
+        // 플레이어만 무시
         if (IsPlayerLayer(other))
             return;
 
+        // 적이면 데미지
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
@@ -91,25 +101,63 @@ public class BouncyProjectile : MonoBehaviour
             damageable.TakeDamage(
                 damage
             );
-            Debug.Log($"탱탱볼 데미지 들어감: {damage}");
 
+            Debug.Log(
+                $"[BouncyProjectile] {other.name} 에게 {damage} 데미지"
+            );
+        }
+
+        // 플레이어 제외 모든 오브젝트 Bounce
+        Bounce(other);
+    }
+
+    private void Bounce(
+        Collider other
+    )
+    {
+        if (bounceCount <= 0)
+        {
             Destroy(gameObject);
             return;
         }
 
-        int otherLayerMask =
-            1 <<
-            other.gameObject.layer;
+        Vector3 normal =
+            GetBounceNormal(other);
 
-        if (
+        velocity =
+            Vector3.Reflect(
+                velocity,
+                normal
+            ) * bounciness;
+
+        bounceCount--;
+
+        Debug.Log(
+            $"[BouncyProjectile] {other.name} 충돌 → Bounce 남은 횟수: {bounceCount}"
+        );
+    }
+
+    private Vector3 GetBounceNormal(
+        Collider other
+    )
+    {
+        Vector3 closestPoint =
+            other.ClosestPoint(
+                transform.position
+            );
+
+        Vector3 normal =
             (
-                bounceLayer.value &
-                otherLayerMask
-            ) != 0
-        )
+                transform.position -
+                closestPoint
+            ).normalized;
+
+        if (normal == Vector3.zero)
         {
-            Bounce(other);
+            normal = Vector3.up;
         }
+
+        return normal;
     }
 
     private bool IsPlayerLayer(
@@ -138,51 +186,5 @@ public class BouncyProjectile : MonoBehaviour
         return
             root.gameObject.layer ==
             playerLayer;
-    }
-
-    private void Bounce(
-        Collider other
-    )
-    {
-        if (bounceCount <= 0)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Vector3 normal =
-            GetBounceNormal(other);
-
-        velocity =
-            Vector3.Reflect(
-                velocity,
-                normal
-            ) * bounciness;
-
-        bounceCount--;
-    }
-
-    private Vector3 GetBounceNormal(
-        Collider other
-    )
-    {
-        Vector3 closestPoint =
-            other.ClosestPoint(
-                transform.position
-            );
-
-        Vector3 normal =
-            (
-                transform.position -
-                closestPoint
-            ).normalized;
-
-        if (normal == Vector3.zero)
-        {
-            normal =
-                Vector3.up;
-        }
-
-        return normal;
     }
 }
