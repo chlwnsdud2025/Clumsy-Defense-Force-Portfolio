@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3471973541581513014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6139863130051164646}
+  - component: {fileID: 7494191184241444851}
+  m_Layer: 3
+  m_Name: WD_PaperAirplane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6139863130051164646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3471973541581513014}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7494191184241444851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3471973541581513014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2cf60b80121924a9c49261bed6d02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HomingWeapon
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 9
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 6
+    bulletSpeed: 10
+    spreadAngle: 0
+    radius: 6
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon_common_paper_airplane
+  weaponName: "\uC885\uC774\uBE44\uD589\uAE30"
+  homingProjectilePrefab: {fileID: 7080653377519914409, guid: f8d9e4f81a5bcd14184d7fb5c445ca0a, type: 3}
+  shootParticlePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  projectileRotationOffset: {x: 0, y: 0, z: 0}

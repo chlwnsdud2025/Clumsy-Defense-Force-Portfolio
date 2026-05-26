@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -14,28 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_paperfold_master
   weaponName: "종이접기 전문가"
-  description: "발사 수가 증가하고 적을 관통합니다."
+  description: "더 많은 종이비행기를 발사하고 적을 관통합니다."
   icon: {fileID: 21300000, guid: 0631dd2889f5c754995588d2ba5a7107, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 3471973541581513014, guid: 0cfeb8aae8a847ccaba4c06bde1c4624, type: 3}
   weaponType: 0
-  tags: []
+  tags:
+  - "투사체"
+  - "랜덤방향"
+  - "관통"
   levelDataList:
-  - bulletSpeed: 12
-    spreadAngle: 0
-    radius: 7
+  - bulletSpeed: 14
+    spreadAngle: 12
+    radius: 9
+    bounceCount: 3
+    pierceCount: 3
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
-    cooldown: 0.8
-    damage: 20
-    projectileSpeed: 12
-    duration: 1.2
-    size: 1.5
-    projectileCount: 2
-    tickInterval: 0.4
-    range: 7
+    description: "진화 완료: 발사 수가 크게 증가하고 적을 관통합니다."
+    cooldown: 0.6
+    damage: 22
+    projectileSpeed: 14
+    duration: 1.5
+    size: 1.25
+    projectileCount: 6
+    tickInterval: 0.35
+    range: 9
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 
 

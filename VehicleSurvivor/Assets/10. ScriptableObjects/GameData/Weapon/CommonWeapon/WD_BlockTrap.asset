@@ -19,9 +19,9 @@ MonoBehaviour:
   weaponPrefab: {fileID: 0}
   weaponType: 2
   tags:
-  - "장판"
-  - "이동경로"
-  - "지속피해"
+  - "?ν뙋"
+  - "?대룞寃쎈줈"
+  - "吏?랁뵾??
   levelDataList:
   - bulletSpeed: 0.1
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2
     meteorDelay: 1
-    description: "지속시간 증가"
+    description: "吏?띿떆媛?利앷?"
     cooldown: 1.1
     damage: 10
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2.5
     meteorDelay: 1
-    description: "지속시간 증가"
+    description: "吏?띿떆媛?利앷?"
     cooldown: 1.05
     damage: 11
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 2.5
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 1
     damage: 12
     projectileSpeed: 0.1
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 3
     meteorDelay: 1
-    description: "범위 증가"
+    description: "踰붿쐞 利앷?"
     cooldown: 0.95
     damage: 13
     projectileSpeed: 0.1
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 3.5
     meteorDelay: 1
-    description: "지속시간 증가"
+    description: "吏?띿떆媛?利앷?"
     cooldown: 0.9
     damage: 15
     projectileSpeed: 0.1
@@ -104,4 +104,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 3.5
   evolutionWeaponId: weapon_evolved_barefoot_hell
-  requiredPassiveId: passive_move_speed
+  requiredBadgeId: badge_move_speed

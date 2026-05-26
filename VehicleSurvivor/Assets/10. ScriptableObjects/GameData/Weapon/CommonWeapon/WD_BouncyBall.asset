@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "탱탱볼"
   description: "벽에 한 번 튕기는 공 투사체를 발사합니다."
   icon: {fileID: 21300000, guid: d8a812a922f132a41b24bda988d97930, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 4756908805119677294, guid: 8409f0aa54061804585eae7166b68b1f, type: 3}
   weaponType: 0
   tags:
   - "투사체"
@@ -104,5 +104,5 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 7
   evolutionWeaponId: weapon_evolved_super_bouncy_ball
-  requiredPassiveId: passive_crit_rate
+  requiredBadgeId: badge_crit_rate
 

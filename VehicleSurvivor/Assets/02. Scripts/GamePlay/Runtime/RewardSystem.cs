@@ -4,7 +4,7 @@ using UnityEngine;
 public sealed class RewardSystem
 {
     private readonly WeaponDatabaseSO weaponDatabase;
-    private readonly PassiveTableSO passiveTable;
+    private readonly BadgeTableSO badgeTable;
     private readonly ItemTableSO itemTable;
     private const float DefaultRewardWeight = 1f;
     private const float OwnedWeaponUpgradeWeight = 3f;
@@ -18,23 +18,23 @@ public sealed class RewardSystem
         { EItemRarity.Mythic, 0.1f },
     };
 
-    public RewardSystem(WeaponDatabaseSO weaponDatabase, PassiveTableSO passiveTable, ItemTableSO itemTable)
+    public RewardSystem(WeaponDatabaseSO weaponDatabase, BadgeTableSO badgeTable, ItemTableSO itemTable)
     {
         this.weaponDatabase = weaponDatabase;
-        this.passiveTable = passiveTable;
+        this.badgeTable = badgeTable;
         this.itemTable = itemTable;
     }
     
-    public List<RewardOption> GenerateLevelUp(PlayerRuntime player, int count) //레벨업시 3개 선택지 무기, 패시브 중에 랜덤하나
+    public List<RewardOption> GenerateLevelUp(PlayerRuntime player, int count) //?�벨?�시 3�??�택지 무기, ?�시�?중에 ?�덤?�나
     {
         List<RewardOption> candidates = new();
 
         if (player != null)
         {
             AddOwnedWeaponUpgradeCandidates(player, candidates);
-            AddOwnedPassiveUpgradeCandidates(player, candidates);
+            AddOwnedBadgeUpgradeCandidates(player, candidates);
             AddNewWeaponCandidates(player, candidates);
-            AddNewPassiveCandidates(player, candidates);
+            AddNewBadgeCandidates(player, candidates);
         }
 
         if (candidates.Count == 0 && player != null)
@@ -45,7 +45,7 @@ public sealed class RewardSystem
         return PickRandomByRewardWeight(candidates, Mathf.Max(0, count));
     }
 
-    public List<RewardOption> GenerateChest(PlayerRuntime player, int count) //상자획득시 3개 선택지 아이템 중 랜덤하나
+    public List<RewardOption> GenerateChest(PlayerRuntime player, int count) //?�자?�득??3�??�택지 ?�이??�??�덤?�나
     {
         List<RewardOption> candidates = new();
 
@@ -73,12 +73,12 @@ public sealed class RewardSystem
         }
     }
 
-    private void AddOwnedPassiveUpgradeCandidates(PlayerRuntime player, List<RewardOption> candidates)
+    private void AddOwnedBadgeUpgradeCandidates(PlayerRuntime player, List<RewardOption> candidates)
     {
-        foreach (PassiveInstance passive in player.Inventory.Passives)
+        foreach (BadgeInstance badge in player.Inventory.Badges)
         {
-            if (passive != null && !passive.IsMaxLevel)
-                candidates.Add(RewardOption.PassiveReward(passive.Definition, false, passive.CurrentLevel + 1));
+            if (badge != null && !badge.IsMaxLevel)
+                candidates.Add(RewardOption.BadgeReward(badge.Definition, false, badge.CurrentLevel + 1));
         }
     }
 
@@ -99,18 +99,18 @@ public sealed class RewardSystem
         }
     }
 
-    private void AddNewPassiveCandidates(PlayerRuntime player, List<RewardOption> candidates)
+    private void AddNewBadgeCandidates(PlayerRuntime player, List<RewardOption> candidates)
     {
-        if (passiveTable == null)
+        if (badgeTable == null)
             return;
 
-        if (!player.Inventory.CanAddPassive())
+        if (!player.Inventory.CanAddBadge())
             return;
 
-        foreach (PassiveDefinitionSO passive in passiveTable.Passives)
+        foreach (BadgeDefinitionSO badge in badgeTable.Badges)
         {
-            if (passive != null && !HasPassive(player, passive.PassiveId))
-                candidates.Add(RewardOption.PassiveReward(passive, true, 1));
+            if (badge != null && !HasBadge(player, badge.BadgeId))
+                candidates.Add(RewardOption.BadgeReward(badge, true, 1));
         }
     }
     private void AddItemCandidates(PlayerRuntime player, List<RewardOption> candidates)
@@ -118,7 +118,7 @@ public sealed class RewardSystem
         if (itemTable == null)
             return;
 
-        if (!player.Inventory.CanAddItme()) // 아이템 슬롯 최대인지 확인
+        if (!player.Inventory.CanAddItme()) // ?�이???�롯 최�??��? ?�인
             return;
 
         foreach (ItemDefinitionSO item in itemTable.Items)
@@ -156,11 +156,11 @@ public sealed class RewardSystem
                weapon.WeaponPrefab != null;
     }
 
-    private static bool HasPassive(PlayerRuntime player, string passiveId)
+    private static bool HasBadge(PlayerRuntime player, string badgeId)
     {
-        foreach (PassiveInstance passive in player.Inventory.Passives)
+        foreach (BadgeInstance badge in player.Inventory.Badges)
         {
-            if (passive != null && passive.Definition.PassiveId == passiveId)
+            if (badge != null && badge.Definition.BadgeId == badgeId)
                 return true;
         }
 
@@ -296,7 +296,7 @@ public sealed class RewardSystem
         int rarityTier = GetRarityTier(rarity);
         float luckShift = luck * 0.02f;
 
-        // Rare를 기준으로 저등급은 가중치 ↓, 고등급은 ↑
+        // Rare�?기�??�로 ?�?�급?� 가중치 ?? 고등급�? ??
         float multiplier = Mathf.Max(0.01f, 1f + luckShift * (rarityTier - GetRarityTier(EItemRarity.Rare)));
         return baseWeight * multiplier;
     }

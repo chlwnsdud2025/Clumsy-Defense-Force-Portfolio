@@ -19,9 +19,9 @@ MonoBehaviour:
   weaponPrefab: {fileID: 0}
   weaponType: 6
   tags:
-  - "폭격"
-  - "랜덤타겟"
-  - "범위"
+  - "??꺽"
+  - "?쒕뜡?寃?
+  - "踰붿쐞"
   levelDataList:
   - bulletSpeed: 9
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 1.2
     damage: 11
     projectileSpeed: 9
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "범위 증가"
+    description: "踰붿쐞 利앷?"
     cooldown: 1.15
     damage: 13
     projectileSpeed: 9.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "쿨타임 감소"
+    description: "荑⑦???媛먯냼"
     cooldown: 1.1
     damage: 13
     projectileSpeed: 9.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "쿨타임 감소"
+    description: "荑⑦???媛먯냼"
     cooldown: 1
     damage: 15
     projectileSpeed: 10
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 0.95
     damage: 18
     projectileSpeed: 10
@@ -104,4 +104,4 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 7
   evolutionWeaponId: weapon_evolved_space_chaos
-  requiredPassiveId: passive_cooldown_reduction
+  requiredBadgeId: badge_cooldown_reduction

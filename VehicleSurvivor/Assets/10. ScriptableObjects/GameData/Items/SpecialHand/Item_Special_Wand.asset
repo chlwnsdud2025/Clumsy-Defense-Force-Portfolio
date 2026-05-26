@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_hand_magician_wand
   itemName: "마술사의 지팡이"
-  description: "일정 확률로 사용한 스킬이 한 번 더 발동합니다."
+  description: "일정 확률로 사용한 무기가 한 번 더 발동합니다."
   itemCategory: 1
   rarity: 0
   icon: {fileID: 0}

@@ -4,36 +4,36 @@ using System.Collections.Generic;
 public enum EInventoryCategory
 {
     Weapon,
-    Passive,
+    Badge,
     Item
 }
 
 public sealed class PlayerInventory
 {
     public const int DefaultMaxWeaponSlots = 6;
-    public const int DefaultMaxPassiveSlots = 6;
+    public const int DefaultMaxBadgeSlots = 6;
     public const int DefaultMaxItemSlots = 20;
 
     private readonly PlayerRuntime owner;
 
     private readonly List<WeaponInstance> weapons = new();
-    private readonly List<PassiveInstance> passives = new();
+    private readonly List<BadgeInstance> badges = new();
     private readonly List<ItemInstance> items = new();
 
     public IReadOnlyList<WeaponInstance> Weapons => weapons;
-    public IReadOnlyList<PassiveInstance> Passives => passives;
+    public IReadOnlyList<BadgeInstance> Badges => badges;
     public IReadOnlyList<ItemInstance> Items => items;
     public int MaxWeaponSlots { get; }
-    public int MaxPassiveSlots { get; }
+    public int MaxBadgeSlots { get; }
     public int MaxItemSlots { get; }
 
     public event Action<EInventoryCategory, int> Changed;
 
-    public PlayerInventory(PlayerRuntime owner, int maxWeaponSlots = DefaultMaxWeaponSlots, int maxPassiveSlots = DefaultMaxPassiveSlots, int maxItemSlots = DefaultMaxItemSlots)
+    public PlayerInventory(PlayerRuntime owner, int maxWeaponSlots = DefaultMaxWeaponSlots, int maxBadgeSlots = DefaultMaxBadgeSlots, int maxItemSlots = DefaultMaxItemSlots)
     {
         this.owner = owner;
         MaxWeaponSlots = maxWeaponSlots;
-        MaxPassiveSlots = maxPassiveSlots;
+        MaxBadgeSlots = maxBadgeSlots;
         MaxItemSlots = maxItemSlots;
     }
 
@@ -42,9 +42,9 @@ public sealed class PlayerInventory
         return weapons.Count < MaxWeaponSlots;
     }
 
-    public bool CanAddPassive()
+    public bool CanAddBadge()
     {
-        return passives.Count < MaxPassiveSlots;
+        return badges.Count < MaxBadgeSlots;
     }
 
     public bool CanAddItme()
@@ -60,24 +60,24 @@ public sealed class PlayerInventory
         return weapons.Find(existing => existing.Definition.WeaponId == definition.WeaponId);
     }
 
-    public PassiveInstance GetPassive(PassiveDefinitionSO definition)
+    public BadgeInstance GetBadge(BadgeDefinitionSO definition)
     {
         if (definition == null)
             return null;
 
-        return passives.Find(existing => existing.Definition.PassiveId == definition.PassiveId);
+        return badges.Find(existing => existing.Definition.BadgeId == definition.BadgeId);
     }
 
-    public bool HasPassive(string passiveId)
+    public bool HasBadge(string badgeId)
     {
-        if (string.IsNullOrWhiteSpace(passiveId))
+        if (string.IsNullOrWhiteSpace(badgeId))
             return false;
 
-        string normalizedId = passiveId.Trim();
+        string normalizedId = badgeId.Trim();
 
-        foreach (PassiveInstance passive in passives)
+        foreach (BadgeInstance badge in badges)
         {
-            if (passive?.Definition != null && passive.Definition.PassiveId == normalizedId)
+            if (badge?.Definition != null && badge.Definition.BadgeId == normalizedId)
                 return true;
         }
 
@@ -130,25 +130,25 @@ public sealed class PlayerInventory
         return newWeapon;
     }
 
-    public void AddOrLevelUpPassive(PassiveDefinitionSO definition)
+    public void AddOrLevelUpBadge(BadgeDefinitionSO definition)
     {
         if (definition == null)
             return;
 
-        PassiveInstance passive = GetPassive(definition);
+        BadgeInstance badge = GetBadge(definition);
 
-        if (passive != null)
+        if (badge != null)
         {
-            passive.TryLevelUp();
-            NotifyChanged(EInventoryCategory.Passive, passives.IndexOf(passive));
+            badge.TryLevelUp();
+            NotifyChanged(EInventoryCategory.Badge, badges.IndexOf(badge));
             return;
         }
 
-        if (!CanAddPassive())
+        if (!CanAddBadge())
             return;
 
-        passives.Add(new PassiveInstance(definition, owner));
-        NotifyChanged(EInventoryCategory.Passive, passives.Count - 1);
+        badges.Add(new BadgeInstance(definition, owner));
+        NotifyChanged(EInventoryCategory.Badge, badges.Count - 1);
     }
 
     public void OnlyAddItem(ItemDefinitionSO definition)

@@ -164,4 +164,16 @@ public class DroneWeapon : WeaponBase
             ? data.ProjectileSpeed
             : data.BulletSpeed;
     }
+
+    protected override void OnDestroy()
+    {
+        for (int i = 0; i < drones.Count; i++)
+        {
+            if (drones[i] != null)
+                Destroy(drones[i].gameObject);
+        }
+
+        drones.Clear();
+        base.OnDestroy();
+    }
 }

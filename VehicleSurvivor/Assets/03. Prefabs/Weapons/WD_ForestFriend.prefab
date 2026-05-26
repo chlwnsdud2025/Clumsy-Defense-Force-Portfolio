@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2316819212656001915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3263776417518319957}
+  - component: {fileID: 2287465809821637663}
+  m_Layer: 3
+  m_Name: WD_ForestFriend
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3263776417518319957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2316819212656001915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2287465809821637663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2316819212656001915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7796444a8b8f5c4bb7494d43c25f6bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroneWeapon
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 5
+    tickInterval: 0.5
+    range: 20
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 15
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon_unique_forest_friend
+  weaponName: "\uC232\uCE5C\uAD6C"
+  dronePrefabs:
+  - {fileID: 1157565413145341859, guid: 10d3e45f3b73a454ea5be116fe075167, type: 3}
+  - {fileID: 3295875434363318977, guid: ceb7643b426778d4c914507333e260a2, type: 3}
+  - {fileID: 7383749743651438928, guid: 7ba6b3ea109e6a646959ca2dfc977943, type: 3}
+  - {fileID: 7625334824565090817, guid: 9152027f78ad2b940ad1e5cf9abec901, type: 3}
+  - {fileID: 359775970904030932, guid: 1f62b2004e689e14bb0f846375cbaa97, type: 3}
+  droneProjectilePrefabs:
+  - {fileID: 7940379538218745943, guid: 1eb0e1341fe11b44cab0274d108b7163, type: 3}
+  - {fileID: 8726525270039830399, guid: 0fc9c0dadfdda594f945d285c728d519, type: 3}
+  - {fileID: 674168277924758990, guid: 2582cff8aaca5294dbe6457c08025d13, type: 3}
+  - {fileID: 6017074683360298223, guid: f85d6610df53c3040983bb602a10dfd1, type: 3}
+  - {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
+  shootParticlePrefab: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  baseOffset: {x: 0, y: 2.5, z: -2}
+  spacing: 1.5

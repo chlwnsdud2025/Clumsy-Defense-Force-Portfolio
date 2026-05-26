@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Special_IceCream
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_special_ice_cream
+  itemId: item_hand_ice_cream
   itemName: "아이스크림"
   description: "일정 시간마다 광분 룬 효과가 발동합니다."
   itemCategory: 1

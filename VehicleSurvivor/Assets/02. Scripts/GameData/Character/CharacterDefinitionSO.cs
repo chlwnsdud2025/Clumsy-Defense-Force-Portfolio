@@ -17,7 +17,7 @@ public struct CharacterLoadoutData
     public string StartingWeaponId;
     public string UniqueTraitId;
     [TextArea] public string TraitDescription;
-    public List<string> PassiveIds;
+    public List<string> BadgeIds;
 }
 
 [System.Serializable]
@@ -79,7 +79,7 @@ public class CharacterDefinitionSO : ScriptableObject
         StartingWeaponId = string.Empty,
         UniqueTraitId = string.Empty,
         TraitDescription = string.Empty,
-        PassiveIds = null,
+        BadgeIds = null,
     };
 
     [Header("Meta")]
@@ -119,18 +119,18 @@ public class CharacterDefinitionSO : ScriptableObject
         _loadout.StartingWeaponId = _loadout.StartingWeaponId?.Trim() ?? string.Empty;
         _loadout.UniqueTraitId = _loadout.UniqueTraitId?.Trim() ?? string.Empty;
         _loadout.TraitDescription = _loadout.TraitDescription?.Trim() ?? string.Empty;
-        _loadout.PassiveIds ??= new List<string>();
+        _loadout.BadgeIds ??= new List<string>();
 
-        for (int i = _loadout.PassiveIds.Count - 1; i >= 0; i--)
+        for (int i = _loadout.BadgeIds.Count - 1; i >= 0; i--)
         {
-            string passiveId = _loadout.PassiveIds[i]?.Trim();
-            if (string.IsNullOrWhiteSpace(passiveId))
+            string badgeId = _loadout.BadgeIds[i]?.Trim();
+            if (string.IsNullOrWhiteSpace(badgeId))
             {
-                _loadout.PassiveIds.RemoveAt(i);
+                _loadout.BadgeIds.RemoveAt(i);
                 continue;
             }
 
-            _loadout.PassiveIds[i] = passiveId;
+            _loadout.BadgeIds[i] = badgeId;
         }
 
         _meta.UnlockCost = Mathf.Max(0, _meta.UnlockCost);

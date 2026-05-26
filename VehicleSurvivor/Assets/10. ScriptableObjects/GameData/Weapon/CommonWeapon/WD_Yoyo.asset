@@ -19,9 +19,9 @@ MonoBehaviour:
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "투사체"
-  - "관통"
-  - "왕복"
+  - "?ъ궗泥?
+  - "愿??
+  - "?뺣났"
   levelDataList:
   - bulletSpeed: 10
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 1
     damage: 10
     projectileSpeed: 10
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "사거리 증가"
+    description: "?ш굅由?利앷?"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "속도 증가"
+    description: "?띾룄 利앷?"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "속도 증가"
+    description: "?띾룄 利앷?"
     cooldown: 0.9
     damage: 14
     projectileSpeed: 11
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.1
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 0.85
     damage: 16
     projectileSpeed: 11.5
@@ -104,4 +104,4 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 7.5
   evolutionWeaponId: weapon_evolved_rainbow_yoyo
-  requiredPassiveId: passive_skill_size
+  requiredBadgeId: badge_weapon_size

@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_bear_quake
   weaponName: "베어 퀘이크"
-  description: "피해량이 증가하고 충격파가 연쇄 발생합니다."
-  icon: {fileID: 0}
+  description: "곰발바닥 충격파의 피해량이 증가하고 연쇄 발생합니다."
+  icon: {fileID: 21300000, guid: 84880b7d082a21d4dacabc24b19ead0f, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
-  tags: []
+  tags:
+  - "충격파"
+  - "범위"
+  - "연쇄"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -27,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "진화 완료: 충격파 피해량이 증가하고 연쇄 발생합니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -37,4 +40,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 

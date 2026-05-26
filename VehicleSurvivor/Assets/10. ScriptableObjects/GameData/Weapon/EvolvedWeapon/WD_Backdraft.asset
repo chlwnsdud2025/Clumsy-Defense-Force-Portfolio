@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_backdraft
   weaponName: "백드래프트"
-  description: "피해를 받은 적이 확률적으로 폭발합니다."
+  description: "불길 피해를 받은 적이 확률적으로 폭발합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 2
-  tags: []
+  tags:
+  - "장판"
+  - "폭발"
+  - "화염"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -27,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "진화 완료: 불길 피해를 받은 적이 확률적으로 폭발합니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -37,4 +40,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 

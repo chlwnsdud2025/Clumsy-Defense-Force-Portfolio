@@ -27,7 +27,7 @@ public class WeaponDefinitionSO : ScriptableObject
 
     [Header("Evolution")]
     [SerializeField] private string evolutionWeaponId;
-    [SerializeField] private string requiredPassiveId;
+    [SerializeField] private string requiredBadgeId;
 
     public string WeaponId => weaponId;
     public string WeaponName => weaponName;
@@ -38,7 +38,7 @@ public class WeaponDefinitionSO : ScriptableObject
     public IReadOnlyList<string> Tags => tags;
     public IReadOnlyList<WeaponLevelData> LevelDataList => levelDataList;
     public string EvolutionWeaponId => evolutionWeaponId;
-    public string RequiredPassiveId => requiredPassiveId;
+    public string RequiredBadgeId => requiredBadgeId;
 
     public int MaxLevel => levelDataList?.Count ?? 0;
 
@@ -46,13 +46,13 @@ public class WeaponDefinitionSO : ScriptableObject
     {
         if (levelDataList == null || levelDataList.Count == 0)
         {
-            Debug.LogError($"[WeaponDefinitionSO] {weaponName}의 LevelData가 비어 있습니다.");
+            Debug.LogError($"[WeaponDefinitionSO] {weaponName}??LevelData가 비어 ?�습?�다.");
             return null;
         }
 
         if (level < 1 || level > levelDataList.Count)
         {
-            Debug.LogError($"[WeaponDefinitionSO] {weaponName}의 잘못된 레벨 요청: {level} / MaxLevel: {MaxLevel}");
+            Debug.LogError($"[WeaponDefinitionSO] {weaponName}???�못???�벨 ?�청: {level} / MaxLevel: {MaxLevel}");
             return null;
         }
 
@@ -75,7 +75,7 @@ public class WeaponDefinitionSO : ScriptableObject
         int nextLevel = currentLevel + 1;
 
         if (nextLevel > MaxLevel)
-            return "최대 레벨입니다.";
+            return "최�? ?�벨?�니??";
 
         WeaponLevelData nextData = GetLevelData(nextLevel);
 

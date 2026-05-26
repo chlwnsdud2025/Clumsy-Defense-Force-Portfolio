@@ -32,8 +32,8 @@ public class UI_InGameHUD : UIScene
     [Header("Loadout UI")]
     [SerializeField] private Transform weaponSlotRoot;
     [SerializeField] private LoadoutSlot weaponSlotPrefab;
-    [SerializeField] private Transform passiveSlotRoot;
-    [SerializeField] private LoadoutSlot passiveSlotPrefab;
+    [SerializeField] private Transform badgeSlotRoot;
+    [SerializeField] private LoadoutSlot badgeSlotPrefab;
     [SerializeField] private Transform itemSlotRoot;
     [SerializeField] private LoadoutSlot itemSlotPrefab;
 
@@ -52,7 +52,7 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private Ease hpWarningEase = Ease.Linear;
 
     private readonly List<LoadoutSlot> _weaponSlots = new();
-    private readonly List<LoadoutSlot> _passiveSlots = new();
+    private readonly List<LoadoutSlot> _badgeSlots = new();
     private readonly List<LoadoutSlot> _itemSlots = new();
 
     private Tween hpTween;
@@ -75,7 +75,7 @@ public class UI_InGameHUD : UIScene
     public async override UniTask InitializeAsync()
     {
         EnsureSlotCount(_weaponSlots, weaponSlotRoot, weaponSlotPrefab, PlayerInventory.DefaultMaxWeaponSlots);
-        EnsureSlotCount(_passiveSlots, passiveSlotRoot, passiveSlotPrefab, PlayerInventory.DefaultMaxPassiveSlots);
+        EnsureSlotCount(_badgeSlots, badgeSlotRoot, badgeSlotPrefab, PlayerInventory.DefaultMaxBadgeSlots);
         EnsureSlotCount(_itemSlots, itemSlotRoot, itemSlotPrefab, PlayerInventory.DefaultMaxItemSlots);
         ClearAllLoadoutSlots();
         InitializeBossHealthBar();
@@ -300,7 +300,7 @@ public class UI_InGameHUD : UIScene
 
         if (inventory == null)
         {
-            Debug.LogWarning("[UI_InGameHUD] Player Inventory가 존재하지 않아 LoadoutSlot을 업데이트할 수 없습니다.");
+            Debug.LogWarning("[UI_InGameHUD] Player Inventory가 존재?��? ?�아 LoadoutSlot???�데?�트?????�습?�다.");
             return;
         }
 
@@ -309,8 +309,8 @@ public class UI_InGameHUD : UIScene
             case EInventoryCategory.Weapon:
                 UpdateWeaponSlot(inventory, slotIndex);
                 break;
-            case EInventoryCategory.Passive:
-                UpdatePassiveSlot(inventory, slotIndex);
+            case EInventoryCategory.Badge:
+                UpdateBadgeSlot(inventory, slotIndex);
                 break;
             case EInventoryCategory.Item:
                 UpdateItemSlot(inventory, slotIndex);
@@ -339,13 +339,13 @@ public class UI_InGameHUD : UIScene
         slot.Bind(weapon.Definition.Icon, weapon.CurrentLevel);
     }
 
-    private void UpdatePassiveSlot(PlayerInventory inventory, int slotIndex)
+    private void UpdateBadgeSlot(PlayerInventory inventory, int slotIndex)
     {
-        if (!TryGetSlot(_passiveSlots, inventory.MaxPassiveSlots, slotIndex, out LoadoutSlot slot))
+        if (!TryGetSlot(_badgeSlots, inventory.MaxBadgeSlots, slotIndex, out LoadoutSlot slot))
             return;
 
-        PassiveInstance passive = inventory.Passives[slotIndex];
-        slot.Bind(passive.Definition.Icon, passive.CurrentLevel);
+        BadgeInstance badge = inventory.Badges[slotIndex];
+        slot.Bind(badge.Definition.Icon, badge.CurrentLevel);
 
     }
 
@@ -396,7 +396,7 @@ public class UI_InGameHUD : UIScene
         {
             if (prefab == null)
             {
-                Debug.LogError($"[UI_InGameHUD] {root.name}의 Loadout 슬롯 프리팹이 할당되지 않았습니다.");
+                Debug.LogError($"[UI_InGameHUD] {root.name}??Loadout ?�롯 ?�리?�이 ?�당?��? ?�았?�니??");
                 break;
             }
 
@@ -420,7 +420,7 @@ public class UI_InGameHUD : UIScene
     private void ClearAllLoadoutSlots()
     {
         ClearEmptySlots(_weaponSlots, PlayerInventory.DefaultMaxWeaponSlots);
-        ClearEmptySlots(_passiveSlots, PlayerInventory.DefaultMaxPassiveSlots);
+        ClearEmptySlots(_badgeSlots, PlayerInventory.DefaultMaxBadgeSlots);
         ClearEmptySlots(_itemSlots, PlayerInventory.DefaultMaxItemSlots);
     }
 

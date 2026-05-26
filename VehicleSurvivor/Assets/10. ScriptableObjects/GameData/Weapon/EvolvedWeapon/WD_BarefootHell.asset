@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_barefoot_hell
   weaponName: "맨발의 지옥"
-  description: "범위가 증가하고 적 이동속도를 감소시킵니다."
+  description: "블록 트랩의 범위가 증가하고 적 이동속도를 감소시킵니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 2
-  tags: []
+  tags:
+  - "장판"
+  - "이동속도감소"
+  - "지속피해"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -27,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "진화 완료: 블록 트랩 범위가 증가하고 적 이동속도를 감소시킵니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -37,4 +40,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 

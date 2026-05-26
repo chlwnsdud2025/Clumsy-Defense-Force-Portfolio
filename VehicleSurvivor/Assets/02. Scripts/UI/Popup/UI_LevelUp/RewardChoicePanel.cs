@@ -9,7 +9,7 @@ public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
 {
     private const string NewLevelLabel = "NEW!";
 
-    [Header("레벨 패널 색상")]
+    [Header("?�벨 ?�널 ?�상")]
     [SerializeField] private Color newItemLevelTextPanelColor;
 
     [Header("Display UI")]
@@ -19,7 +19,7 @@ public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Image levelTextPanelImage;
 
-    [Header("상호작용")]
+    [Header("?�호?�용")]
     [SerializeField] private GameObject focusObject;
     [SerializeField] private Button button;
     [SerializeField] private RectTransform scaleTarget;
@@ -69,9 +69,9 @@ public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
         UnregisterButtonClick();
     }
 
-    public void Bind(PassiveDefinitionSO passive, bool isNew, int level = 1)
+    public void Bind(BadgeDefinitionSO badge, bool isNew, int level = 1)
     {
-        Bind(passive != null ? RewardOption.PassiveReward(passive, isNew, level) : null);
+        Bind(badge != null ? RewardOption.BadgeReward(badge, isNew, level) : null);
     }
 
     public void Bind(WeaponDefinitionSO weapon, bool isNew, int level = 1)

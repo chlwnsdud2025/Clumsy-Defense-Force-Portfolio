@@ -14,24 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_King
   _displayName: Player_King
-  _description: Player_King
+  _description: "\uC655\uAD00 \uBD80\uBA54\uB791\uC744 \uB358\uC838 \uC801\uB4E4\uC744
+    \uC6B0\uC544\uD558\uAC8C \uBCA0\uC5B4\uB0B4\uB294 \uC655\uC2E4 \uCE90\uB9AD\uD130.
+    \uC655\uAD00\uC774 \uC655\uBCF5\uD558\uBA70 \uB113\uC740 \uACBD\uB85C\uB97C \uC7A5\uC545\uD558\uB294
+    \uD50C\uB808\uC774\uAC00 \uD2B9\uC9D5\uC785\uB2C8\uB2E4."
   _icon: {fileID: 21300000, guid: b6c09f12ffe94dd4396b05cc0e7a5c83, type: 3}
   _portrait: {fileID: 21300000, guid: cc8d84ca581ba449293a44a011efb99b, type: 3}
   _previewPrefab: {fileID: 5382548778612334277, guid: 36b950a0fd9b1a44ea92371843877ef0, type: 3}
   _visualPrefab: {fileID: 5382548778612334277, guid: 5ecd9ddef845a0646ae289d48898d609, type: 3}
-  uniqueSkill: {fileID: 0}
   defaultWeaponId: weapon_unique_crown_boomerang
   _combat:
     MaxHealth: 777
     Defense: 7
     MoveSpeedMultiplier: 7
     DamageMultiplier: 7
-    PickupRange: 7
+    PickupRangeMultiplier: 1
   _loadout:
     StartingWeaponId: weapon_unique_crown_boomerang
     UniqueTraitId: 
     TraitDescription: 
-    PassiveIds: []
+    BadgeIds: []
   _meta:
     IsDefaultUnlocked: 1
     UnlockCost: 0

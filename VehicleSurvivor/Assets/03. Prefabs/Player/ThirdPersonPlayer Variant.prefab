@@ -170,7 +170,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: m_Name
-      value: OrbitWeapon
+      value: WD_ShellSpin
       objectReference: {fileID: 0}
     - target: {fileID: 1424410681363878138, guid: 8945c95be44bb0945a1a04b3c3938ad7, type: 3}
       propertyPath: m_IsActive
@@ -2829,7 +2829,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3471973541581513014, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
       propertyPath: m_Name
-      value: HomingWeapon
+      value: WD_PaperAirplane
       objectReference: {fileID: 0}
     - target: {fileID: 3471973541581513014, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
       propertyPath: m_IsActive
@@ -3095,7 +3095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
       propertyPath: m_Name
-      value: MachineGunWeapon
+      value: WD_CarrotCannon
       objectReference: {fileID: 0}
     - target: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
       propertyPath: m_IsActive
@@ -3153,7 +3153,7 @@ PrefabInstance:
       objectReference: {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
     - target: {fileID: 2316819212656001915, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
       propertyPath: m_Name
-      value: DroneWeapon
+      value: WD_ForestFriend
       objectReference: {fileID: 0}
     - target: {fileID: 2316819212656001915, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
       propertyPath: m_IsActive

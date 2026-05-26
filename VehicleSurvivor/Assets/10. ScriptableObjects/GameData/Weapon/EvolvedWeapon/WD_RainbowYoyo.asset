@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_rainbow_yoyo
   weaponName: "무지개 요요"
-  description: "돌아온 경로에 무지개 장판을 생성합니다."
+  description: "돌아온 요요 경로에 무지개 장판을 생성합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 0
-  tags: []
+  tags:
+  - "투사체"
+  - "관통"
+  - "왕복"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -27,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "진화 완료: 돌아온 요요 경로에 무지개 장판을 생성합니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -37,4 +40,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 

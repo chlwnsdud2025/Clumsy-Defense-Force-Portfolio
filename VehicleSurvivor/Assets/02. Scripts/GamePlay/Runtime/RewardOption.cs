@@ -3,9 +3,9 @@ using UnityEngine;
 public enum ERewardType
 {
     Weapon,
-    Passive,
+    Badge,
     Item,
-    Attack, // 수치를 적게 올리기? , 쿨타임, 치명타, 방어력, 체력 등등?
+    Attack, // ?�치�??�게 ?�리�? , 쿨�??? 치명?�, 방어?? 체력 ?�등?
     Heal
 }
 
@@ -13,7 +13,7 @@ public sealed class RewardOption
 {
     public ERewardType Type { get; }
     public WeaponDefinitionSO Weapon { get; }
-    public PassiveDefinitionSO Passive { get; }
+    public BadgeDefinitionSO Badge { get; }
     public ItemDefinitionSO Item { get; }
     public float HealAmount { get; }
     public bool IsNew { get; }
@@ -28,8 +28,8 @@ public sealed class RewardOption
             if (Weapon != null)
                 return Weapon.WeaponName;
 
-            if (Passive != null)
-                return Passive.PassiveName;
+            if (Badge != null)
+                return Badge.BadgeName;
 
             if (Item != null)
                 return Item.ItemName;
@@ -54,8 +54,8 @@ public sealed class RewardOption
                     : Weapon.Description;
             }
 
-            if (Passive != null)
-                return BuildPassiveDescription(Passive, Level);
+            if (Badge != null)
+                return BuildBadgeDescription(Badge, Level);
 
             if (Item != null)
                 return Item.Description;
@@ -70,19 +70,19 @@ public sealed class RewardOption
         {
             if (Weapon != null)
                 return Weapon.Icon;
-            if (Passive != null)
-                return Passive.Icon;
+            if (Badge != null)
+                return Badge.Icon;
             if (Item != null)
                 return Item.Icon;
 
             return null;
         }
     }
-    private RewardOption(ERewardType type, WeaponDefinitionSO weapon, PassiveDefinitionSO passive, ItemDefinitionSO item, float healAmount, bool isNew, int level)
+    private RewardOption(ERewardType type, WeaponDefinitionSO weapon, BadgeDefinitionSO badge, ItemDefinitionSO item, float healAmount, bool isNew, int level)
     {
         Type = type;
         Weapon = weapon;
-        Passive = passive;
+        Badge = badge;
         Item = item;
         HealAmount = healAmount;
         IsNew = isNew;
@@ -94,9 +94,9 @@ public sealed class RewardOption
         return new RewardOption(ERewardType.Weapon, weapon, null, null, 0f, isNew, level);
     }
 
-    public static RewardOption PassiveReward(PassiveDefinitionSO passive, bool isNew, int level)
+    public static RewardOption BadgeReward(BadgeDefinitionSO badge, bool isNew, int level)
     {
-        return new RewardOption(ERewardType.Passive, null, passive, null, 0f, isNew, level);
+        return new RewardOption(ERewardType.Badge, null, badge, null, 0f, isNew, level);
     }
 
     public static RewardOption ItemReward(ItemDefinitionSO item)
@@ -109,19 +109,19 @@ public sealed class RewardOption
         return new RewardOption(ERewardType.Heal, null, null, null, amount, false, 0);
     }
 
-    private static string BuildPassiveDescription(PassiveDefinitionSO passive, int level)
+    private static string BuildBadgeDescription(BadgeDefinitionSO badge, int level)
     {
-        if (passive == null)
+        if (badge == null)
             return string.Empty;
 
-        string template = passive.Description;
-        StatModifierData modifier = passive.GetModifierData(level);
+        string template = badge.Description;
+        StatModifierData modifier = badge.GetModifierData(level);
 
         if (modifier == null || string.IsNullOrWhiteSpace(template))
             return template ?? string.Empty;
 
         if (modifier.Value == 0f)
-            return "이번 레벨에는 추가 효과가 없습니다.";
+            return "?�번 ?�벨?�는 추�? ?�과가 ?�습?�다.";
 
         if (!template.Contains("{0}"))
             return template;
@@ -129,7 +129,7 @@ public sealed class RewardOption
         string valueText = FormatModifierValue(modifier);
         if (level > 1)
         {
-            StatModifierData previousModifier = passive.GetModifierData(level - 1);
+            StatModifierData previousModifier = badge.GetModifierData(level - 1);
             if (previousModifier != null)
                 valueText = $"{FormatModifierValue(previousModifier)} > {valueText}";
         }

@@ -5,7 +5,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 {
     [Header("Databases")]
     [SerializeField] private WeaponDatabaseSO weaponDatabase;
-    [SerializeField] private PassiveTableSO passiveTable;
+    [SerializeField] private BadgeTableSO badgeTable;
     [SerializeField] private ItemTableSO itemTable;
 
     [SerializeField] private int rewardOptionCount = 3;
@@ -70,7 +70,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         if (_runSession == null)
             return new List<RewardOption>();
 
-        _rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        _rewardSystem ??= new RewardSystem(weaponDatabase, badgeTable, itemTable);
         return _rewardSystem.GenerateLevelUp(_runSession.Player, GetRewardOptionCount());
     }
 
@@ -79,7 +79,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         if (_runSession == null)
             return new List<RewardOption>();
 
-        _rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        _rewardSystem ??= new RewardSystem(weaponDatabase, badgeTable, itemTable);
         return _rewardSystem.GenerateChest(_runSession.Player, GetRewardOptionCount());
     }
 
@@ -144,14 +144,14 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
         if (weaponDatabase == null)
         {
-            Debug.LogError("[RewardManager] WeaponDatabaseSO가 할당되지 않았습니다.");
+            Debug.LogError("[RewardManager] WeaponDatabaseSO가 ?�당?��? ?�았?�니??");
             return;
         }
 
         string startingWeaponId = character.GetStartingWeaponId();
         if (string.IsNullOrWhiteSpace(startingWeaponId))
         {
-            Debug.LogError($"[RewardManager] 시작 무기 ID가 비어 있습니다: {character.DisplayName}");
+            Debug.LogError($"[RewardManager] ?�작 무기 ID가 비어 ?�습?�다: {character.DisplayName}");
             return;
         }
 
@@ -161,14 +161,14 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
         if (_playerInstance == null)
         {
-            Debug.LogError("[RewardManager] 플레이어가 없어 시작 무기 비주얼을 생성할 수 없습니다.");
+            Debug.LogError("[RewardManager] ?�레?�어가 ?�어 ?�작 무기 비주?�을 ?�성?????�습?�다.");
             return;
         }
 
         PlayerWeaponSpawner playerWeaponSpawner = ResolveWeaponSpawner();
         if (playerWeaponSpawner == null)
         {
-            Debug.LogError("[RewardManager] PlayerWeaponSpawner를 찾을 수 없습니다.");
+            Debug.LogError("[RewardManager] PlayerWeaponSpawner�?찾을 ???�습?�다.");
             return;
         }
 
@@ -198,9 +198,9 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
             return;
         }
 
-        if (weaponDatabase == null || passiveTable == null)
+        if (weaponDatabase == null || badgeTable == null)
         {
-            Debug.LogWarning("[RewardManager] Evolution cheat failed: weapon or passive database is missing.");
+            Debug.LogWarning("[RewardManager] Evolution cheat failed: weapon or badge database is missing.");
             return;
         }
 
@@ -241,22 +241,22 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
         WeaponDefinitionSO definition = weapon.Definition;
         if (string.IsNullOrWhiteSpace(definition.EvolutionWeaponId) ||
-            string.IsNullOrWhiteSpace(definition.RequiredPassiveId))
+            string.IsNullOrWhiteSpace(definition.RequiredBadgeId))
             return false;
 
-        PassiveDefinitionSO requiredPassive = passiveTable.GetById(definition.RequiredPassiveId);
-        if (requiredPassive == null)
+        BadgeDefinitionSO requiredBadge = badgeTable.GetById(definition.RequiredBadgeId);
+        if (requiredBadge == null)
         {
-            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required passive not found ({definition.RequiredPassiveId}).");
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required badge not found ({definition.RequiredBadgeId}).");
             return false;
         }
 
-        if (!player.Inventory.HasPassive(requiredPassive.PassiveId))
-            player.Inventory.AddOrLevelUpPassive(requiredPassive);
+        if (!player.Inventory.HasBadge(requiredBadge.BadgeId))
+            player.Inventory.AddOrLevelUpBadge(requiredBadge);
 
-        if (!player.Inventory.HasPassive(requiredPassive.PassiveId))
+        if (!player.Inventory.HasBadge(requiredBadge.BadgeId))
         {
-            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required passive could not be added ({requiredPassive.PassiveId}).");
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required badge could not be added ({requiredBadge.BadgeId}).");
             return false;
         }
 
@@ -267,7 +267,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
                 break;
         }
 
-        Debug.Log($"[RewardManager] Evolution cheat prepared: {definition.WeaponName} Lv.{weapon.CurrentLevel}, passive={requiredPassive.PassiveName}");
+        Debug.Log($"[RewardManager] Evolution cheat prepared: {definition.WeaponName} Lv.{weapon.CurrentLevel}, badge={requiredBadge.BadgeName}");
         return true;
     }
 

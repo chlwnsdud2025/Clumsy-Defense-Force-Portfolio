@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1424410681363878138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1987249795394448581}
+  - component: {fileID: 4695254130173025438}
+  m_Layer: 3
+  m_Name: WD_TurtleTornado
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1987249795394448581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424410681363878138}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4695254130173025438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424410681363878138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a3a11db3c14efaa3c1ecaab21f21cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WD_TurtleTornado
+  useEditorTestLevelData: 1
+  editorTestLevelData:
+    description: 
+    cooldown: 0.35
+    damage: 20
+    projectileSpeed: 18
+    duration: 999
+    size: 1.5
+    projectileCount: 4
+    tickInterval: 0.35
+    range: 7
+    bulletSpeed: 18
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon_evolved_turtle_tornado
+  weaponName: "\uD130\uD2C0 \uD1A0\uB124\uC774\uB3C4"
+  orbitObjectPrefab: {fileID: 5565921339195667882, guid: 72c5b6ab6714d9745af88661d22ddb7c, type: 3}
+  orbitRotationOffset: {x: 0, y: 0, z: 0}

@@ -19,8 +19,8 @@ public sealed class RewardApplier
         {
             case ERewardType.Weapon:
                 return ApplyWeapon(player, reward.Weapon, weaponDatabase, playerWeaponSpawner, owner);
-            case ERewardType.Passive:
-                return ApplyPassive(player, reward.Passive, weaponDatabase, playerWeaponSpawner, owner);
+            case ERewardType.Badge:
+                return ApplyBadge(player, reward.Badge, weaponDatabase, playerWeaponSpawner, owner);
             case ERewardType.Item:
                 return ApplyItem(player, reward.Item);
             case ERewardType.Heal:
@@ -73,9 +73,9 @@ public sealed class RewardApplier
         return true;
     }
 
-    private bool ApplyPassive(
+    private bool ApplyBadge(
         PlayerRuntime player,
-        PassiveDefinitionSO definition,
+        BadgeDefinitionSO definition,
         WeaponDatabaseSO weaponDatabase,
         PlayerWeaponSpawner playerWeaponSpawner,
         Transform owner)
@@ -83,7 +83,7 @@ public sealed class RewardApplier
         if (definition == null)
             return false;
 
-        player.Inventory.AddOrLevelUpPassive(definition);
+        player.Inventory.AddOrLevelUpBadge(definition);
         weaponEvolutionService.TryEvolveAllEligibleWeapons(player, weaponDatabase, playerWeaponSpawner, owner);
         return true;
     }
@@ -109,7 +109,7 @@ public sealed class WeaponEvolutionService
         if (string.IsNullOrWhiteSpace(definition.EvolutionWeaponId))
             return false;
 
-        if (string.IsNullOrWhiteSpace(definition.RequiredPassiveId))
+        if (string.IsNullOrWhiteSpace(definition.RequiredBadgeId))
             return false;
 
         if (definition.MaxLevel <= 0)
@@ -118,7 +118,7 @@ public sealed class WeaponEvolutionService
         if (!weapon.IsMaxLevel)
             return false;
 
-        return player.Inventory.HasPassive(definition.RequiredPassiveId);
+        return player.Inventory.HasBadge(definition.RequiredBadgeId);
     }
 
     public bool TryEvolveWeapon(
