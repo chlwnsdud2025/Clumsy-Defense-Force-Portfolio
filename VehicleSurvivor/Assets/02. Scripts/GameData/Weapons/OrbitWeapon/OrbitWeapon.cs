@@ -118,7 +118,7 @@ public class OrbitWeapon : WeaponBase
         if (orbitObjects.Count == 0)
             return;
 
-        float radius = data.Radius;
+        float radius = GetFinalWeaponScale(data.Radius);
         float rotateSpeed = GetOrbitRotateSpeed(data);
 
         int count = orbitObjects.Count;

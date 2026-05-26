@@ -114,8 +114,8 @@ public class DroneWeapon : WeaponBase
                 GetFinalDamage(data.Damage),
                 data.Cooldown,
                 GetProjectileSpeed(data),
-                data.Range,
-                data.Radius,
+                GetFinalWeaponScale(data.Range),
+                GetFinalWeaponScale(data.Radius),
                 offset
             );
         }

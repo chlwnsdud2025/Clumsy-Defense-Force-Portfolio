@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2417709712796156429}
+  - component: {fileID: 3391092239978916298}
+  - component: {fileID: 7564085873065979395}
   - component: {fileID: -1045721241837379299}
   - component: {fileID: 3391092239978916298}
   - component: {fileID: -7729513013793624253}
@@ -118,10 +120,6 @@ MonoBehaviour:
   slowClimbSpeed: 3
   contactDamage: 10
   gravity: -20
-  modelRenderers:
-  - {fileID: 3257240495676304035}
-  flashDuration: 0.1
-  flashCooldown: 0.1
 --- !u!1 &7311469931525132662
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,3 +313,20 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5988442970217201855, guid: ae93e0229374bee449f85a351183c6f6, type: 3}
   m_PrefabInstance: {fileID: 9092543201691494940}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7564085873065979395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5944618501675846902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 3257240495676304035}
+  flashDuration: 0.1
+  flashCooldown: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}

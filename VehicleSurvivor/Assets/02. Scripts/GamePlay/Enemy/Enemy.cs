@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections; // [추가] 코루틴 사용을 위해 필요
 
 public interface IDamageable
 {
@@ -11,6 +10,7 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     protected Transform playerTarget;
     protected EnemyManager myManager;
+    private IDamageable playerDamageable;
 
     [Header("UI")]
     public Transform damageTextSpawnpoint;
@@ -25,6 +25,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("Exp Reward")]
     public int expReward = 34;
+
+    [Header("Money Reward")]
+    public int moneyReward = 15;
 
     [Header("Separation Settings")]
     public float separationRadius = 1.5f;
@@ -47,25 +50,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public float gravity = -20f;
 
-    // ==========================================
-    // [신규] 피격 점멸 (Hit Flash) 설정
-    // ==========================================
-    [Header("Hit Flash Settings (Optimized)")]
-    public Renderer[] modelRenderers;
-    public float flashDuration = 0.1f;
-    public float flashCooldown = 0.1f;
-    public string colorPropertyName = "_Color";
-    public float flashIntensity = 5f;
-    [Range(0f, 1f)] public float flashAlpha = 0.4f;
-
-    private Color[] originalColors;
-    private Color[] precalculatedFlashColors; // [핵심] 섞인 하얀색을 미리 계산해서 담아둘 배열
-    private int colorPropertyID;              // [핵심] 문자열 대신 쓸 고유 ID 번호
-
-    private MaterialPropertyBlock propBlock;
-    private float flashTimer = 0f;
-    private float flashCooldownTimer = 0f;
-    // ==========================================
+    [SerializeField] private HitFlashEffect hitFlash;
 
     protected bool isTrackingPlayer = true;
     protected float currentAttackCooldown;
@@ -80,39 +65,18 @@ public class Enemy : MonoBehaviour, IDamageable
     private float cachedTargetHeight;
     private bool cachedHitGround;
 
-    // [신규] 맨 처음 태어날 때 원래 색상을 기억해 둡니다.
     private void Awake()
     {
-        propBlock = new MaterialPropertyBlock();
-
-        // [최적화 1] 문자열("_Color")을 유니티 엔진이 제일 빠르게 찾는 정수형 ID로 미리 변환합니다!
-        colorPropertyID = Shader.PropertyToID(colorPropertyName);
-
-        if (modelRenderers != null && modelRenderers.Length > 0)
-        {
-            originalColors = new Color[modelRenderers.Length];
-            precalculatedFlashColors = new Color[modelRenderers.Length];
-
-            for (int i = 0; i < modelRenderers.Length; i++)
-            {
-                if (modelRenderers[i] != null && modelRenderers[i].sharedMaterial != null)
-                {
-                    if (modelRenderers[i].sharedMaterial.HasProperty(colorPropertyID))
-                        originalColors[i] = modelRenderers[i].sharedMaterial.GetColor(colorPropertyID);
-                    else
-                        originalColors[i] = Color.white;
-
-                    // [최적화 2] 몹이 태어날 때 '원래색 + 하얀색 * 알파' 수학 연산을 아예 미리 다 해둡니다!
-                    precalculatedFlashColors[i] = Color.Lerp(originalColors[i], Color.white * flashIntensity, flashAlpha);
-                }
-            }
-        }
+        ResolveHitFlash();
     }
 
     public virtual void SpawnSetup(Transform target, Vector3 spawnPosition, EnemyManager manager)
     {
         myManager = manager;
         playerTarget = target;
+        playerDamageable = target != null
+            ? target.GetComponentInChildren<IDamageable>()
+            : null;
         transform.position = spawnPosition;
         gameObject.SetActive(true);
         currentHealth = maxHealth;
@@ -126,10 +90,9 @@ public class Enemy : MonoBehaviour, IDamageable
         cachedTargetHeight = spawnPosition.y;
         cachedHitGround = true;
 
-        
+        hitFlash?.ResetFlash();
     }
 
-    // (ManagedUpdate, ExecuteBehavior, Attack 코드는 이전과 완전히 동일하여 생략 없이 유지)
     public virtual void ManagedUpdate(float deltaTime)
     {
         if (playerTarget == null) return;
@@ -297,20 +260,24 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Attack()
     {
-        Debug.Log("기본 근접 몹 공격!");
+        if (playerTarget == null || playerDamageable == null)
+            return;
+
+        Vector3 toPlayer = playerTarget.position - transform.position;
+        toPlayer.y = 0f;
+        if (toPlayer.sqrMagnitude > attackRange * attackRange)
+            return;
+
+        playerDamageable.TakeDamage(contactDamage);
     }
 
-    // ==========================================
-    // [수정] 피격 시 점멸 함수 호출
-    // ==========================================
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
         GameObject textObj = DamageTextPool.Instance.GetDamageText();
         textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
 
-        // 맞을 때마다 점멸 시도!
-        TriggerHitFlash();
+        hitFlash?.TriggerHitFlash();
 
         if (currentHealth <= 0)
         {
@@ -321,7 +288,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public virtual void Die()
     {
+        hitFlash?.ResetFlash();
         DropExpOrbs();
+
+        DropMoney();
         RunManager.Instance.AddKill();
 
         if (myManager != null)
@@ -339,73 +309,27 @@ public class Enemy : MonoBehaviour, IDamageable
         Vector3 dropPos = transform.position;
         dropPos.y += 0.05f;
 
-        ExpType typeToDrop = ExpType.Small;
-        if (expReward >= 50) typeToDrop = ExpType.Large;
-        else if (expReward >= 10) typeToDrop = ExpType.Medium;
-
         if (ExpManager.Instance != null)
         {
-            ExpManager.Instance.SpawnExp(typeToDrop, dropPos, expReward);
+            ExpManager.Instance.SpawnExp(dropPos, expReward);
         }
     }
 
-
-    protected void TriggerHitFlash()
+    private void DropMoney()
     {
-        if (flashCooldownTimer <= 0f)
+        Vector3 dropPos = transform.position;
+        dropPos.y += 0.5f;
+
+        if (MoneyManager.Instance != null && playerTarget != null)
         {
-            flashTimer = flashDuration;
-            flashCooldownTimer = flashDuration + flashCooldown;
+            // 루프 없이 단 1개의 돈에 전체 금액을 담아서 드랍
+            MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
         }
     }
 
-    protected virtual void LateUpdate()
+    private void ResolveHitFlash()
     {
-        if (flashCooldownTimer > 0f) flashCooldownTimer -= Time.deltaTime;
-
-        if (flashTimer > 0f)
-        {
-            flashTimer -= Time.deltaTime;
-
-            // 더 이상 여기서 수학 연산을 하지 않고, 함수 호출만 합니다.
-            ApplyFlashColor(precalculatedFlashColors);
-
-            if (flashTimer <= 0f)
-            {
-                RestoreOriginalColors();
-            }
-        }
-    }
-
-    // [최적화 3] 매개변수를 precalculatedFlashColors 배열 통째로 받습니다.
-    private void ApplyFlashColor(Color[] colorsToApply)
-    {
-        if (modelRenderers == null || colorsToApply == null) return;
-
-        for (int i = 0; i < modelRenderers.Length; i++)
-        {
-            if (modelRenderers[i] != null)
-            {
-                modelRenderers[i].GetPropertyBlock(propBlock);
-                // 문자열 대신 colorPropertyID 사용, 수학 연산 없이 미리 계산된 색상 바로 투입!
-                propBlock.SetColor(colorPropertyID, colorsToApply[i]);
-                modelRenderers[i].SetPropertyBlock(propBlock);
-            }
-        }
-    }
-
-    private void RestoreOriginalColors()
-    {
-        if (modelRenderers == null || originalColors == null) return;
-
-        for (int i = 0; i < modelRenderers.Length; i++)
-        {
-            if (modelRenderers[i] != null)
-            {
-                modelRenderers[i].GetPropertyBlock(propBlock);
-                propBlock.SetColor(colorPropertyID, originalColors[i]);
-                modelRenderers[i].SetPropertyBlock(propBlock);
-            }
-        }
+        if (hitFlash == null)
+            hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
 }

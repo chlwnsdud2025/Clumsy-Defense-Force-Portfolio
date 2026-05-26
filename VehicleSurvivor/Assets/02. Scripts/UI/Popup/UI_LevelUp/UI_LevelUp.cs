@@ -1,30 +1,39 @@
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UI_LevelUp : UIPopup
 {
-    [Header("Reward Choice Panels")]
+    [Header("보상 선택 패널")]
     [SerializeField] private List<RewardChoicePanel> panels = new();
 
-    [Header("Focus Effect")]
-    [SerializeField] private float focusedScale = 1.05f;
-    [SerializeField] private float focusTweenDuration = 0.15f;
-    [SerializeField] private Ease focusTweenEase = Ease.OutQuad;
+    [Header("Popup Content")]
+    [SerializeField] private RectTransform popupContent;
+    [SerializeField] private TMP_Text titleText;
+    [SerializeField] private PlayerStatsPanel playerStatsPanel;
+
+    [Header("열기 애니메이션")]
+    [SerializeField] private float openScaleDuration = 0.35f;
+    [SerializeField] private Ease openScaleEase = Ease.OutBack;
 
     private List<RewardOption> rewards = new();
     private System.Action<RewardOption> onRewardSelected;
-    private int selectedIndex = -1;
 
-    private void Awake()
-    {
-        ConfigurePanels();
-    }
+    private Tween openScaleTween;
+    private bool hasPlayedPlayerStatsEnterAnimation;
+
+    private int selectedIndex = -1;
+    private bool hasConfirmed;
 
     public override async UniTask InitializeAsync()
     {
-        ConfigurePanels();
+        if (playerStatsPanel == null)
+            playerStatsPanel = GetComponentInChildren<PlayerStatsPanel>(true);
+
+        ConfigurePlayerStatsPanel();
         RegisterPanelEvents();
 
         await UniTask.Yield();
@@ -35,23 +44,72 @@ public class UI_LevelUp : UIPopup
         base.OnShow();
         ClearSelection();
         SetSelectedIndex(FindFirstNavigableIndex());
+        RefreshPlayerStats();
     }
 
     public override void OnHide()
     {
+        playerStatsPanel?.StopEnterAnimation();
+        playerStatsPanel?.Unbind();
+        KillOpenTween();
         ClearSelection();
+        hasPlayedPlayerStatsEnterAnimation = false;
         base.OnHide();
     }
 
-    public void ShowRewards(RunManager sourceRunManager, List<RewardOption> rewardOptions)
+    public void ShowRewards(
+        RewardManager rewardManager,
+        List<RewardOption> rewardOptions,
+        int currentLevel)
     {
         BindRewards(
             rewardOptions,
-            reward =>
-            {
-                if (sourceRunManager == null || !sourceRunManager.ApplyReward(reward))
-                    ResumeGameplay();
-            });
+            reward => rewardManager?.ApplyReward(reward));
+
+        RefreshPlayerStats();
+        PlayOpenAnimation();
+    }
+
+    private void RefreshPlayerStats()
+    {
+        if (playerStatsPanel == null)
+            return;
+
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+        {
+            playerStatsPanel.Unbind();
+            return;
+        }
+
+        playerStatsPanel.Bind(runManager.RunSession?.Player);
+    }
+
+    private void PlayOpenAnimation()
+    {
+        KillOpenTween();
+
+        if (popupContent != null)
+        {
+            popupContent.localScale = Vector3.zero;
+            openScaleTween = popupContent
+                .DOScale(Vector3.one, openScaleDuration)
+                .SetEase(openScaleEase)
+                .SetUpdate(true);
+        }
+
+        if (hasPlayedPlayerStatsEnterAnimation)
+            return;
+
+        playerStatsPanel?.PlayEnterAnimation();
+        hasPlayedPlayerStatsEnterAnimation = true;
+    }
+
+    private void KillOpenTween()
+    {
+        if (openScaleTween != null && openScaleTween.IsActive())
+            openScaleTween.Kill();
+
+        openScaleTween = null;
     }
 
     private void BindRewards(List<RewardOption> rewardOptions, System.Action<RewardOption> onSelected)
@@ -76,27 +134,22 @@ public class UI_LevelUp : UIPopup
 
     private void OnDestroy()
     {
+        playerStatsPanel?.StopEnterAnimation();
+        KillOpenTween();
         UnregisterPanelEvents();
     }
 
     private void Update()
     {
-        if (!gameObject.activeInHierarchy)
+        if (!gameObject.activeInHierarchy || hasConfirmed)
             return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ResumeGameplay();
-            return;
-        }
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             MoveSelection(-1);
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             MoveSelection(1);
         else if (Input.GetKeyDown(KeyCode.Return) ||
-                 Input.GetKeyDown(KeyCode.KeypadEnter) ||
-                 Input.GetKeyDown(KeyCode.Space))
+                 Input.GetKeyDown(KeyCode.KeypadEnter))
             ConfirmSelection();
     }
 
@@ -107,34 +160,52 @@ public class UI_LevelUp : UIPopup
             if (panels[i] == null)
                 continue;
 
+            panels[i].Hovered -= HandlePanelHovered;
+            panels[i].Hovered += HandlePanelHovered;
             panels[i].Clicked -= HandlePanelClicked;
             panels[i].Clicked += HandlePanelClicked;
         }
     }
 
-    private void ConfigurePanels()
+    private void ConfigurePlayerStatsPanel()
     {
-        RewardChoiceFocusSettings focusSettings = new RewardChoiceFocusSettings(
-            focusedScale,
-            focusTweenDuration,
-            focusTweenEase);
+        if (playerStatsPanel == null)
+            return;
 
-        for (int i = 0; i < panels.Count; i++)
-        {
-            if (panels[i] == null)
-                continue;
-
-            panels[i].Configure(focusSettings);
-        }
+        playerStatsPanel.Configure(openScaleDuration, openScaleEase);
     }
 
-    private void HandlePanelClicked(RewardChoicePanel panel)
+    private void HandlePanelHovered(RewardChoicePanel panel)
     {
+        if (hasConfirmed)
+            return;
+
         int index = panels.IndexOf(panel);
         if (index < 0)
             return;
 
         SetSelectedIndex(index);
+    }
+
+    private void HandlePanelClicked(RewardChoicePanel panel)
+    {
+        if (hasConfirmed)
+            return;
+
+        int index = panels.IndexOf(panel);
+        if (index < 0 || !panels[index].HasData)
+            return;
+
+        hasConfirmed = true;
+        SetSelectedIndex(index);
+        ConfirmAfterFocusAsync(panel, index).Forget();
+    }
+
+    private async UniTaskVoid ConfirmAfterFocusAsync(RewardChoicePanel panel, int index)
+    {
+        float delay = panel.FocusTweenDuration;
+        await UniTask.Delay(TimeSpan.FromSeconds(delay), ignoreTimeScale: true);
+        ApplyRewardAtIndex(index);
     }
 
     private void MoveSelection(int direction)
@@ -173,20 +244,32 @@ public class UI_LevelUp : UIPopup
 
     private void ConfirmSelection()
     {
+        if (hasConfirmed)
+            return;
+
         if (selectedIndex < 0 || selectedIndex >= panels.Count)
             return;
 
-        RewardChoicePanel selectedPanel = panels[selectedIndex];
+        if (!panels[selectedIndex].HasData)
+            return;
+
+        hasConfirmed = true;
+        ApplyRewardAtIndex(selectedIndex);
+    }
+
+    private void ApplyRewardAtIndex(int index)
+    {
+        if (index < 0 || index >= panels.Count)
+            return;
+
+        RewardChoicePanel selectedPanel = panels[index];
         if (!selectedPanel.HasData)
             return;
 
         RewardOption selectedReward = selectedPanel.Reward;
-        Debug.Log($"[UI_LevelUp] Reward selected: index={selectedIndex}, name={selectedReward.DisplayName}");
+        Debug.Log($"[UI_LevelUp] 보상 선택: index={index}, name={selectedReward.DisplayName}");
 
-        if (onRewardSelected != null)
-            onRewardSelected.Invoke(selectedReward);
-        else
-            ResumeGameplay();
+        onRewardSelected?.Invoke(selectedReward);
     }
 
     private void ClearSelection()
@@ -195,6 +278,7 @@ public class UI_LevelUp : UIPopup
             panels[selectedIndex].SetSelected(false);
 
         selectedIndex = -1;
+        hasConfirmed = false;
     }
 
     private int FindFirstNavigableIndex()
@@ -231,21 +315,12 @@ public class UI_LevelUp : UIPopup
     {
         for (int i = 0; i < panels.Count; i++)
         {
-            if (panels[i] != null)
-                panels[i].Clicked -= HandlePanelClicked;
-        }
-    }
+            if (panels[i] == null)
+                continue;
 
-    private void ResumeGameplay()
-    {
-        RunContext runContext = RunManager.Instance?.RunContext;
-        if (runContext == null)
-        {
-            UIManager.Instance?.ClosePopup(this);
-            return;
+            panels[i].Hovered -= HandlePanelHovered;
+            panels[i].Clicked -= HandlePanelClicked;
         }
-
-        runContext.ResumeGamePlay();
     }
 
     public void OnClickContinue()

@@ -33,8 +33,8 @@ public class HomingWeapon : WeaponBase
                 GetFinalProjectileCount(data.ProjectileCount)
             ),
             data.SpreadAngle,
-            data.Range,
-            data.Radius
+            GetFinalWeaponScale(data.Range),
+            GetFinalWeaponScale(data.Radius)
         );
     }
 

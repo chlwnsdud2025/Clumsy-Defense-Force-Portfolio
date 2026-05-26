@@ -1,6 +1,12 @@
 using System;
 using System.Collections.Generic;
 
+public enum EStatModifierType
+{
+    Flat,
+    Percent
+}
+
 [System.Serializable]
 public sealed class RuntimeStats //PlayerRuntime 안에 들어있는 스탯 계산기
 {
@@ -44,8 +50,11 @@ public sealed class RuntimeStats //PlayerRuntime 안에 들어있는 스탯 계�
         }
 
         value += flatBonus;
-        value *= 1f + percentBonus;
 
+        if (value <= 0f && percentBonus != 0f)
+            return percentBonus;
+
+        value *= 1f + percentBonus;
         return value;
     }
 

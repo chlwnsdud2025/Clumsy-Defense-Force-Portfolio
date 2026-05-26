@@ -21,15 +21,18 @@ public class ChainLightningWeapon : WeaponBase
         if (data == null)
             return;
 
+        float detectRadius = GetFinalWeaponScale(data.Radius);
+        float chainRadius = GetFinalWeaponScale(data.ChainRadius);
+
         Transform firstTarget = FindClosestTarget(
             transform.position,
-            data.Radius,
+            detectRadius,
             null
         );
 
         if (firstTarget == null)
         {
-            Debug.Log($"[ChainLightning] 반경 {data.Radius} 내 IDamageable 대상 없음");
+            Debug.Log($"[ChainLightning] 반경 {detectRadius} 내 IDamageable 대상 없음");
             return;
         }
 
@@ -40,7 +43,7 @@ public class ChainLightningWeapon : WeaponBase
             firstTarget,
             hitTargets,
             data.ChainCount,
-            data.ChainRadius,
+            chainRadius,
             GetFinalDamage(data.Damage)
         );
     }
@@ -174,6 +177,6 @@ public class ChainLightningWeapon : WeaponBase
             return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, data.Radius);
+        Gizmos.DrawWireSphere(transform.position, GetFinalWeaponScale(data.Radius));
     }
 }

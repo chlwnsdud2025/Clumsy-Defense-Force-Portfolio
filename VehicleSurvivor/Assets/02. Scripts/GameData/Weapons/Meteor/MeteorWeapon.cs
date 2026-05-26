@@ -33,9 +33,9 @@ public class MeteorWeapon : WeaponBase
         SpawnMeteor(
             GetFinalDamage(data.Damage),
             GetMeteorSpeed(data),
-            data.ExplosionRadius,
+            GetFinalWeaponScale(data.ExplosionRadius),
             data.MeteorDelay,
-            data.Radius,
+            GetFinalWeaponScale(data.Radius),
             data.Range
         );
     }

@@ -31,7 +31,7 @@ public class BoomerangWeapon : WeaponBase
                 transform,
                 GetFinalDamage(data.Damage),
                 data.BulletSpeed,
-                data.Radius,
+                GetFinalWeaponScale(data.Radius),
                 enemyLayer
             );
         }

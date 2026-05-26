@@ -1,18 +1,18 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerController))]
 public sealed class MapPlayerRespawn : MonoBehaviour
 {
     [SerializeField] private Transform currentRespawnPoint;
 
-    private CharacterController controller;
+    private PlayerController _controller;
 
     public Transform CurrentRespawnPoint => currentRespawnPoint;
 
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        _controller = GetComponent<PlayerController>();
     }
 
     public void SetRespawnPoint(Transform respawnPoint)
@@ -29,13 +29,6 @@ public sealed class MapPlayerRespawn : MonoBehaviour
             return;
         }
 
-        bool wasEnabled = controller != null && controller.enabled;
-        if (wasEnabled)
-            controller.enabled = false;
-
-        transform.SetPositionAndRotation(currentRespawnPoint.position, currentRespawnPoint.rotation);
-
-        if (wasEnabled)
-            controller.enabled = true;
+        _controller.Teleport(currentRespawnPoint.position, currentRespawnPoint.rotation);
     }
 }

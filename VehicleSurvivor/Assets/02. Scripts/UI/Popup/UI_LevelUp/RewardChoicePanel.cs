@@ -2,30 +2,14 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public readonly struct RewardChoiceFocusSettings
-{
-    public RewardChoiceFocusSettings(
-        float focusedScale,
-        float tweenDuration,
-        Ease tweenEase)
-    {
-        FocusedScale = focusedScale;
-        TweenDuration = tweenDuration;
-        TweenEase = tweenEase;
-    }
-
-    public float FocusedScale { get; }
-    public float TweenDuration { get; }
-    public Ease TweenEase { get; }
-}
-
-public class RewardChoicePanel : MonoBehaviour
+public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
 {
     private const string NewLevelLabel = "NEW!";
 
-    [Header("Level Panel Color")]
+    [Header("레벨 패널 색상")]
     [SerializeField] private Color newItemLevelTextPanelColor;
 
     [Header("Display UI")]
@@ -35,20 +19,24 @@ public class RewardChoicePanel : MonoBehaviour
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Image levelTextPanelImage;
 
-    [Header("Interaction")]
+    [Header("상호작용")]
     [SerializeField] private GameObject focusObject;
     [SerializeField] private Button button;
     [SerializeField] private RectTransform scaleTarget;
 
+    [Header("Focus Effect")]
+    [SerializeField] private float focusedScale = 1.05f;
+    [SerializeField] private float focusTweenDuration = 0.15f;
+    [SerializeField] private Ease focusTweenEase = Ease.OutQuad;
+
+    public float FocusTweenDuration => focusTweenDuration;
+
+    public event Action<RewardChoicePanel> Hovered;
     public event Action<RewardChoicePanel> Clicked;
 
     public RewardOption Reward { get; private set; }
     public bool IsSelectable => gameObject.activeInHierarchy;
     public bool HasData { get; private set; }
-
-    private float focusedScale = 1.05f;
-    private float focusTweenDuration = 0.15f;
-    private Ease focusTweenEase = Ease.OutQuad;
     private Color normalItemLevelTextPanelColor;
     private Vector3 normalScale;
     private Tween focusScaleTween;
@@ -79,13 +67,6 @@ public class RewardChoicePanel : MonoBehaviour
     {
         KillFocusTweens();
         UnregisterButtonClick();
-    }
-
-    public void Configure(RewardChoiceFocusSettings settings)
-    {
-        focusedScale = settings.FocusedScale;
-        focusTweenDuration = settings.TweenDuration;
-        focusTweenEase = settings.TweenEase;
     }
 
     public void Bind(PassiveDefinitionSO passive, bool isNew, int level = 1)
@@ -176,7 +157,16 @@ public class RewardChoicePanel : MonoBehaviour
 
         focusScaleTween = scaleTarget
             .DOScale(targetScale, focusTweenDuration)
-            .SetEase(focusTweenEase);
+            .SetEase(focusTweenEase)
+            .SetUpdate(true);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!IsSelectable || !HasData)
+            return;
+
+        Hovered?.Invoke(this);
     }
 
     private void KillFocusTweens()
@@ -188,7 +178,7 @@ public class RewardChoicePanel : MonoBehaviour
     private void ApplyLevelDisplay(bool isNew, int level)
     {
         if (levelText != null)
-            levelText.text = isNew ? NewLevelLabel : level.ToString();
+            levelText.text = isNew ? NewLevelLabel : $"Lv {level}";
 
         if (levelTextPanelImage != null)
         {
@@ -215,7 +205,7 @@ public class RewardChoicePanel : MonoBehaviour
 
     private void HandleButtonClicked()
     {
-        if (!IsSelectable)
+        if (!IsSelectable || !HasData)
             return;
 
         Clicked?.Invoke(this);

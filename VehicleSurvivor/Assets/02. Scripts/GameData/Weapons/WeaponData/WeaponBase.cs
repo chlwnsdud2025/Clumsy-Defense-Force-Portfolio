@@ -140,7 +140,14 @@ public class WeaponBase : MonoBehaviour
         if (playerRuntime == null)
             return baseDamage;
 
-        return baseDamage * playerRuntime.Stats.GetValue(EStatType.DamageMultiplier);
+        RuntimeStats stats = playerRuntime.Stats;
+        float damage = baseDamage * stats.GetValue(EStatType.DamageMultiplier);
+
+        float criticalChance = stats.GetValue(EStatType.CriticalChance);
+        if (Random.value < criticalChance)
+            damage *= stats.GetValue(EStatType.CriticalDamageMultiplier);
+
+        return damage;
     }
 
     protected float GetFinalCooldown(float weaponCooldown)
@@ -163,28 +170,25 @@ public class WeaponBase : MonoBehaviour
         return weaponProjectileCount + projectileBonus;
     }
 
+    protected float GetFinalWeaponScale(float baseScale)
+    {
+        PlayerRuntime playerRuntime = GetOwnerRuntime();
+        if (playerRuntime == null)
+            return baseScale;
+
+        return baseScale * playerRuntime.Stats.GetValue(EStatType.WeaponSizeMultiplier);
+    }
+
     private PlayerRuntime GetOwnerRuntime()
     {
-        if (ownerRuntime != null)
-            return ownerRuntime;
-
-        ownerRuntime = ResolveOwnerRuntime(Owner);
         if (ownerRuntime != null)
             return ownerRuntime;
 
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return null;
 
-        return runManager.RunContext?.Player;
-    }
-
-    private static PlayerRuntime ResolveOwnerRuntime(Transform owner)
-    {
-        if (owner == null)
-            return null;
-
-        Player player = owner.GetComponentInParent<Player>();
-        return player != null ? player.Runtime : null;
+        ownerRuntime = runManager.RunSession?.Player;
+        return ownerRuntime;
     }
 
     private void HandleRuntimeLevelChanged(int _)

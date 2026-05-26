@@ -53,6 +53,14 @@ public class CharacterDefinitionSO : ScriptableObject
     [SerializeField] private string defaultWeaponId;
     public string DefaultWeaponId => defaultWeaponId;
 
+    public string GetStartingWeaponId()
+    {
+        if (!string.IsNullOrWhiteSpace(defaultWeaponId))
+            return defaultWeaponId.Trim();
+
+        return _loadout.StartingWeaponId?.Trim() ?? string.Empty;
+    }
+
     [Header("Combat")]
     [SerializeField]
     private CharacterCombatStats _combat = new CharacterCombatStats

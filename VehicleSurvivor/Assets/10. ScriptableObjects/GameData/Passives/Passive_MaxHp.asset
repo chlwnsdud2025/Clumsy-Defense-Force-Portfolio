@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_max_hp
   passiveName: "\uCCB4\uB825 \uC99D\uAC00"
-  description: "\uCD5C\uB300 \uCCB4\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  description: "\uCD5C\uB300 \uCCB4\uB825\uC774 {0} \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
-  statType: 2
+  statType: 100
   maxLevel: 5
   levelModifiers:
-  - statType: 2
+  - statType: 100
     value: 0.12
     isPercent: 1
-  - statType: 2
+  - statType: 100
     value: 0.12
     isPercent: 1
-  - statType: 2
+  - statType: 100
     value: 0.12
     isPercent: 1
-  - statType: 2
+  - statType: 100
     value: 0.12
     isPercent: 1
-  - statType: 2
+  - statType: 100
     value: 0.12
     isPercent: 1

@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveDefinitionSO
   passiveId: passive_cooldown_reduction
   passiveName: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
-  description: "\uC2A4\uD0AC \uC7AC\uC0AC\uC6A9 \uB300\uAE30\uC2DC\uAC04\uC774 \uAC10\uC18C\uD569\uB2C8\uB2E4."
+  description: "\uC2A4\uD0AC \uC7AC\uC0AC\uC6A9 \uB300\uAE30\uC2DC\uAC04\uC774 {0} \uAC10\uC18C\uD569\uB2C8\uB2E4."
   icon: {fileID: 0}
-  statType: 4
+  statType: 500
   maxLevel: 5
   levelModifiers:
-  - statType: 4
+  - statType: 500
     value: 0.06
     isPercent: 1
-  - statType: 4
+  - statType: 500
     value: 0.06
     isPercent: 1
-  - statType: 4
+  - statType: 500
     value: 0.06
     isPercent: 1
-  - statType: 4
+  - statType: 500
     value: 0.06
     isPercent: 1
-  - statType: 4
+  - statType: 500
     value: 0.06
     isPercent: 1

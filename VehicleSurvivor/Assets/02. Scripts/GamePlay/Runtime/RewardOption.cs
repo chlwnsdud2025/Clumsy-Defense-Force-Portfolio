@@ -44,6 +44,9 @@ public sealed class RewardOption
         {
             if (Weapon != null)
             {
+                if (IsNew)
+                    return Weapon.Description;
+
                 WeaponLevelData levelData = Weapon.GetLevelData(Level);
                 return levelData != null && !string.IsNullOrWhiteSpace(levelData.Description)
                     ? levelData.Description
@@ -51,7 +54,7 @@ public sealed class RewardOption
             }
 
             if (Passive != null)
-                return Passive.Description;
+                return BuildPassiveDescription(Passive, Level);
 
             if (Item != null)
                 return Item.Description;
@@ -103,5 +106,35 @@ public sealed class RewardOption
     public static RewardOption HealReward(float amount)
     {
         return new RewardOption(ERewardType.Heal, null, null, null, amount, false, 0);
+    }
+
+    private static string BuildPassiveDescription(PassiveDefinitionSO passive, int level)
+    {
+        if (passive == null)
+            return string.Empty;
+
+        string template = passive.Description;
+        StatModifierData modifier = passive.GetModifierData(level);
+
+        if (modifier == null || string.IsNullOrWhiteSpace(template))
+            return template ?? string.Empty;
+
+        if (modifier.Value == 0f)
+            return "이번 레벨에는 추가 효과가 없습니다.";
+
+        if (!template.Contains("{0}"))
+            return template;
+
+        return string.Format(template, FormatModifierValue(modifier));
+    }
+
+    private static string FormatModifierValue(StatModifierData modifier)
+    {
+        if (modifier.IsPercent)
+            return $"{Mathf.RoundToInt(modifier.Value * 100f)}%";
+
+        return Mathf.Approximately(modifier.Value, Mathf.Round(modifier.Value))
+            ? Mathf.RoundToInt(modifier.Value).ToString()
+            : modifier.Value.ToString("0.##");
     }
 }
