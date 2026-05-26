@@ -8,6 +8,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     [Header("UI")]
     public Transform damageTextSpawnpoint;
+    [SerializeField] private string displayName;
 
     [Header("Base Stats")]
     public float maxHealth = 10f;
@@ -43,9 +44,14 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     [SerializeField] private HitFlashEffect hitFlash;
 
+    private IEventBus _eventBus;
+    private bool _defeatedPublished;
+    private EntityId BossId => gameObject.GetEntityId();
+
     protected virtual void Awake()
     {
         ResolveHitFlash();
+        ServiceLocator.TryGet(out _eventBus);
     }
 
     protected virtual void Start()
@@ -58,6 +64,14 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) playerTarget = player.transform;
         }
+
+        PublishAppeared();
+    }
+
+    private void OnDestroy()
+    {
+        if (!_defeatedPublished)
+            PublishDefeated();
     }
 
     protected virtual void Update()
@@ -183,6 +197,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
 
         hitFlash?.TriggerHitFlash();
+        PublishHpChanged();
 
         if (currentHealth <= 0)
         {
@@ -196,12 +211,52 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         hitFlash?.ResetFlash();
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
 
+        PublishDefeated();
+
         DropExpOrbs();
         DropMoney();
 
         HandleStageClear();
 
         Destroy(gameObject);
+    }
+
+    private string GetDisplayName()
+    {
+        return string.IsNullOrWhiteSpace(displayName) ? gameObject.name : displayName;
+    }
+
+    private void PublishAppeared()
+    {
+        if (_eventBus == null && !ServiceLocator.TryGet(out _eventBus))
+            return;
+
+        int current = Mathf.RoundToInt(currentHealth);
+        int max = Mathf.RoundToInt(maxHealth);
+        _eventBus.Publish(new BossAppearedEvent(BossId, GetDisplayName(), current, max));
+    }
+
+    private void PublishHpChanged()
+    {
+        if (_eventBus == null && !ServiceLocator.TryGet(out _eventBus))
+            return;
+
+        int current = Mathf.RoundToInt(currentHealth);
+        int max = Mathf.RoundToInt(maxHealth);
+        _eventBus.Publish(new BossHpChangedEvent(BossId, current, max));
+    }
+
+    private void PublishDefeated()
+    {
+        if (_defeatedPublished)
+            return;
+
+        _defeatedPublished = true;
+
+        if (_eventBus == null && !ServiceLocator.TryGet(out _eventBus))
+            return;
+
+        _eventBus.Publish(new BossDefeatedEvent(BossId));
     }
 
     protected virtual void HandleStageClear()

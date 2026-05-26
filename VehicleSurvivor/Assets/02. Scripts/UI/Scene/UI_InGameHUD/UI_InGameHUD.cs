@@ -26,6 +26,9 @@ public class UI_InGameHUD : UIScene
     [SerializeField] private float waveTimerNightmarePunchPower = 0.15f;
     [SerializeField] private float waveTimerStyleTweenDuration = 0.3f;
 
+    [Header("Boss Health UI")]
+    [SerializeField] private BossHealthBarController bossHealthBarController;
+
     [Header("Loadout UI")]
     [SerializeField] private Transform weaponSlotRoot;
     [SerializeField] private LoadoutSlot weaponSlotPrefab;
@@ -75,6 +78,7 @@ public class UI_InGameHUD : UIScene
         EnsureSlotCount(_passiveSlots, passiveSlotRoot, passiveSlotPrefab, PlayerInventory.DefaultMaxPassiveSlots);
         EnsureSlotCount(_itemSlots, itemSlotRoot, itemSlotPrefab, PlayerInventory.DefaultMaxItemSlots);
         ClearAllLoadoutSlots();
+        InitializeBossHealthBar();
 
         await UniTask.Yield();
     }
@@ -88,6 +92,7 @@ public class UI_InGameHUD : UIScene
     public override void OnHide()
     {
         UnsubscribeEvents();
+        bossHealthBarController?.ResetAll();
         KillTweens();
         base.OnHide();
     }
@@ -104,6 +109,7 @@ public class UI_InGameHUD : UIScene
             UpdateTotalTimerUI(0f);
             UpdateWaveTimerUI(0f, false);
             ClearAllLoadoutSlots();
+            bossHealthBarController?.ResetAll();
             return;
         }
 
@@ -117,6 +123,15 @@ public class UI_InGameHUD : UIScene
         UpdateTotalTimerUI(0f);
         UpdateWaveTimerUI(0f, false);
         ClearAllLoadoutSlots();
+        InitializeBossHealthBar();
+    }
+
+    private void InitializeBossHealthBar()
+    {
+        if (bossHealthBarController == null)
+            return;
+
+        bossHealthBarController.Initialize();
     }
 
     private void SubscribeEvents()
@@ -135,6 +150,9 @@ public class UI_InGameHUD : UIScene
         _eventBus.Subscribe<WaveTimeChangedEvent>(OnWaveTimeChanged);
         _eventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
         _eventBus.Subscribe<InventoryChangedEvent>(OnInventoryChanged);
+        _eventBus.Subscribe<BossAppearedEvent>(OnBossAppeared);
+        _eventBus.Subscribe<BossHpChangedEvent>(OnBossHpChanged);
+        _eventBus.Subscribe<BossDefeatedEvent>(OnBossDefeated);
 
         _isSubscribed = true;
     }
@@ -154,6 +172,9 @@ public class UI_InGameHUD : UIScene
             _eventBus.Unsubscribe<WaveTimeChangedEvent>(OnWaveTimeChanged);
             _eventBus.Unsubscribe<GoldChangedEvent>(OnGoldChanged);
             _eventBus.Unsubscribe<InventoryChangedEvent>(OnInventoryChanged);
+            _eventBus.Unsubscribe<BossAppearedEvent>(OnBossAppeared);
+            _eventBus.Unsubscribe<BossHpChangedEvent>(OnBossHpChanged);
+            _eventBus.Unsubscribe<BossDefeatedEvent>(OnBossDefeated);
         }
 
         _isSubscribed = false;
@@ -305,6 +326,9 @@ public class UI_InGameHUD : UIScene
     private void OnWaveTimeChanged(WaveTimeChangedEvent e) => UpdateWaveTimerUI(e.DisplayTime, e.IsNightmare);
     private void OnGoldChanged(GoldChangedEvent e) => UpdateGoldUI(e.Gold);
     private void OnInventoryChanged(InventoryChangedEvent e) => UpdateLoadoutSlot(e.Category, e.SlotIndex);
+    private void OnBossAppeared(BossAppearedEvent e) => bossHealthBarController?.OnBossAppeared(e);
+    private void OnBossHpChanged(BossHpChangedEvent e) => bossHealthBarController?.OnBossHpChanged(e);
+    private void OnBossDefeated(BossDefeatedEvent e) => bossHealthBarController?.OnBossDefeated(e);
 
     private void UpdateWeaponSlot(PlayerInventory inventory, int slotIndex)
     {

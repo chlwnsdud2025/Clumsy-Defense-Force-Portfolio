@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public readonly struct HpChangedEvent
 {
     public readonly int Current;
@@ -83,5 +85,45 @@ public readonly struct InventoryChangedEvent
     {
         Category = category;
         SlotIndex = slotIndex;
+    }
+}
+
+public readonly struct BossAppearedEvent
+{
+    public readonly EntityId BossId;
+    public readonly string DisplayName;
+    public readonly int Current;
+    public readonly int Max;
+
+    public BossAppearedEvent(EntityId bossId, string displayName, int current, int max)
+    {
+        BossId = bossId;
+        DisplayName = displayName;
+        Current = current;
+        Max = max;
+    }
+}
+
+public readonly struct BossHpChangedEvent
+{
+    public readonly EntityId BossId;
+    public readonly int Current;
+    public readonly int Max;
+
+    public BossHpChangedEvent(EntityId bossId, int current, int max)
+    {
+        BossId = bossId;
+        Current = current;
+        Max = max;
+    }
+}
+
+public readonly struct BossDefeatedEvent
+{
+    public readonly EntityId BossId;
+
+    public BossDefeatedEvent(EntityId bossId)
+    {
+        BossId = bossId;
     }
 }
