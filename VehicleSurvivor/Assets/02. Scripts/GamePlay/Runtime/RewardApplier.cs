@@ -38,6 +38,19 @@ public sealed class RewardApplier
         Transform owner) =>
         ApplyWeapon(player, definition, null, playerWeaponSpawner, owner);
 
+    public bool TryEvolveAllEligibleWeapons(
+        PlayerRuntime player,
+        WeaponDatabaseSO weaponDatabase,
+        PlayerWeaponSpawner playerWeaponSpawner,
+        Transform owner)
+    {
+        return weaponEvolutionService.TryEvolveAllEligibleWeapons(
+            player,
+            weaponDatabase,
+            playerWeaponSpawner,
+            owner);
+    }
+
     private bool ApplyWeapon(
         PlayerRuntime player,
         WeaponDefinitionSO definition,
@@ -99,6 +112,9 @@ public sealed class WeaponEvolutionService
         if (string.IsNullOrWhiteSpace(definition.RequiredPassiveId))
             return false;
 
+        if (definition.MaxLevel <= 0)
+            return false;
+
         if (!weapon.IsMaxLevel)
             return false;
 
@@ -116,21 +132,48 @@ public sealed class WeaponEvolutionService
             return false;
 
         if (weaponDatabase == null)
+        {
+            Debug.LogWarning($"[WeaponEvolutionService] Cannot evolve {weapon.Definition.WeaponId}: WeaponDatabaseSO is missing.");
             return false;
+        }
 
         string oldWeaponId = weapon.Definition.WeaponId;
         string evolutionWeaponId = weapon.Definition.EvolutionWeaponId;
         WeaponDefinitionSO evolvedDefinition = weaponDatabase.GetWeaponOrNull(evolutionWeaponId);
 
         if (evolvedDefinition == null)
+        {
+            Debug.LogWarning($"[WeaponEvolutionService] Cannot evolve {oldWeaponId}: evolution weapon not found ({evolutionWeaponId}).");
             return false;
+        }
+
+        if (spawner != null)
+        {
+            if (spawner.HasSpawnedWeapon(evolvedDefinition.WeaponId))
+            {
+                Debug.LogWarning($"[WeaponEvolutionService] Cannot evolve {oldWeaponId}: evolved weapon is already spawned ({evolvedDefinition.WeaponId}).");
+                return false;
+            }
+
+            if (!spawner.CanSpawnWeapon(evolvedDefinition))
+            {
+                Debug.LogWarning($"[WeaponEvolutionService] Evolution weapon prefab is not spawnable: {evolvedDefinition.WeaponId}");
+                return false;
+            }
+        }
 
         WeaponInstance evolvedWeapon = player.Inventory.ReplaceWeapon(weapon, evolvedDefinition);
         if (evolvedWeapon == null)
+        {
+            Debug.LogWarning($"[WeaponEvolutionService] Cannot evolve {oldWeaponId}: inventory replacement failed.");
             return false;
+        }
 
         if (spawner == null)
+        {
+            Debug.Log($"[WeaponEvolutionService] Evolved weapon in inventory only: {oldWeaponId} -> {evolutionWeaponId}");
             return true;
+        }
 
         if (!spawner.ReplaceSpawnedWeapon(oldWeaponId, evolvedWeapon, owner))
         {
@@ -138,6 +181,7 @@ public sealed class WeaponEvolutionService
             return false;
         }
 
+        Debug.Log($"[WeaponEvolutionService] Weapon evolved: {weapon.Definition.WeaponName} ({oldWeaponId}) -> {evolvedDefinition.WeaponName} ({evolutionWeaponId})");
         return true;
     }
 

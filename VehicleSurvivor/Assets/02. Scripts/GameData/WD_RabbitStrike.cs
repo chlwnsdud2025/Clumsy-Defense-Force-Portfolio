@@ -1,16 +1,3 @@
-using UnityEngine;
-
-public class WD_RabbitStrike : MonoBehaviour
+public class WD_RabbitStrike : ProjectileWeapon
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -16,26 +16,28 @@ MonoBehaviour:
   weaponName: "래빗 스트라이크"
   description: "당근 수가 증가하고 적을 관통합니다."
   icon: {fileID: 21300000, guid: 9518bf90574f11b4d936bb57918f26a8, type: 3}
-  weaponPrefab: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
+  weaponPrefab: {fileID: 6833996915472008857, guid: 115f2913f4e0a7c40b953128fd2c7733, type: 3}
   weaponType: 0
   tags: []
   levelDataList:
-  - bulletSpeed: 12
-    spreadAngle: 0
-    radius: 7
+  - bulletSpeed: 14
+    spreadAngle: 12
+    radius: 9
+    bounceCount: 3
+    pierceCount: 4
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
-    cooldown: 0.8
-    damage: 20
-    projectileSpeed: 12
-    duration: 1.2
-    size: 1.5
-    projectileCount: 2
+    description: "진화 완료: 당근 수가 크게 증가하고 적을 관통합니다."
+    cooldown: 0.65
+    damage: 26
+    projectileSpeed: 14
+    duration: 1.5
+    size: 1.25
+    projectileCount: 7
     tickInterval: 0.4
-    range: 7
+    range: 9
   evolutionWeaponId: 
   requiredPassiveId: 
 

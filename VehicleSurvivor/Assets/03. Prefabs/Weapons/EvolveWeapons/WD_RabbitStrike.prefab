@@ -43,4 +43,36 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daf6d90f3b31c4243affdcc333563f03, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::WD_RabbitStrike
+  useEditorTestLevelData: 0
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 30
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 20
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 15
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
+  projectilePrefab: {fileID: 7914466137831606197, guid: 178b03377a484b049ae48604c774b5d0, type: 3}
+  shootParticlePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  projectileRotationOffset: {x: 0, y: 0, z: 0}

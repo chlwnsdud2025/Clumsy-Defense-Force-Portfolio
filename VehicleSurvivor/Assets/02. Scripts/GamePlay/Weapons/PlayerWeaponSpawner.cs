@@ -19,6 +19,14 @@ public class PlayerWeaponSpawner : MonoBehaviour
         return !string.IsNullOrWhiteSpace(weaponId) && spawnedWeapons.ContainsKey(weaponId);
     }
 
+    public bool CanSpawnWeapon(WeaponDefinitionSO definition)
+    {
+        if (definition == null || definition.WeaponPrefab == null)
+            return false;
+
+        return definition.WeaponPrefab.TryGetComponent(out WeaponBase _);
+    }
+
     public bool TrySpawnWeapon(WeaponInstance weapon, Transform owner)
     {
         if (weapon == null || weapon.Definition == null)
@@ -65,6 +73,13 @@ public class PlayerWeaponSpawner : MonoBehaviour
             return false;
 
         string normalizedOldWeaponId = oldWeaponId.Trim();
+        string newWeaponId = newWeapon.Definition.WeaponId;
+
+        if (HasSpawnedWeapon(newWeaponId))
+            return false;
+
+        if (!CanSpawnWeapon(newWeapon.Definition))
+            return false;
 
         if (spawnedWeapons.TryGetValue(normalizedOldWeaponId, out WeaponBase oldWeapon) && oldWeapon != null)
             Destroy(oldWeapon.gameObject);

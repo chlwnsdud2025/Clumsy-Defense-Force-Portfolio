@@ -10,6 +10,10 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
     [SerializeField] private int rewardOptionCount = 3;
 
+    [Header("Debug")]
+    [SerializeField] private bool enableEvolutionCheat = true;
+    [SerializeField] private KeyCode forceEvolutionKey = KeyCode.F9;
+
     private RunSession _runSession;
     private Player _playerInstance;
     private RewardSystem _rewardSystem;
@@ -19,6 +23,15 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
     public RunSession RunSession => _runSession;
     public WeaponDatabaseSO WeaponDatabase => weaponDatabase;
+
+    private void Update()
+    {
+        if (!enableEvolutionCheat)
+            return;
+
+        if (Input.GetKeyDown(forceEvolutionKey))
+            ForceEvolveOwnedWeaponsForDebug();
+    }
 
     public void InitializeForRun(RunSession runSession, Player player)
     {
@@ -175,6 +188,87 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
             return _playerInstance.WeaponSpawner;
 
         return _playerInstance.GetComponentInChildren<PlayerWeaponSpawner>(true);
+    }
+
+    private void ForceEvolveOwnedWeaponsForDebug()
+    {
+        if (_runSession?.Player == null)
+        {
+            Debug.LogWarning("[RewardManager] Evolution cheat failed: run session or player is missing.");
+            return;
+        }
+
+        if (weaponDatabase == null || passiveTable == null)
+        {
+            Debug.LogWarning("[RewardManager] Evolution cheat failed: weapon or passive database is missing.");
+            return;
+        }
+
+        PlayerRuntime player = _runSession.Player;
+        List<WeaponInstance> weapons = new(player.Inventory.Weapons);
+        int preparedCount = 0;
+
+        foreach (WeaponInstance weapon in weapons)
+        {
+            if (!PrepareWeaponEvolutionForDebug(player, weapon))
+                continue;
+
+            preparedCount++;
+        }
+
+        if (preparedCount == 0)
+        {
+            Debug.LogWarning("[RewardManager] Evolution cheat found no owned weapons with evolution data.");
+            return;
+        }
+
+        PlayerWeaponSpawner playerWeaponSpawner = ResolveWeaponSpawner();
+        bool evolved = _rewardApplier.TryEvolveAllEligibleWeapons(
+            player,
+            weaponDatabase,
+            playerWeaponSpawner,
+            _playerInstance != null ? _playerInstance.transform : null);
+
+        Debug.Log(evolved
+            ? $"[RewardManager] Evolution cheat completed. Prepared weapons: {preparedCount}"
+            : $"[RewardManager] Evolution cheat prepared {preparedCount} weapons, but no evolution was applied.");
+    }
+
+    private bool PrepareWeaponEvolutionForDebug(PlayerRuntime player, WeaponInstance weapon)
+    {
+        if (player == null || weapon?.Definition == null)
+            return false;
+
+        WeaponDefinitionSO definition = weapon.Definition;
+        if (string.IsNullOrWhiteSpace(definition.EvolutionWeaponId) ||
+            string.IsNullOrWhiteSpace(definition.RequiredPassiveId))
+            return false;
+
+        PassiveDefinitionSO requiredPassive = passiveTable.GetById(definition.RequiredPassiveId);
+        if (requiredPassive == null)
+        {
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required passive not found ({definition.RequiredPassiveId}).");
+            return false;
+        }
+
+        if (!player.Inventory.HasPassive(requiredPassive.PassiveId))
+            player.Inventory.AddOrLevelUpPassive(requiredPassive);
+
+        if (!player.Inventory.HasPassive(requiredPassive.PassiveId))
+        {
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required passive could not be added ({requiredPassive.PassiveId}).");
+            return false;
+        }
+
+        while (!weapon.IsMaxLevel)
+        {
+            WeaponInstance leveledWeapon = player.Inventory.AddOrLevelUpWeapon(definition);
+            if (leveledWeapon == null)
+                break;
+        }
+
+        Debug.Log($"[RewardManager] Evolution cheat prepared: {definition.WeaponName} Lv.{weapon.CurrentLevel}, passive={requiredPassive.PassiveName}");
+        return true;
     }
 
     private int GetRewardOptionCount()
