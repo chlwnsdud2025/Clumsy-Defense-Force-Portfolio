@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3578470475727838928}
   - component: {fileID: -4077047666620677948}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: ChainLightningWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,14 +44,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d76e59d075411d4583af7bb47e988e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChainLightningWeapon
-  currentLevel: 0
+  useEditorTestLevelData: 0
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 1
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
   lightningEffectPrefab: {fileID: 173764, guid: 9b074812fdafc4540b8f613127a77505, type: 3}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  damage: 10
-  cooldown: 1
-  detectRadius: 10
-  chainCount: 3
-  chainRadius: 5
-  lineLifeTime: 0.1
+  effectLifeTime: 0.15

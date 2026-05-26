@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2100966215075707669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.86, z: 7.06}
+  m_LocalPosition: {x: 0, y: 6.84, z: 3.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85,8 +85,10 @@ MonoBehaviour:
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3
-  expReward: 500
-  moneyReward: 300
+  contactRange: 3
+  contactCooltime: 1
+  expReward: 1
+  moneyReward: 1
   contactDamage: 30
   groundLayer:
     serializedVersion: 2
@@ -178,7 +180,7 @@ MonoBehaviour:
   colorPropertyName: _BaseColor
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashIntensity: 5
-  flashAlpha: 0.7
+  flashAlpha: 0.9
 --- !u!1 &9220383817017189025
 GameObject:
   m_ObjectHideFlags: 0

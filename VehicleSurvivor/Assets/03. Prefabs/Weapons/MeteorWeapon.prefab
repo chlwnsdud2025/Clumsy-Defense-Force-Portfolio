@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4252956048526557536}
   - component: {fileID: -1884008635537541073}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: MeteorWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,19 +44,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0c317108c865e4fa94a2417c517257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorWeapon
-  currentLevel: 0
+  useEditorTestLevelData: 0
+  editorTestLevelData:
+    description: 
+    cooldown: 1
+    damage: 10
+    projectileSpeed: 10
+    duration: 1
+    size: 1
+    projectileCount: 1
+    tickInterval: 0.5
+    range: 1
+    bulletSpeed: 20
+    spreadAngle: 15
+    radius: 5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 3
+    chainRadius: 5
+    explosionRadius: 5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon
+  weaponName: Weapon
   meteorPrefab: {fileID: 2047154712773428394, guid: feb2f94033e5a34418916bb1baa6af43, type: 3}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  damage: 40
-  cooldown: 3
-  explosionRadius: 5
-  meteorDelay: 0.3
-  spawnRadius: 15
+  castParticlePrefab: {fileID: 0}
   spawnHeight: 12
-  groundY: 0
-  safeRadius: 7
-  maxTryCount: 20
-  diagonalOffset: 12
-  randomAngleRange: 20
