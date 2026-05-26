@@ -70,11 +70,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9418a53407db9714f8d03a3dc6e1f8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rock_Golem_Middle_Boss
+  bossName: Golem King
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 4500637288152994137}
+  displayName: Golem King
   maxHealth: 10
   moveSpeed: 3
   rotationSpeed: 3
+  contactRange: 2
+  contactCooltime: 1
   expReward: 10
   moneyReward: 10
   contactDamage: 30

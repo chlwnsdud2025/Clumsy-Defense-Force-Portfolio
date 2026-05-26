@@ -5614,6 +5614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 7677211998866077695}
+  displayName: Nightmare King
   maxHealth: 100
   moveSpeed: 2
   rotationSpeed: 2
