@@ -23,13 +23,10 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
     public float JumpPreGroundingGraceTime = 0.15f;
 
     [Header("Debug")]
-    [SerializeField, ReadOnly]
-    private bool isStableOnGround;
-    [SerializeField, ReadOnly]
-    private bool foundAnyGround;
+    [SerializeField, ReadOnly] private bool isStableOnGround;
+    [SerializeField, ReadOnly] private bool foundAnyGround;
+    [SerializeField, ReadOnly] private bool grounded;
 
-    [SerializeField, ReadOnly]
-    private bool grounded;
     public bool Grounded
     {
         get => grounded;
@@ -63,11 +60,17 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
     private float _currentScalarSpeed;
     private float _inputMagnitude = 1f;
 
+    // ==========================================
+    // [핵심 추가] 외부 런치(강제 점프/튕김) 상태 변수
+    // ==========================================
+    private bool _hasLaunchRequest;
+    private Vector3 _launchVelocity;
+    private bool _resetVerticalVelocity;
+    private bool _resetHorizontalVelocity;
+
     private void Awake()
     {
-        if (Motor == null)
-            Motor = GetComponent<KinematicCharacterMotor>();
-
+        if (Motor == null) Motor = GetComponent<KinematicCharacterMotor>();
         Motor.CharacterController = this;
 
         _jumpTimeoutDelta = JumpTimeout;
@@ -85,10 +88,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
         JumpPreGroundingGraceTime = Mathf.Max(0f, JumpPreGroundingGraceTime);
     }
 
-    public void BindRuntime(PlayerRuntime runtime)
-    {
-        _runtime = runtime;
-    }
+    public void BindRuntime(PlayerRuntime runtime) { _runtime = runtime; }
 
     public void SetInputs(Vector2 move, bool jumpPressed, bool analogMovement, float cameraYawDegrees)
     {
@@ -106,37 +106,32 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
         }
     }
 
-    public void AddVelocity(Vector3 velocity)
-    {
-        _internalVelocityAdd += velocity;
-    }
+    public void AddVelocity(Vector3 velocity) { _internalVelocityAdd += velocity; }
+    public void SetConveyorVelocity(Vector3 velocity) { _conveyorVelocity = velocity; }
 
-    public void SetConveyorVelocity(Vector3 velocity)
+    // ==========================================
+    // [핵심 수정] 속도 초기화(Reset) 플래그 추가!
+    // ==========================================
+    public void LaunchJump(float targetHeight, float horizontalForce, Vector3 direction, bool resetYVelocity = true, bool resetXZVelocity = false)
     {
-        _conveyorVelocity = velocity;
-    }
+        _externalImpact = Vector3.zero; // 외부 미끄러짐 방지
 
-    public void LaunchJump(float targetHeight, float horizontalForce, Vector3 direction)
-    {
-        _externalImpact = Vector3.zero;
-        float jumpSpeed = Mathf.Sqrt(targetHeight * -2f * Gravity);
+        // 중력이 음수이므로 절댓값을 씌워서 정확히 계산
+        float jumpSpeed = Mathf.Sqrt(Mathf.Abs(targetHeight * -2f * Gravity));
+
         Vector3 verticalLaunch = Motor.CharacterUp * jumpSpeed;
         Vector3 horizontalLaunch = Vector3.ProjectOnPlane(direction.normalized * horizontalForce, Motor.CharacterUp);
-        AddVelocity(verticalLaunch + horizontalLaunch);
+
+        _launchVelocity = verticalLaunch + horizontalLaunch;
+        _resetVerticalVelocity = resetYVelocity;
+        _resetHorizontalVelocity = resetXZVelocity;
+        _hasLaunchRequest = true; // 다음 UpdateVelocity 프레임에 적용 예약
+
         Motor.ForceUnground();
     }
 
-    public void SetWindForce(float liftSpeed)
-    {
-        _windLiftSpeed = liftSpeed;
-        _windActive = true;
-    }
-
-    public void RemoveWindForce()
-    {
-        _windLiftSpeed = 0f;
-        _windActive = false;
-    }
+    public void SetWindForce(float liftSpeed) { _windLiftSpeed = liftSpeed; _windActive = true; }
+    public void RemoveWindForce() { _windLiftSpeed = 0f; _windActive = false; }
 
     public void Teleport(Vector3 position, Quaternion rotation)
     {
@@ -149,34 +144,41 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
         AnimationBlend = 0f;
     }
 
-    public void BeforeCharacterUpdate(float deltaTime)
-    {
-    }
+    public void BeforeCharacterUpdate(float deltaTime) { }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        if (_moveInputVector.sqrMagnitude <= 0.0001f)
-            return;
+        if (_moveInputVector.sqrMagnitude <= 0.0001f) return;
 
         Vector3 lookDirection = Vector3.ProjectOnPlane(_moveInputVector, Motor.CharacterUp).normalized;
-        if (lookDirection.sqrMagnitude <= 0.0001f)
-            return;
+        if (lookDirection.sqrMagnitude <= 0.0001f) return;
 
         float sharpness = 1f / RotationSmoothTime;
-        Vector3 smoothedDirection = Vector3.Slerp(
-            Motor.CharacterForward,
-            lookDirection,
-            1f - Mathf.Exp(-sharpness * deltaTime)).normalized;
-
+        Vector3 smoothedDirection = Vector3.Slerp(Motor.CharacterForward, lookDirection, 1f - Mathf.Exp(-sharpness * deltaTime)).normalized;
         currentRotation = Quaternion.LookRotation(smoothedDirection, Motor.CharacterUp);
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
+        // ==========================================
+        // [핵심 추가] 런치(강제 점프/튕김) 속도 덮어쓰기 로직
+        // ==========================================
+        if (_hasLaunchRequest)
+        {
+            if (_resetVerticalVelocity)
+                currentVelocity = Vector3.ProjectOnPlane(currentVelocity, Motor.CharacterUp); // Y축 속도 완전 삭제(0)
+
+            if (_resetHorizontalVelocity)
+                currentVelocity = Vector3.Project(currentVelocity, Motor.CharacterUp); // XZ(수평) 속도 완전 삭제(0)
+
+            currentVelocity += _launchVelocity; // 순수하게 점프/튕김 속도만 적용!
+            _hasLaunchRequest = false;
+        }
+
+        // --- 기존 로직 ---
         float moveSpeedMultiplier = GetMoveSpeedMultiplier();
         float targetScalarSpeed = MoveSpeed * moveSpeedMultiplier;
-        if (_moveInputVector.sqrMagnitude <= 0.0001f)
-            targetScalarSpeed = 0f;
+        if (_moveInputVector.sqrMagnitude <= 0.0001f) targetScalarSpeed = 0f;
 
         targetScalarSpeed *= _inputMagnitude;
 
@@ -185,14 +187,10 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             _currentScalarSpeed = Mathf.Lerp(_currentScalarSpeed, targetScalarSpeed, deltaTime * SpeedChangeRate);
             _currentScalarSpeed = Mathf.Round(_currentScalarSpeed * 1000f) / 1000f;
         }
-        else
-        {
-            _currentScalarSpeed = targetScalarSpeed;
-        }
+        else _currentScalarSpeed = targetScalarSpeed;
 
         AnimationBlend = Mathf.Lerp(AnimationBlend, targetScalarSpeed, deltaTime * SpeedChangeRate);
-        if (AnimationBlend < 0.01f)
-            AnimationBlend = 0f;
+        if (AnimationBlend < 0.01f) AnimationBlend = 0f;
 
         CurrentMoveSpeed = _currentScalarSpeed;
         Vector3 gravityVector = Motor.CharacterUp * Gravity;
@@ -207,10 +205,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             Vector3 targetMovementVelocity = reorientedInput * _currentScalarSpeed;
 
             float stableSharpness = SpeedChangeRate;
-            currentVelocity = Vector3.Lerp(
-                currentVelocity,
-                targetMovementVelocity,
-                1f - Mathf.Exp(-stableSharpness * deltaTime));
+            currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-stableSharpness * deltaTime));
         }
         else
         {
@@ -230,20 +225,16 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
                     addedVelocity = Vector3.ProjectOnPlane(addedVelocity, currentVelocityOnInputsPlane.normalized);
                 }
 
-                if (Motor.GroundingStatus.FoundAnyGround &&
-                    Vector3.Dot(currentVelocity + addedVelocity, addedVelocity) > 0f)
+                if (Motor.GroundingStatus.FoundAnyGround && Vector3.Dot(currentVelocity + addedVelocity, addedVelocity) > 0f)
                 {
-                    Vector3 perpendicularObstructionNormal = Vector3.Cross(
-                        Vector3.Cross(Motor.CharacterUp, Motor.GroundingStatus.GroundNormal),
-                        Motor.CharacterUp).normalized;
+                    Vector3 perpendicularObstructionNormal = Vector3.Cross(Vector3.Cross(Motor.CharacterUp, Motor.GroundingStatus.GroundNormal), Motor.CharacterUp).normalized;
                     addedVelocity = Vector3.ProjectOnPlane(addedVelocity, perpendicularObstructionNormal);
                 }
 
                 currentVelocity += addedVelocity;
             }
 
-            if (!_windActive)
-                currentVelocity += gravityVector * deltaTime;
+            if (!_windActive) currentVelocity += gravityVector * deltaTime;
 
             currentVelocity *= 1f / (1f + (AirDrag * deltaTime));
         }
@@ -251,8 +242,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
         _jumpedThisFrame = false;
         _timeSinceJumpRequested += deltaTime;
 
-        bool canJumpFromGround = Motor.GroundingStatus.IsStableOnGround ||
-                                 _timeSinceLastAbleToJump <= GroundedCoyoteTime;
+        bool canJumpFromGround = Motor.GroundingStatus.IsStableOnGround || _timeSinceLastAbleToJump <= GroundedCoyoteTime;
 
         if (_jumpRequested && !_jumpConsumed && canJumpFromGround && _jumpTimeoutDelta <= 0f)
         {
@@ -282,13 +272,9 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             float friction = isReallyGrounded ? 5f : 1f;
             _externalImpact = Vector3.Lerp(_externalImpact, Vector3.zero, friction * deltaTime);
         }
-        else
-        {
-            _externalImpact = Vector3.zero;
-        }
+        else _externalImpact = Vector3.zero;
 
-        if (_conveyorVelocity.sqrMagnitude > 0f)
-            currentVelocity += _conveyorVelocity;
+        if (_conveyorVelocity.sqrMagnitude > 0f) currentVelocity += _conveyorVelocity;
 
         if (_internalVelocityAdd.sqrMagnitude > 0f)
         {
@@ -303,8 +289,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
         isStableOnGround = Motor.GroundingStatus.IsStableOnGround;
         foundAnyGround = Motor.GroundingStatus.FoundAnyGround;
 
-        if (_jumpRequested && _timeSinceJumpRequested > JumpPreGroundingGraceTime)
-            _jumpRequested = false;
+        if (_jumpRequested && _timeSinceJumpRequested > JumpPreGroundingGraceTime) _jumpRequested = false;
 
         if (PhysicsGrounded)
         {
@@ -320,9 +305,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             }
 
             _timeSinceLastAbleToJump = 0f;
-
-            if (_jumpTimeoutDelta >= 0f)
-                _jumpTimeoutDelta -= deltaTime;
+            if (_jumpTimeoutDelta >= 0f) _jumpTimeoutDelta -= deltaTime;
         }
         else
         {
@@ -331,51 +314,27 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             _jumpTimeoutDelta = JumpTimeout;
             _timeSinceLastAbleToJump += deltaTime;
 
-            if (_fallTimeoutDelta >= 0f)
-                _fallTimeoutDelta -= deltaTime;
-            else
-                FreeFallAnimActive = true;
+            if (_fallTimeoutDelta >= 0f) _fallTimeoutDelta -= deltaTime;
+            else FreeFallAnimActive = true;
         }
 
         _conveyorVelocity = Vector3.zero;
     }
 
-    public void PostGroundingUpdate(float deltaTime)
-    {
-    }
-
-    public bool IsColliderValidForCollisions(Collider coll)
-    {
-        return true;
-    }
-
-    public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
-    {
-    }
-
-    public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
-    {
-    }
-
-    public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)
-    {
-    }
-
-    public void OnDiscreteCollisionDetected(Collider hitCollider)
-    {
-    }
+    public void PostGroundingUpdate(float deltaTime) { }
+    public bool IsColliderValidForCollisions(Collider coll) { return true; }
+    public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport) { }
+    public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport) { }
+    public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport) { }
+    public void OnDiscreteCollisionDetected(Collider hitCollider) { }
 
     private float GetMoveSpeedMultiplier()
     {
-        if (_runtime != null)
-            return Mathf.Max(0f, _runtime.Stats.GetValue(EStatType.MoveSpeedMultiplier));
-
-        if (!RunManager.TryGetInstance(out RunManager runManager))
-            return 1f;
+        if (_runtime != null) return Mathf.Max(0f, _runtime.Stats.GetValue(EStatType.MoveSpeedMultiplier));
+        if (!RunManager.TryGetInstance(out RunManager runManager)) return 1f;
 
         RunSession runSession = runManager.RunSession;
-        if (runSession == null || runSession.Player == null)
-            return 1f;
+        if (runSession == null || runSession.Player == null) return 1f;
 
         return Mathf.Max(0f, runSession.Player.Stats.GetValue(EStatType.MoveSpeedMultiplier));
     }

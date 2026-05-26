@@ -111,7 +111,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -137,8 +137,11 @@ MonoBehaviour:
   moneyReward: 15
   separationRadius: 1.5
   separationWeight: 0.5
-  attackRange: 1
-  attackCooltime: 2
+  contactDamage: 10
+  contactRange: 1
+  contactCooltime: 1
+  patternRange: 0
+  patternCooltime: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -146,9 +149,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 5
-  contactDamage: 10
   gravity: -20
-  hitFlash: {fileID: 0}
+  hitFlash: {fileID: 4089052192179513285}
 --- !u!114 &4089052192179513285
 MonoBehaviour:
   m_ObjectHideFlags: 0

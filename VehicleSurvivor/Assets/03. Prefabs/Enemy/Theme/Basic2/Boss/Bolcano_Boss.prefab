@@ -2319,6 +2319,7 @@ GameObject:
   - component: {fileID: 5608938559822882637}
   - component: {fileID: 4079246861747081576}
   - component: {fileID: 809624791420748496}
+  - component: {fileID: 8315188047240112334}
   m_Layer: 11
   m_Name: Bolcano_Boss
   m_TagString: Enemy
@@ -2407,7 +2408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bolcano_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 8080284265266044460}
-  maxHealth: 1000
+  maxHealth: 30
   moveSpeed: 5
   rotationSpeed: 3
   expReward: 500
@@ -2422,13 +2423,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
-  modelRenderers:
-  - {fileID: 1734572081993647880}
-  flashDuration: 0.2
-  flashCooldown: 0.1
-  colorPropertyName: _Color
-  flashIntensity: 5
-  flashAlpha: 0.7
+  hitFlash: {fileID: 8315188047240112334}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -2442,3 +2437,22 @@ MonoBehaviour:
   p2Radius: 10
   p2TelegraphDuration: 3
   p2ExplosionVfx: {fileID: 1922872745006343841, guid: 3d670991ba0b97246932bf958bc9724f, type: 3}
+--- !u!114 &8315188047240112334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4415725177970483417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
