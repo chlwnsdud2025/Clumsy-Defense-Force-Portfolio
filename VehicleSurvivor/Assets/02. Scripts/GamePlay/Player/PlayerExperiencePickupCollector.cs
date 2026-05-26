@@ -122,6 +122,7 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
             return;
 
         playerRuntime.Level.AddExp(finalAmount);
+        SoundPlayback.PlaySfx(ESoundId.SFX_Pickup_Exp);
     }
 
     private bool CanAddExperience()

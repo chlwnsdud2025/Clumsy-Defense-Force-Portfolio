@@ -43,6 +43,7 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
             return;
 
         playerRuntime.Health.TakeDamage(damage);
+        SoundPlayback.PlaySfx(ESoundId.SFX_Player_Hurt);
 
         HitFlash?.TriggerHitFlash();
         CameraShake?.TriggerShake();
@@ -57,6 +58,7 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
             return;
 
         playerRuntime.Health.Heal(amount);
+        SoundPlayback.PlaySfx(ESoundId.SFX_Player_Heal);
     }
 
     private bool TryGetPlayerRuntime(out PlayerRuntime playerRuntime)

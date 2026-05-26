@@ -94,6 +94,8 @@ public class MeteorProjectile : MonoBehaviour
             Debug.Log($"[Meteor] {hit.name} 에게 {damage} 데미지");
         }
 
+        SoundPlayback.PlaySfx(ESoundId.SFX_Weapon_Explosion);
+
         if (explosionEffectPrefab != null)
         {
             GameObject effect = Instantiate(
