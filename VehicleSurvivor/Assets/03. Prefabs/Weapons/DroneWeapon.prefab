@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3263776417518319957}
   - component: {fileID: 2287465809821637663}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: DroneWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,15 @@ MonoBehaviour:
   - {fileID: 7383749743651438928, guid: 7ba6b3ea109e6a646959ca2dfc977943, type: 3}
   - {fileID: 7625334824565090817, guid: 9152027f78ad2b940ad1e5cf9abec901, type: 3}
   - {fileID: 359775970904030932, guid: 1f62b2004e689e14bb0f846375cbaa97, type: 3}
-  droneProjectilePrefab: {fileID: 674168277924758990, guid: 2582cff8aaca5294dbe6457c08025d13, type: 3}
+  droneProjectilePrefabs:
+  - {fileID: 7940379538218745943, guid: 1eb0e1341fe11b44cab0274d108b7163, type: 3}
+  - {fileID: 8726525270039830399, guid: 0fc9c0dadfdda594f945d285c728d519, type: 3}
+  - {fileID: 674168277924758990, guid: 2582cff8aaca5294dbe6457c08025d13, type: 3}
+  - {fileID: 6017074683360298223, guid: f85d6610df53c3040983bb602a10dfd1, type: 3}
+  - {fileID: 2528133529004751048, guid: ffd670a70150bf446846fdd68d3f36c2, type: 3}
   shootParticlePrefab: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   baseOffset: {x: 0, y: 2.5, z: -2}
   spacing: 1.5

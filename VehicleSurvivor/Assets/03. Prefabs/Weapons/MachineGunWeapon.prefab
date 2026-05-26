@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7320288061830874707}
   - component: {fileID: -162114981786733947}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: MachineGunWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,12 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d21b6194e6439848803372f0746b777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
-  useEditorTestLevelData: 0
+  useEditorTestLevelData: 1
   editorTestLevelData:
     description: 
     cooldown: 1
     damage: 10
-    projectileSpeed: 10
+    projectileSpeed: 30
     duration: 1
     size: 1
     projectileCount: 1

@@ -3,8 +3,10 @@ using UnityEngine;
 public class DroneUnit : MonoBehaviour
 {
     [Header("Follow")]
-    public float followSmoothTime =
-        0.15f;
+    public float followSpeed = 5f;
+
+    [Header("Spin")]
+    public float spinSpeed = 360f;
 
     private Vector3 followVelocity;
 
@@ -73,52 +75,32 @@ public class DroneUnit : MonoBehaviour
             return;
 
         FollowOwner();
+        SpinSelf();
         TryAttack();
+    }
+    private void SpinSelf()
+    {
+        transform.Rotate(
+            Vector3.up,
+            spinSpeed * Time.deltaTime,
+            Space.Self
+        );
     }
 
     private void FollowOwner()
     {
         Vector3 worldOffset =
-            owner.TransformDirection(
-                offset
-            );
+            owner.TransformDirection(offset);
 
         Vector3 targetPosition =
-            owner.position +
-            worldOffset;
-
-        Vector3 moveDirection =
-            targetPosition -
-            transform.position;
-
+            owner.position + worldOffset;
+            
         transform.position =
-            Vector3.SmoothDamp(
+            Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
-                ref followVelocity,
-                followSmoothTime
+                followSpeed * Time.deltaTime
             );
-
-        moveDirection.y = 0f;
-
-        if (
-            moveDirection !=
-            Vector3.zero
-        )
-        {
-            Quaternion targetRotation =
-                Quaternion.LookRotation(
-                    moveDirection.normalized
-                );
-
-            transform.rotation =
-                Quaternion.Slerp(
-                    transform.rotation,
-                    targetRotation,
-                    8f *
-                    Time.deltaTime
-                );
-        }
     }
 
     private void TryAttack()

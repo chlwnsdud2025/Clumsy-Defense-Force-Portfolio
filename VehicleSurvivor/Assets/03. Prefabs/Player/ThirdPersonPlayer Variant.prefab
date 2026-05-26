@@ -2947,7 +2947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4756908805119677294, guid: 8409f0aa54061804585eae7166b68b1f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6195216279849283792, guid: 8409f0aa54061804585eae7166b68b1f, type: 3}
       propertyPath: bounceLayer.m_Bits
@@ -3120,6 +3120,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 5949708466658436146}
     m_Modifications:
     - target: {fileID: 2287465809821637663, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
+      propertyPath: baseOffset.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2287465809821637663, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
       propertyPath: targetLayer.m_Bits
       value: 2048
       objectReference: {fileID: 0}
@@ -3153,7 +3157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316819212656001915, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3263776417518319957, guid: 93bd0ef8d874bc94c8af8db3cc6c97fd, type: 3}
       propertyPath: m_LocalPosition.x
