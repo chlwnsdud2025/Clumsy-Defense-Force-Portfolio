@@ -132,9 +132,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Phantom_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 8566155135462255924}
+  displayName: Phantom King
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3
+  contactRange: 2
+  contactCooltime: 1
   expReward: 10
   moneyReward: 10
   contactDamage: 30

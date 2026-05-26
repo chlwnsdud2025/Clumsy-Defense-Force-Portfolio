@@ -80,8 +80,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d9532a98354ad44aec47bf4cfad9a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spider_Boss
+  bossName: 
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 4783982898106377591}
+  displayName: SpiderKing
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3

@@ -5614,9 +5614,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 7677211998866077695}
+  displayName: Nightmare King
   maxHealth: 100
   moveSpeed: 2
   rotationSpeed: 2
+  contactRange: 2
+  contactCooltime: 1
   expReward: 10
   moneyReward: 10
   contactDamage: 30
@@ -5639,7 +5642,8 @@ MonoBehaviour:
   - 0.75
   - 0.5
   - 0.25
-  shieldVfx: {fileID: 459848745414500885, guid: 545e60eb5a5022544a9e4e501e7eedb8, type: 3}
+  shieldVfx: {fileID: 1602298964451911718, guid: 28eea872190786543b3d006f045db139, type: 3}
+  extraAttackCooltime: 4
   sequencedVfx: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
   seqDamage: 40
   seqRadius: 3.5
@@ -5672,18 +5676,18 @@ MonoBehaviour:
   multiLaserChargeTime: 0.5
   multiLaserDelay: 0.2
   shotgunPelletCount: 15
-  spreadAngle: 40
+  spreadAngle: 15
   shotgunLaserDamage: 30
   shotgunLaserLength: 100
   shotgunLaserChargeTime: 1.2
   firePoint: {fileID: 4651495633561584785}
   laserIndicatorPrefab: {fileID: 6145029784968754125, guid: 9ea0b8ebc515116488dc7d6aa52c5597, type: 3}
   laserWarningVfx: {fileID: 0}
-  laserFireVfx: {fileID: 0}
+  laserFireVfx: {fileID: 6918360732641903940, guid: 798b1eeb28ac25d46b5551049c8b39e1, type: 3}
   laserStartRadius: 3
   laserEndRadius: 0.3
   laserCoreRadius: 0.3
-  bigCircleVfx: {fileID: 0}
+  bigCircleVfx: {fileID: 1922872745006343841, guid: 2bbe8ed8fbd314243b71c5e4c6bcbbd6, type: 3}
   bigCircleDamage: 60
   bigCircleRadius: 8
   bigCircleDuration: 5

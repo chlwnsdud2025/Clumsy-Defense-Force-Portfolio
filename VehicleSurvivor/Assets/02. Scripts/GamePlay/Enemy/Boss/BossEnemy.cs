@@ -3,6 +3,8 @@ using UnityEngine;
 // 잡몹(Enemy)과는 완전히 분리된, 보스들만의 새로운 최상위 부모 클래스!
 public abstract class BossEnemy : MonoBehaviour, IDamageable
 {
+  
+
     [Header("Base References")]
     public Transform playerTarget;
 
