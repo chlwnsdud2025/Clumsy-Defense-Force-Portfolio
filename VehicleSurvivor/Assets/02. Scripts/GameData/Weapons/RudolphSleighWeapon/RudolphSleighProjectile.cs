@@ -10,7 +10,8 @@ public class RudolphSleighProjectile : MonoBehaviour
     private Vector3 moveDirection;
     private Vector3 spawnPosition;
 
-    private readonly HashSet<IDamageable> damagedTargets =
+    private readonly HashSet<IDamageable>
+        damagedTargets =
         new HashSet<IDamageable>();
 
     public void Initialize(
@@ -20,9 +21,14 @@ public class RudolphSleighProjectile : MonoBehaviour
         Vector3 newMoveDirection
     )
     {
-        damage = newDamage;
-        speed = newSpeed;
-        travelDistance = newTravelDistance;
+        damage =
+            newDamage;
+
+        speed =
+            newSpeed;
+
+        travelDistance =
+            newTravelDistance;
 
         moveDirection =
             newMoveDirection.normalized;
@@ -44,25 +50,72 @@ public class RudolphSleighProjectile : MonoBehaviour
                 transform.position
             );
 
-        if (movedDistance >= travelDistance)
+        if (
+            movedDistance >=
+            travelDistance
+        )
         {
             Destroy(gameObject);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(
+        Collider other
+    )
     {
+        if (IsPlayerLayer(other))
+            return;
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
         if (damageable == null)
             return;
 
-        if (damagedTargets.Contains(damageable))
+        if (
+            damagedTargets.Contains(
+                damageable
+            )
+        )
+        {
             return;
+        }
 
-        damagedTargets.Add(damageable);
+        damagedTargets.Add(
+            damageable
+        );
 
-        damageable.TakeDamage(damage);
+        damageable.TakeDamage(
+            damage
+        );
+        Debug.Log($"썰매 데미지 들어감: {damage}");
+    }
+
+    private bool IsPlayerLayer(
+        Collider other
+    )
+    {
+        int playerLayer =
+            LayerMask.NameToLayer(
+                "Player"
+            );
+
+        if (playerLayer == -1)
+            return false;
+
+        if (
+            other.gameObject.layer ==
+            playerLayer
+        )
+        {
+            return true;
+        }
+
+        Transform root =
+            other.transform.root;
+
+        return
+            root.gameObject.layer ==
+            playerLayer;
     }
 }

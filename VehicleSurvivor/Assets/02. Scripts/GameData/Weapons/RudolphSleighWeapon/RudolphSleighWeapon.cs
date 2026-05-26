@@ -7,7 +7,6 @@ public class RudolphSleighWeapon : WeaponBase
 
     [Header("Spawn Option")]
     public float spawnHeight = 0.5f;
-    public float groundY = 0f;
 
     [Header("Rotation")]
     public Vector3 sleighRotationOffset;
@@ -64,8 +63,9 @@ public class RudolphSleighWeapon : WeaponBase
             transform.position +
             spawnDirectionFromPlayer * spawnRadius;
 
-        // 바닥 위로 고정
-        spawnPosition.y = groundY + spawnHeight;
+        // 플레이어 y값 으로 고정
+        spawnPosition.y =
+        transform.position.y + spawnHeight;
 
         // 2. 플레이어를 향하는 게 아니라 랜덤 방향으로 질주
         Vector2 randomMoveCircle =

@@ -44,47 +44,105 @@ public class BouncyProjectile : MonoBehaviour
 
     private void Update()
     {
-        velocity += Vector3.down * gravity * Time.deltaTime;
+        velocity +=
+            Vector3.down *
+            gravity *
+            Time.deltaTime;
 
-        transform.position += velocity * Time.deltaTime;
+        transform.position +=
+            velocity *
+            Time.deltaTime;
 
         if (velocity != Vector3.zero)
         {
             transform.rotation =
-                Quaternion.LookRotation(velocity.normalized);
+                Quaternion.LookRotation(
+                    velocity.normalized
+                );
         }
 
         float traveledDistance =
-            Vector3.Distance(spawnPosition, transform.position);
+            Vector3.Distance(
+                spawnPosition,
+                transform.position
+            );
 
-        if (traveledDistance >= maxTravelDistance)
+        if (
+            traveledDistance >=
+            maxTravelDistance
+        )
         {
             Destroy(gameObject);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(
+        Collider other
+    )
     {
+        if (IsPlayerLayer(other))
+            return;
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
+            damageable.TakeDamage(
+                damage
+            );
+            Debug.Log($"탱탱볼 데미지 들어감: {damage}");
+
             Destroy(gameObject);
             return;
         }
 
         int otherLayerMask =
-            1 << other.gameObject.layer;
+            1 <<
+            other.gameObject.layer;
 
-        if ((bounceLayer.value & otherLayerMask) != 0)
+        if (
+            (
+                bounceLayer.value &
+                otherLayerMask
+            ) != 0
+        )
         {
             Bounce(other);
         }
     }
 
-    private void Bounce(Collider other)
+    private bool IsPlayerLayer(
+        Collider other
+    )
+    {
+        int playerLayer =
+            LayerMask.NameToLayer(
+                "Player"
+            );
+
+        if (playerLayer == -1)
+            return false;
+
+        if (
+            other.gameObject.layer ==
+            playerLayer
+        )
+        {
+            return true;
+        }
+
+        Transform root =
+            other.transform.root;
+
+        return
+            root.gameObject.layer ==
+            playerLayer;
+    }
+
+    private void Bounce(
+        Collider other
+    )
     {
         if (bounceCount <= 0)
         {
@@ -92,26 +150,37 @@ public class BouncyProjectile : MonoBehaviour
             return;
         }
 
-        Vector3 normal = GetBounceNormal(other);
+        Vector3 normal =
+            GetBounceNormal(other);
 
         velocity =
-            Vector3.Reflect(velocity, normal) *
-            bounciness;
+            Vector3.Reflect(
+                velocity,
+                normal
+            ) * bounciness;
 
         bounceCount--;
     }
 
-    private Vector3 GetBounceNormal(Collider other)
+    private Vector3 GetBounceNormal(
+        Collider other
+    )
     {
         Vector3 closestPoint =
-            other.ClosestPoint(transform.position);
+            other.ClosestPoint(
+                transform.position
+            );
 
         Vector3 normal =
-            (transform.position - closestPoint).normalized;
+            (
+                transform.position -
+                closestPoint
+            ).normalized;
 
         if (normal == Vector3.zero)
         {
-            normal = Vector3.up;
+            normal =
+                Vector3.up;
         }
 
         return normal;

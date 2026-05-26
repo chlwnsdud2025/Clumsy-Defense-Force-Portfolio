@@ -25,11 +25,17 @@ public class ProjectileBullet : MonoBehaviour
 
         moveDirection = newMoveDirection.normalized;
         spawnPosition = transform.position;
+
+        if (maxTravelDistance <= 0f)
+        {
+            maxTravelDistance = 20f;
+        }
     }
 
     private void Update()
     {
-        transform.position += moveDirection * speed * Time.deltaTime;
+        transform.position +=
+            moveDirection * speed * Time.deltaTime;
 
         float traveledDistance =
             Vector3.Distance(spawnPosition, transform.position);
@@ -42,7 +48,7 @@ public class ProjectileBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Enemy"))
+        if (IsPlayerLayer(other))
             return;
 
         IDamageable damageable =
@@ -52,6 +58,7 @@ public class ProjectileBullet : MonoBehaviour
             return;
 
         damageable.TakeDamage(damage);
+        Debug.Log($"당근 데미지 들어감: {damage}");
 
         if (pierceCount > 0)
         {
@@ -60,5 +67,22 @@ public class ProjectileBullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private bool IsPlayerLayer(Collider other)
+    {
+        int playerLayer =
+            LayerMask.NameToLayer("Player");
+
+        if (playerLayer == -1)
+            return false;
+
+        if (other.gameObject.layer == playerLayer)
+            return true;
+
+        Transform root =
+            other.transform.root;
+
+        return root.gameObject.layer == playerLayer;
     }
 }

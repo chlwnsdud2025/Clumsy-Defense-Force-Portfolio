@@ -79,8 +79,10 @@ public class HomingProjectile : MonoBehaviour
                 transform.position
             );
 
-        if (distance >=
-            maxTravelDistance)
+        if (
+            distance >=
+            maxTravelDistance
+        )
         {
             Destroy(gameObject);
         }
@@ -102,6 +104,9 @@ public class HomingProjectile : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
+            if (IsPlayerLayer(hit))
+                continue;
+
             IDamageable damageable =
                 hit.GetComponentInParent<IDamageable>();
 
@@ -114,8 +119,10 @@ public class HomingProjectile : MonoBehaviour
                     transform.position
                 ).sqrMagnitude;
 
-            if (distance <
-                closestDistance)
+            if (
+                distance <
+                closestDistance
+            )
             {
                 closestDistance =
                     distance;
@@ -130,6 +137,9 @@ public class HomingProjectile : MonoBehaviour
         Collider other
     )
     {
+        if (IsPlayerLayer(other))
+            return;
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
@@ -139,7 +149,36 @@ public class HomingProjectile : MonoBehaviour
         damageable.TakeDamage(
             damage
         );
+        Debug.Log($"비행기 데미지 들어감: {damage}");
 
         Destroy(gameObject);
+    }
+
+    private bool IsPlayerLayer(
+        Collider other
+    )
+    {
+        int playerLayer =
+            LayerMask.NameToLayer(
+                "Player"
+            );
+
+        if (playerLayer == -1)
+            return false;
+
+        if (
+            other.gameObject.layer ==
+            playerLayer
+        )
+        {
+            return true;
+        }
+
+        Transform root =
+            other.transform.root;
+
+        return
+            root.gameObject.layer ==
+            playerLayer;
     }
 }
