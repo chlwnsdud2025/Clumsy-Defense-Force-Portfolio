@@ -113,6 +113,10 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     public void AddGold(int amount) => _runSession?.TryAddGold(amount);
 
+    public bool CanAfford(int cost) => _runSession != null && _runSession.CanAfford(cost);
+
+    public bool TrySpendGold(int amount) => _runSession != null && _runSession.TrySpendGold(amount);
+
     private void InitializeRunSystems()
     {
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
