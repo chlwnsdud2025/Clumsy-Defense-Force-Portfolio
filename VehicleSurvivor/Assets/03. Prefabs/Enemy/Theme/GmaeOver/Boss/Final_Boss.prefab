@@ -5643,6 +5643,7 @@ MonoBehaviour:
   - 0.5
   - 0.25
   shieldVfx: {fileID: 1602298964451911718, guid: 28eea872190786543b3d006f045db139, type: 3}
+  extraAttackCooltime: 4
   sequencedVfx: {fileID: 4155829100703065094, guid: e03c2c03e36474443b8a38e2f2d23bfc, type: 3}
   seqDamage: 40
   seqRadius: 3.5
