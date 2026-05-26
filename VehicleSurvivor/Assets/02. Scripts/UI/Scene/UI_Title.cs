@@ -90,6 +90,10 @@ public class UI_Title : UIScene
 
     public void OnClickSetting()
     {
+        if (UIManager.Instance == null)
+            return;
+
+        UIManager.Instance.ShowPopup(EPopupUIType.Setting, remember: false);
     }
 
     public void OnClickQuit()
