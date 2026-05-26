@@ -29,7 +29,7 @@ public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
 
         Stats.SetBaseStat(EStatType.MoveSpeedMultiplier, combat.MoveSpeedMultiplier);
         Stats.SetBaseStat(EStatType.DamageMultiplier, combat.DamageMultiplier);
-        Stats.SetBaseStat(EStatType.PickupRangeMultiplier, combat.PickupRange);
+        Stats.SetBaseStat(EStatType.PickupRangeMultiplier, combat.PickupRangeMultiplier);
 
         Stats.SetBaseStat(EStatType.MagicDamageMultiplier, 1f);
         Stats.SetBaseStat(EStatType.EvolvedWeaponDamage, 1f);
