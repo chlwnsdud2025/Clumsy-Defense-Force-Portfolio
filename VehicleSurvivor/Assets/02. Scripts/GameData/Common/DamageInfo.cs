@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public readonly struct DamageInfo
 {
     public float Amount { get; }
@@ -5,7 +7,7 @@ public readonly struct DamageInfo
 
     public DamageInfo(float amount, bool isCritical)
     {
-        Amount = amount;
+        Amount = Mathf.Round(amount);
         IsCritical = isCritical;
     }
 
