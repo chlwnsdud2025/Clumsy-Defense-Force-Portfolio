@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerExperiencePickupCollector : MonoBehaviour
 {
     private const int OverlapBufferSize = 64;
-    private const float FallbackPickupRange = 10f;
 
     [SerializeField] private Transform _origin;
     [SerializeField] private LayerMask _experienceMask;
+
+    [Tooltip("기본 경험치 자석 흡수 범위(스탯 배율 적용 전)")]
+    [SerializeField][Min(0.01f)] private float _basePickupRange = 10f;
 
     [Tooltip("자석 범위 안에 있는 경험치 오브가 플레이어 방향으로 이동하는 속도(유닛/초)")]
     [SerializeField][Min(0.01f)] private float _magnetPullSpeed = 10f;
@@ -36,7 +38,7 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
         if (Time.timeScale <= 0f)
             return;
 
-        float magnetRange = FallbackPickupRange * GetPickupRangeMultiplier();
+        float magnetRange = _basePickupRange * GetPickupRangeMultiplier();
         if (magnetRange <= 0f)
             return;
 
@@ -87,7 +89,7 @@ public class PlayerExperiencePickupCollector : MonoBehaviour
         if (!_showPickupRangeGizmo)
             return;
 
-        float range = FallbackPickupRange;
+        float range = _basePickupRange * GetPickupRangeMultiplier();
         if (range <= 0f)
             return;
 

@@ -26724,6 +26724,7 @@ MonoBehaviour:
   _experienceMask:
     serializedVersion: 2
     m_Bits: 4096
+  _basePickupRange: 5
   _magnetPullSpeed: 20
   _contactAbsorbRadius: 0.45
   _showPickupRangeGizmo: 1
