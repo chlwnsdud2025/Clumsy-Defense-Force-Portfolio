@@ -126,6 +126,7 @@ public class TreasureChest : MonoBehaviour
     private void OpenChest()
     {
         isOpened = true;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Chest_Open);
         HidePrompt();
 
         if (chestAnimator != null)

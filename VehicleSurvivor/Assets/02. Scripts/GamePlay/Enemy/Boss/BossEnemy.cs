@@ -93,6 +93,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             if (currentAttackCooldown <= 0)
             {
                 Attack();
+                SoundPlayback.PlaySfx(ESoundId.SFX_Boss_Attack);
             }
         }
 

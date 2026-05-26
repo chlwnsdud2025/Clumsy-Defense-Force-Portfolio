@@ -94,6 +94,10 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         // 인스펙터에 설정된 timeLimit(최종 보스전은 600)으로 타이머가 알아서 세팅됩니다!
         if (RunManager.TryGetInstance(out RunManager runManager))
             runManager.StartWavePhase(currentPhase.timeLimit);
+
+        if (SoundManager.TryGetInstance(out SoundManager soundManager) &&
+            soundManager.TryGetComponent(out SoundBgmController bgmController))
+            bgmController.PlayInGameBgm();
     }
 
     public void OnStageCleared()

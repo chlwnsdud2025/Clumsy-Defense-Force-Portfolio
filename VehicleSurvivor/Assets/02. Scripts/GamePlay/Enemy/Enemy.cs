@@ -304,6 +304,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Hit);
         GameObject textObj = DamageTextPool.Instance.GetDamageText();
         textObj.GetComponent<DamageText>().Setup(damage, damageTextSpawnpoint.position);
 
@@ -319,6 +320,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         hitFlash?.ResetFlash();
+        SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Death);
         DropExpOrbs();
         DropMoney();
         RunManager.Instance.AddKill();
