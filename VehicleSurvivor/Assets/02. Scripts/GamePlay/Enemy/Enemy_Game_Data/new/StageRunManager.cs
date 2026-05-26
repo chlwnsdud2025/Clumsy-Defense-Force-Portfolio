@@ -34,6 +34,11 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     [Tooltip("씬에 이미 배치되어 있는 석상 3개를 순서대로 드래그해서 넣으세요.")]
     public BossStatue[] sceneStatues;
 
+    // ==========================================
+    // 🔒 [핵심 추가] 현재 중간 보스가 맵에 활성화되어 있는지 추적하는 상태 변수
+    // ==========================================
+    public bool isBossActive { get; private set; } = false;
+
     private void Start()
     {
         if (EnemyManager.Instance != null && currentTheme != null)
@@ -52,6 +57,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     public void InitializeForRun()
     {
         ApplySkybox(defaultSkybox);
+        isBossActive = false; // 런 시작 시 초기화
 
         if (debugSkipToFinalBoss)
         {
@@ -68,6 +74,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     {
         StopAllCoroutines();
         currentPhaseIndex = 0;
+        isBossActive = false; // 런이 종료되거나 취소될 때 락 해제
         ApplySkybox(defaultSkybox);
     }
 
@@ -91,14 +98,31 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
     public void OnStageCleared()
     {
+        // ==========================================
+        // 🔒 [방어 추가] 이미 보스가 소환되어 진행 중이라면 중복 소환을 차단합니다!
+        // ==========================================
+        if (isBossActive)
+        {
+            Debug.LogWarning($"[차단] 현재 {currentPhaseIndex + 1}페이즈 보스가 이미 살아있습니다. 중복 소환이 불가능합니다.");
+            return;
+        }
+
         if (midBossPrefabs != null && currentPhaseIndex < midBossPrefabs.Length)
         {
+            isBossActive = true; // 중간 보스 활성화 상태 잠금
             Instantiate(midBossPrefabs[currentPhaseIndex], midBossSpawnPoint.position, Quaternion.identity);
+            Debug.Log($"[시스템 잠금] {currentPhaseIndex + 1}페이즈 중간 보스 출현!");
         }
     }
 
     public void OnMidBossDefeated()
     {
+        // ==========================================
+        // 🔒 [락 해제] 보스가 처치되었으므로 상태를 초기화하여 시스템 잠금을 해제합니다.
+        // ==========================================
+        isBossActive = false;
+        Debug.Log($"[시스템 잠금 해제] 중간 보스 처치 완료!");
+
         // 6번째 보스(인덱스 5) 격파 시
         if (currentPhaseIndex >= 5)
         {
@@ -197,6 +221,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         }
 
         currentPhaseIndex = 5;
+        isBossActive = false; // 디버그 소환 시에도 안전하게 해제
         OnMidBossDefeated();
     }
 

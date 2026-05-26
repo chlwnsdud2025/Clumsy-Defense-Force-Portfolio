@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeeMidBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 6720801822484076126}
-  maxHealth: 1000
+  maxHealth: 50
   moveSpeed: 2
   rotationSpeed: 10
   expReward: 10
@@ -67,7 +67,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 0.1
-  hitFlash: {fileID: 0}
+  hitFlash: {fileID: 7585557088816424824}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -157,12 +157,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
   modelRenderers:
   - {fileID: 6902694358655248130}
-  flashDuration: 0.1
+  flashDuration: 0.2
   flashCooldown: 0.1
-  colorPropertyName: _BaseColor
+  colorPropertyName: _Color
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   flashIntensity: 5
-  flashAlpha: 0.5
+  flashAlpha: 0.7
 --- !u!1 &6338972821931853846
 GameObject:
   m_ObjectHideFlags: 0

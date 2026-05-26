@@ -5574,6 +5574,7 @@ GameObject:
   - component: {fileID: 4643626434872597704}
   - component: {fileID: 4607941258978376543}
   - component: {fileID: 8372861815642862759}
+  - component: {fileID: 7756159360588242436}
   m_Layer: 11
   m_Name: Final_Boss
   m_TagString: Enemy
@@ -5628,7 +5629,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 2.5
-  hitFlash: {fileID: 0}
+  hitFlash: {fileID: 7756159360588242436}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -5749,6 +5750,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7756159360588242436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5357981929756136816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &5496859582959693256
 GameObject:
   m_ObjectHideFlags: 0

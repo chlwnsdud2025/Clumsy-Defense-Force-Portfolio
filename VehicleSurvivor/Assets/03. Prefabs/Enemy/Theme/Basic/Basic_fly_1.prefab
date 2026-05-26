@@ -80,7 +80,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -103,10 +103,14 @@ MonoBehaviour:
   maxHealth: 10
   rotationSpeed: 2
   expReward: 34
+  moneyReward: 15
   separationRadius: 1.5
   separationWeight: 0.5
-  attackRange: 0
-  attackCooltime: 1
+  contactDamage: 10
+  contactRange: 1
+  contactCooltime: 1
+  patternRange: 0
+  patternCooltime: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -114,9 +118,29 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 5
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 2779952254108692103}
   flyingHeightOffset: 1.2
+--- !u!114 &2779952254108692103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6743300894795504222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 578584582048572451}
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &7947364614208741903
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,20 +255,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5904838799093442437, guid: 9cf7a96bec8514148b2f685ebd42d9cb, type: 3}
   m_PrefabInstance: {fileID: 2710811228412180413}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2779952254108692103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6743300894795504222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
-  modelRenderers:
-  - {fileID: 578584582048572451}
-  flashDuration: 0.1
-  flashCooldown: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}

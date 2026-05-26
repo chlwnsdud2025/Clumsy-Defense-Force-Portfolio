@@ -10,12 +10,13 @@ public class PlayerEnvironmentReceiver : MonoBehaviour
         _motor = GetComponent<PlayerMotor>();
     }
 
-    public void ApplyTargetHeightJump(float targetHeight, float horizontalForce, Vector3 direction)
+    // 파라미터 2개(resetYVelocity, resetXZVelocity)가 추가되었습니다!
+    public void ApplyTargetHeightJump(float targetHeight, float horizontalForce, Vector3 direction, bool resetYVelocity = true, bool resetXZVelocity = false)
     {
         if (_motor == null)
             return;
 
-        _motor.LaunchJump(targetHeight, horizontalForce, direction);
+        _motor.LaunchJump(targetHeight, horizontalForce, direction, resetYVelocity, resetXZVelocity);
     }
 
     public void SetWindForce(float liftSpeed)

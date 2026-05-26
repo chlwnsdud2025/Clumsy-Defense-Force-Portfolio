@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3391092239978916298}
   - component: {fileID: 7564085873065979395}
   - component: {fileID: -1045721241837379299}
-  - component: {fileID: 3391092239978916298}
   - component: {fileID: -7729513013793624253}
   m_Layer: 11
   m_Name: EnemyType1(Normal)
@@ -39,6 +38,53 @@ Transform:
   - {fileID: 2932223635161724805}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &3391092239978916298
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5944618501675846902}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7564085873065979395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5944618501675846902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers:
+  - {fileID: 3257240495676304035}
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!136 &-1045721241837379299
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -62,33 +108,6 @@ CapsuleCollider:
   m_Height: 0.84
   m_Direction: 1
   m_Center: {x: 0, y: 0.58, z: 0}
---- !u!54 &3391092239978916298
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5944618501675846902}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &-7729513013793624253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,10 +126,14 @@ MonoBehaviour:
   maxHealth: 50
   rotationSpeed: 2
   expReward: 1
+  moneyReward: 15
   separationRadius: 1
   separationWeight: 1
-  attackRange: 0
-  attackCooltime: 2
+  contactDamage: 10
+  contactRange: 1
+  contactCooltime: 1
+  patternRange: 0
+  patternCooltime: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -118,8 +141,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 7564085873065979395}
 --- !u!1 &7311469931525132662
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,20 +336,3 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5988442970217201855, guid: ae93e0229374bee449f85a351183c6f6, type: 3}
   m_PrefabInstance: {fileID: 9092543201691494940}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7564085873065979395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5944618501675846902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
-  modelRenderers:
-  - {fileID: 3257240495676304035}
-  flashDuration: 0.1
-  flashCooldown: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5290101143707185595}
   - component: {fileID: 7016714960088384505}
   - component: {fileID: 8161555342933045766}
-  - component: {fileID: 9569156716970534265}
+  - component: {fileID: 8649353717862100934}
   m_Layer: 11
   m_Name: Basic_Suicide_1
   m_TagString: Enemy
@@ -183,7 +183,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -206,10 +206,14 @@ MonoBehaviour:
   maxHealth: 50
   rotationSpeed: 2
   expReward: 1
+  moneyReward: 15
   separationRadius: 1
   separationWeight: 1
-  attackRange: 1.5
-  attackCooltime: 2
+  contactDamage: 10
+  contactRange: 1.5
+  contactCooltime: 1
+  patternRange: 1.5
+  patternCooltime: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -217,8 +221,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 8649353717862100934}
   fuseTime: 2
   explosionRadius: 3.5
   explosionDamage: 50
@@ -249,6 +253,25 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.72
   m_Center: {x: 0, y: 0.45, z: -0.06}
+--- !u!114 &8649353717862100934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539001815701513887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1001 &232846132114164249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -322,11 +345,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa8316bb2c9ebfa4c9625bc55cc70ee2, type: 3}
---- !u!23 &4493728612852676105 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4424736123363441680, guid: fa8316bb2c9ebfa4c9625bc55cc70ee2, type: 3}
-  m_PrefabInstance: {fileID: 232846132114164249}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7193667617950986090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6984580302434723187, guid: fa8316bb2c9ebfa4c9625bc55cc70ee2, type: 3}
@@ -406,20 +424,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6482508342259214648, guid: 43ac643cd0f2a51429a9d2ae1ce4193e, type: 3}
   m_PrefabInstance: {fileID: 4932868726431824581}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9569156716970534265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7539001815701513887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
-  modelRenderers:
-  - {fileID: 4493728612852676105}
-  flashDuration: 0.1
-  flashCooldown: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}

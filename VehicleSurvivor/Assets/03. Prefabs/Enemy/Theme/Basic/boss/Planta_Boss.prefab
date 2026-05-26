@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 4301345872891877611}
   - component: {fileID: 7746416926621405691}
   - component: {fileID: 4128825224549554216}
+  - component: {fileID: 5982372186386273733}
   m_Layer: 11
   m_Name: Planta_Geezer
   m_TagString: Enemy
@@ -493,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Geezer
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 1205074186043561273}
-  maxHealth: 10
+  maxHealth: 30
   moveSpeed: 8
   rotationSpeed: 3
   expReward: 10
@@ -508,7 +509,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
-  hitFlash: {fileID: 0}
+  hitFlash: {fileID: 5982372186386273733}
 --- !u!54 &7746416926621405691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -559,6 +560,25 @@ CapsuleCollider:
   m_Height: 1.21
   m_Direction: 1
   m_Center: {x: 0, y: 0.46, z: 0}
+--- !u!114 &5982372186386273733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189630955313203638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &1189630955313203646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,6 +1226,7 @@ GameObject:
   - component: {fileID: 3586117292380311784}
   - component: {fileID: 4820883341738061995}
   - component: {fileID: 9054054808218392620}
+  - component: {fileID: 2417329163863539008}
   m_Layer: 11
   m_Name: Planta_Queen
   m_TagString: Enemy
@@ -1267,7 +1288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Queen
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 9051413299716602695}
-  maxHealth: 10
+  maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3
   expReward: 10
@@ -1282,7 +1303,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
-  hitFlash: {fileID: 0}
+  hitFlash: {fileID: 2417329163863539008}
   telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
   explosionEffectPrefab: {fileID: 8236951030570242485, guid: a5fe2c2a80f55f44c982c5a41b08636c, type: 3}
   chainCount: 10
@@ -1340,6 +1361,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2417329163863539008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4227717340386423674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _BaseColor
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1 &4227717340386423676
 GameObject:
   m_ObjectHideFlags: 0

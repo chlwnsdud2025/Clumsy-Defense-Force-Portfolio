@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6691355034152438532}
   - component: {fileID: 4446770284400905092}
+  - component: {fileID: 5949816358890675084}
   m_Layer: 0
   m_Name: GameOver_Middle_Boss
   m_TagString: Untagged
@@ -46,9 +47,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOver_Middle_Boss
   playerTarget: {fileID: 0}
+  damageTextSpawnpoint: {fileID: 0}
   maxHealth: 1000
   moveSpeed: 3
   rotationSpeed: 3
+  expReward: 10
+  moneyReward: 10
+  contactDamage: 30
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -58,6 +63,7 @@ MonoBehaviour:
   slowClimbSpeed: 5
   gravity: -20
   attackCooltime: 4
+  hitFlash: {fileID: 5949816358890675084}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -69,6 +75,25 @@ MonoBehaviour:
   lineForwardSpacing: 4
   lineTelegraphDelay: 0.2
   explosionEffectPrefab: {fileID: 4014780428814847390, guid: abfbe67255c4922459899910bce7553e, type: 3}
+--- !u!114 &5949816358890675084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971881291278405673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c659f45c1dc81a149a6cee1634b1b380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  modelRenderers: []
+  flashDuration: 0.2
+  flashCooldown: 0.1
+  colorPropertyName: _Color
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 5
+  flashAlpha: 0.7
 --- !u!1001 &1321550617453334938
 PrefabInstance:
   m_ObjectHideFlags: 0
