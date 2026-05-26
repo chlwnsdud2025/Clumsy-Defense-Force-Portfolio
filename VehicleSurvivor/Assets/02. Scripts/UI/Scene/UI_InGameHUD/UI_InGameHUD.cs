@@ -470,9 +470,44 @@ public class UI_InGameHUD : UIScene
         waveTimerPunchTween = null;
     }
 
+    private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape))
+            return;
+
+        if (UIManager.Instance == null)
+            return;
+
+        UI_Pause pausePopup = UIManager.Instance.GetCurrentPopup<UI_Pause>();
+        if (pausePopup != null)
+        {
+            UIManager.Instance.ClosePopup(pausePopup);
+            return;
+        }
+
+        TryOpenPausePopup();
+    }
+
     public void OnClickPausePopup()
     {
-        UIManager.Instance.ShowPopup(EPopupUIType.Pause);
+        TryOpenPausePopup();
+    }
+
+    private void TryOpenPausePopup()
+    {
+        if (!RunManager.TryGetInstance(out RunManager runManager))
+            return;
+
+        if (runManager.RunSession == null || runManager.RunSession.State != ERunState.Playing)
+            return;
+
+        if (UIManager.Instance == null)
+            return;
+
+        if (UIManager.Instance.GetCurrentPopup<UIPopup>() != null)
+            return;
+
+        UIManager.Instance.ShowPopup(EPopupUIType.Pause, remember: false);
     }
 
     private void OnDestroy()

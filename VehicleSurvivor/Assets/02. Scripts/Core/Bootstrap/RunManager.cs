@@ -305,7 +305,8 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
     {
-        if (nextState == ERunState.RewardSelection)
+        if (nextState == ERunState.RewardSelection ||
+            nextState == ERunState.Paused)
             Time.timeScale = 0f;
         else if (nextState == ERunState.Playing ||
                  nextState == ERunState.Ended ||
