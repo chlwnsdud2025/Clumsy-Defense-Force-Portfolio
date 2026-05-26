@@ -15,6 +15,11 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float moveSpeed = 3f;
     public float rotationSpeed = 3f;
 
+    [Header("Contact Damage (보스 몸통 충돌)")]
+    public float contactRange = 2.0f; // 보스는 덩치가 크니 범위를 좀 더 넓게 잡는 게 좋습니다.
+    public float contactCooltime = 1.0f;
+    protected float currentContactCooldown;
+
     [Header("Rewards")]
     public int expReward = 10;   
     public int moneyReward = 10;
@@ -65,6 +70,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         if (playerTarget == null) return;
 
         float dt = Time.deltaTime;
+
+        CheckContactDamage(dt);
 
         if (!isCastingPattern)
         {
@@ -235,5 +242,30 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         if (MoneyManager.Instance != null && playerTarget != null)
             MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
 
-    }    
+    }
+
+    protected virtual void CheckContactDamage(float deltaTime)
+    {
+        if (currentContactCooldown > 0)
+        {
+            currentContactCooldown -= deltaTime;
+        }
+
+        // 보스는 IDamageable을 상속받는 Player를 타겟으로 함
+        IDamageable player = playerTarget.GetComponent<IDamageable>();
+
+        if (player != null)
+        {
+            float distance3D = Vector3.Distance(transform.position, playerTarget.position);
+
+            if (distance3D <= contactRange)
+            {
+                if (currentContactCooldown <= 0)
+                {
+                    player.TakeDamage(contactDamage);
+                    currentContactCooldown = contactCooltime;
+                }
+            }
+        }
+    }
 }

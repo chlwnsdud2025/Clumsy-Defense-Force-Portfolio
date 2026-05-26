@@ -61,6 +61,7 @@ public class TileMapManager : MonoBehaviour
     void GenerateTruePath()
     {
         int currentX = Random.Range(0, width);
+        int consecutiveForwards = 0;
 
         for (int z = 0; z < height; z++)
         {
@@ -68,7 +69,9 @@ public class TileMapManager : MonoBehaviour
 
             if (z == height - 1) break;
 
-            bool moveSideways = Random.value > 0.5f;
+            // [핵심 수정] 2칸 이상 전진했을 때만 꺾을 수 있도록 조건 변경
+            bool canMoveSideways = (consecutiveForwards >= 2);
+            bool moveSideways = canMoveSideways && (Random.value > 0.5f);
 
             if (moveSideways)
             {
@@ -80,6 +83,14 @@ public class TileMapManager : MonoBehaviour
                     currentX += step;
                     SetTrueTile(currentX, z);
                 }
+
+                // 옆으로 이동했으니 전진 카운트를 초기화하여 다시 2칸 전진을 유도
+                consecutiveForwards = 0;
+            }
+            else
+            {
+                // 전진했으므로 전진 카운트를 증가시킵니다.
+                consecutiveForwards++;
             }
         }
     }
