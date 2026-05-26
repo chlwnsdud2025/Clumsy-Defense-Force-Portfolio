@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Item_Legendary_Mask
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_legendary_scary_mask
-  itemName: "무서운 가면"
-  description: "모든 적의 체력을 감소시킵니다."
+  itemName: "臾댁꽌??媛硫?
+  description: "紐⑤뱺 ?곸쓽 泥대젰??媛먯냼?쒗궢?덈떎."
   itemCategory: 0
   rarity: 5
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: fb23b2881828a1c428a9f6c8aa0d453b, type: 3}
   isOneTimeUse: 1
   statModifiers: []
+

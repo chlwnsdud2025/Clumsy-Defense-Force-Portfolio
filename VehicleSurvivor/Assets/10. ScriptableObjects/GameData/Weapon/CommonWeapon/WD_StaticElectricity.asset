@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: WD_StaticElectricity
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_common_staticelectricity
-  weaponName: "정전기"
-  description: "무작위 방향으로 전기를 방출합니다."
-  icon: {fileID: 0}
+  weaponName: "?뺤쟾湲?
+  description: "臾댁옉??諛⑺뼢?쇰줈 ?꾧린瑜?諛⑹텧?⑸땲??"
+  icon: {fileID: 21300000, guid: ff60aa6eeaf26ea41925738d591b61fd, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 6
   tags:
-  - "전기"
-  - "랜덤방향"
-  - "방출"
+  - "?꾧린"
+  - "?쒕뜡諛⑺뼢"
+  - "諛⑹텧"
   levelDataList:
   - bulletSpeed: 0.1
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.4
     meteorDelay: 1
-    description: "기본 전기 방출"
+    description: "湲곕낯 ?꾧린 諛⑹텧"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.4
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 1.15
     damage: 12
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.4
     meteorDelay: 1
-    description: "거리 증가"
+    description: "嫄곕━ 利앷?"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.4
     meteorDelay: 1
-    description: "방출 수 증가"
+    description: "諛⑹텧 ??利앷?"
     cooldown: 1.05
     damage: 14
     projectileSpeed: 0.1
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.4
     meteorDelay: 1
-    description: "피해량 증가"
+    description: "?쇳빐??利앷?"
     cooldown: 0.95
     damage: 16
     projectileSpeed: 0.1
@@ -105,3 +105,4 @@ MonoBehaviour:
     range: 5.5
   evolutionWeaponId: weapon_evolved_spark_chaos
   requiredPassiveId: passive_cooldown_reduction
+

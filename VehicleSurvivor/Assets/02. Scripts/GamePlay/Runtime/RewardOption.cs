@@ -126,7 +126,15 @@ public sealed class RewardOption
         if (!template.Contains("{0}"))
             return template;
 
-        return string.Format(template, FormatModifierValue(modifier));
+        string valueText = FormatModifierValue(modifier);
+        if (level > 1)
+        {
+            StatModifierData previousModifier = passive.GetModifierData(level - 1);
+            if (previousModifier != null)
+                valueText = $"{FormatModifierValue(previousModifier)} > {valueText}";
+        }
+
+        return string.Format(template, valueText);
     }
 
     private static string FormatModifierValue(StatModifierData modifier)

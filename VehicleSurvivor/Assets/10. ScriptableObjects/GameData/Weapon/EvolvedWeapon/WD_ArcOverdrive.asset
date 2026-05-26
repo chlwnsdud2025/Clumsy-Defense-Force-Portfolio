@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: WD_ArcOverdrive
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_arc_overdrive
-  weaponName: "아크 오버드라이브"
-  description: "리펄서 빔이 더 많은 줄기로 강하게 방출됩니다."
-  icon: {fileID: 0}
+  weaponName: "?꾪겕 ?ㅻ쾭?쒕씪?대툕"
+  description: "由ы럡??鍮붿씠 ??留롮? 以꾧린濡?媛뺥븯寃?諛⑹텧?⑸땲??"
+  icon: {fileID: 21300000, guid: 3c265a758da0d8c499fb3f2ba3e8bc88, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 4
   tags: []
@@ -27,7 +27,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "吏꾪솕 ?꾨즺"
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -38,3 +38,4 @@ MonoBehaviour:
     range: 7
   evolutionWeaponId: 
   requiredPassiveId: 
+
