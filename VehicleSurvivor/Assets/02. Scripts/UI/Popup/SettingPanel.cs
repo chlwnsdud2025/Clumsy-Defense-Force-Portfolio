@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,22 @@ public class SettingPanel : MonoBehaviour
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private Slider musicSlider;
 
+    [Header("진입 애니메이션")]
+    [SerializeField] private RectTransform tweenTarget;
+    [SerializeField] private float enterDuration = 0.35f;
+    [SerializeField] private Ease enterEase = Ease.OutBack;
+
     private bool _isBinding;
+    private Vector3 _normalScale = Vector3.one;
+    private Tween _enterTween;
+
+    private void Awake()
+    {
+        if (tweenTarget == null)
+            tweenTarget = GetComponent<RectTransform>();
+
+        _normalScale = tweenTarget.localScale;
+    }
 
     private void OnEnable()
     {
@@ -16,11 +32,49 @@ public class SettingPanel : MonoBehaviour
 
     private void OnDisable()
     {
+        StopEnterAnimation();
+
         if (musicSlider != null)
             musicSlider.onValueChanged.RemoveListener(OnBgmVolumeChanged);
 
         if (sfxSlider != null)
             sfxSlider.onValueChanged.RemoveListener(OnSfxVolumeChanged);
+    }
+
+    private void OnDestroy()
+    {
+        StopEnterAnimation();
+    }
+
+    public void Configure(float duration, Ease ease)
+    {
+        enterDuration = duration;
+        enterEase = ease;
+    }
+
+    public void PlayEnterAnimation()
+    {
+        StopEnterAnimation();
+
+        if (tweenTarget == null)
+            return;
+
+        tweenTarget.localScale = Vector3.zero;
+        _enterTween = tweenTarget
+            .DOScale(_normalScale, enterDuration)
+            .SetEase(enterEase)
+            .SetUpdate(true);
+    }
+
+    public void StopEnterAnimation()
+    {
+        if (_enterTween != null && _enterTween.IsActive())
+            _enterTween.Kill();
+
+        _enterTween = null;
+
+        if (tweenTarget != null)
+            tweenTarget.localScale = _normalScale;
     }
 
     public void Refresh()
