@@ -95,7 +95,7 @@ public class MatchGameManager : MonoBehaviour
             DropWrongTiles();
 
             // 4. 추락 연출 대기
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(3f);
 
             // 5. 생존 검사 (이 내부에서 _isCleared가 true로 바뀔 수 있음)
             CheckPlayerSurvival();
