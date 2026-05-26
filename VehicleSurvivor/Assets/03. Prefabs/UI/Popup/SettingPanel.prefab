@@ -233,7 +233,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.853
+  m_Value: 0.44168863
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.853
+  m_Value: 0.42583546
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2312,6 +2312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SettingPanel
   sfxSlider: {fileID: 5701044078559964435}
   musicSlider: {fileID: 5280011859234632450}
+  tweenTarget: {fileID: 920307108187878710}
+  enterDuration: 0.35
+  enterEase: 27
 --- !u!1 &8746284966588350470
 GameObject:
   m_ObjectHideFlags: 0
