@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Rabbit
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Rabbit
-  _displayName: Player_Rabbit
+  _displayName: "\uD1A0\uB9AC"
   _description: "\uBE60\uB974\uAC8C \uB2F9\uADFC\uC744 \uB0A0\uB824 \uAC00\uAE4C\uC6B4
     \uC801\uC744 \uCF55\uCF55 \uB9DE\uD788\uB294 \uD1A0\uB07C \uCE5C\uAD6C. \uD22C\uC0AC\uCCB4
     \uC218\uAC00 \uB298\uC5B4\uB0A0\uC218\uB85D \uD654\uBA74\uC744 \uB2F9\uADFC\uC73C\uB85C
@@ -24,10 +24,10 @@ MonoBehaviour:
   _visualPrefab: {fileID: 3985054355110936385, guid: e3694f81a083dfc44b8e62a497e11bcc, type: 3}
   _startingWeapon: {fileID: 11400000, guid: 1eab6e2e815a4f14daa5cd4567007284, type: 2}
   _combat:
-    MaxHealth: 111
-    Defense: 11
-    MoveSpeedMultiplier: 1
-    DamageMultiplier: 1
+    MaxHealth: 85
+    Defense: 0
+    MoveSpeedMultiplier: 1.15
+    DamageMultiplier: 1.05
     PickupRangeMultiplier: 1
   _loadout:
     UniqueTraitId: 

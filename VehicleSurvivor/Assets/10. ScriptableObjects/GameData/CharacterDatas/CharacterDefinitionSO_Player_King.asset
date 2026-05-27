@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_King
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_King
-  _displayName: Player_King
+  _displayName: "\uB85C\uC774\uD0B9"
   _description: "\uC655\uAD00 \uBD80\uBA54\uB791\uC744 \uB358\uC838 \uC801\uB4E4\uC744
     \uC6B0\uC544\uD558\uAC8C \uBCA0\uC5B4\uB0B4\uB294 \uC655\uC2E4 \uCE90\uB9AD\uD130.
     \uC655\uAD00\uC774 \uC655\uBCF5\uD558\uBA70 \uB113\uC740 \uACBD\uB85C\uB97C \uC7A5\uC545\uD558\uB294
@@ -24,10 +24,10 @@ MonoBehaviour:
   _visualPrefab: {fileID: 5382548778612334277, guid: 5ecd9ddef845a0646ae289d48898d609, type: 3}
   _startingWeapon: {fileID: 11400000, guid: b50df351ae620b245987220a02200bed, type: 2}
   _combat:
-    MaxHealth: 777
-    Defense: 7
-    MoveSpeedMultiplier: 7
-    DamageMultiplier: 7
+    MaxHealth: 110
+    Defense: 4
+    MoveSpeedMultiplier: 0.95
+    DamageMultiplier: 1.05
     PickupRangeMultiplier: 1
   _loadout:
     UniqueTraitId: 

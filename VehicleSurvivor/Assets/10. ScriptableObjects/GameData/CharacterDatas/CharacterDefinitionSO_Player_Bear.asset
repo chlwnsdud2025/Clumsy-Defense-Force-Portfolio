@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Bear
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Bear
-  _displayName: Player_Bear
+  _displayName: "\uACF0\uD30C\uCE58"
   _description: "\uCEE4\uB2E4\uB780 \uACF0\uBC1C\uBC14\uB2E5 \uCDA9\uACA9\uD30C\uB85C
     \uC801\uC744 \uBC00\uC5B4\uBD99\uC774\uB294 \uD30C\uC6CC\uD615 \uCE90\uB9AD\uD130.
     \uACF5\uACA9 \uBC94\uC704\uC640 \uD06C\uAE30\uAC00 \uCEE4\uC9C8\uC218\uB85D \uD55C
@@ -24,10 +24,10 @@ MonoBehaviour:
   _visualPrefab: {fileID: 7945152250932536411, guid: 72f7bf2a24321cc4eabca43c5264d9f5, type: 3}
   _startingWeapon: {fileID: 11400000, guid: 6667500fdafc12b438b9952e278cb656, type: 2}
   _combat:
-    MaxHealth: 666
-    Defense: 6
-    MoveSpeedMultiplier: 6
-    DamageMultiplier: 6
+    MaxHealth: 115
+    Defense: 3
+    MoveSpeedMultiplier: 0.9
+    DamageMultiplier: 1.1
     PickupRangeMultiplier: 1
   _loadout:
     UniqueTraitId: 

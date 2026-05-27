@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Santa
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Santa
-  _displayName: Player_Santa
+  _displayName: "\uC0B0\uD0C0\uBD90"
   _description: "\uC120\uBB3C \uC0C1\uC790\uB97C \uB358\uC838 \uD391\uD391 \uD130\uB728\uB9AC\uB294
     \uD3ED\uBC1C\uD615 \uCE90\uB9AD\uD130. \uBE60\uB974\uAC8C \uC6C0\uC9C1\uC774\uBA70
     \uC801 \uC0AC\uC774\uC5D0 \uAE5C\uC9DD \uC120\uBB3C\uC744 \uBC30\uB2EC\uD558\uB294
@@ -24,10 +24,10 @@ MonoBehaviour:
   _visualPrefab: {fileID: 3656048780541344294, guid: 21b760ea4f49400448809bd2afda07d0, type: 3}
   _startingWeapon: {fileID: 11400000, guid: 73494b6aaed0ec2458b76e75d184eddc, type: 2}
   _combat:
-    MaxHealth: 333
-    Defense: 3
-    MoveSpeedMultiplier: 3
-    DamageMultiplier: 3
+    MaxHealth: 95
+    Defense: 1
+    MoveSpeedMultiplier: 1.1
+    DamageMultiplier: 1.1
     PickupRangeMultiplier: 1
   _loadout:
     UniqueTraitId: 
