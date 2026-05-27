@@ -45,7 +45,6 @@ public class GameManager : MonoSingleton<GameManager>
 
         NotifyBootCompleted();
         ChangeState(EGameFlowState.Title);
-        SoundPlayback.PlayBgm(EBgmId.BGM_Title);
 
         await UniTask.Yield();
     }

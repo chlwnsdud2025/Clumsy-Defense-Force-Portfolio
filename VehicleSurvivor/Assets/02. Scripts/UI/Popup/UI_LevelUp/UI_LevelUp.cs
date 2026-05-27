@@ -197,7 +197,7 @@ public class UI_LevelUp : UIPopup
             return;
 
         hasConfirmed = true;
-        SoundPlayback.PlaySfx(ESoundId.SFX_Reward_Select);
+        SoundPlayback.PlaySfx(ESoundId.SFX_UI_Click);
         SetSelectedIndex(index);
         ConfirmAfterFocusAsync(panel, index).Forget();
     }
@@ -327,7 +327,6 @@ public class UI_LevelUp : UIPopup
 
     public void OnClickContinue()
     {
-        SoundPlayback.PlaySfx(ESoundId.SFX_UI_Click);
         ConfirmSelection();
     }
 }
