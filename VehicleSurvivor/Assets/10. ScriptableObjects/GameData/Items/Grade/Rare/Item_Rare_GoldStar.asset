@@ -20,4 +20,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: e732b8f816eab854994f24be227a69dc, type: 3}
   isOneTimeUse: 0
   statModifiers: []
-
+  specialEffectType: 2

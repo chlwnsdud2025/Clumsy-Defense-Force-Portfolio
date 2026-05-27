@@ -318,10 +318,11 @@ public class Enemy : MonoBehaviour, IDamageable
     // --- (TakeDamage, Die 등 기타 함수 동일) ---
     public virtual void TakeDamage(DamageInfo damageInfo)
     {
-        currentHealth -= damageInfo.Amount;
+        DamageInfo finalDamageInfo = ItemSpecialEffectService.ApplyOnEnemyHit(this, damageInfo);
+        currentHealth -= finalDamageInfo.Amount;
         SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Hit);
         GameObject textObj = DamageTextPool.Instance.GetDamageText();
-        textObj.GetComponent<DamageText>().Setup(damageInfo.Amount, damageTextSpawnpoint.position, damageInfo.IsCritical);
+        textObj.GetComponent<DamageText>().Setup(finalDamageInfo.Amount, damageTextSpawnpoint.position, finalDamageInfo.IsCritical);
 
         hitFlash?.TriggerHitFlash();
 
