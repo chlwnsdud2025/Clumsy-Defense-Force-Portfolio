@@ -26,12 +26,7 @@ public class FlyingEnemy : Enemy
         separationForce.y = 0;
 
         Vector3 finalVelocity = desiredVelocity + (separationForce * separationWeight);
-
-        if (knockbackVelocity.sqrMagnitude > 0.01f)
-        {
-            finalVelocity += knockbackVelocity;
-            knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, deltaTime * 5f);
-        }
+        ClipPlayerOverlap(ref finalVelocity);
 
         // 2. 중력이나 레이캐스트 없이 곧바로 3D 공간 이동!
         transform.position += finalVelocity * deltaTime;
