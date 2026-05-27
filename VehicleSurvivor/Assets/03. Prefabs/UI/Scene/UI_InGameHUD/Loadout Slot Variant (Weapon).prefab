@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1991087450880361528, guid: 4d3d75aedf31de14e907de0944ff0866, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3278822455658540136, guid: 4d3d75aedf31de14e907de0944ff0866, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot
+      value: Loadout Slot Variant (Weapon)
       objectReference: {fileID: 0}
     - target: {fileID: 3278822455658540137, guid: 4d3d75aedf31de14e907de0944ff0866, type: 3}
       propertyPath: m_Pivot.x

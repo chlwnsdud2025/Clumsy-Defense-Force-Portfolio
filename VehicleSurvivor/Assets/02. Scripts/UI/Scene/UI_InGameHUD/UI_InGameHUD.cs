@@ -300,7 +300,7 @@ public class UI_InGameHUD : UIScene
 
         if (inventory == null)
         {
-            Debug.LogWarning("[UI_InGameHUD] Player Inventory가 존재?��? ?�아 LoadoutSlot???�데?�트?????�습?�다.");
+            Debug.LogWarning("[UI_InGameHUD] Player Inventory가 존재하지 않아 LoadoutSlot을 업데이트할 수 없습니다.");
             return;
         }
 
@@ -396,7 +396,7 @@ public class UI_InGameHUD : UIScene
         {
             if (prefab == null)
             {
-                Debug.LogError($"[UI_InGameHUD] {root.name}??Loadout ?�롯 ?�리?�이 ?�당?��? ?�았?�니??");
+                Debug.LogError($"[UI_InGameHUD] {root.name}의 Loadout 슬롯 프리팹이 할당되지 않았습니다.");
                 break;
             }
 
