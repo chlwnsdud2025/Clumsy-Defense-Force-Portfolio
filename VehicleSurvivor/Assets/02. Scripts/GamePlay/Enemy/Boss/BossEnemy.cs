@@ -83,7 +83,13 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
-        if (playerTarget == null) return;
+        if (playerTarget == null)
+            return;
+
+        if (RunManager.TryGetInstance(out RunManager runManager) &&
+            runManager.RunSession != null &&
+            !runManager.RunSession.ShouldUpdateGameplay)
+            return;
 
         float dt = Time.deltaTime;
 

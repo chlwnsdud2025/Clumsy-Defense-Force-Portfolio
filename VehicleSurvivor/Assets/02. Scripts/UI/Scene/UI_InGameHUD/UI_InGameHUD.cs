@@ -188,15 +188,24 @@ public class UI_InGameHUD : UIScene
         if (hpSlider != null)
         {
             hpTween?.Kill();
-            hpTween = hpSlider
-                .DOValue(ratio, hpTweenDuration)
-                .SetEase(hpTweenEase);
+            hpTween = null;
+
+            if (current <= 0)
+                hpSlider.value = 0f;
+            else
+            {
+                hpTween = hpSlider
+                    .DOValue(ratio, hpTweenDuration)
+                    .SetEase(hpTweenEase);
+            }
         }
 
         if (hpText != null)
             hpText.text = $"{current} / {max}";
 
-        if (ratio < hpWarningThreshold)
+        if (current <= 0)
+            StopWarningHp();
+        else if (ratio < hpWarningThreshold)
             StartWarningHp();
         else
             StopWarningHp();

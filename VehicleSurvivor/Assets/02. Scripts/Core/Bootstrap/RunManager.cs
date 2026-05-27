@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -10,6 +11,8 @@ public class RunManager : MonoSceneSingleton<RunManager>
     private Player playerInstance;
 
     private IEventBus _eventBus;
+
+    private readonly GameOverFlow _gameOverFlow = new();
 
     public RunSession RunSession => _runSession;
     public WavePhaseTimer WaveTimer => _runSession?.WaveTimer;
@@ -188,6 +191,7 @@ public class RunManager : MonoSceneSingleton<RunManager>
             return;
 
         runSession.OnStateChanged -= HandleRunStateChanged;
+        _gameOverFlow.OnRunFinished();
         runSession.OnRunTimeDisplayChanged -= HandleRunTimeDisplayChanged;
         runSession.OnWaveTimeDisplayChanged -= HandleWaveTimeDisplayChanged;
         runSession.OnKillCountChanged -= PublishKillCountChanged;
@@ -296,21 +300,39 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     private void HandlePlayerDied()
     {
-        if (_runSession == null)
+        if (_runSession == null || _runSession.IsFinished)
             return;
 
         SoundPlayback.PlaySfx(ESoundId.SFX_Player_Death);
+        ResetPlayerHitFlash();
         _runSession.GameOver();
+
+        if (playerInstance?.Controller != null)
+        {
+            playerInstance.Controller.PlayDeathPresentationAsync(ShowGameOverAfterDeathPresentation).Forget();
+            return;
+        }
+
+        Debug.LogWarning("[RunManager] PlayerController를 찾을 수 없어 사망 연출 없이 GameOver UI를 표시합니다.", playerInstance);
+        ShowGameOverAfterDeathPresentation();
+    }
+
+    private void ShowGameOverAfterDeathPresentation()
+    {
+        if (_runSession == null || _runSession.State != ERunState.GameOver)
+            return;
+
+        _gameOverFlow.OnGameOver(_runSession);
     }
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
     {
         if (nextState == ERunState.RewardSelection ||
-            nextState == ERunState.Paused)
+            nextState == ERunState.Paused ||
+            nextState == ERunState.GameOver)
             Time.timeScale = 0f;
         else if (nextState == ERunState.Playing ||
                  nextState == ERunState.Ended ||
-                 nextState == ERunState.GameOver ||
                  nextState == ERunState.Cleared)
             Time.timeScale = 1f;
 
@@ -321,7 +343,13 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.OnRunFinished();
+
+        if (nextState == ERunState.Ended)
+            _gameOverFlow.OnRunFinished();
     }
+
+    private void ResetPlayerHitFlash() =>
+        playerInstance?.GetComponentInChildren<HitFlashEffect>(true)?.ResetFlash();
 
     private void ApplyGameplayControl(bool enabled)
     {

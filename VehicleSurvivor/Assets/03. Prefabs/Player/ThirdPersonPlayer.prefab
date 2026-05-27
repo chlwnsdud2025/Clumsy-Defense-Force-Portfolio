@@ -18162,7 +18162,7 @@ Animator:
   m_GameObject: {fileID: 2930573010763901987}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8bc6d2565c8252b4a9a94542162cbaf0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
+  m_Controller: {fileID: 9100000, guid: b964f6661c5241148bc8c9087df6ef5b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -18388,6 +18388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _runAnimReferenceSpeed: 6
+  _deathCameraEffect: {fileID: 812345678901234573}
   _mainCamera: {fileID: 3591599009962953749}
   CinemachineCameraTarget: {fileID: 8706156097694905606}
   TopClamp: 70
@@ -26656,6 +26657,7 @@ GameObject:
   - component: {fileID: 1800134789915332674}
   - component: {fileID: 195111258391095601}
   - component: {fileID: 1829807153876377606}
+  - component: {fileID: 812345678901234573}
   m_Layer: 0
   m_Name: ThirdPersonPlayer
   m_TagString: Untagged
@@ -26778,6 +26780,8 @@ MonoBehaviour:
   targetCamera: {fileID: 3591599009962953751}
   impulseForce: 0.25
   impulseDuration: 0.12
+  deathImpulseForce: 0.65
+  deathImpulseDuration: 0.22
   listenerGain: 0.35
   shakeCooldown: 0.1
 --- !u!114 &1829807153876377606
@@ -26833,6 +26837,21 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &812345678901234573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4137169524317950769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b4e1c82f9d4e6a8b0c1d2e3f4a5b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathCameraEffect
+  thirdPersonFollow: {fileID: 2165564878764113028}
+  targetDistanceRatio: 0.6
+  blendDuration: 3
 --- !u!1 &4138996222422021185
 GameObject:
   m_ObjectHideFlags: 0
@@ -54870,11 +54889,46 @@ PrefabInstance:
       propertyPath: CameraCollisionFilter.m_Bits
       value: 1025
       objectReference: {fileID: 0}
+    - target: {fileID: 5242722819394658480, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: Priority.Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242722819394658480, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: Priority.m_Value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242722819394658480, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: m_LegacyPriority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242722819394658480, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: m_StreamingVersion
+      value: 20241001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242722819394658480, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 4581640417418217667}
+    - target: {fileID: 7179226702297718802, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: CameraDistance
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+--- !u!114 &2165564878764113028 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7179226702297718802, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+  m_PrefabInstance: {fileID: 9055645311447309462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineThirdPersonFollow
 --- !u!4 &6994506769232172014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
