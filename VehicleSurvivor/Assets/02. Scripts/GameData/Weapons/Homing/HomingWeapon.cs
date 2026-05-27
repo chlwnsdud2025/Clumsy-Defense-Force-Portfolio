@@ -9,7 +9,7 @@ public class HomingWeapon : WeaponBase
     //SpreadAngle  = 각도
     //Range = 최대 이동 거리
     //Radius = 탐지 반경
-    
+
     [Header("Projectile References")]
     public GameObject homingProjectilePrefab;
     public ParticleSystem shootParticlePrefab;
@@ -49,52 +49,36 @@ public class HomingWeapon : WeaponBase
         int pierceCount
     )
     {
-        Transform resolvedFirePoint =
-            ResolveFirePoint(firePoint);
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
 
         if (homingProjectilePrefab == null)
         {
-            Debug.LogWarning(
-                "[HomingWeapon] Projectile Prefab 없음"
-            );
+            Debug.LogWarning("[HomingWeapon] Projectile Prefab 없음");
             return;
         }
 
         if (resolvedFirePoint == null)
         {
-            Debug.LogWarning(
-                "[HomingWeapon] Fire Point 없음"
-            );
+            Debug.LogWarning("[HomingWeapon] Fire Point 없음");
             return;
         }
 
-        Transform target =
-            FindClosestTarget(detectRadius);
+        Collider targetCollider = FindClosestTarget(detectRadius);
+        Transform targetTransform = targetCollider != null ? targetCollider.transform : null;
 
         Vector3 direction;
 
-        if (target != null)
+        if (targetCollider != null)
         {
-            direction =
-                target.position -
-                resolvedFirePoint.position;
-
-            direction.y = 0f;
+            direction = targetCollider.bounds.center - resolvedFirePoint.position;
         }
         else
         {
-            Debug.Log(
-                $"[HomingWeapon] 반경 {detectRadius} 내 적 없음 → 정면 발사"
-            );
-
-            direction =
-                resolvedFirePoint.forward;
+            Debug.Log($"[HomingWeapon] 반경 {detectRadius} 내 적 없음 → 정면 발사");
+            direction = resolvedFirePoint.forward;
         }
 
-        Quaternion baseRotation =
-            Quaternion.LookRotation(
-                direction.normalized
-            );
+        Quaternion baseRotation = Quaternion.LookRotation(direction.normalized);
 
         if (shootParticlePrefab != null)
         {
@@ -111,27 +95,18 @@ public class HomingWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex =
-                    (count - 1) * 0.5f;
-
-                angle =
-                    (i - centerIndex)
-                    * spreadAngleValue;
+                float centerIndex = (count - 1) * 0.5f;
+                angle = (i - centerIndex) * spreadAngleValue;
             }
 
+            // [수정됨] 대각선 위로 쏘아 올리던 코드를 제거하고, 원래대로 타겟을 향한 직사 방향에 좌우 퍼짐 각도(angle)만 적용합니다.
             Quaternion shootRotation =
                 baseRotation *
-                Quaternion.Euler(
-                    0f,
-                    angle,
-                    0f
-                );
+                Quaternion.Euler(0f, angle, 0f);
 
             Quaternion visualRotation =
                 shootRotation *
-                Quaternion.Euler(
-                    projectileRotationOffset
-                );
+                Quaternion.Euler(projectileRotationOffset);
 
             GameObject projectileObject =
                 Instantiate(
@@ -151,60 +126,45 @@ public class HomingWeapon : WeaponBase
                 projectileSpeed,
                 maxTravelDistance,
                 shootRotation * Vector3.forward,
-                target,
+                targetTransform,
                 detectRadius,
                 pierceCount
             );
         }
     }
 
-    private Transform FindClosestTarget(
-        float detectRadius
-    )
+    private Collider FindClosestTarget(float detectRadius)
     {
-        Collider[] hits =
-            Physics.OverlapSphere(
-                transform.position,
-                detectRadius
-            );
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position,
+            detectRadius
+        );
 
-        Transform closestTarget =
-            null;
-
-        float closestDistance =
-            Mathf.Infinity;
+        Collider closestTarget = null;
+        float closestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
+            if (!hit.CompareTag("Enemy"))
+                continue;
 
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
             if (damageable == null)
                 continue;
 
-            float distance =
-                (
-                    hit.transform.position -
-                    transform.position
-                ).sqrMagnitude;
+            float distance = (hit.transform.position - transform.position).sqrMagnitude;
 
-            if (distance <
-                closestDistance)
+            if (distance < closestDistance)
             {
-                closestDistance =
-                    distance;
-
-                closestTarget =
-                    hit.transform;
+                closestDistance = distance;
+                closestTarget = hit;
             }
         }
 
         return closestTarget;
     }
 
-    private float GetProjectileSpeed(
-        WeaponLevelData data
-    )
+    private float GetProjectileSpeed(WeaponLevelData data)
     {
         return data.ProjectileSpeed > 0f
             ? data.ProjectileSpeed
