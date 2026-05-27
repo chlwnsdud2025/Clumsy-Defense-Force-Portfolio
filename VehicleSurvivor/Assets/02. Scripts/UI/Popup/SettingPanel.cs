@@ -60,6 +60,7 @@ public class SettingPanel : MonoBehaviour
             return;
 
         tweenTarget.localScale = Vector3.zero;
+
         _enterTween = tweenTarget
             .DOScale(_normalScale, enterDuration)
             .SetEase(enterEase)

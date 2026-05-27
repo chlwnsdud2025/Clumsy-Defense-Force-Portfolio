@@ -10,6 +10,8 @@ public class UI_Setting : UIPopup
     {
         if (settingPanel == null)
             settingPanel = GetComponentInChildren<SettingPanel>(true);
+
+        await UniTask.Yield();
     }
 
     public override void OnShow()
