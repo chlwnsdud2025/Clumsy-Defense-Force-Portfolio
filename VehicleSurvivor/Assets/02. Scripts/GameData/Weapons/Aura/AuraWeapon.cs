@@ -4,21 +4,23 @@ public class AuraWeapon : WeaponBase
 {
     // Damage = 틱당 데미지
     // Cooldown = 데미지 주기
-    // Range = 오라 반경
-    // Size = Range가 0일 때 대체 반경
+    // Radius = 오라의 실제 장판 크기 (반경)
 
     [Header("Aura References")]
     public GameObject auraEffectPrefab;
 
+    [Header("Visual Option")]
+    [Tooltip("실제 데미지 판정(Radius)과 시각적 이펙트의 크기를 일치시키기 위한 배율입니다. (기본값: 2)")]
+    public float visualScaleMultiplier = 2f;
+
+    // 🌟 [수정됨] 절대 높이가 아닌, 현재 무기 위치에서 Y축을 얼마나 내릴지 결정하는 '상대값' 변수로 변경
+    [Tooltip("무기 위치에서 장판을 얼마나 아래로 내릴지 설정합니다. (예: -1.0을 넣으면 무기보다 1m 아래에 깔림)")]
+    public float yOffset = -0.5f;
+
     private GameObject auraEffectInstance;
+    private float originalYScale = 1f;
 
     protected override void OnInitialized()
-    {
-        CreateAuraEffect();
-        UpdateAuraFromLevelData();
-    }
-
-    private void Start()
     {
         CreateAuraEffect();
         UpdateAuraFromLevelData();
@@ -29,34 +31,52 @@ public class AuraWeapon : WeaponBase
         UpdateAuraFromLevelData();
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (auraEffectInstance != null)
+        {
+            // 🌟 [핵심 수정] 무기의 현재 위치를 그대로 받아오고, Y축만 상대값(yOffset)만큼 더해줍니다. (언덕 등반 완벽 반영)
+            Vector3 centerPosition = transform.position;
+            centerPosition.y += yOffset;
+
+            auraEffectInstance.transform.position = centerPosition;
+        }
+    }
+
     protected override void Attack(WeaponLevelData data)
     {
         if (data == null)
             return;
 
         float radius = GetAuraRadius(data);
-        // 변경된 DamageInfo 시스템 적용
         DamageInfo damageInfo = GetFinalDamage(data.Damage);
 
+        // 🌟 [핵심 수정] 판정 구체의 위치도 플레이어의 현재 Y축을 동기화하여 상대적으로 내려줍니다.
+        Vector3 centerPosition = transform.position;
+        centerPosition.y += yOffset;
+
         Collider[] hits = Physics.OverlapSphere(
-            transform.position,
+            centerPosition,
             radius
         );
 
         foreach (Collider hit in hits)
         {
-            // [수정] 플레이어 레이어 제외
             if (IsPlayerLayer(hit))
                 continue;
 
-            IDamageable damageable =
-                hit.GetComponentInParent<IDamageable>();
+            if (!hit.CompareTag("Enemy"))
+                continue;
+
+            IDamageable damageable = hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
             damageable.TakeDamage(damageInfo);
-            Debug.Log("오라 데미지 들어감");
+            Debug.Log($"[AuraWeapon] 오라 데미지 들어감: {damageInfo.Amount}");
         }
 
         UpdateAuraScale(radius);
@@ -73,14 +93,15 @@ public class AuraWeapon : WeaponBase
         if (auraEffectInstance != null)
             return;
 
-        auraEffectInstance = Instantiate(
-            auraEffectPrefab,
-            transform
-        );
+        auraEffectInstance = Instantiate(auraEffectPrefab);
 
-        auraEffectInstance.transform.localPosition = Vector3.zero;
-        auraEffectInstance.transform.localRotation =
-            auraEffectPrefab.transform.rotation;
+        originalYScale = auraEffectPrefab.transform.localScale.y;
+
+        Vector3 initialPosition = transform.position;
+        initialPosition.y += yOffset;
+
+        auraEffectInstance.transform.position = initialPosition;
+        auraEffectInstance.transform.rotation = auraEffectPrefab.transform.rotation;
 
         auraEffectInstance.SetActive(true);
     }
@@ -100,22 +121,17 @@ public class AuraWeapon : WeaponBase
         if (auraEffectInstance == null)
             return;
 
-        float size = radius * 2f;
+        float size = radius * visualScaleMultiplier;
 
-        auraEffectInstance.transform.localScale =
-            new Vector3(size, size, size);
+        auraEffectInstance.transform.localScale = new Vector3(size, originalYScale, size);
     }
 
     private float GetAuraRadius(WeaponLevelData data)
     {
-        float baseRadius = data.Range > 0f
-            ? data.Range
-            : data.Size;
-
+        float baseRadius = data.Radius > 0f ? data.Radius : (data.Range > 0f ? data.Range : data.Size);
         return GetFinalWeaponScale(baseRadius);
     }
 
-    // [추가] 플레이어 판별 로직
     private bool IsPlayerLayer(Collider other)
     {
         int playerLayer = LayerMask.NameToLayer("Player");
@@ -123,11 +139,17 @@ public class AuraWeapon : WeaponBase
         if (playerLayer == -1)
             return false;
 
-        if (other.gameObject.layer == playerLayer)
-            return true;
+        Transform currentTransform = other.transform;
 
-        Transform root = other.transform.root;
-        return root.gameObject.layer == playerLayer;
+        while (currentTransform != null)
+        {
+            if (currentTransform.gameObject.layer == playerLayer)
+                return true;
+
+            currentTransform = currentTransform.parent;
+        }
+
+        return false;
     }
 
     private void OnDrawGizmosSelected()
@@ -139,8 +161,11 @@ public class AuraWeapon : WeaponBase
 
         Gizmos.color = Color.cyan;
 
+        Vector3 centerPosition = transform.position;
+        centerPosition.y += yOffset;
+
         Gizmos.DrawWireSphere(
-            transform.position,
+            centerPosition,
             GetAuraRadius(data)
         );
     }

@@ -5,9 +5,10 @@ public class OrbitWeapon : WeaponBase
 {
     //Damage = 접촉 데미지
     //Cooldown = 같은 대상 재타격 간격
-    //Radius = 회전 반경
+    //Range = 회전 궤도 거리 (플레이어로부터 떨어진 거리)
     //ProjectileCount = 회전 오브젝트 개수
     //ProjectileSpeed 또는 BulletSpeed = 회전 속도
+    //(추후) Radius = 회전 오브젝트 자체의 크기
 
     [Header("Orbit References")]
     public GameObject orbitObjectPrefab;
@@ -17,7 +18,7 @@ public class OrbitWeapon : WeaponBase
     public float heightOffset = 1f;
 
     [Tooltip("SO의 스피드 스탯에 곱해질 실제 회전 속도 배율입니다. (추천: 30 ~ 50)")]
-    public float rotateSpeedMultiplier = 50f; // 🌟 [추가됨] 시원시원한 회전을 위한 배율
+    public float rotateSpeedMultiplier = 50f;
 
     private readonly List<OrbitObject> orbitObjects =
         new List<OrbitObject>();
@@ -92,11 +93,12 @@ public class OrbitWeapon : WeaponBase
         );
 
         DamageInfo damageInfo = GetFinalDamage(data.Damage);
-        float radius = GetFinalWeaponScale(data.Radius);
+
+        // 🌟 [핵심 수정] 궤도 반경을 Radius가 아닌 Range 스탯에서 가져오도록 변경했습니다.
+        float orbitDistance = GetFinalWeaponScale(data.Range);
 
         while (orbitObjects.Count < targetCount)
         {
-            // [복구됨] 인스펙터에 설정한 orbitRotationOffset이 정상적으로 적용되도록 수정
             GameObject orbitObject = Instantiate(
                 orbitObjectPrefab,
                 orbitAnchor.transform.position,
@@ -137,15 +139,15 @@ public class OrbitWeapon : WeaponBase
             float angle = angleStep * i;
             float radian = angle * Mathf.Deg2Rad;
 
+            // 🌟 [수정] Range 스탯으로 계산된 orbitDistance를 곱하여 거리를 벌려줍니다.
             orbitObjects[i].transform.localPosition = new Vector3(
                 Mathf.Cos(radian),
                 0f,
                 Mathf.Sin(radian)
-            ) * radius;
+            ) * orbitDistance;
         }
     }
 
-    // 🌟 [핵심 수정] 가져온 SO 스탯 값에 배율(Multiplier)을 곱해줍니다.
     private float GetOrbitRotateSpeed(WeaponLevelData data)
     {
         float baseSpeed = data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.BulletSpeed;
