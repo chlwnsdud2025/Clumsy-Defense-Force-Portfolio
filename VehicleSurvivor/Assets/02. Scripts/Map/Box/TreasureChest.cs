@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class TreasureChest : MonoBehaviour
 {
-    [Header("Chest Settings")]
-    [SerializeField] private int requiredGold = 100;
-
     [Header("Interact Prompt UI")]
     [SerializeField] private GameObject interactPromptRoot;
     [SerializeField] private Canvas interactCanvas;
@@ -22,15 +19,22 @@ public class TreasureChest : MonoBehaviour
     private bool isInteractionEnabled;
     private bool isSubscribed;
 
+    private int RequiredGold
+    {
+        get
+        {
+            if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+                return stageRunManager.CurrentChestCost;
+            return 100;
+        }
+    }
+
     private void Awake()
     {
         chestAnimator = GetComponent<Animator>();
 
         if (interactPromptRoot != null)
             promptBillboard = interactPromptRoot.GetComponent<Billboard>();
-
-        if (goldAmountText != null)
-            goldAmountText.text = requiredGold.ToString("N0");
 
         HidePrompt();
     }
@@ -40,11 +44,21 @@ public class TreasureChest : MonoBehaviour
     private void OnEnable()
     {
         TrySubscribeGoldChanged();
+
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.OnChestCostChanged += RefreshInteractionState;
+
         if (isPlayerInZone)
             RefreshInteractionState();
     }
 
-    private void OnDisable() => UnsubscribeGoldChanged();
+    private void OnDisable()
+    {
+        UnsubscribeGoldChanged();
+
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.OnChestCostChanged -= RefreshInteractionState;
+    }
 
     private void Update()
     {
@@ -103,13 +117,18 @@ public class TreasureChest : MonoBehaviour
 
     private void RefreshInteractionState()
     {
+        if (isOpened) return;
+
         bool canAfford = RunManager.TryGetInstance(out RunManager runManager)
-            && runManager.CanAfford(requiredGold);
+            && runManager.CanAfford(RequiredGold);
 
         isInteractionEnabled = canAfford;
 
         if (goldAmountText != null)
+        {
+            goldAmountText.text = RequiredGold.ToString("N0");
             goldAmountText.color = canAfford ? goldAffordableColor : goldUnaffordableColor;
+        }
     }
 
     private void AttemptOpenChest()
@@ -117,7 +136,7 @@ public class TreasureChest : MonoBehaviour
         if (!RunManager.TryGetInstance(out RunManager runManager))
             return;
 
-        if (!runManager.TrySpendGold(requiredGold))
+        if (!runManager.TrySpendGold(RequiredGold))
             return;
 
         OpenChest();
@@ -134,6 +153,13 @@ public class TreasureChest : MonoBehaviour
 
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.BeginChestReward();
+
+        // 🌟 [수정] 상자가 열렸음을 매니저에 알리고 현재 월드 위치/회전값을 넘겨줍니다.
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.HandleChestOpened(transform.position, transform.rotation);
+
+        // 🌟 [수정] 상자가 열리는 애니메이션 연출이 끝날 수 있도록 1.5초 후에 오브젝트를 파괴(제거)합니다.
+        Destroy(gameObject, 1.5f);
     }
 
     private void TrySubscribeGoldChanged()

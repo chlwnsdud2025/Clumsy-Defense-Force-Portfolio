@@ -18372,6 +18372,7 @@ MonoBehaviour:
   FallTimeout: 0.15
   GroundedCoyoteTime: 0.15
   JumpPreGroundingGraceTime: 0.15
+  blockRadius: 0.28
   isStableOnGround: 0
   foundAnyGround: 0
   grounded: 0
@@ -18389,6 +18390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _runAnimReferenceSpeed: 6
   _deathCameraEffect: {fileID: 812345678901234573}
+  _hitCameraShake: {fileID: 195111258391095601}
   _mainCamera: {fileID: 3591599009962953749}
   CinemachineCameraTarget: {fileID: 8706156097694905606}
   TopClamp: 70
@@ -26849,7 +26851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b4e1c82f9d4e6a8b0c1d2e3f4a5b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathCameraEffect
-  thirdPersonFollow: {fileID: 2165564878764113028}
+  thirdPersonFollow: {fileID: 0}
   targetDistanceRatio: 0.6
   blendDuration: 3
 --- !u!1 &4138996222422021185
@@ -54918,17 +54920,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
---- !u!114 &2165564878764113028 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7179226702297718802, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
-  m_PrefabInstance: {fileID: 9055645311447309462}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineThirdPersonFollow
 --- !u!4 &6994506769232172014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}

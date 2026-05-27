@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7796444a8b8f5c4bb7494d43c25f6bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneWeapon
-  useEditorTestLevelData: 1
+  useEditorTestLevelData: 0
   editorTestLevelData:
     description: 
     cooldown: 1

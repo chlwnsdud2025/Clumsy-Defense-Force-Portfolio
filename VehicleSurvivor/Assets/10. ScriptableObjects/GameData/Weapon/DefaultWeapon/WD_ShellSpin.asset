@@ -27,15 +27,15 @@ MonoBehaviour:
   - description: "Lv1: \uB4F1\uAECD\uC9C8 1\uAC1C"
     cooldown: 0.5
     damage: 8
-    projectileSpeed: 500
+    projectileSpeed: 12
     duration: 999
     size: 1
-    projectileCount: 5
+    projectileCount: 1
     tickInterval: 0.5
     range: 5
-    bulletSpeed: 12
+    bulletSpeed: 50
     spreadAngle: 0
-    radius: 5
+    radius: 3
     bounceCount: 3
     pierceCount: 0
     chainCount: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.5
     range: 5
-    bulletSpeed: 12
+    bulletSpeed: 50
     spreadAngle: 0
     radius: 5
     bounceCount: 3

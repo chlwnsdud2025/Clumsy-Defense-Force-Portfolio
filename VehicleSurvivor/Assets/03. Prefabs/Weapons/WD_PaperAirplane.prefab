@@ -72,7 +72,8 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon_common_paper_airplane
   weaponName: "\uC885\uC774\uBE44\uD589\uAE30"
-  homingProjectilePrefab: {fileID: 7080653377519914409, guid: f8d9e4f81a5bcd14184d7fb5c445ca0a, type: 3}
+  homingProjectilePrefab: {fileID: 277794150754168136, guid: 6110daff036df3a4aa1d9c995b4341fb, type: 3}
   shootParticlePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+  upwardLaunchAngle: 35
   projectileRotationOffset: {x: 0, y: 0, z: 0}

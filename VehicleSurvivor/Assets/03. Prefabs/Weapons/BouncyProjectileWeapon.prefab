@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d987129e363e2c944a32e08bef1ea105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BouncyProjectileWeapon
-  useEditorTestLevelData: 1
+  useEditorTestLevelData: 0
   editorTestLevelData:
     description: 
     cooldown: 1

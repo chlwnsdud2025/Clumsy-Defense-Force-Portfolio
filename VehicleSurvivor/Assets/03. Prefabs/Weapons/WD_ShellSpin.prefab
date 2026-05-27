@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0590d78f47ffb49ac408655b25fa69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OrbitWeapon
-  useEditorTestLevelData: 1
+  useEditorTestLevelData: 0
   editorTestLevelData:
     description: 
     cooldown: 0.5
@@ -74,3 +74,5 @@ MonoBehaviour:
   weaponName: "\uC258 \uC2A4\uD540"
   orbitObjectPrefab: {fileID: 5565921339195667882, guid: 72c5b6ab6714d9745af88661d22ddb7c, type: 3}
   orbitRotationOffset: {x: 0, y: 0, z: 0}
+  heightOffset: 1
+  rotateSpeedMultiplier: 20

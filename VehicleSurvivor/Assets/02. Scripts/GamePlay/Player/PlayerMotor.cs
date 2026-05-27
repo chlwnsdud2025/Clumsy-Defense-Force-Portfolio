@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KinematicCharacterController;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
     public float GroundedCoyoteTime = 0.15f;
     [Tooltip("착지 직전에만 점프 입력을 유지합니다. 이 시간을 넘기면 공중에서 누른 점프는 무시됩니다.")]
     public float JumpPreGroundingGraceTime = 0.15f;
+
+    [Header("Overlap Block")]
+    public float blockRadius = 0.28f;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private bool isStableOnGround;
@@ -59,6 +63,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
     private PlayerRuntime _runtime;
     private float _currentScalarSpeed;
     private float _inputMagnitude = 1f;
+    private readonly List<Enemy> _nearbyEnemyBuffer = new();
 
     // ==========================================
     // [핵심 추가] 외부 런치(강제 점프/튕김) 상태 변수
@@ -310,6 +315,47 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
         {
             currentVelocity += _internalVelocityAdd;
             _internalVelocityAdd = Vector3.zero;
+        }
+
+        ApplyOverlapBlock(ref currentVelocity);
+    }
+
+    private void ApplyOverlapBlock(ref Vector3 velocity)
+    {
+        if (velocity.sqrMagnitude <= 0.0001f)
+            return;
+
+        Vector3 selfPosition = Motor.transform.position;
+        EnemyManager enemyManager = EnemyManager.Instance;
+
+        if (enemyManager != null)
+        {
+            float queryRadius = blockRadius + EnemyManager.MaxEnemyBlockRadius;
+            enemyManager.GetNearbyEnemiesForBlock(selfPosition, queryRadius, _nearbyEnemyBuffer);
+
+            for (int i = 0; i < _nearbyEnemyBuffer.Count; i++)
+            {
+                Enemy enemy = _nearbyEnemyBuffer[i];
+                OverlapBlockUtility.ClipApproach(
+                    ref velocity,
+                    selfPosition,
+                    enemy.transform.position,
+                    blockRadius + enemy.playerBlockRadius);
+            }
+        }
+
+        IReadOnlyList<BlockableEntry> blockables = BlockableRegistry.Entries;
+        for (int i = 0; i < blockables.Count; i++)
+        {
+            BlockableEntry entry = blockables[i];
+            if (entry.Transform == null)
+                continue;
+
+            OverlapBlockUtility.ClipApproach(
+                ref velocity,
+                selfPosition,
+                entry.Transform.position,
+                blockRadius + entry.BlockRadius);
         }
     }
 

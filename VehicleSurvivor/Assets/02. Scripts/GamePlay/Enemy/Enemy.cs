@@ -31,6 +31,9 @@ public class Enemy : MonoBehaviour, IDamageable
     public float separationRadius = 1.5f;
     public float separationWeight = 0.5f;
 
+    [Header("Overlap Block")]
+    public float playerBlockRadius = 0.8f;
+
     // ==========================================
     // 💥 [핵심 분리 1] 몸통 충돌(Contact) 세팅
     // ==========================================
@@ -67,7 +70,6 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private HitFlashEffect hitFlash;
 
     protected bool isTrackingPlayer = true;
-    protected Vector3 knockbackVelocity;
 
     private float verticalVelocity;
     private bool isGrounded;
@@ -90,7 +92,6 @@ public class Enemy : MonoBehaviour, IDamageable
         transform.position = spawnPosition;
         gameObject.SetActive(true);
         currentHealth = maxHealth;
-        knockbackVelocity = Vector3.zero;
 
         // 쿨타임 초기화
         currentContactCooldown = 0f;
@@ -118,6 +119,7 @@ public class Enemy : MonoBehaviour, IDamageable
         Vector3 separationForce = myManager.GetSeparationForce(this, separationRadius);
         separationForce.y = 0;
         Vector3 horizontalVelocity = desiredVelocity + (separationForce * separationWeight);
+        ClipPlayerOverlap(ref horizontalVelocity);
 
         // --- (이하 기존 지형 추적 및 중력 코드는 완벽히 동일하여 생략 없이 유지) ---
         groundCheckTimer += deltaTime;
@@ -298,6 +300,19 @@ public class Enemy : MonoBehaviour, IDamageable
         // 이제 Base Enemy의 Attack은 비워둡니다!
         // 1. 단순 근접 몹(BasicEnemy)은 Attack을 안 써도 CheckContactDamage()가 알아서 부딪히면 딜을 줍니다.
         // 2. 특수 몹(Ranged, Laser 등)은 이 함수를 override해서 장판을 깔거나 미사일을 쏩니다.
+    }
+
+    protected void ClipPlayerOverlap(ref Vector3 horizontalVelocity)
+    {
+        if (playerTarget == null)
+            return;
+
+        float playerRadius = myManager != null ? myManager.PlayerBlockRadius : EnemyManager.DefaultPlayerBlockRadius;
+        OverlapBlockUtility.ClipApproach(
+            ref horizontalVelocity,
+            transform.position,
+            playerTarget.position,
+            playerBlockRadius + playerRadius);
     }
 
     // --- (TakeDamage, Die 등 기타 함수 동일) ---

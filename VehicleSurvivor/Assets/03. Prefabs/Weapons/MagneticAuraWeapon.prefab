@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54c5a1aed8bd664895fb64f632abd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AuraWeapon
-  useEditorTestLevelData: 1
+  useEditorTestLevelData: 0
   editorTestLevelData:
     description: 
     cooldown: 1
