@@ -32,6 +32,7 @@ public class SettingPanel : MonoBehaviour
 
     private void OnDisable()
     {
+        SaveVolumeSettings();
         StopEnterAnimation();
 
         if (musicSlider != null)
@@ -83,6 +84,14 @@ public class SettingPanel : MonoBehaviour
         BindSliders();
     }
 
+    public void SaveVolumeSettings()
+    {
+        if (!SoundManager.TryGetInstance(out SoundManager soundManager))
+            return;
+
+        soundManager.SaveVolumeSettings();
+    }
+
     private void BindSliders()
     {
         if (!SoundManager.TryGetInstance(out SoundManager soundManager))
@@ -113,7 +122,6 @@ public class SettingPanel : MonoBehaviour
             return;
 
         soundManager.SetBgmVolume(value);
-        soundManager.SaveVolumeSettings();
     }
 
     private void OnSfxVolumeChanged(float value)
@@ -122,7 +130,6 @@ public class SettingPanel : MonoBehaviour
             return;
 
         soundManager.SetSfxVolume(value);
-        soundManager.SaveVolumeSettings();
 
         if (value > 0f)
             soundManager.PlaySfx(ESoundId.SFX_UI_Click);
