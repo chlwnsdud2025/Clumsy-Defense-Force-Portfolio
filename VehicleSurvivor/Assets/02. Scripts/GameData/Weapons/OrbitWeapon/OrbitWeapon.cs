@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class OrbitWeapon : WeaponBase
 {
-
-    //Damage = 접촉 데미지
-    //Cooldown = 같은 대상 재타격 간격
-    //Radius = 회전 반경
-    //ProjectileCount = 회전 오브젝트 개수
-    //ProjectileSpeed 또는 BulletSpeed = 회전 속도
+    // Damage = 접촉 데미지
+    // Cooldown = 같은 대상 재타격 간격
+    // Radius = 회전 반경
+    // ProjectileCount = 회전 오브젝트 개수
+    // ProjectileSpeed 또는 BulletSpeed = 회전 속도
 
     [Header("Orbit References")]
     public GameObject orbitObjectPrefab;
@@ -21,11 +20,17 @@ public class OrbitWeapon : WeaponBase
 
     protected override void OnInitialized()
     {
+        if (!CanSyncOrbitObjects())
+            return;
+
         SyncOrbitObjects(GetCurrentLevelData());
     }
 
     protected override void OnLevelDataChanged(WeaponLevelData data)
     {
+        if (!CanSyncOrbitObjects())
+            return;
+
         SyncOrbitObjects(data);
     }
 
@@ -38,13 +43,38 @@ public class OrbitWeapon : WeaponBase
 
     protected override void Attack(WeaponLevelData data)
     {
+        if (!CanSyncOrbitObjects())
+            return;
+
         // Orbit은 공격 타이밍에 생성/발사가 아니라
         // 회전 오브젝트가 직접 충돌 데미지를 담당함.
         SyncOrbitObjects(data);
     }
 
+    private bool CanSyncOrbitObjects()
+    {
+        if (!Application.isPlaying)
+            return false;
+
+        if (!gameObject.scene.IsValid())
+            return false;
+
+#if UNITY_EDITOR
+        if (UnityEditor.EditorUtility.IsPersistent(gameObject))
+            return false;
+
+        if (UnityEditor.EditorUtility.IsPersistent(transform))
+            return false;
+#endif
+
+        return true;
+    }
+
     private void SyncOrbitObjects(WeaponLevelData data)
     {
+        if (!CanSyncOrbitObjects())
+            return;
+
         if (data == null)
             return;
 
@@ -138,10 +168,10 @@ public class OrbitWeapon : WeaponBase
             float radian = angle * Mathf.Deg2Rad;
 
             Vector3 offset = new Vector3(
-    Mathf.Cos(radian),
-    0f,
-    Mathf.Sin(radian)
-) * radius;
+                Mathf.Cos(radian),
+                0f,
+                Mathf.Sin(radian)
+            ) * radius;
 
             Vector3 orbitPosition =
                 transform.position + offset;

@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5020183939751941310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6970346438492967342}
+  - component: {fileID: 3910046857991612197}
+  m_Layer: 3
+  m_Name: WD_SparkChaos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6970346438492967342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020183939751941310}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3910046857991612197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020183939751941310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09af2340e4764ca1ac5b29665bb296e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WD_SparkChaos
+  useEditorTestLevelData: 0
+  editorTestLevelData:
+    description: 
+    cooldown: 0.8
+    damage: 20
+    projectileSpeed: 12
+    duration: 1.2
+    size: 1.5
+    projectileCount: 2
+    tickInterval: 0.4
+    range: 7
+    bulletSpeed: 12
+    spreadAngle: 0
+    radius: 7
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 2
+    chainRadius: 5
+    explosionRadius: 1.2
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  weaponID: weapon_evolved_spark_chaos
+  weaponName: "\uC2A4\uD30C\uD06C \uB300\uC18C\uB3D9"
+  lightningEffectPrefab: {fileID: 173764, guid: 9b074812fdafc4540b8f613127a77505, type: 3}
+  effectLifeTime: 0.15
