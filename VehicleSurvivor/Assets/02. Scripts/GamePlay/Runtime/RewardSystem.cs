@@ -92,7 +92,9 @@ public sealed class RewardSystem
 
         foreach (WeaponDefinitionSO weapon in weaponDatabase.Weapons)
         {
-            if (IsValidNewWeaponReward(weapon) && !HasWeapon(player, weapon.WeaponId))
+            if (IsValidNewWeaponReward(weapon) &&
+                !weaponDatabase.IsEvolutionWeapon(weapon) &&
+                !HasWeapon(player, weapon.WeaponId))
             {
                 candidates.Add(RewardOption.WeaponReward(weapon, true, 1));
             }
