@@ -159,7 +159,7 @@ public class AuraWeapon : WeaponBase
         if (data == null)
             return;
 
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.red;
 
         Vector3 centerPosition = transform.position;
         centerPosition.y += yOffset;
