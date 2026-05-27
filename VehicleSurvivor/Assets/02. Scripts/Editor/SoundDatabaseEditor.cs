@@ -22,7 +22,8 @@ public class SoundDatabaseEditor : Editor
             typeof(ESoundId),
             "SFX Entries",
             "variations",
-            SfxDetailFields);
+            SfxDetailFields,
+            ApplySfxDefaults);
 
         EditorGUILayout.Space(8f);
 
@@ -31,7 +32,8 @@ public class SoundDatabaseEditor : Editor
             typeof(EBgmId),
             "BGM Entries",
             "clip",
-            BgmDetailFields);
+            BgmDetailFields,
+            ApplyBgmDefaults);
 
         EditorGUILayout.Space(8f);
 
@@ -57,7 +59,8 @@ public class SoundDatabaseEditor : Editor
         Type enumType,
         string sectionLabel,
         string clipFieldName,
-        string[] detailFieldNames)
+        string[] detailFieldNames,
+        Action<SerializedProperty> applyDefaults)
     {
         SerializedProperty listProp = serializedObject.FindProperty(listPropertyName);
         string sectionKey = $"{target.GetInstanceID()}_{listPropertyName}";
@@ -74,6 +77,7 @@ public class SoundDatabaseEditor : Editor
             return;
 
         EditorGUI.indentLevel++;
+        DrawListToolbar(listProp, enumType, applyDefaults);
         DrawEntryList(listProp, enumType, clipFieldName, detailFieldNames);
         EditorGUI.indentLevel--;
     }
@@ -95,15 +99,89 @@ public class SoundDatabaseEditor : Editor
             return idA.enumValueIndex.CompareTo(idB.enumValueIndex);
         });
 
-        foreach (int index in sortedIndices)
+        for (int displayIndex = 0; displayIndex < sortedIndices.Count; displayIndex++)
         {
-            SerializedProperty entry = listProp.GetArrayElementAtIndex(index);
-            DrawEntryRow(entry, enumType, clipFieldName, detailFieldNames);
+            int arrayIndex = sortedIndices[displayIndex];
+            SerializedProperty entry = listProp.GetArrayElementAtIndex(arrayIndex);
+            if (DrawEntryRow(listProp, arrayIndex, entry, enumType, clipFieldName, detailFieldNames))
+                break;
+
             EditorGUILayout.Space(2f);
         }
     }
 
-    private void DrawEntryRow(
+    private void DrawListToolbar(
+        SerializedProperty listProp,
+        Type enumType,
+        Action<SerializedProperty> applyDefaults)
+    {
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+
+        EditorGUI.BeginDisabledGroup(!HasUnusedEnumId(listProp, enumType));
+        if (GUILayout.Button("+", GUILayout.Width(28f)))
+        {
+            Undo.RecordObject(target, "Add Sound Entry");
+            AddEntry(listProp, enumType, applyDefaults);
+        }
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.BeginDisabledGroup(listProp.arraySize == 0);
+        if (GUILayout.Button("-", GUILayout.Width(28f)))
+        {
+            Undo.RecordObject(target, "Remove Sound Entry");
+            listProp.DeleteArrayElementAtIndex(listProp.arraySize - 1);
+        }
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space(4f);
+    }
+
+    private static void AddEntry(
+        SerializedProperty listProp,
+        Type enumType,
+        Action<SerializedProperty> applyDefaults)
+    {
+        listProp.InsertArrayElementAtIndex(listProp.arraySize);
+        SerializedProperty added = listProp.GetArrayElementAtIndex(listProp.arraySize - 1);
+        applyDefaults(added);
+
+        if (TryGetFirstUnusedEnumId(listProp, enumType, out int enumIndex))
+            added.FindPropertyRelative("id").enumValueIndex = enumIndex;
+    }
+
+    private static bool HasUnusedEnumId(SerializedProperty listProp, Type enumType)
+    {
+        return TryGetFirstUnusedEnumId(listProp, enumType, out _);
+    }
+
+    private static bool TryGetFirstUnusedEnumId(SerializedProperty listProp, Type enumType, out int enumIndex)
+    {
+        HashSet<int> used = new HashSet<int>();
+        for (int i = 0; i < listProp.arraySize; i++)
+        {
+            used.Add(listProp.GetArrayElementAtIndex(i).FindPropertyRelative("id").enumValueIndex);
+        }
+
+        Array values = Enum.GetValues(enumType);
+        for (int i = 0; i < values.Length; i++)
+        {
+            int value = (int)values.GetValue(i);
+            if (value == 0 || used.Contains(value))
+                continue;
+
+            enumIndex = value;
+            return true;
+        }
+
+        enumIndex = 0;
+        return false;
+    }
+
+    private bool DrawEntryRow(
+        SerializedProperty listProp,
+        int arrayIndex,
         SerializedProperty entry,
         Type enumType,
         string clipFieldName,
@@ -135,6 +213,15 @@ public class SoundDatabaseEditor : Editor
 
         EditorGUILayout.PropertyField(clipProp, GUIContent.none);
 
+        if (GUILayout.Button("-", GUILayout.Width(22f)))
+        {
+            Undo.RecordObject(target, "Remove Sound Entry");
+            listProp.DeleteArrayElementAtIndex(arrayIndex);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+            return true;
+        }
+
         EditorGUILayout.EndHorizontal();
 
         if (_entryFoldouts[foldoutKey])
@@ -150,6 +237,7 @@ public class SoundDatabaseEditor : Editor
         }
 
         EditorGUILayout.EndVertical();
+        return false;
     }
 
     private static bool HasAssignedClip(SerializedProperty clipProp, string clipFieldName)
