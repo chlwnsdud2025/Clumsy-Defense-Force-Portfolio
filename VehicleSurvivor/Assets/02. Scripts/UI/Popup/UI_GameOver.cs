@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_GameOver : UIPopup
 {
@@ -106,5 +107,13 @@ public class UI_GameOver : UIPopup
 
         if (buttonRect != null)
             buttonRect.localScale = _buttonNormalScale;
+    }
+
+    public void OnClickTitle()
+    {
+        if (GameManager.Instance == null)
+            return;
+
+        GameManager.Instance.LoadTitleScene();
     }
 }
