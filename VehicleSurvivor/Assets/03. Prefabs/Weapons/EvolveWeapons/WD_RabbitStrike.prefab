@@ -72,7 +72,7 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon
   weaponName: Weapon
-  projectilePrefab: {fileID: 7914466137831606197, guid: 178b03377a484b049ae48604c774b5d0, type: 3}
+  projectilePrefab: {fileID: 3621246184623611399, guid: a845700e7370c594585cb4e921da1005, type: 3}
   shootParticlePrefab: {fileID: 0}
   firePoint: {fileID: 0}
   projectileRotationOffset: {x: 0, y: 0, z: 0}
