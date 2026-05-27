@@ -1,6 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EItemSpecialEffectType
+{
+    None = 0,
+    PajamaInvitation = 1,
+    GoldStarStamp = 2,
+}
+
 [CreateAssetMenu(
     fileName = "ItemDefinition",
     menuName = "GameData/Item/Item Definition")]
@@ -25,6 +32,9 @@ public class ItemDefinitionSO : ScriptableObject
     [Header("Effect")]
     [SerializeField] private List<StatModifierData> statModifiers = new();
 
+    [Header("Special Effect")]
+    [SerializeField] private EItemSpecialEffectType specialEffectType;
+
     public string ItemId => itemId;
     public string ItemName => itemName;
     public string Description => description;
@@ -38,4 +48,6 @@ public class ItemDefinitionSO : ScriptableObject
     public bool IsSpecialHandItem => itemCategory == EItemCategory.SpecialHandItem;
 
     public IReadOnlyList<StatModifierData> StatModifiers => statModifiers;
+    public EItemSpecialEffectType SpecialEffectType => specialEffectType;
+    public bool HasSpecialEffect => specialEffectType != EItemSpecialEffectType.None;
 }

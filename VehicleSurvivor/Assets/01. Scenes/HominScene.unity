@@ -1778,6 +1778,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 894780089209594881, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: CameraDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 894780089209594881, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     - target: {fileID: 925506857230513557, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -2782,6 +2790,30 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4350092253336118492, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: Priority.Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350092253336118492, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: Priority.m_Value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350092253336118492, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: m_LegacyPriority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350092253336118492, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: m_StreamingVersion
+      value: 20241001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350092253336118492, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 1642160721}
+    - target: {fileID: 4350092253336118492, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: Target.CustomLookAtTarget
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4351553830224545015, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -3487,6 +3519,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6994506769232171537, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: m_Name
+      value: PlayerFollowCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6994506769232171537, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
@@ -4042,6 +4078,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 9176345658621848051, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: CameraDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176345658621848051, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+      propertyPath: AvoidObstacles.CollisionFilter.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     - target: {fileID: 9200335581630062058, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -4062,7 +4106,9 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6994506769232172015, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+    - {fileID: 894780089209594881, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1682977905999011415, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
@@ -4082,6 +4128,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 866794485}
   m_SourcePrefab: {fileID: 100100000, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+--- !u!4 &1642160721 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4581640417418217667, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
+  m_PrefabInstance: {fileID: 1642160720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1703738236
 PrefabInstance:
   m_ObjectHideFlags: 0

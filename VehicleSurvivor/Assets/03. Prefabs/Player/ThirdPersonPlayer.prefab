@@ -26851,7 +26851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b4e1c82f9d4e6a8b0c1d2e3f4a5b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathCameraEffect
-  thirdPersonFollow: {fileID: 0}
+  thirdPersonFollow: {fileID: 9176345658621848051}
   targetDistanceRatio: 0.6
   blendDuration: 3
 --- !u!1 &4138996222422021185
@@ -54815,6 +54815,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7429930991515267822}
     m_Modifications:
+    - target: {fileID: 213059706181514597, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: CameraDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177671, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_Name
       value: PlayerFollowCamera
@@ -54891,6 +54895,26 @@ PrefabInstance:
       propertyPath: CameraCollisionFilter.m_Bits
       value: 1025
       objectReference: {fileID: 0}
+    - target: {fileID: 4752068046111684682, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: Priority.Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752068046111684682, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: Priority.m_Value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752068046111684682, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: m_LegacyPriority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752068046111684682, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: m_StreamingVersion
+      value: 20241001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752068046111684682, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 4581640417418217667}
     - target: {fileID: 5242722819394658480, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: Priority.Enabled
       value: 1
@@ -54925,3 +54949,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
   m_PrefabInstance: {fileID: 9055645311447309462}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9176345658621848051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 213059706181514597, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+  m_PrefabInstance: {fileID: 9055645311447309462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineThirdPersonFollow

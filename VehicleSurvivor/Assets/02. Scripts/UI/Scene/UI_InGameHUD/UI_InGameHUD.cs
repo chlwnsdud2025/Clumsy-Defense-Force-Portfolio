@@ -15,6 +15,7 @@ public class UI_InGameHUD : UIScene
 
     [Header("Game Info UI")]
     [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI chestCostText;
     [SerializeField] private TextMeshProUGUI killCountText;
     [SerializeField] private TextMeshProUGUI totalTimerText;
     [SerializeField] private TextMeshProUGUI waveTimerText;
@@ -105,6 +106,7 @@ public class UI_InGameHUD : UIScene
             UpdateExpGauge(0, 1);
             UpdateLevelUI(1);
             UpdateGoldUI(0);
+            UpdateChestCostUI(0);
             UpdateKillUI(0);
             UpdateTotalTimerUI(0f);
             UpdateWaveTimerUI(0f, false);
@@ -119,6 +121,7 @@ public class UI_InGameHUD : UIScene
         UpdateExpGauge(0, 1);
         UpdateLevelUI(1);
         UpdateGoldUI(0);
+        RefreshChestCostUI();
         UpdateKillUI(0);
         UpdateTotalTimerUI(0f);
         UpdateWaveTimerUI(0f, false);
@@ -154,6 +157,12 @@ public class UI_InGameHUD : UIScene
         _eventBus.Subscribe<BossHpChangedEvent>(OnBossHpChanged);
         _eventBus.Subscribe<BossDefeatedEvent>(OnBossDefeated);
 
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+        {
+            stageRunManager.OnChestCostChanged += RefreshChestCostUI;
+            RefreshChestCostUI();
+        }
+
         _isSubscribed = true;
     }
 
@@ -177,7 +186,19 @@ public class UI_InGameHUD : UIScene
             _eventBus.Unsubscribe<BossDefeatedEvent>(OnBossDefeated);
         }
 
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.OnChestCostChanged -= RefreshChestCostUI;
+
         _isSubscribed = false;
+    }
+
+    private void RefreshChestCostUI()
+    {
+        int cost = StageRunManager.TryGetInstance(out StageRunManager stageRunManager)
+            ? stageRunManager.CurrentChestCost
+            : 0;
+
+        UpdateChestCostUI(cost);
     }
 
     public void UpdateHpGauge(int current, int max)
@@ -235,6 +256,12 @@ public class UI_InGameHUD : UIScene
     {
         if (goldText != null)
             goldText.text = gold.ToString("N0");
+    }
+
+    public void UpdateChestCostUI(int cost)
+    {
+        if (chestCostText != null)
+            chestCostText.text = cost.ToString("N0");
     }
 
     public void UpdateKillUI(int kills)

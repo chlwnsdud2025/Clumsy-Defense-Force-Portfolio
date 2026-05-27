@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -94,7 +95,173 @@ public sealed class RewardApplier
             return false;
         }
         player.Inventory.OnlyAddItem(definition);
+        ItemSpecialEffectService.ApplyOnItemCollected(player, definition);
         return true;
+    }
+}
+
+public static class ItemSpecialEffectService
+{
+    private const int PajamaInvitationTreasureChestCount = 3;
+    private const float GoldStarStampChance = 0.25f;
+    private const float GoldStarStampDuration = 5f;
+    private const float GoldStarDamageTakenMultiplier = 1.2f;
+    private const float GoldStarMoveSpeedMultiplier = 0.7f;
+
+    public static void ApplyOnItemCollected(PlayerRuntime player, ItemDefinitionSO item)
+    {
+        if (player == null || item == null || !item.HasSpecialEffect)
+            return;
+
+        switch (item.SpecialEffectType)
+        {
+            case EItemSpecialEffectType.PajamaInvitation:
+                player.ItemEffects.RequestTreasureChestSpawn(PajamaInvitationTreasureChestCount);
+                if (!player.ItemEffects.HasTreasureChestSpawnListener)
+                    Debug.LogWarning("[ItemSpecialEffectService] Pajama invitation has no treasure chest spawn listener yet.");
+                break;
+
+            case EItemSpecialEffectType.GoldStarStamp:
+                player.ItemEffects.EnableGoldStarStamp();
+                break;
+        }
+    }
+
+    public static DamageInfo ApplyOnEnemyHit(Component target, DamageInfo damageInfo)
+    {
+        if (target == null)
+            return damageInfo;
+
+        GoldStarStampEffect stamp = target.GetComponent<GoldStarStampEffect>();
+        PlayerRuntime sourcePlayer = damageInfo.SourcePlayer;
+
+        if (sourcePlayer?.ItemEffects.HasGoldStarStamp == true &&
+            Random.value < GoldStarStampChance)
+        {
+            stamp = target.gameObject.GetOrAddComponent<GoldStarStampEffect>();
+            stamp.Apply(
+                GoldStarStampDuration,
+                GoldStarDamageTakenMultiplier,
+                GoldStarMoveSpeedMultiplier);
+        }
+
+        if (stamp != null && stamp.IsActive)
+            return damageInfo.WithAmount(damageInfo.Amount * stamp.DamageTakenMultiplier);
+
+        return damageInfo;
+    }
+}
+
+public sealed class GoldStarStampEffect : MonoBehaviour
+{
+    private Enemy enemy;
+    private BossEnemy boss;
+    private Coroutine expireRoutine;
+    private GameObject visualInstance;
+    private float cachedMoveSpeed;
+    private bool hasCachedMoveSpeed;
+
+    public bool IsActive { get; private set; }
+    public float DamageTakenMultiplier { get; private set; } = 1f;
+
+    public void Apply(float duration, float damageTakenMultiplier, float moveSpeedMultiplier)
+    {
+        CacheMoveSpeed();
+        IsActive = true;
+        DamageTakenMultiplier = Mathf.Max(1f, damageTakenMultiplier);
+        SetMoveSpeed(cachedMoveSpeed * Mathf.Max(0f, moveSpeedMultiplier));
+        ShowVisual();
+        PlayStampSfx();
+
+        if (expireRoutine != null)
+            StopCoroutine(expireRoutine);
+
+        expireRoutine = StartCoroutine(ExpireAfter(duration));
+    }
+
+    private void CacheMoveSpeed()
+    {
+        if (hasCachedMoveSpeed)
+            return;
+
+        enemy = GetComponent<Enemy>();
+        boss = GetComponent<BossEnemy>();
+
+        if (enemy != null)
+            cachedMoveSpeed = enemy.moveSpeed;
+        else if (boss != null)
+            cachedMoveSpeed = boss.moveSpeed;
+        else
+            cachedMoveSpeed = 0f;
+
+        hasCachedMoveSpeed = true;
+    }
+
+    private IEnumerator ExpireAfter(float duration)
+    {
+        yield return new WaitForSeconds(Mathf.Max(0f, duration));
+        Clear();
+    }
+
+    private void Clear()
+    {
+        if (!IsActive)
+            return;
+
+        IsActive = false;
+        DamageTakenMultiplier = 1f;
+        ClearVisual();
+        RestoreMoveSpeed();
+        expireRoutine = null;
+    }
+
+    private void ShowVisual()
+    {
+        if (visualInstance != null)
+            return;
+
+        ItemSpecialEffectManager manager = ItemSpecialEffectManager.GetOrCreate();
+        visualInstance = manager.CreateGoldStarVisual(transform);
+    }
+
+    private void ClearVisual()
+    {
+        if (visualInstance == null)
+            return;
+
+        Destroy(visualInstance);
+        visualInstance = null;
+    }
+
+    private void PlayStampSfx()
+    {
+        ItemSpecialEffectManager manager = ItemSpecialEffectManager.GetOrCreate();
+        manager.PlayGoldStarStampSfx();
+    }
+
+    private void RestoreMoveSpeed()
+    {
+        if (!hasCachedMoveSpeed)
+            return;
+
+        SetMoveSpeed(cachedMoveSpeed);
+    }
+
+    private void SetMoveSpeed(float value)
+    {
+        if (enemy != null)
+            enemy.moveSpeed = value;
+        else if (boss != null)
+            boss.moveSpeed = value;
+    }
+
+    private void OnDisable()
+    {
+        ClearVisual();
+        RestoreMoveSpeed();
+        IsActive = false;
+        DamageTakenMultiplier = 1f;
+        expireRoutine = null;
     }
 }
 

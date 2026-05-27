@@ -138,10 +138,15 @@ public class RunManager : MonoSceneSingleton<RunManager>
             stageRunManager.InitializeForRun();
         else
             Debug.LogWarning("[RunManager] StageRunManager를 찾을 수 없어 스테이지 페이즈를 시작하지 않습니다.");
+
+        ItemSpecialEffectManager.GetOrCreate().InitializeForRun(_runSession, playerInstance);
     }
 
     private void ReleaseRunSystems()
     {
+        if (ItemSpecialEffectManager.TryGetInstance(out ItemSpecialEffectManager itemSpecialEffectManager))
+            itemSpecialEffectManager.ReleaseRun();
+
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.ReleaseRun();
 

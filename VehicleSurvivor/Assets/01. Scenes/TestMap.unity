@@ -1418,6 +1418,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.53320545
       objectReference: {fileID: 0}
+    - target: {fileID: 2778573113819809353, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: CameraDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778573113819809353, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: AvoidObstacles.CollisionFilter.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     - target: {fileID: 2797737882906159018, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1813,6 +1821,10 @@ PrefabInstance:
     - target: {fileID: 4091219671986093140, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.z
       value: -109
+      objectReference: {fileID: 0}
+    - target: {fileID: 4091219671986093483, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: m_Name
+      value: PlayerFollowCamera
       objectReference: {fileID: 0}
     - target: {fileID: 4091219671986093483, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Layer
@@ -2622,6 +2634,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6178219077863607227, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: CameraDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178219077863607227, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     - target: {fileID: 6188003323227796599, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -3045,6 +3065,30 @@ PrefabInstance:
     - target: {fileID: 7315712119538643134, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Priority.Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Priority.m_Value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: m_LegacyPriority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: m_StreamingVersion
+      value: 20241001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 603627534}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Target.CustomLookAtTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7324027717104291680, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_Layer
@@ -3774,7 +3818,9 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4091219671986093141, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+    - {fileID: 6178219077863607227, guid: c1719f26313ba2649b9c78101940321a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3791,6 +3837,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1325612317}
   m_SourcePrefab: {fileID: 100100000, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+--- !u!4 &603627534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7368687149672900473, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+  m_PrefabInstance: {fileID: 603627533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &663870439
 GameObject:
   m_ObjectHideFlags: 0
@@ -4017,18 +4068,22 @@ MonoBehaviour:
   - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}
   - {fileID: 4415725177970483417, guid: ad333dfc2df1fb846a281b2de4a5d588, type: 3}
   currentPhaseIndex: 0
-  phaseTimeLeft: 300
-  phaseElapsedTime: 0
-  nightmareElapsedTime: 0
-  isTimerPaused: 0
-  isNightmareMode: 0
+  debugSkipToFinalBoss: 0
+  defaultSkybox: {fileID: 0}
+  bossSkybox: {fileID: 0}
+  finalPortalPrefab: {fileID: 0}
+  portalSpawnPoint: {fileID: 0}
   plazaMap: {fileID: 0}
   bossMap: {fileID: 0}
+  playerTeleportPoint: {fileID: 0}
   finalBossPrefab: {fileID: 0}
   finalBossSpawnPoint: {fileID: 0}
-  playerTeleportPoint: {fileID: 0}
-  transitionDuration: 4
-  mapDropDistance: 50
+  sceneStatues: []
+  chestPrefab: {fileID: 0}
+  fixedChestSpawnPoints: []
+  initialChestCost: 100
+  chestCostIncreasePercent: 50
+  chestRespawnDelay: 15
 --- !u!1001 &1325376992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4109,8 +4164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e08d18e80bdc042873b7ad52860f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  knockbackPower: 10
-  knockbackDuration: 0.15
+  hitFlash: {fileID: 0}
+  cameraShake: {fileID: 0}
 --- !u!114 &1325612307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4123,8 +4178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79d24373aba1614d9cb30655aeed021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExternalMechanics
-  airFriction: 1
-  groundFriction: 5
 --- !u!114 &1325612308
 MonoBehaviour:
   m_ObjectHideFlags: 0
