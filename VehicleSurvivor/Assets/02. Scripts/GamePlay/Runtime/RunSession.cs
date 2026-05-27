@@ -60,7 +60,10 @@ public sealed class RunSession
         Player.Health.TickRegen(deltaTime);
 
         if (_waveTimer.IsNightmare && !wasNightmare)
+        {
             _lastDisplayedWaveSecond = -1;
+            SoundPlayback.PlaySfx(ESoundId.SFX_Wave_Nightmare);
+        }
 
         TryEmitRunTimeDisplay();
         TryEmitWaveTimeDisplay();
@@ -163,6 +166,7 @@ public sealed class RunSession
             return;
 
         ChangeState(ERunState.GameOver);
+        SoundPlayback.PlaySfx(ESoundId.SFX_GameOver);
     }
 
     public void Clear()

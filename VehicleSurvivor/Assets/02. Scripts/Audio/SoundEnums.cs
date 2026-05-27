@@ -44,10 +44,6 @@ public enum EBgmId
     BGM_Title,
     BGM_InGame_Normal,
     BGM_InGame_Nightmare,
-    BGM_Hub,
-    BGM_Boss,
-    BGM_Reward,
-    BGM_GameOver,
 }
 
 public enum ESfxPriority

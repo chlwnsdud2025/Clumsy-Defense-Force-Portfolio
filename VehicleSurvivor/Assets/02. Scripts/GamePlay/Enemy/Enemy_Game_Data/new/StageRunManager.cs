@@ -174,10 +174,6 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
         if (RunManager.TryGetInstance(out RunManager runManager))
             runManager.StartWavePhase(currentPhase.timeLimit);
-
-        if (SoundManager.TryGetInstance(out SoundManager soundManager) &&
-            soundManager.TryGetComponent(out SoundBgmController bgmController))
-            bgmController.PlayInGameBgm();
     }
 
     public void OnStageCleared()

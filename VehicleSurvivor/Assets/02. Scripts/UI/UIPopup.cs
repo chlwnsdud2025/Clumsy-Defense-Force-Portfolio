@@ -36,6 +36,7 @@ public class UIPopup : UIBase
 
     public virtual void OnClickBack()
     {
+        PlayUIClickSfx();
         UIManager.Instance?.ClosePopup(this);
     }
 }

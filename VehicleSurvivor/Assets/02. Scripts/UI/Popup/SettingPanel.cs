@@ -134,8 +134,5 @@ public class SettingPanel : MonoBehaviour
 
         soundManager.SetSfxVolume(value);
         _volumeDirty = true;
-
-        if (value > 0f)
-            soundManager.PlaySfx(ESoundId.SFX_UI_Click);
     }
 }

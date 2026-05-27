@@ -19,6 +19,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     [Header("Pool")]
     [SerializeField] private int sfxPoolSize = 22;
     [SerializeField] private float bgmCrossFadeDuration = 0.8f;
+    [SerializeField] private float bgmDuckDuration = 0.3f;
 
     private readonly Dictionary<ESoundId, float> _sfxCooldownUntil = new();
 
@@ -26,8 +27,10 @@ public class SoundManager : MonoSingleton<SoundManager>
     private AudioSourcePool _sfxPool;
     private EBgmId _currentBgmId = EBgmId.None;
     private Tween _bgmFadeTween;
+    private Tween _bgmDuckTween;
 
     private float _bgmVolume = SoundVolumeSettings.DefaultVolume;
+    private float _bgmDuckMultiplier = 1f;
     private float _sfxVolume = SoundVolumeSettings.DefaultVolume;
 
     private bool _isReady;
@@ -80,7 +83,7 @@ public class SoundManager : MonoSingleton<SoundManager>
             return;
 
         _currentBgmId = id;
-        float targetVolume = entry.Volume * _bgmVolume;
+        float targetVolume = GetEffectiveBgmVolume(entry);
 
         _bgmFadeTween?.Kill();
 
@@ -118,6 +121,7 @@ public class SoundManager : MonoSingleton<SoundManager>
 
         _currentBgmId = EBgmId.None;
         _bgmFadeTween?.Kill();
+        ResetBgmDuck();
 
         if (fadeOut <= 0f)
         {
@@ -137,6 +141,34 @@ public class SoundManager : MonoSingleton<SoundManager>
         SoundVolumeSettings.BgmVolume = _bgmVolume;
         ApplyVolumeSettings();
         RefreshBgmVolume();
+    }
+
+    public void SetBgmDuck(float multiplier, float duration = -1f)
+    {
+        if (!_isReady)
+            return;
+
+        multiplier = Mathf.Clamp01(multiplier);
+
+        if (duration < 0f)
+            duration = bgmDuckDuration;
+
+        _bgmDuckTween?.Kill();
+
+        if (duration <= 0f)
+        {
+            _bgmDuckMultiplier = multiplier;
+            RefreshBgmVolume();
+            return;
+        }
+
+        _bgmDuckTween = DOTween
+            .To(() => _bgmDuckMultiplier, value =>
+            {
+                _bgmDuckMultiplier = value;
+                RefreshBgmVolume();
+            }, multiplier, duration)
+            .SetUpdate(true);
     }
 
     public void SetSfxVolume(float normalized)
@@ -202,7 +234,16 @@ public class SoundManager : MonoSingleton<SoundManager>
         if (!soundDatabase.TryGetBgm(_currentBgmId, out BgmEntry entry))
             return;
 
-        _bgmSource.volume = entry.Volume * _bgmVolume;
+        _bgmSource.volume = GetEffectiveBgmVolume(entry);
+    }
+
+    private float GetEffectiveBgmVolume(BgmEntry entry) =>
+        entry.Volume * _bgmVolume * _bgmDuckMultiplier;
+
+    private void ResetBgmDuck()
+    {
+        _bgmDuckTween?.Kill();
+        _bgmDuckMultiplier = 1f;
     }
 
     private bool CanPlaySfx(ESoundId id, float cooldownSeconds)
@@ -245,6 +286,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     protected override void OnDestroy()
     {
         _bgmFadeTween?.Kill();
+        _bgmDuckTween?.Kill();
         base.OnDestroy();
     }
 }

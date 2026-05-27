@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8247193847291048260}
   - component: {fileID: 8247193847291048262}
-  - component: {fileID: 8247193847291048263}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -51,15 +50,3 @@ MonoBehaviour:
   sfxMixerGroup: {fileID: 2750420069860790295, guid: 8697b4f0f62a52642bb10db83263f394, type: 2}
   sfxPoolSize: 22
   bgmCrossFadeDuration: 0.8
---- !u!114 &8247193847291048263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8247193847291048261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5432c5ca40e6d0446bbb3420beeadc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundBgmController
