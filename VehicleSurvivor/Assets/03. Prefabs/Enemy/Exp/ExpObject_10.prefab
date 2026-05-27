@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5139418428903968774}
+  - {fileID: 7025541721559146362}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6903838175365466160
@@ -46,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExpOrb
   orbType: 1
-  collider: {fileID: 8811810232339729671}
   expValue: 0
   bounceForce: 8
   scatterForce: 8
@@ -193,3 +193,144 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1001 &1119154820830556437
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2664000607527222045}
+    m_Modifications:
+    - target: {fileID: 7330845571203019989, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_Name
+      value: PF_GoldExp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330845571203019989, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7330845571203019989, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2961472226651106784}
+    - targetCorrespondingSourceObject: {fileID: 7330845571203019989, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5327065653697457343}
+  m_SourcePrefab: {fileID: 100100000, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+--- !u!4 &7025541721559146362 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7996059329008332399, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+  m_PrefabInstance: {fileID: 1119154820830556437}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7652860781662848448 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7330845571203019989, guid: b64082eeb3ffbe144b55a628bb94c55d, type: 3}
+  m_PrefabInstance: {fileID: 1119154820830556437}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &2961472226651106784
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652860781662848448}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &5327065653697457343
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652860781662848448}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.018949639, y: 0.015706105, z: 0.019097995}
+  m_Center: {x: -0.0000027599744, y: 0.00000942033, z: -0.0000021848832}

@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "스파크 대소동"
   description: "무작위 위치에 번개가 치고 전기를 방출합니다."
   icon: {fileID: 21300000, guid: ff60aa6eeaf26ea41925738d591b61fd, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 5020183939751941310, guid: c5476c9f70784522a0d6994d094dc6bd, type: 3}
   weaponType: 6
   tags:
   - "전기"
@@ -26,8 +26,8 @@ MonoBehaviour:
   - bulletSpeed: 12
     spreadAngle: 0
     radius: 7
-    chainCount: 0
-    chainRadius: 0
+    chainCount: 2
+    chainRadius: 5
     explosionRadius: 1.2
     meteorDelay: 1
     description: "진화 완료: 무작위 위치에 번개가 치고 전기를 방출합니다."
