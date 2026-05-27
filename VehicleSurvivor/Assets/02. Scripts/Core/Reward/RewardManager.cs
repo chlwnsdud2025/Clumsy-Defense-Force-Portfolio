@@ -5,10 +5,14 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 {
     [Header("Databases")]
     [SerializeField] private WeaponDatabaseSO weaponDatabase;
-    [SerializeField] private PassiveTableSO passiveTable;
+    [SerializeField] private BadgeTableSO badgeTable;
     [SerializeField] private ItemTableSO itemTable;
 
     [SerializeField] private int rewardOptionCount = 3;
+
+    [Header("Debug")]
+    [SerializeField] private bool enableEvolutionCheat = true;
+    [SerializeField] private KeyCode forceEvolutionKey = KeyCode.F9;
 
     private RunSession _runSession;
     private Player _playerInstance;
@@ -19,6 +23,15 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
     public RunSession RunSession => _runSession;
     public WeaponDatabaseSO WeaponDatabase => weaponDatabase;
+
+    private void Update()
+    {
+        if (!enableEvolutionCheat)
+            return;
+
+        if (Input.GetKeyDown(forceEvolutionKey))
+            ForceEvolveOwnedWeaponsForDebug();
+    }
 
     public void InitializeForRun(RunSession runSession, Player player)
     {
@@ -57,7 +70,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         if (_runSession == null)
             return new List<RewardOption>();
 
-        _rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        _rewardSystem ??= new RewardSystem(weaponDatabase, badgeTable, itemTable);
         return _rewardSystem.GenerateLevelUp(_runSession.Player, GetRewardOptionCount());
     }
 
@@ -66,7 +79,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         if (_runSession == null)
             return new List<RewardOption>();
 
-        _rewardSystem ??= new RewardSystem(weaponDatabase, passiveTable, itemTable);
+        _rewardSystem ??= new RewardSystem(weaponDatabase, badgeTable, itemTable);
         return _rewardSystem.GenerateChest(_runSession.Player, GetRewardOptionCount());
     }
 
@@ -80,6 +93,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         bool applied = _rewardApplier.Apply(
             _runSession.Player,
             reward,
+            weaponDatabase,
             playerWeaponSpawner,
             _playerInstance != null ? _playerInstance.transform : null);
 
@@ -108,6 +122,7 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         bool applied = _rewardApplier.Apply(
             _runSession.Player,
             reward,
+            weaponDatabase,
             playerWeaponSpawner,
             _playerInstance != null ? _playerInstance.transform : null);
 
@@ -129,14 +144,14 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
         if (weaponDatabase == null)
         {
-            Debug.LogError("[RewardManager] WeaponDatabaseSO가 할당되지 않았습니다.");
+            Debug.LogError("[RewardManager] WeaponDatabaseSO가 ?�당?��? ?�았?�니??");
             return;
         }
 
         string startingWeaponId = character.GetStartingWeaponId();
         if (string.IsNullOrWhiteSpace(startingWeaponId))
         {
-            Debug.LogError($"[RewardManager] 시작 무기 ID가 비어 있습니다: {character.DisplayName}");
+            Debug.LogError($"[RewardManager] ?�작 무기 ID가 비어 ?�습?�다: {character.DisplayName}");
             return;
         }
 
@@ -146,14 +161,14 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
 
         if (_playerInstance == null)
         {
-            Debug.LogError("[RewardManager] 플레이어가 없어 시작 무기 비주얼을 생성할 수 없습니다.");
+            Debug.LogError("[RewardManager] ?�레?�어가 ?�어 ?�작 무기 비주?�을 ?�성?????�습?�다.");
             return;
         }
 
         PlayerWeaponSpawner playerWeaponSpawner = ResolveWeaponSpawner();
         if (playerWeaponSpawner == null)
         {
-            Debug.LogError("[RewardManager] PlayerWeaponSpawner를 찾을 수 없습니다.");
+            Debug.LogError("[RewardManager] PlayerWeaponSpawner�?찾을 ???�습?�다.");
             return;
         }
 
@@ -173,6 +188,87 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
             return _playerInstance.WeaponSpawner;
 
         return _playerInstance.GetComponentInChildren<PlayerWeaponSpawner>(true);
+    }
+
+    private void ForceEvolveOwnedWeaponsForDebug()
+    {
+        if (_runSession?.Player == null)
+        {
+            Debug.LogWarning("[RewardManager] Evolution cheat failed: run session or player is missing.");
+            return;
+        }
+
+        if (weaponDatabase == null || badgeTable == null)
+        {
+            Debug.LogWarning("[RewardManager] Evolution cheat failed: weapon or badge database is missing.");
+            return;
+        }
+
+        PlayerRuntime player = _runSession.Player;
+        List<WeaponInstance> weapons = new(player.Inventory.Weapons);
+        int preparedCount = 0;
+
+        foreach (WeaponInstance weapon in weapons)
+        {
+            if (!PrepareWeaponEvolutionForDebug(player, weapon))
+                continue;
+
+            preparedCount++;
+        }
+
+        if (preparedCount == 0)
+        {
+            Debug.LogWarning("[RewardManager] Evolution cheat found no owned weapons with evolution data.");
+            return;
+        }
+
+        PlayerWeaponSpawner playerWeaponSpawner = ResolveWeaponSpawner();
+        bool evolved = _rewardApplier.TryEvolveAllEligibleWeapons(
+            player,
+            weaponDatabase,
+            playerWeaponSpawner,
+            _playerInstance != null ? _playerInstance.transform : null);
+
+        Debug.Log(evolved
+            ? $"[RewardManager] Evolution cheat completed. Prepared weapons: {preparedCount}"
+            : $"[RewardManager] Evolution cheat prepared {preparedCount} weapons, but no evolution was applied.");
+    }
+
+    private bool PrepareWeaponEvolutionForDebug(PlayerRuntime player, WeaponInstance weapon)
+    {
+        if (player == null || weapon?.Definition == null)
+            return false;
+
+        WeaponDefinitionSO definition = weapon.Definition;
+        if (string.IsNullOrWhiteSpace(definition.EvolutionWeaponId) ||
+            string.IsNullOrWhiteSpace(definition.RequiredBadgeId))
+            return false;
+
+        BadgeDefinitionSO requiredBadge = badgeTable.GetById(definition.RequiredBadgeId);
+        if (requiredBadge == null)
+        {
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required badge not found ({definition.RequiredBadgeId}).");
+            return false;
+        }
+
+        if (!player.Inventory.HasBadge(requiredBadge.BadgeId))
+            player.Inventory.AddOrLevelUpBadge(requiredBadge);
+
+        if (!player.Inventory.HasBadge(requiredBadge.BadgeId))
+        {
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required badge could not be added ({requiredBadge.BadgeId}).");
+            return false;
+        }
+
+        while (!weapon.IsMaxLevel)
+        {
+            WeaponInstance leveledWeapon = player.Inventory.AddOrLevelUpWeapon(definition);
+            if (leveledWeapon == null)
+                break;
+        }
+
+        Debug.Log($"[RewardManager] Evolution cheat prepared: {definition.WeaponName} Lv.{weapon.CurrentLevel}, badge={requiredBadge.BadgeName}");
+        return true;
     }
 
     private int GetRewardOptionCount()

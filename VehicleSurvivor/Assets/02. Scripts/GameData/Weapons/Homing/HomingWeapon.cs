@@ -34,7 +34,8 @@ public class HomingWeapon : WeaponBase
             ),
             data.SpreadAngle,
             GetFinalWeaponScale(data.Range),
-            GetFinalWeaponScale(data.Radius)
+            GetFinalWeaponScale(data.Radius),
+            data.PierceCount
         );
     }
 
@@ -44,7 +45,8 @@ public class HomingWeapon : WeaponBase
         int count,
         float spreadAngleValue,
         float maxTravelDistance,
-        float detectRadius
+        float detectRadius,
+        int pierceCount
     )
     {
         Transform resolvedFirePoint =
@@ -150,7 +152,8 @@ public class HomingWeapon : WeaponBase
                 maxTravelDistance,
                 shootRotation * Vector3.forward,
                 target,
-                detectRadius
+                detectRadius,
+                pierceCount
             );
         }
     }

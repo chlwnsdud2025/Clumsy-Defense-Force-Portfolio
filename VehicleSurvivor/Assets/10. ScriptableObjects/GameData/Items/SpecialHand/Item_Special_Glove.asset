@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
   m_Name: Item_Special_Glove
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
-  itemId: item_special_glove
+  itemId: item_hand_glove
   itemName: "장갑"
-  description: "스킬 크기 증가 계열 후보 아이템입니다."
+  description: "무기 크기가 증가합니다."
   itemCategory: 1
   rarity: 0
   icon: {fileID: 0}

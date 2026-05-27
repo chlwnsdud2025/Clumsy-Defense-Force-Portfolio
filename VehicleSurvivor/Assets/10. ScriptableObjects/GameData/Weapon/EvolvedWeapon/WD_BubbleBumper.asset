@@ -18,7 +18,10 @@ MonoBehaviour:
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 5
-  tags: []
+  tags:
+  - "보호막"
+  - "방어력"
+  - "반격"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -27,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "진화 완료: 보호막 유지 중 이동속도가 증가하고 방어 시 적을 밀쳐냅니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -37,4 +40,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 

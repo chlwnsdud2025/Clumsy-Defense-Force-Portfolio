@@ -15,13 +15,13 @@ MonoBehaviour:
   weaponId: weapon_unique_bear_paw
   weaponName: "곰발바닥"
   description: "가까운 적을 향해 발바닥 충격파를 발사합니다."
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 84880b7d082a21d4dacabc24b19ead0f, type: 3}
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "충격파"
-  - "범위"
-  - "연쇄"
+  - "異⑷꺽??
+  - "踰붿쐞"
+  - "?곗뇙"
   levelDataList:
   - bulletSpeed: 8
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv1: 기본 충격파"
+    description: "Lv1: 湲곕낯 異⑷꺽??
     cooldown: 1.1
     damage: 11
     projectileSpeed: 8
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv2: 피해량 증가"
+    description: "Lv2: ?쇳빐??利앷?"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 8.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv3: 충격파 크기 증가"
+    description: "Lv3: 異⑷꺽???ш린 利앷?"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 8.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv4: 피해량 증가"
+    description: "Lv4: ?쇳빐??利앷?"
     cooldown: 1
     damage: 15
     projectileSpeed: 9
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv5: 충격파 크기 증가"
+    description: "Lv5: 異⑷꺽???ш린 利앷?"
     cooldown: 0.95
     damage: 18
     projectileSpeed: 9.5
@@ -104,4 +104,4 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 6
   evolutionWeaponId: weapon_evolved_bear_quake
-  requiredPassiveId: passive_skill_size
+  requiredBadgeId: badge_weapon_size

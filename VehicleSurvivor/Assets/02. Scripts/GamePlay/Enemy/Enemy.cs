@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour, IDamageable
     // ==========================================
     // 🎯 [핵심 분리 2] 특수 패턴(Pattern) 세팅
     // ==========================================
-    [Header("Pattern / Skill Behavior (특수/원거리 패턴)")]
+    [Header("Pattern / Weapon Behavior (특수/원거리 패턴)")]
     [Tooltip("원거리 몹이나 특수 패턴이 있는 몹이 멈춰서 공격을 시작할 3D 거리")]
     public float patternRange = 5.0f;
 

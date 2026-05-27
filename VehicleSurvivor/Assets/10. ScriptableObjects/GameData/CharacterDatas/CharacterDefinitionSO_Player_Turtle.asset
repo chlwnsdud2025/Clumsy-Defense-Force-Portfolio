@@ -14,24 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Turtle
   _displayName: Player_Turtle
-  _description: Player_Turtle
+  _description: "\uB2E8\uB2E8\uD55C \uB4F1\uAECD\uC9C8\uC744 \uBE59\uAE00\uBE59\uAE00
+    \uB3CC\uB824 \uC8FC\uBCC0 \uC801\uC744 \uB9C9\uC544\uB0B4\uB294 \uBC29\uC5B4\uD615
+    \uCE90\uB9AD\uD130. \uC801\uC5D0\uAC8C \uB458\uB7EC\uC2F8\uC5EC\uB3C4 \uAFB8\uC900\uD788
+    \uBC84\uD2F0\uBA70 \uC2F8\uC6B0\uB294 \uB370 \uAC15\uD569\uB2C8\uB2E4."
   _icon: {fileID: 21300000, guid: 889e76d46895d0746a9976b4e2baaeef, type: 3}
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _previewPrefab: {fileID: 5741818621203534110, guid: cb9e7735b0edd7b4fadc49c62a906a07, type: 3}
   _visualPrefab: {fileID: 5741818621203534110, guid: b353fbc623f586a448f34e5d17023952, type: 3}
-  uniqueSkill: {fileID: 0}
   defaultWeaponId: weapon_unique_shell_spin
   _combat:
     MaxHealth: 222
     Defense: 2
     MoveSpeedMultiplier: 2
     DamageMultiplier: 2
-    PickupRange: 2
+    PickupRangeMultiplier: 1
   _loadout:
     StartingWeaponId: weapon_unique_shell_spin
     UniqueTraitId: 
     TraitDescription: 
-    PassiveIds: []
+    BadgeIds: []
   _meta:
     IsDefaultUnlocked: 1
     UnlockCost: 0

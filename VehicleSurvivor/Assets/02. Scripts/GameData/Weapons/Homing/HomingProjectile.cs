@@ -14,6 +14,7 @@ public class HomingProjectile : MonoBehaviour
 
     private Transform target;
     private float detectRadius;
+    private int pierceCount;
 
     public void Initialize(
         DamageInfo newDamageInfo,
@@ -21,7 +22,8 @@ public class HomingProjectile : MonoBehaviour
         float newMaxTravelDistance,
         Vector3 newMoveDirection,
         Transform newTarget,
-        float newDetectRadius
+        float newDetectRadius,
+        int newPierceCount
     )
     {
         damageInfo = newDamageInfo;
@@ -40,6 +42,9 @@ public class HomingProjectile : MonoBehaviour
 
         detectRadius =
             newDetectRadius;
+
+        pierceCount =
+            Mathf.Max(0, newPierceCount);
     }
 
     private void Update()
@@ -150,6 +155,12 @@ public class HomingProjectile : MonoBehaviour
             damageInfo
         );
         Debug.Log($"비행기 데미지 들어감: {damageInfo.Amount}");
+
+        if (pierceCount > 0)
+        {
+            pierceCount--;
+            return;
+        }
 
         Destroy(gameObject);
     }

@@ -14,24 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Santa
   _displayName: Player_Santa
-  _description: Player_Santa
+  _description: "\uC120\uBB3C \uC0C1\uC790\uB97C \uB358\uC838 \uD391\uD391 \uD130\uB728\uB9AC\uB294
+    \uD3ED\uBC1C\uD615 \uCE90\uB9AD\uD130. \uBE60\uB974\uAC8C \uC6C0\uC9C1\uC774\uBA70
+    \uC801 \uC0AC\uC774\uC5D0 \uAE5C\uC9DD \uC120\uBB3C\uC744 \uBC30\uB2EC\uD558\uB294
+    \uC7AC\uBBF8\uAC00 \uC788\uC2B5\uB2C8\uB2E4."
   _icon: {fileID: 21300000, guid: ec2dd0dcb27114348ab3cb99c0ee4608, type: 3}
   _portrait: {fileID: 21300000, guid: 570d4d98fb522499bb37d3e66815a325, type: 3}
   _previewPrefab: {fileID: 3656048780541344294, guid: 17440382c49f27e4a9eb19d5add5d6fb, type: 3}
   _visualPrefab: {fileID: 3656048780541344294, guid: 21b760ea4f49400448809bd2afda07d0, type: 3}
-  uniqueSkill: {fileID: 0}
   defaultWeaponId: weapon_unique_gift_bomb
   _combat:
     MaxHealth: 333
     Defense: 3
     MoveSpeedMultiplier: 3
     DamageMultiplier: 3
-    PickupRange: 3
+    PickupRangeMultiplier: 1
   _loadout:
     StartingWeaponId: weapon_unique_gift_bomb
     UniqueTraitId: 
     TraitDescription: 
-    PassiveIds: []
+    BadgeIds: []
   _meta:
     IsDefaultUnlocked: 1
     UnlockCost: 0

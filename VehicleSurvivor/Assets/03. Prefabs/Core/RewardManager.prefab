@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardManager
   weaponDatabase: {fileID: 11400000, guid: ec58c6509de32844684033523f0f660c, type: 2}
-  passiveTable: {fileID: 11400000, guid: 29ce8cba065e1fd088ea60bc8840e211, type: 2}
+  badgeTable: {fileID: 11400000, guid: 29ce8cba065e1fd088ea60bc8840e211, type: 2}
   itemTable: {fileID: 11400000, guid: 0b0092ddd9678655ff841097da5ada18, type: 2}
   rewardOptionCount: 3

@@ -14,24 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Rabbit
   _displayName: Player_Rabbit
-  _description: Player_Rabbit
+  _description: "\uBE60\uB974\uAC8C \uB2F9\uADFC\uC744 \uB0A0\uB824 \uAC00\uAE4C\uC6B4
+    \uC801\uC744 \uCF55\uCF55 \uB9DE\uD788\uB294 \uD1A0\uB07C \uCE5C\uAD6C. \uD22C\uC0AC\uCCB4
+    \uC218\uAC00 \uB298\uC5B4\uB0A0\uC218\uB85D \uD654\uBA74\uC744 \uB2F9\uADFC\uC73C\uB85C
+    \uAC00\uB4DD \uCC44\uC6B0\uB294 \uACF5\uACA9\uD615 \uCE90\uB9AD\uD130\uC785\uB2C8\uB2E4."
   _icon: {fileID: 21300000, guid: 39bce4f3650c3174a8d45e5092bf1806, type: 3}
   _portrait: {fileID: 21300000, guid: 9f35db904975f48b9b6673de8a13d323, type: 3}
   _previewPrefab: {fileID: 3985054355110936385, guid: 87967e1108ca8594b9c1ca5b16d458ba, type: 3}
   _visualPrefab: {fileID: 3985054355110936385, guid: e3694f81a083dfc44b8e62a497e11bcc, type: 3}
-  uniqueSkill: {fileID: 0}
   defaultWeaponId: weapon_unique_carrot_cannon
   _combat:
     MaxHealth: 111
     Defense: 11
     MoveSpeedMultiplier: 1
     DamageMultiplier: 1
-    PickupRange: 1
+    PickupRangeMultiplier: 1
   _loadout:
     StartingWeaponId: weapon_unique_carrot_cannon
     UniqueTraitId: 
     TraitDescription: 
-    PassiveIds: []
+    BadgeIds: []
   _meta:
     IsDefaultUnlocked: 1
     UnlockCost: 0

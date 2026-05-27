@@ -19,6 +19,14 @@ public class PlayerWeaponSpawner : MonoBehaviour
         return !string.IsNullOrWhiteSpace(weaponId) && spawnedWeapons.ContainsKey(weaponId);
     }
 
+    public bool CanSpawnWeapon(WeaponDefinitionSO definition)
+    {
+        if (definition == null || definition.WeaponPrefab == null)
+            return false;
+
+        return definition.WeaponPrefab.TryGetComponent(out WeaponBase _);
+    }
+
     public bool TrySpawnWeapon(WeaponInstance weapon, Transform owner)
     {
         if (weapon == null || weapon.Definition == null)
@@ -54,6 +62,30 @@ public class PlayerWeaponSpawner : MonoBehaviour
         weaponBase.Initialize(owner, weapon, ResolveFirePoint(owner), runtime);
         spawnedWeapons.Add(weaponId, weaponBase);
         return true;
+    }
+
+    public bool ReplaceSpawnedWeapon(string oldWeaponId, WeaponInstance newWeapon, Transform owner)
+    {
+        if (string.IsNullOrWhiteSpace(oldWeaponId))
+            return false;
+
+        if (newWeapon == null || newWeapon.Definition == null)
+            return false;
+
+        string normalizedOldWeaponId = oldWeaponId.Trim();
+        string newWeaponId = newWeapon.Definition.WeaponId;
+
+        if (HasSpawnedWeapon(newWeaponId))
+            return false;
+
+        if (!CanSpawnWeapon(newWeapon.Definition))
+            return false;
+
+        if (spawnedWeapons.TryGetValue(normalizedOldWeaponId, out WeaponBase oldWeapon) && oldWeapon != null)
+            Destroy(oldWeapon.gameObject);
+
+        spawnedWeapons.Remove(normalizedOldWeaponId);
+        return TrySpawnWeapon(newWeapon, owner);
     }
 
     private Transform ResolveFirePoint(Transform owner)

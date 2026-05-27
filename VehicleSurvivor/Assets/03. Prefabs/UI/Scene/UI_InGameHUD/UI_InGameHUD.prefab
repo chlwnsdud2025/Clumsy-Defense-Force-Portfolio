@@ -1311,7 +1311,7 @@ GameObject:
   - component: {fileID: 5890005480164986991}
   - component: {fileID: 3384846465620581683}
   m_Layer: 0
-  m_Name: PassiveSlot Group
+  m_Name: BadgeSlot Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1851,7 +1851,7 @@ GameObject:
   - component: {fileID: 8967673358135322091}
   - component: {fileID: 4940949856216451197}
   m_Layer: 0
-  m_Name: PassiveSlot Group
+  m_Name: BadgeSlot Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3274,8 +3274,8 @@ MonoBehaviour:
   bossHealthBarController: {fileID: 881001001001001004}
   weaponSlotRoot: {fileID: 7793401136149614873}
   weaponSlotPrefab: {fileID: 1825596353066983197, guid: ff6fa7e52d9f43e408f1b9732cc7d769, type: 3}
-  passiveSlotRoot: {fileID: 529468892740019790}
-  passiveSlotPrefab: {fileID: 1468227133153040083, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
+  badgeSlotRoot: {fileID: 529468892740019790}
+  badgeSlotPrefab: {fileID: 1468227133153040083, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
   itemSlotRoot: {fileID: 3573916830573679168}
   itemSlotPrefab: {fileID: 6405708297838400297, guid: eb80f487da2f90f45ba19a7a1b60fbe3, type: 3}
   hpTweenDuration: 0.25
@@ -4874,7 +4874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (1)
+      value: Loadout Slot Variant (Badge) (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5082,7 +5082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (5)
+      value: Loadout Slot Variant (Badge) (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5392,7 +5392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (1)
+      value: Loadout Slot Variant (Badge) (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6114,7 +6114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (4)
+      value: Loadout Slot Variant (Badge) (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6597,7 +6597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (2)
+      value: Loadout Slot Variant (Badge) (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7119,7 +7119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (3)
+      value: Loadout Slot Variant (Badge) (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7492,7 +7492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (2)
+      value: Loadout Slot Variant (Badge) (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7700,7 +7700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (3)
+      value: Loadout Slot Variant (Badge) (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8277,7 +8277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive)
+      value: Loadout Slot Variant (Badge)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8489,7 +8489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (7)
+      value: Loadout Slot Variant (Badge) (7)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8697,7 +8697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive) (6)
+      value: Loadout Slot Variant (Badge) (6)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8803,7 +8803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7046601441041997737, guid: 087881fcce2327546ad6996ca73980c0, type: 3}
       propertyPath: m_Name
-      value: Loadout Slot Variant (Passive)
+      value: Loadout Slot Variant (Badge)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

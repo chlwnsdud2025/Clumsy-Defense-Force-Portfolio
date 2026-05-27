@@ -19,9 +19,9 @@ MonoBehaviour:
   weaponPrefab: {fileID: 0}
   weaponType: 6
   tags:
-  - "전체공격"
-  - "폭발"
-  - "긴쿨타임"
+  - "?꾩껜怨듦꺽"
+  - "??컻"
+  - "湲댁엥???
   levelDataList:
   - bulletSpeed: 0.1
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "정예 피해 증가"
+    description: "?뺤삁 ?쇳빐 利앷?"
     cooldown: 10
     damage: 30
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "쿨타임 감소"
+    description: "荑⑦???媛먯냼"
     cooldown: 9.5
     damage: 35
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "쿨타임 감소"
+    description: "荑⑦???媛먯냼"
     cooldown: 9
     damage: 35
     projectileSpeed: 0.1
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "정예 피해 증가"
+    description: "?뺤삁 ?쇳빐 利앷?"
     cooldown: 8.5
     damage: 40
     projectileSpeed: 0.1
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "쿨타임 감소"
+    description: "荑⑦???媛먯냼"
     cooldown: 8
     damage: 50
     projectileSpeed: 0.1
@@ -104,4 +104,4 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 11
   evolutionWeaponId: weapon_evolved_festival_blast
-  requiredPassiveId: passive_exp_gain
+  requiredBadgeId: badge_exp_gain

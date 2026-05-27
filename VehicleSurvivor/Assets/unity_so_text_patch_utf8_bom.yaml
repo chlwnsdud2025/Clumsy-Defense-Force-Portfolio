@@ -1,0 +1,1031 @@
+﻿schema: unity_so_text_patch_v1
+encoding: UTF-8 with BOM
+encoding_check: '한글 정상 표시 확인용: 공격력 증가 / 말랑 줄자 / 당근 캐논'
+rules:
+  string_fields: Korean names and descriptions are quoted by YAML dumper.
+  icon_policy: Only use file names ending with Icon.png. Do not use files with _01, 01, or numbered variants.
+  asset_key: Use asset as the primary matching key when patching Unity ScriptableObjects.
+  safe_apply: Apply active entries first. Draft entries are included for review and should not be applied automatically unless
+    explicitly requested.
+items:
+- asset: Item_Special_Pinwheel
+  id: item_hand_pinwheel
+  name: 빙글빙글 바람개비
+  description: 이동속도 증가율만큼 공격력이 증가합니다.
+  icon: IC_Item_Special_PinwheelIcon.png
+  type: hand_item
+  active: true
+- asset: Item_Special_Pencil
+  id: item_hand_honor_pencil
+  name: 모범생 연필
+  description: 경험치 획득량이 증가하고 레벨업 선택지 수가 증가합니다.
+  icon: IC_Item_Special_PencilIcon.png
+  type: hand_item
+  active: true
+- asset: Item_Special_Hook
+  id: item_hand_hook
+  name: 후크선장의 갈고리
+  description: 체력이 낮은 적에게 주는 피해가 증가하고, 적 처치 시 일정 확률로 골드를 추가 획득합니다.
+  icon: IC_Item_Special_HookIcon.png
+  type: hand_item
+  active: true
+- asset: Item_Special_Apple
+  id: item_hand_poison_apple
+  name: 마녀의 독사과
+  description: 공격 시 일정 확률로 적을 중독시킵니다. 중독된 적은 받는 피해가 증가합니다.
+  icon: IC_Item_Special_AppleIcon.png
+  type: hand_item
+  active: true
+- asset: Item_Special_Wand
+  id: item_hand_magician_wand
+  name: 마술사의 지팡이
+  description: 일정 확률로 사용한 무기가 한 번 더 발동합니다.
+  icon: IC_Item_Special_WandIcon.png
+  type: hand_item
+  active: true
+- asset: Item_Special_Glove
+  id: item_hand_glove
+  name: 장갑
+  description: 무기 크기가 증가합니다.
+  icon: IC_Item_Special_GloveIcon.png
+  type: hand_item
+  active: true
+  draft: true
+  notes: 원본 문서에서 효과가 후보 상태였습니다.
+- asset: Item_Special_Candy
+  id: item_hand_candy
+  name: 사탕
+  description: 일정 시간마다 랜덤 필드 아이템 효과가 발동합니다.
+  icon: IC_Item_Special_CandyIcon.png
+  type: hand_item
+  active: true
+  draft: true
+  notes: 원본 문서에서 효과가 후보 상태였습니다.
+- asset: Item_Special_IceCream
+  id: item_hand_ice_cream
+  name: 아이스크림
+  description: 일정 시간마다 광분 룬 효과가 발동합니다.
+  icon: IC_Item_Special_IceCreamIcon.png
+  type: hand_item
+  active: true
+  draft: true
+  notes: 원본 문서에서 효과가 후보 상태였습니다.
+- asset: Item_Common_PicnicBackpack
+  id: item_common_backpack
+  name: 소풍 배낭
+  description: 아이템 획득 반경이 50% 증가합니다.
+  icon: IC_Item_Common_PicnicBackpackIcon.png
+  type: grade_item
+  active: true
+  rarity: common
+- asset: Item_Common_Shoes
+  id: item_common_shoes
+  name: 운동회 운동화
+  description: 이동속도가 증가합니다.
+  icon: IC_Item_Common_Sneakers.png
+  type: grade_item
+  active: true
+  rarity: common
+- asset: Item_Common_Ruler
+  id: item_common_ruler
+  name: 말랑 줄자
+  description: 무기 크기가 10% 증가합니다.
+  icon: IC_Item_Common_RulerIcon.png
+  type: grade_item
+  active: true
+  rarity: common
+  notes: 원본 명칭은 '쭉쭉 자'였으나, Unity SO 예시 기준으로 '말랑 줄자'를 사용했습니다.
+- asset: Item_Common_Eraser
+  id: item_common_eraser
+  name: 말끔 지우개
+  description: 무기 쿨타임이 감소합니다.
+  icon: IC_Item_Common_EraserIcon.png
+  type: grade_item
+  active: true
+  rarity: common
+- asset: Item_Common_CheerFlag
+  id: item_common_flag
+  name: 응원 깃발
+  description: 공격력이 증가합니다.
+  icon: IC_Item_Common_CheerFlagIcon.png
+  type: grade_item
+  active: true
+  rarity: common
+- asset: Item_Common_MagicPracticeBook
+  id: item_common_magic_practice_book
+  name: 마법 연습장
+  description: 마법 피해량이 증가합니다.
+  icon: IC_Item_Common_MagicPracticeBookIcon.png
+  type: grade_item
+  active: false
+  rarity: common
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Uncommon_Stapler
+  id: item_uncommon_stapler
+  name: 꾹꾹 스테이플러
+  description: 치명타율에 비례해 치명타 피해량이 증가합니다.
+  icon: IC_Item_Uncommon_Stapler.png
+  type: grade_item
+  active: true
+  rarity: uncommon
+- asset: Item_Uncommon_Compass
+  id: item_uncommon_compass
+  name: 뾰족한 컴퍼스
+  description: 아이템 획득 반경 증가율에 비례해 치명타 확률이 증가합니다.
+  icon: IC_Item_Uncommon_Compass.png
+  type: grade_item
+  active: true
+  rarity: uncommon
+- asset: Item_Uncommon_ElephantDoll
+  id: item_uncommon_elephant_doll
+  name: 코끼리 인형
+  description: 체력 증가량에 비례해 공격력이 증가합니다.
+  icon: IC_Item_Uncommon_ElephantDoll.png
+  type: grade_item
+  active: true
+  rarity: uncommon
+- asset: Item_Uncommon_GrowthAlbum
+  id: item_uncommon_growth_album
+  name: 성장 앨범
+  description: 레벨에 비례해 공격력이 증가합니다.
+  icon: IC_Item_Uncommon_GrowthAlbumIcon.png
+  type: grade_item
+  active: false
+  rarity: uncommon
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Uncommon_Bookmark
+  id: item_uncommon_favorite_spell
+  name: 즐겨찾기 주문
+  description: 특정 마법 피해량이 증가합니다.
+  icon: IC_Item_Uncommon_BookmarkIcon.png
+  type: grade_item
+  active: true
+  rarity: uncommon
+- asset: Item_Rare_GoldStar
+  id: item_rare_good_job_stamp
+  name: 참 잘했어요 도장
+  description: 공격 시 일정 확률로 적에게 칭찬 도장을 추가합니다. 도장이 찍힌 적은 받는 피해가 증가하고 이동속도가 감소합니다.
+  icon: IC_Item_Rare_GoldStarIcon.png
+  type: grade_item
+  active: true
+  rarity: rare
+  notes: 원본의 '참 잘했어요(⇒도장으로 수정)'를 YAML 안전 명칭으로 정리했습니다.
+- asset: Item_Rare_PencilCase
+  id: item_rare_pencil_case
+  name: 꽉 찬 필통
+  description: 보유 중인 아이템 수에 비례해 공격력이 증가합니다.
+  icon: IC_Item_Rare_FullPencilCase.png
+  type: grade_item
+  active: true
+  rarity: rare
+- asset: Item_Rare_SurpriseBox
+  id: item_rare_surprise_box
+  name: 깜짝 상자
+  description: 적 처치 시 일정 확률로 폭발이 발생합니다.
+  icon: IC_Item_Rare_SurpriseBoxIcon.png
+  type: grade_item
+  active: false
+  rarity: rare
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Rare_HonorNote
+  id: item_rare_honor_student_note
+  name: 우등생 노트
+  description: 경험치 획득량 증가율에 비례해 공격력이 증가합니다.
+  icon: IC_Item_Rare_HonorNoteIcon.png
+  type: grade_item
+  active: true
+  rarity: rare
+- asset: Item_Rare_CourageBadge
+  id: item_rare_courage_badge
+  name: 용기 배지
+  description: 적 체력 감소율에 비례해 최대 체력이 증가합니다.
+  icon: IC_Item_Rare_CourageBadgeIcon.png
+  type: grade_item
+  active: false
+  rarity: rare
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Epic_SparkleCrown
+  id: item_epic_sparkle_crown
+  name: 반짝 왕관
+  description: 체력이 75% 이상일 때 공격력이 증폭됩니다.
+  icon: IC_Item_Epic_SparkleCrownIcon.png
+  type: grade_item
+  active: false
+  rarity: epic
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Epic_FinisherStamp
+  id: item_epic_finisher_stamp
+  name: 마무리 도장
+  description: 체력이 20% 이하인 적을 즉시 처치합니다.
+  icon: IC_Item_Epic_FinisherStampIcon.png
+  type: grade_item
+  active: false
+  rarity: epic
+  draft: true
+  notes: 원본 문서에서 주석 처리되었고 '참 잘했어요'와 통합 가능성이 있습니다.
+- asset: Item_Epic_AdvancedWorkbook
+  id: item_epic_advanced_workbook
+  name: 선행학습 문제집
+  description: 즉시 3레벨업하고 경험치 획득량이 증가합니다.
+  icon: IC_Item_Epic_AdvancedWorkbookIcon.png
+  type: grade_item
+  active: false
+  rarity: epic
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Epic_Diploma
+  id: item_epic_diploma
+  name: 졸업장
+  description: 진화 무기 피해량이 증가합니다.
+  icon: IC_Item_Epic_Diploma.png
+  type: grade_item
+  active: true
+  rarity: epic
+- asset: Item_Epic_PajamaInvitation
+  id: item_epic_pajama_party_invitation
+  name: 파자마 파티 초대장
+  description: 주변에 보물함 3개를 생성합니다.
+  icon: IC_Item_Epic_PajamaInvitationIcon.png
+  type: grade_item
+  active: true
+  rarity: epic
+- asset: Item_Legendary_Mask
+  id: item_legendary_cat_mask
+  name: 고양이 가면
+  description: 이동속도가 크게 증가합니다.
+  icon: IC_Item_Legendary_MaskIcon.png
+  type: grade_item
+  active: true
+  rarity: legendary
+  draft: true
+  notes: 원본 문서의 효과가 물음표 상태였습니다.
+- asset: Item_Legendary_Book
+  id: item_legendary_magic_collection_book
+  name: 마법 컬렉션북
+  description: 진화한 무기 수에 비례해 피해량이 증가합니다.
+  icon: IC_Item_Legendary_BookIcon.png
+  type: grade_item
+  active: false
+  rarity: legendary
+  draft: true
+  notes: 원본 문서에서 주석 처리된 항목입니다.
+- asset: Item_Mythic_Cape
+  id: item_mythic_hero_cape
+  name: 히어로 망토
+  description: 공격력 증가율이 곱연산으로 적용됩니다.
+  icon: IC_Item_Mythic_CapeIcon.png
+  type: grade_item
+  active: true
+  rarity: mythic
+badges:
+- asset: Badge_AttackPower
+  id: badge_attack_power
+  name: 공격력 증가
+  description: 공격력이 {0} 증가합니다.
+  values:
+  - 8%
+  - 16%
+  - 24%
+  - 32%
+  - 40%
+  max_level: 5
+  icon: IC_Badge_AttackPower_VitaminJellyIcon.png
+  evolution_links:
+  - 래빗 스트라이크
+- asset: Badge_MaxHealth
+  id: badge_max_health
+  name: 체력 증가
+  description: 최대 체력이 {0} 증가합니다.
+  values:
+  - 12%
+  - 24%
+  - 36%
+  - 48%
+  - 60%
+  max_level: 5
+  icon: IC_Badge_MaxHealthIcon.png
+  evolution_links:
+  - 백드래프트
+  - 로열 로드
+- asset: Badge_Defense
+  id: badge_defense
+  name: 방어력 증가
+  description: 방어력이 {0} 증가합니다.
+  values:
+  - '5'
+  - '10'
+  - '15'
+  - '20'
+  - '25'
+  max_level: 5
+  icon: IC_Badge_DefenseIcon.png
+  evolution_links:
+  - 터틀 토네이도
+  - 버블 범퍼
+- asset: Badge_CooldownReduction
+  id: badge_cooldown_reduction
+  name: 쿨타임 감소
+  description: 무기 쿨타임이 {0} 감소합니다.
+  values:
+  - 6%
+  - 12%
+  - 18%
+  - 24%
+  - 30%
+  max_level: 5
+  icon: IC_Badge_CooldownReductionIcon.png
+  evolution_links:
+  - 아크 오버드라이브
+  - 스파크 대소동
+  - 우주 대소동
+- asset: Badge_MoveSpeed
+  id: badge_move_speed
+  name: 이동속도 증가
+  description: 이동속도가 {0} 증가합니다.
+  values:
+  - 6%
+  - 12%
+  - 18%
+  - 24%
+  - 30%
+  max_level: 5
+  icon: IC_Badge_MoveSpeedIcon.png
+  evolution_links:
+  - 메리 크리티붐
+  - 종이접기 전문가
+  - 루돌프 대질주
+- asset: Badge_CritRate
+  id: badge_crit_rate
+  name: 치명타율 증가
+  description: 치명타율이 {0} 증가합니다.
+  values:
+  - 5%
+  - 10%
+  - 15%
+  - 20%
+  - 25%
+  max_level: 5
+  icon: IC_Badge_CritRateIcon.png
+  evolution_links:
+  - 슈퍼 탱탱볼
+  - 트윙클 퍼레이드
+- asset: Badge_ProjectileCount
+  id: badge_projectile_count
+  name: 투사체 증가
+  description: '특정 레벨에서 투사체 수가 증가합니다. 현재 증가량: {0}'
+  values:
+  - '0'
+  - '+1'
+  - '+1'
+  - '+2'
+  - '+3'
+  max_level: 5
+  icon: IC_Badge_ProjectileCountIcon.png
+  evolution_links: []
+- asset: Badge_WeaponSize
+  id: badge_weapon_size
+  name: 무기 크기 증가
+  description: 무기 크기가 {0} 증가합니다.
+  values:
+  - 10%
+  - 20%
+  - 30%
+  - 40%
+  - 50%
+  max_level: 5
+  icon: IC_Badge_WeaponSizeIcon.png
+  evolution_links:
+  - 베어 퀘이크
+  - 쥬라기 함성
+  - 무지개 요요
+  - 베어 샤워
+- asset: Badge_PickupRadius
+  id: badge_pickup_radius
+  name: 아이템 획득 반경 증가
+  description: 아이템 획득 반경이 {0} 증가합니다.
+  values:
+  - 20%
+  - 40%
+  - 60%
+  - 80%
+  - 100%
+  max_level: 5
+  icon: IC_Badge_PickupRadiusIcon.png
+  evolution_links:
+  - 숲친구 대행진
+- asset: Badge_ExpGain
+  id: badge_exp_gain
+  name: 경험치 획득량 증가
+  description: 경험치 획득량이 {0} 증가합니다.
+  values:
+  - 8%
+  - 16%
+  - 24%
+  - 32%
+  - 40%
+  max_level: 5
+  icon: IC_Badge_ExpGainIcon.png
+  evolution_links:
+  - 축제 대폭발
+- asset: Badge_GoldGain
+  id: badge_gold_gain
+  name: 골드 획득량 증가
+  description: 골드 획득량이 {0} 증가합니다.
+  values:
+  - 10%
+  - 20%
+  - 30%
+  - 40%
+  - 50%
+  max_level: 5
+  icon: IC_Badge_GoldGainIcon.png
+  evolution_links: []
+- asset: Badge_HealthRegen
+  id: badge_health_regen
+  name: 체력 재생 증가
+  description: 초당 체력 재생량이 {0} 증가합니다.
+  values:
+  - 0.4 HP/s
+  - 0.8 HP/s
+  - 1.2 HP/s
+  - 1.6 HP/s
+  - 2.0 HP/s
+  max_level: 5
+  icon: IC_Badge_HealthRegenIcon.png
+  evolution_links: []
+- asset: Badge_Luck
+  id: badge_luck
+  name: 행운 증가
+  description: 행운이 {0} 증가합니다.
+  values:
+  - 6%
+  - 12%
+  - 18%
+  - 24%
+  - 30%
+  max_level: 5
+  icon: IC_Badge_LuckIcon.png
+  evolution_links: []
+weapons:
+- asset: WD_CarrotCannon
+  id: weapon_unique_carrot_cannon
+  name: 당근 캐논
+  description: 가장 가까운 적에게 단단한 당근 투사체를 발사합니다.
+  icon: CarrotBulletIcon.png
+  category: unique
+  tags:
+  - 투사체
+  - 단일타겟
+  - 장난감
+  max_level: 5
+  evolution:
+    name: 래빗 스트라이크
+    condition: 당근 캐논 Lv.5 + 공격력 증가 뱃지 보유
+    description: 당근 수가 증가하고 적을 관통합니다.
+  prefab: PF_Weapon_CarrotCannonProjectile
+  base_stats:
+    damage: 10
+    cooldown: 1.2
+    size: 1.0
+    duration: 3.0
+    projectile_count: 1
+    projectile_speed: 12.0
+  level_effects:
+  - 'Lv1: 투사체 1개'
+  - 'Lv2: 피해량 증가'
+  - 'Lv3: 투사체 +1'
+  - 'Lv4: 피해량 증가'
+  - 'Lv5: 투사체 +1'
+- asset: WD_ShellSpin
+  id: weapon_unique_shell_spin
+  name: 쉘 스핀
+  description: 캐릭터 주변을 회전하는 등껍질이 적에게 피해를 줍니다.
+  icon: ShellSpinIcon.png
+  category: unique
+  tags:
+  - 회전
+  - 주변공격
+  - 방어형
+  max_level: 5
+  evolution:
+    name: 터틀 토네이도
+    condition: 쉘 스핀 Lv.5 + 방어력 증가 뱃지 보유
+    description: 등껍질 수가 증가하고 회전 속도가 증가합니다.
+  prefab: PF_Weapon_ShellSpinShell
+  base_stats:
+    damage: 8
+    cooldown: 0.5
+    size: 1.0
+    duration: 999.0
+    projectile_count: 1
+    tick_interval: 0.5
+  level_effects:
+  - 'Lv1: 등껍질 1개'
+  - 'Lv2: 피해량 증가'
+  - 'Lv3: 등껍질 +1'
+  - 'Lv4: 회전 속도 증가'
+  - 'Lv5: 등껍질 +1'
+- asset: WD_FireLine
+  id: weapon_unique_fire_line
+  name: 방화선
+  description: 캐릭터 주변에 불길 장판을 생성해 주기적으로 피해를 줍니다.
+  icon: FireLineIcon.png
+  category: unique
+  tags:
+  - 장판
+  - 지속피해
+  - 화염
+  max_level: 5
+  evolution:
+    name: 백드래프트
+    condition: 방화선 Lv.5 + 체력 증가 뱃지 보유
+    description: 피해를 받은 적이 확률적으로 폭발합니다.
+  prefab: PF_VFX_FireLine
+  base_stats:
+    damage: 6
+    cooldown: 5.0
+    radius: 2.5
+    duration: 4.0
+    tick_interval: 0.5
+  level_effects:
+  - 'Lv1: 기본 범위'
+  - 'Lv2: 범위 증가'
+  - 'Lv3: 피해량 증가'
+  - 'Lv4: 범위 증가'
+  - 'Lv5: 피해 주기 감소'
+- asset: WD_ForestFriend
+  id: weapon_unique_forest_friend
+  name: 숲친구
+  description: 숲친구가 따라다니며 주변 적을 자동으로 공격합니다.
+  icon: AnimalFriendsIcon.png
+  category: unique
+  tags:
+  - 소환
+  - 자동공격
+  - 자연
+  max_level: 5
+  evolution:
+    name: 숲친구 대행진
+    condition: 숲친구 Lv.5 + 아이템 획득 반경 증가 뱃지 보유
+    description: 숲친구 수가 증가하고 공격 속도가 증가합니다.
+  prefab: PF_Summon_ForestFriend
+  base_stats:
+    damage: 8
+    cooldown: 1.5
+    size: 1.0
+    duration: 999.0
+    summon_count: 1
+  level_effects:
+  - 'Lv1: 숲친구 1마리'
+  - 'Lv2: 공격력 증가'
+  - 'Lv3: 숲친구 +1'
+  - 'Lv4: 공격 속도 증가'
+  - 'Lv5: 숲친구 +1'
+- asset: WD_GiftBomb
+  id: weapon_unique_gift_bomb
+  name: 선물 폭탄
+  description: 주변 적을 향해 선물 상자를 던져 폭발 피해를 줍니다.
+  icon: GiftBoxIcon.png
+  category: unique
+  tags:
+  - 투척
+  - 폭발
+  - 범위
+  max_level: 5
+  evolution:
+    name: 메리 크리티붐
+    condition: 선물 폭탄 Lv.5 + 이동속도 증가 뱃지 보유
+    description: 폭발 범위가 증가하고 깜짝 선물 지뢰를 생성합니다.
+  prefab: PF_Projectile_GiftBomb
+  base_stats:
+    damage: 14
+    cooldown: 2.5
+    radius: 2.0
+    duration: 2.0
+    projectile_count: 1
+    projectile_speed: 8.0
+  level_effects:
+  - 'Lv1: 기본 쿨타임'
+  - 'Lv2: 쿨타임 감소'
+  - 'Lv3: 폭발 범위 증가'
+  - 'Lv4: 쿨타임 감소'
+  - 'Lv5: 폭발 피해 증가'
+- asset: WD_RepulsorBeam
+  id: weapon_unique_repulsor_beam
+  name: 리펄서 빔
+  description: 일정 시간마다 적을 관통하는 빔을 발사합니다.
+  icon: RepulsorBeamIcon.png
+  category: unique
+  tags:
+  - 빔
+  - 관통
+  - 회전
+  max_level: 5
+  evolution:
+    name: 아크 오버드라이브
+    condition: 리펄서 빔 Lv.5 + 쿨타임 감소 뱃지 보유
+    description: 빔이 지속적으로 발사되며 주변을 회전합니다.
+  prefab: PF_VFX_RepulsorBeam
+  base_stats:
+    damage: 8
+    cooldown: 2.0
+    size: 1.0
+    duration: 1.0
+    beam_count: 1
+  level_effects:
+  - 'Lv1: 빔 1개'
+  - 'Lv2: 피해량 증가'
+  - 'Lv3: 빔 +1'
+  - 'Lv4: 피해량 증가'
+  - 'Lv5: 빔 +1'
+- asset: WD_BearPaw
+  id: weapon_unique_bear_paw
+  name: 곰발바닥
+  description: 가까운 적을 향해 발바닥 충격파를 발사합니다.
+  icon: BearDropIcon.png
+  category: unique
+  tags:
+  - 충격파
+  - 범위
+  - 연쇄
+  max_level: 5
+  evolution:
+    name: 베어 퀘이크
+    condition: 곰발바닥 Lv.5 + 무기 크기 증가 뱃지 보유
+    description: 피해량이 증가하고 충격파가 연쇄 발생합니다.
+  prefab: PF_Projectile_BearPawShockwave
+  base_stats:
+    damage: 12
+    cooldown: 2.0
+    size: 1.5
+    duration: 1.0
+    projectile_count: 1
+    projectile_speed: 8.0
+  level_effects:
+  - 'Lv1: 기본 충격파'
+  - 'Lv2: 피해량 증가'
+  - 'Lv3: 충격파 크기 증가'
+  - 'Lv4: 피해량 증가'
+  - 'Lv5: 충격파 크기 증가'
+- asset: WD_CrownBoomerang
+  id: weapon_unique_crown_boomerang
+  name: 크라운 부메랑
+  description: 왕관 모양 부메랑을 던져 지나가는 적에게 피해를 줍니다.
+  icon: CrownBoomerangIcon.png
+  category: unique
+  tags:
+  - 투사체
+  - 왕실
+  - 왕복
+  max_level: 5
+  evolution:
+    name: 로열 로드
+    condition: 크라운 부메랑 Lv.5 + 체력 증가 뱃지 보유
+    description: 왕관이 왕복하며 지나간 자리에 빛나는 왕의 길을 남기고 추가 피해를 줍니다.
+  prefab: PF_Projectile_CrownBoomerang
+  base_stats:
+    damage: 13
+    cooldown: 2.5
+    size: 1.2
+    duration: 3.0
+    projectile_count: 1
+    projectile_speed: 10.0
+  level_effects:
+  - 'Lv1: 왕관 부메랑 1개'
+  - 'Lv2: 피해량 증가'
+  - 'Lv3: 사거리 증가'
+  - 'Lv4: 크기 증가'
+  - 'Lv5: 왕복 속도 증가'
+- asset: WD_DinoRoar
+  id: weapon_unique_dino_roar
+  name: 다이노 포효
+  description: 전방 부채꼴 범위에 포효 피해를 줍니다.
+  icon: DinoRoarIcon.png
+  category: unique
+  tags:
+  - 전방
+  - 범위
+  - 포효
+  max_level: 5
+  evolution:
+    name: 쥬라기 함성
+    condition: 다이노 포효 Lv.5 + 무기 크기 증가 뱃지 보유
+    description: 범위가 증가하고 적을 밀쳐내거나 기절시킵니다.
+  prefab: PF_VFX_DinoRoar
+  base_stats:
+    damage: 10
+    cooldown: 2.0
+    radius: 2.5
+    duration: 0.5
+  level_effects:
+  - 'Lv1: 기본 전방 포효'
+  - 'Lv2: 피해량 증가'
+  - 'Lv3: 포효 범위 증가'
+  - 'Lv4: 피해량 증가'
+  - 'Lv5: 포효 거리 증가'
+- asset: WD_BlockTrap
+  id: weapon_common_block_trap
+  name: 블록 트랩
+  description: 지나간 자리에 블록 함정을 남기고, 밟은 적에게 주기적으로 피해를 줍니다.
+  icon: BlockTrapIcon.png
+  category: common
+  tags:
+  - 장판
+  - 이동경로
+  - 지속피해
+  max_level: 5
+  evolution:
+    name: 맨발의 지옥
+    condition: 블록 트랩 Lv.5 + 이동속도 증가 또는 지속시간 증가 또는 무기 크기 증가 뱃지 보유
+    description: 범위가 증가하고 적 이동속도를 감소시킵니다.
+  prefab: PF_Trap_BlockTrap
+  base_stats: {}
+  level_effects:
+  - 지속시간 증가
+- asset: WD_GummyBearDrop
+  id: weapon_common_gummy_bear_drop
+  name: 젤리곰 드롭
+  description: 무작위 적 위치에 젤리곰을 떨어뜨려 범위 피해를 줍니다.
+  icon: BearDropIcon.png
+  category: common
+  tags:
+  - 낙하
+  - 범위
+  - 랜덤타겟
+  max_level: 5
+  evolution:
+    name: 베어 샤워
+    condition: 젤리곰 드롭 Lv.5 + 무기 크기 증가 뱃지 보유
+    description: 더 자주 떨어지고 낙하 범위가 증가합니다.
+  prefab: PF_Projectile_GummyBearDrop
+  base_stats: {}
+  level_effects:
+  - 피해량 증가
+  - 범위 증가
+  - 쿨타임 감소
+- asset: WD_BouncyBall
+  id: weapon_common_bouncy_ball
+  name: 탱탱볼
+  description: 벽에 한 번 튕기는 공 투사체를 발사합니다.
+  icon: BouncyBallIcon.png
+  category: common
+  tags:
+  - 투사체
+  - 반사
+  - 벽튕김
+  max_level: 5
+  evolution:
+    name: 슈퍼 탱탱볼
+    condition: 탱탱볼 Lv.5 + 치명타율 증가 뱃지 보유
+    description: 벽에 튕기며 적을 관통하고, 튕길 때마다 피해량이 증가합니다.
+  prefab: PF_Projectile_BouncyBall
+  base_stats: {}
+  level_effects:
+  - 피해량 증가
+  - 속도 증가
+  - 크기 증가
+- asset: WD_StaticElectricity
+  id: weapon_common_static_electricity
+  name: 정전기
+  description: 무작위 방향으로 전기를 방출합니다.
+  icon: StaticIcon.png
+  category: common
+  tags:
+  - 전기
+  - 랜덤방향
+  - 방출
+  max_level: 5
+  evolution:
+    name: 스파크 대소동
+    condition: 정전기 Lv.5 + 쿨타임 감소 뱃지 보유
+    description: 무작위 위치에 번개가 치고 전기를 방출합니다.
+  prefab: PF_VFX_StaticElectricity
+  base_stats: {}
+  level_effects:
+  - 피해량 증가
+  - 거리 증가
+  - 방출 수 증가
+  - 쿨타임 감소
+- asset: WD_BigFirework
+  id: weapon_common_big_firework
+  name: 대왕 폭죽
+  description: 모든 일반 적을 처치하고 정예 적에게 큰 피해를 줍니다.
+  icon: BigFireworkIcon.png
+  category: common
+  tags:
+  - 전체공격
+  - 폭발
+  - 긴쿨타임
+  max_level: 5
+  evolution:
+    name: 축제 대폭발
+    condition: 대왕 폭죽 Lv.5 + 경험치 획득량 증가 뱃지 보유
+    description: 폭발로 처치한 적에게 추가 경험치를 주고, 일정 확률로 골드를 드랍합니다.
+  prefab: PF_VFX_BigFirework
+  base_stats: {}
+  level_effects:
+  - 정예 피해 증가
+  - 쿨타임 감소
+- asset: WD_ShieldSoapBubble
+  id: weapon_common_soap_bubble
+  name: 비눗방울
+  description: 보호막을 획득하고, 피해 방어 시 반격 피해를 줍니다.
+  icon: SoapBubbleIcon.png
+  category: common
+  tags:
+  - 보호막
+  - 방어력
+  - 반격
+  max_level: 5
+  evolution:
+    name: 버블 범퍼
+    condition: 비눗방울 Lv.5 + 방어력 증가 뱃지 보유
+    description: 보호막 유지 중 이동속도가 증가하고, 방어 시 적을 밀쳐냅니다.
+  prefab: PF_Shield_SoapBubble
+  base_stats: {}
+  level_effects:
+  - 보호막량 증가
+  - 반격 피해 증가
+  - 재생 쿨타임 감소
+- asset: WD_ToySatellite
+  id: weapon_common_toy_satellite
+  name: 장난감 위성
+  description: 무작위 적에게 장난감 위성포를 발사합니다.
+  icon: ToySatelliteIcon.png
+  category: common
+  tags:
+  - 폭격
+  - 랜덤타겟
+  - 범위
+  max_level: 5
+  evolution:
+    name: 우주 대소동
+    condition: 장난감 위성 Lv.5 + 쿨타임 감소 뱃지 보유
+    description: 폭격 횟수와 폭격 범위가 증가합니다.
+  prefab: PF_Weapon_ToySatellite
+  base_stats: {}
+  level_effects:
+  - 피해량 증가
+  - 범위 증가
+  - 쿨타임 감소
+- asset: WD_DreamAurora
+  id: weapon_common_heart_aurora
+  name: 하트 오로라
+  description: 주변 오로라 범위 안 적에게 최대 체력 비례 지속 피해를 줍니다.
+  icon: LoveAuraIcon.png
+  category: common
+  tags:
+  - 오라
+  - 장판
+  - 체력비례
+  max_level: 5
+  evolution:
+    name: 치명적인 귀여움
+    condition: 하트 오로라 Lv.5 + 최대 체력 증가 뱃지 보유
+    description: 범위가 증가하고 적을 확률적으로 수면 또는 기절 상태로 만듭니다.
+  prefab: PF_VFX_DreamAurora
+  base_stats: {}
+  level_effects:
+  - 범위 증가
+- asset: WD_PaperAirplane
+  id: weapon_common_paper_airplane
+  name: 종이비행기
+  description: 주변에서 종이비행기가 무작위 방향으로 날아갑니다.
+  icon: PaperAirplaneIcon.png
+  category: common
+  tags:
+  - 투사체
+  - 랜덤방향
+  - 다발
+  max_level: 5
+  evolution:
+    name: 종이접기 전문가
+    condition: 종이비행기 Lv.5 + 이동속도 증가 뱃지 보유
+    description: 발사 수가 증가하고 적을 관통합니다.
+  prefab: PF_Projectile_PaperAirplane
+  base_stats: {}
+  level_effects:
+  - 발사 수 증가
+  - 피해량 증가
+  - 거리 증가
+- asset: WD_Yoyo
+  id: weapon_common_yoyo
+  name: 요요
+  description: 가까운 적에게 요요를 던지고 되돌아오며 다시 피해를 줍니다.
+  icon: YoyoIcon.png
+  category: common
+  tags:
+  - 투사체
+  - 관통
+  - 왕복
+  max_level: 5
+  evolution:
+    name: 무지개 요요
+    condition: 요요 Lv.5 + 무기 크기 증가 뱃지 보유
+    description: 돌아온 경로에 무지개 장판을 생성합니다.
+  prefab: PF_Projectile_Yoyo
+  base_stats: {}
+  level_effects:
+  - 피해량 증가
+  - 사거리 증가
+  - 속도 증가
+- asset: WD_TwinkleShot
+  id: weapon_common_twinkle_shot
+  name: 트윙클 샷
+  description: 무작위 방향 원뿔 범위로 별빛 투사체를 발사합니다.
+  icon: TwinkleSotIcon.png
+  category: common
+  tags:
+  - 산탄
+  - 원뿔
+  - 별빛
+  max_level: 5
+  evolution:
+    name: 트윙클 퍼레이드
+    condition: 트윙클 샷 Lv.5 + 치명타율 증가 뱃지 보유
+    description: 캐릭터 전방향으로 별빛 투사체를 발사합니다.
+  prefab: PF_Projectile_TwinkleShot
+  base_stats: {}
+  level_effects:
+  - 투사체 수 증가
+  - 피해량 증가
+  - 각도 증가
+- asset: WD_RudolphSleigh
+  id: weapon_common_rudolph_sleigh
+  name: 루돌프 썰매
+  description: 거대한 썰매와 루돌프가 맵을 가로질러 경로 피해를 줍니다.
+  icon: RudolpSleihIcon.png
+  category: common
+  tags:
+  - 범위
+  - 라인
+  - 횡단
+  max_level: 5
+  evolution:
+    name: 루돌프 대질주
+    condition: 루돌프 썰매 Lv.5 + 이동속도 증가 뱃지 보유
+    description: 더 자주 발생하고 경로에 선물 폭탄을 드랍합니다.
+  prefab: PF_Weapon_RudolphSleigh
+  base_stats: {}
+  level_effects:
+  - 피해량 증가
+  - 크기 증가
+  - 쿨타임 감소
+- asset: WD_RabbitStrike
+  id: weapon_evolved_rabbit_strike
+  name: 래빗 스트라이크
+  description: 강화된 당근 투사체를 여러 발 발사하고 적을 관통합니다.
+  icon: CarrotBulletIcon.png
+  category: evolved
+  tags:
+  - 투사체
+  - 관통
+  - 다발
+  max_level: 1
+  prefab: WD_RabbitStrike
+  base_stats:
+    damage: 26
+    cooldown: 0.65
+    projectile_count: 7
+    pierce_count: 4
+- asset: WD_ForestMarch
+  id: weapon_evolved_forest_march
+  name: 숲친구 대행진
+  description: 더 많은 숲친구가 따라다니며 빠르게 주변 적을 공격합니다.
+  icon: AnimalFriendsIcon.png
+  category: evolved
+  tags:
+  - 소환
+  - 자동공격
+  - 자연
+  max_level: 1
+  prefab: WD_ForestMarch
+- asset: WD_TurtleTornado
+  id: weapon_evolved_turtle_tornado
+  name: 터틀 토네이도
+  description: 등껍질 수가 증가하고 빠르게 회전해 주변 적에게 피해를 줍니다.
+  icon: ShellSpinIcon.png
+  category: evolved
+  tags:
+  - 회전
+  - 주변공격
+  - 방어형
+  max_level: 1
+  prefab: WD_TurtleTornado
+- asset: WD_PaperfoldMaster
+  id: weapon_evolved_paperfold_master
+  name: 종이접기 전문가
+  description: 더 많은 종이비행기를 발사하고 적을 관통합니다.
+  icon: PaperAirplaneIcon.png
+  category: evolved
+  tags:
+  - 투사체
+  - 랜덤방향
+  - 관통
+  max_level: 1
+  prefab: WD_PaperfoldMaster

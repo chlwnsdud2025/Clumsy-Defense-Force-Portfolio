@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_evolved_space_chaos
   weaponName: "우주 대소동"
-  description: "폭격 횟수와 폭격 범위가 증가합니다."
+  description: "장난감 위성의 폭격 횟수와 폭격 범위가 증가합니다."
   icon: {fileID: 0}
   weaponPrefab: {fileID: 0}
   weaponType: 6
-  tags: []
+  tags:
+  - "폭격"
+  - "랜덤타겟"
+  - "범위"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -27,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료"
+    description: "진화 완료: 장난감 위성의 폭격 횟수와 범위가 증가합니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12
@@ -37,4 +40,4 @@ MonoBehaviour:
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 
-  requiredPassiveId: 
+  requiredBadgeId: 

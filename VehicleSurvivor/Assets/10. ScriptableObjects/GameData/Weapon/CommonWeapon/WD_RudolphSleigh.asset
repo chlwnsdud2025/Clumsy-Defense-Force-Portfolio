@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "루돌프 썰매"
   description: "거대한 썰매와 루돌프가 맵을 가로질러 경로 피해를 줍니다."
   icon: {fileID: 21300000, guid: 79b6f9ee9b16fd142b4f60fdd124cd41, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 5686016406878419828, guid: d04c0df708e7a6c4cae45c098618a622, type: 3}
   weaponType: 6
   tags:
   - "범위"
@@ -104,5 +104,5 @@ MonoBehaviour:
     tickInterval: 0.45
     range: 11
   evolutionWeaponId: weapon_evolved_rudolph_rush
-  requiredPassiveId: passive_move_speed
+  requiredBadgeId: badge_move_speed
 
