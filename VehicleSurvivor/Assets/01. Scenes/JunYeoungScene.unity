@@ -817,6 +817,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.53320545
       objectReference: {fileID: 0}
+    - target: {fileID: 2778573113819809353, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: CameraDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778573113819809353, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: AvoidObstacles.CollisionFilter.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     - target: {fileID: 3047010489465350005, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.0022641532
@@ -916,6 +924,10 @@ PrefabInstance:
     - target: {fileID: 4091219671986093140, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.z
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4091219671986093483, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: m_Name
+      value: PlayerFollowCamera
       objectReference: {fileID: 0}
     - target: {fileID: 4153515089617027061, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_IsActive
@@ -1181,6 +1193,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.039664358
       objectReference: {fileID: 0}
+    - target: {fileID: 6178219077863607227, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: CameraDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178219077863607227, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: CameraCollisionFilter.m_Bits
+      value: 1025
+      objectReference: {fileID: 0}
     - target: {fileID: 6402603097307677332, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.09751936
@@ -1292,6 +1312,30 @@ PrefabInstance:
     - target: {fileID: 7306755276278688199, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.012014745
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Priority.Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Priority.m_Value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: m_LegacyPriority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: m_StreamingVersion
+      value: 20241001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 603627534}
+    - target: {fileID: 7316438030375652198, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+      propertyPath: Target.CustomLookAtTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7866794110194806990, guid: c1719f26313ba2649b9c78101940321a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1413,7 +1457,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4091219671986093141, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+    - {fileID: 6178219077863607227, guid: c1719f26313ba2649b9c78101940321a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1421,6 +1467,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1325612298}
   m_SourcePrefab: {fileID: 100100000, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+--- !u!4 &603627534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7368687149672900473, guid: c1719f26313ba2649b9c78101940321a, type: 3}
+  m_PrefabInstance: {fileID: 603627533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &663870439
 GameObject:
   m_ObjectHideFlags: 0
@@ -1777,8 +1828,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e08d18e80bdc042873b7ad52860f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  knockbackPower: 10
-  knockbackDuration: 0.15
+  hitFlash: {fileID: 0}
+  cameraShake: {fileID: 0}
 --- !u!1 &1352740495
 GameObject:
   m_ObjectHideFlags: 0
