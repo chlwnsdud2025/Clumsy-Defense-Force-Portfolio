@@ -226,6 +226,22 @@ public class SoundManager : MonoSingleton<SoundManager>
         return linear <= 0.0001f ? -80f : Mathf.Log10(linear) * 20f;
     }
 
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus || !ReferenceEquals(Instance, this))
+            return;
+
+        SaveVolumeSettings();
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (!ReferenceEquals(Instance, this))
+            return;
+
+        SaveVolumeSettings();
+    }
+
     protected override void OnDestroy()
     {
         _bgmFadeTween?.Kill();

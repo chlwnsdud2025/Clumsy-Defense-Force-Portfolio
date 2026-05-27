@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Druid
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Druid
-  _displayName: Player_Druid
+  _displayName: "\uB450\uB9AC\uD504"
   _description: "\uADC0\uC5EC\uC6B4 \uC232\uCE5C\uAD6C\uB4E4\uACFC \uD568\uAED8 \uC2F8\uC6B0\uB294
     \uC18C\uD658\uD615 \uCE90\uB9AD\uD130. \uC9C1\uC811 \uACF5\uACA9\uBCF4\uB2E4
     \uCE5C\uAD6C\uB4E4\uC744 \uB298\uB824 \uC790\uB3D9\uC73C\uB85C \uC801\uC744 \uC555\uBC15\uD558\uB294
@@ -22,15 +22,14 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: 049d1403ca0954c6e8c805419a41f803, type: 3}
   _previewPrefab: {fileID: 4476796615752694500, guid: 204117511c32ee5488184b1fb7d13bc6, type: 3}
   _visualPrefab: {fileID: 4476796615752694500, guid: 0e725edc53ed4e5418e7fd566d245e88, type: 3}
-  defaultWeaponId: weapon_unique_forest_friend
+  _startingWeapon: {fileID: 11400000, guid: 00e5309bb8cd6994f8c01cd640cbc681, type: 2}
   _combat:
-    MaxHealth: 444
-    Defense: 4
-    MoveSpeedMultiplier: 4
-    DamageMultiplier: 4
+    MaxHealth: 95
+    Defense: 1
+    MoveSpeedMultiplier: 1
+    DamageMultiplier: 0.9
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_forest_friend
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []

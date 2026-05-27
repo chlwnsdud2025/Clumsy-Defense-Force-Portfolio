@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_IronMan
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_IronMan
-  _displayName: Player_05
+  _displayName: "\uC288\uD2B8\uB85C"
   _description: "\uC7A5\uB09C\uAC10 \uD788\uC5B4\uB85C \uC288\uD2B8\uB97C \uC785\uACE0
     \uB9AC\uD384\uC11C \uBE54\uC744 \uBC1C\uC0AC\uD558\uB294 \uAD00\uD1B5\uD615 \uCE90\uB9AD\uD130.
     \uBE54 \uAC1C\uC218\uAC00 \uB298\uC5B4\uB098\uBA74 \uC8FC\uBCC0\uC744 \uC2DC\uC6D0\uD558\uAC8C
@@ -22,15 +22,14 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: ea0d15c8ad5814d68ba5d1f53bae6247, type: 3}
   _previewPrefab: {fileID: 5335225805418909871, guid: aab57869a149cca478fe05ddc9f5e8bd, type: 3}
   _visualPrefab: {fileID: 5335225805418909871, guid: 6e131544f2f0efa448e706a5f29ba33e, type: 3}
-  defaultWeaponId: weapon_unique_repulsor_beam
+  _startingWeapon: {fileID: 11400000, guid: 22a389da3bfece64a9099a36ff91c9fa, type: 2}
   _combat:
-    MaxHealth: 555
-    Defense: 5
-    MoveSpeedMultiplier: 5
-    DamageMultiplier: 5
+    MaxHealth: 90
+    Defense: 0
+    MoveSpeedMultiplier: 1
+    DamageMultiplier: 1.15
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_repulsor_beam
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []

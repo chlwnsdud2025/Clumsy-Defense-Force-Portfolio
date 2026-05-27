@@ -16,6 +16,11 @@ public class UI_CharacterSelect : UIScene
     [SerializeField] private TMP_Text _playerNameText;
     [SerializeField] private TMP_Text _descriptionText;
 
+    [Header("Starting Weapon")]
+    [SerializeField] private Image _startWeaponIconImage;
+    [SerializeField] private TMP_Text _startWeaponNameText;
+    [SerializeField] private TMP_Text _startWeaponDescriptionText;
+
     private readonly List<CharacterSlot> _slotPool = new();
     private CharacterDefinitionSO _selectedCharacter;
     private CharacterSlot _selectedSlot;
@@ -164,6 +169,26 @@ public class UI_CharacterSelect : UIScene
 
         if (_descriptionText != null)
             _descriptionText.text = characterDefinition != null ? characterDefinition.Description : string.Empty;
+
+        RefreshStartingWeaponPanel(characterDefinition);
+    }
+
+    private void RefreshStartingWeaponPanel(CharacterDefinitionSO characterDefinition)
+    {
+        WeaponDefinitionSO startingWeapon = characterDefinition != null ? characterDefinition.StartingWeapon : null;
+
+        if (_startWeaponIconImage != null)
+        {
+            Sprite icon = startingWeapon != null ? startingWeapon.Icon : null;
+            _startWeaponIconImage.sprite = icon;
+            _startWeaponIconImage.enabled = icon != null;
+        }
+
+        if (_startWeaponNameText != null)
+            _startWeaponNameText.text = startingWeapon != null ? startingWeapon.WeaponName : string.Empty;
+
+        if (_startWeaponDescriptionText != null)
+            _startWeaponDescriptionText.text = startingWeapon != null ? startingWeapon.Description : string.Empty;
     }
 
     private CharacterDefinitionSO GetInitialSelectedCharacter(IReadOnlyList<CharacterDefinitionSO> characters)

@@ -142,33 +142,23 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
         if (character == null)
             return;
 
-        if (weaponDatabase == null)
-        {
-            Debug.LogError("[RewardManager] WeaponDatabaseSOê°€ ? ë‹¹?˜ì? ?Šì•˜?µë‹ˆ??");
-            return;
-        }
-
-        string startingWeaponId = character.GetStartingWeaponId();
-        if (string.IsNullOrWhiteSpace(startingWeaponId))
-        {
-            Debug.LogError($"[RewardManager] ?œì‘ ë¬´ê¸° IDê°€ ë¹„ì–´ ?ˆìŠµ?ˆë‹¤: {character.DisplayName}");
-            return;
-        }
-
-        WeaponDefinitionSO startingWeapon = weaponDatabase.GetWeaponOrNull(startingWeaponId);
+        WeaponDefinitionSO startingWeapon = character.StartingWeapon;
         if (startingWeapon == null)
+        {
+            Debug.LogError($"[RewardManager] ?? ??? ???? ?????: {character.DisplayName}");
             return;
+        }
 
         if (_playerInstance == null)
         {
-            Debug.LogError("[RewardManager] ?Œë ˆ?´ì–´ê°€ ?†ì–´ ?œì‘ ë¬´ê¸° ë¹„ì£¼?¼ì„ ?ì„±?????†ìŠµ?ˆë‹¤.");
+            Debug.LogError("[RewardManager] ????? ?? ?? ?? ???? ??? ? ????.");
             return;
         }
 
         PlayerWeaponSpawner playerWeaponSpawner = ResolveWeaponSpawner();
         if (playerWeaponSpawner == null)
         {
-            Debug.LogError("[RewardManager] PlayerWeaponSpawnerë¥?ì°¾ì„ ???†ìŠµ?ˆë‹¤.");
+            Debug.LogError("[RewardManager] PlayerWeaponSpawner? ?? ? ????.");
             return;
         }
 

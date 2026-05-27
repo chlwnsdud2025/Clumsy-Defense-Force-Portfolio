@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterDefinitionSO_Player_Dinosaur
   m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinitionSO
   _characterId: character.Player_Dinosaur
-  _displayName: Player_Dinosaur
+  _displayName: "\uD06C\uC559\uC774"
   _description: "\uACF5\uB8E1\uD0C8\uC744 \uC4F0\uACE0 \uD798\uCC2C \uD3EC\uD6A8\uB85C
     \uC55E\uCABD \uC801\uB4E4\uC744 \uB0A0\uB824\uBC84\uB9AC\uB294 \uC804\uBC29 \uBC94\uC704\uD615
     \uCE90\uB9AD\uD130. \uB113\uC740 \uD3EC\uD6A8 \uBC94\uC704\uB85C \uBAB0\uB824\uC624\uB294
@@ -22,15 +22,14 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _previewPrefab: {fileID: 4134642201842911355, guid: baf1fa295a7c0c0429568f42e3337afd, type: 3}
   _visualPrefab: {fileID: 4134642201842911355, guid: 89ae5657752edd44a9871081f0680b8f, type: 3}
-  defaultWeaponId: weapon_unique_dino_roar
+  _startingWeapon: {fileID: 11400000, guid: 044f5956d86d1e640be3cc827b065b59, type: 2}
   _combat:
-    MaxHealth: 222
+    MaxHealth: 105
     Defense: 2
-    MoveSpeedMultiplier: 2
-    DamageMultiplier: 2
+    MoveSpeedMultiplier: 0.95
+    DamageMultiplier: 1.15
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_dino_roar
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []
