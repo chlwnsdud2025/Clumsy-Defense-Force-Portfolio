@@ -23,8 +23,8 @@ public class TreasureChest : MonoBehaviour
     {
         get
         {
-            if (StageRunManager.Instance != null)
-                return StageRunManager.Instance.CurrentChestCost;
+            if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+                return stageRunManager.CurrentChestCost;
             return 100;
         }
     }
@@ -45,10 +45,8 @@ public class TreasureChest : MonoBehaviour
     {
         TrySubscribeGoldChanged();
 
-        if (StageRunManager.Instance != null)
-        {
-            StageRunManager.Instance.OnChestCostChanged += RefreshInteractionState;
-        }
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.OnChestCostChanged += RefreshInteractionState;
 
         if (isPlayerInZone)
             RefreshInteractionState();
@@ -58,10 +56,8 @@ public class TreasureChest : MonoBehaviour
     {
         UnsubscribeGoldChanged();
 
-        if (StageRunManager.Instance != null)
-        {
-            StageRunManager.Instance.OnChestCostChanged -= RefreshInteractionState;
-        }
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.OnChestCostChanged -= RefreshInteractionState;
     }
 
     private void Update()
@@ -159,10 +155,8 @@ public class TreasureChest : MonoBehaviour
             rewardManager.BeginChestReward();
 
         // 🌟 [수정] 상자가 열렸음을 매니저에 알리고 현재 월드 위치/회전값을 넘겨줍니다.
-        if (StageRunManager.Instance != null)
-        {
-            StageRunManager.Instance.HandleChestOpened(transform.position, transform.rotation);
-        }
+        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+            stageRunManager.HandleChestOpened(transform.position, transform.rotation);
 
         // 🌟 [수정] 상자가 열리는 애니메이션 연출이 끝날 수 있도록 1.5초 후에 오브젝트를 파괴(제거)합니다.
         Destroy(gameObject, 1.5f);

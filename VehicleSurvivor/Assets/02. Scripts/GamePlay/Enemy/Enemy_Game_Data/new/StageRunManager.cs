@@ -92,6 +92,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     private void InitializeChestSystem()
     {
         CurrentChestCost = initialChestCost;
+        OnChestCostChanged?.Invoke();
 
         TreasureChest[] existingChests = FindObjectsOfType<TreasureChest>();
         foreach (var chest in existingChests)
