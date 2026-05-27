@@ -5,7 +5,7 @@ public enum ERewardType
     Weapon,
     Badge,
     Item,
-    Attack, // ?�치�??�게 ?�리�? , 쿨�??? 치명?�, 방어?? 체력 ?�등?
+    Attack, // 스탯을 레벨업 때 처리하기, 쿨타임, 치명타, 방어력, 체력 등등
     Heal
 }
 
@@ -120,11 +120,13 @@ public sealed class RewardOption
         if (modifier == null || string.IsNullOrWhiteSpace(template))
             return template ?? string.Empty;
 
-        if (modifier.Value == 0f)
-            return "?�번 ?�벨?�는 추�? ?�과가 ?�습?�다.";
-
         if (!template.Contains("{0}"))
+        {
+            if (modifier.Value == 0f)
+                return "이번 레벨에는 추가 효과가 없습니다.";
+
             return template;
+        }
 
         string valueText = FormatModifierValue(modifier);
         if (level > 1)
