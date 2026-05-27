@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d21b6194e6439848803372f0746b777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileWeapon
-  useEditorTestLevelData: 1
+  useEditorTestLevelData: 0
   editorTestLevelData:
     description: 
     cooldown: 1

@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea96906c81f0476408be8e93c4810db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RudolphSleighWeapon
-  useEditorTestLevelData: 1
+  useEditorTestLevelData: 0
   editorTestLevelData:
     description: 
     cooldown: 4
@@ -73,5 +73,5 @@ MonoBehaviour:
   weaponID: weapon
   weaponName: Weapon
   sleighPrefab: {fileID: 1422500764135037272, guid: b87ff691ee0e5a644b5d0530a2b1a1c8, type: 3}
-  spawnHeight: 0.9
+  spawnHeight: 1.8
   sleighRotationOffset: {x: -90, y: -90, z: 0}

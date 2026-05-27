@@ -1783,6 +1783,31 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+--- !u!4 &1829964318 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4351595879426170725, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+  m_PrefabInstance: {fileID: 1829964317}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1829964319 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4119713023882940917, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+  m_PrefabInstance: {fileID: 1829964317}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1829964320 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6391205196550369427, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+  m_PrefabInstance: {fileID: 1829964317}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1829964321 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6918170149459637646, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+  m_PrefabInstance: {fileID: 1829964317}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1829964322 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7140566001965980727, guid: 16f8483e36c5d8846ad94ccaeb4cf4fb, type: 3}
+  m_PrefabInstance: {fileID: 1829964317}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1843069649 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 520781204984949890, guid: bf3c72a83e56acc499f6ff6efc449694, type: 3}
@@ -2174,6 +2199,16 @@ MonoBehaviour:
   - {fileID: 382610340}
   - {fileID: 599682198}
   - {fileID: 2042040494}
+  chestPrefab: {fileID: 6478067406739816690, guid: 1acfdc8149dc52e46b32ace9b826566c, type: 3}
+  fixedChestSpawnPoints:
+  - {fileID: 1829964322}
+  - {fileID: 1829964321}
+  - {fileID: 1829964320}
+  - {fileID: 1829964319}
+  - {fileID: 1829964318}
+  initialChestCost: 50
+  chestCostIncreasePercent: 15
+  chestRespawnDelay: 15
 --- !u!4 &5495165552676313689
 Transform:
   m_ObjectHideFlags: 0

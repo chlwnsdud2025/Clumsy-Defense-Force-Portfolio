@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class StageRunManager : MonoSceneSingleton<StageRunManager>
 {
@@ -34,9 +35,25 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     [Tooltip("씬에 이미 배치되어 있는 석상 3개를 순서대로 드래그해서 넣으세요.")]
     public BossStatue[] sceneStatues;
 
-    // ==========================================
-    // 🔒 [핵심 추가] 현재 중간 보스가 맵에 활성화되어 있는지 추적하는 상태 변수
-    // ==========================================
+    
+    [Header("Treasure Chest System")]
+    public GameObject chestPrefab;
+    [Tooltip("맵에 고정으로 소환될 5개의 상자 위치를 지정하세요.")]
+    public Transform[] fixedChestSpawnPoints;
+
+    [Tooltip("상자를 처음 열 때 필요한 골드")]
+    public int initialChestCost = 100;
+
+    [Tooltip("상자를 열 때마다 증가할 비용 퍼센트 (예: 50을 넣으면 50% 증가)")]
+    public float chestCostIncreasePercent = 50f;
+
+    [Tooltip("상자가 열려 파괴된 후, 해당 자리에 다시 새 상자가 스폰되기까지 걸리는 시간(초)")]
+    public float chestRespawnDelay = 15f;
+
+    public int CurrentChestCost { get; private set; }
+
+    public event System.Action OnChestCostChanged;
+
     public bool isBossActive { get; private set; } = false;
 
     private void Start()
@@ -57,24 +74,87 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
     public void InitializeForRun()
     {
         ApplySkybox(defaultSkybox);
-        isBossActive = false; // 런 시작 시 초기화
+        isBossActive = false;
+
+        InitializeChestSystem();
 
         if (debugSkipToFinalBoss)
         {
             Debug.LogWarning("디버그 모드 작동: 모든 페이즈를 스킵하고 최종 보스 포탈을 생성합니다!");
-            currentPhaseIndex = 5; // 6번째 보스를 잡은 상태로 세팅
-            OnMidBossDefeated();   // 포탈 소환
+            currentPhaseIndex = 5;
+            OnMidBossDefeated();
             return;
         }
 
         StartPhase(0);
     }
 
+    private void InitializeChestSystem()
+    {
+        CurrentChestCost = initialChestCost;
+
+        TreasureChest[] existingChests = FindObjectsOfType<TreasureChest>();
+        foreach (var chest in existingChests)
+        {
+            Destroy(chest.gameObject);
+        }
+
+        if (chestPrefab != null && fixedChestSpawnPoints != null)
+        {
+            foreach (Transform spawnPoint in fixedChestSpawnPoints)
+            {
+                if (spawnPoint != null)
+                {
+                    Instantiate(chestPrefab, spawnPoint.position, spawnPoint.rotation);
+                }
+            }
+        }
+    }
+
+    //상자가 열렸을 때 일괄적으로 이벤트를 처리하는 단일 창구 함수
+    public void HandleChestOpened(Vector3 position, Quaternion rotation)
+    {
+        // 1. 퍼센트 비용 복리 증가 규칙 적용
+        IncreaseChestCost();
+
+        // 2. 일정 시간 뒤 원래 위치에 완벽히 새 상자를 배치하는 코루틴 타이머 가동
+        StartCoroutine(RespawnChestRoutine(position, rotation));
+    }
+
+    private void IncreaseChestCost()
+    {
+        float multiplier = 1f + (chestCostIncreasePercent / 100f);
+        CurrentChestCost = Mathf.RoundToInt(CurrentChestCost * multiplier);
+        OnChestCostChanged?.Invoke();
+    }
+
+    // 정해진 시간 대기 후 상자를 월드에 새로 생성하는 리스폰 코루틴
+    private IEnumerator RespawnChestRoutine(Vector3 position, Quaternion rotation)
+    {
+        yield return new WaitForSeconds(chestRespawnDelay);
+
+        if (chestPrefab != null)
+        {
+            Instantiate(chestPrefab, position, rotation);
+            Debug.Log($"[상자 리스폰] 파괴되었던 좌표({position})에 새 상자가 재소환되었습니다. 현재 비용: {CurrentChestCost}");
+        }
+    }
+
+    public void SpawnBossChest(Vector3 dropPosition)
+    {
+        if (chestPrefab != null)
+        {
+            Instantiate(chestPrefab, dropPosition, Quaternion.identity);
+            Debug.Log($"보스 처치 보상으로 상자가 드롭되었습니다! (오픈 비용: {CurrentChestCost})");
+        }
+    }
+
     public void ReleaseRun()
     {
+        // 게임이 종료되거나 재시작될 때, 뒤에서 대기 중이던 리스폰 코루틴들을 싹 날려 메모리 누수 및 오작동을 원천 차단합니다.
         StopAllCoroutines();
         currentPhaseIndex = 0;
-        isBossActive = false; // 런이 종료되거나 취소될 때 락 해제
+        isBossActive = false;
         ApplySkybox(defaultSkybox);
     }
 
@@ -91,7 +171,6 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         currentPhaseIndex = phaseIndex;
         StagePhase currentPhase = currentTheme.phases[currentPhaseIndex];
 
-        // 인스펙터에 설정된 timeLimit(최종 보스전은 600)으로 타이머가 알아서 세팅됩니다!
         if (RunManager.TryGetInstance(out RunManager runManager))
             runManager.StartWavePhase(currentPhase.timeLimit);
 
@@ -102,9 +181,6 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
     public void OnStageCleared()
     {
-        // ==========================================
-        // 🔒 [방어 추가] 이미 보스가 소환되어 진행 중이라면 중복 소환을 차단합니다!
-        // ==========================================
         if (isBossActive)
         {
             Debug.LogWarning($"[차단] 현재 {currentPhaseIndex + 1}페이즈 보스가 이미 살아있습니다. 중복 소환이 불가능합니다.");
@@ -113,7 +189,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
         if (midBossPrefabs != null && currentPhaseIndex < midBossPrefabs.Length)
         {
-            isBossActive = true; // 중간 보스 활성화 상태 잠금
+            isBossActive = true;
             Instantiate(midBossPrefabs[currentPhaseIndex], midBossSpawnPoint.position, Quaternion.identity);
             Debug.Log($"[시스템 잠금] {currentPhaseIndex + 1}페이즈 중간 보스 출현!");
         }
@@ -121,29 +197,20 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
     public void OnMidBossDefeated()
     {
-        // ==========================================
-        // 🔒 [락 해제] 보스가 처치되었으므로 상태를 초기화하여 시스템 잠금을 해제합니다.
-        // ==========================================
         isBossActive = false;
         Debug.Log($"[시스템 잠금 해제] 중간 보스 처치 완료!");
 
-        // 6번째 보스(인덱스 5) 격파 시
         if (currentPhaseIndex >= 5)
         {
             Debug.Log("6번째 보스 처치! 다음 페이즈로 바로 넘어가지 않고 포탈을 생성합니다!");
-
-            // (선택 사항) 포탈을 타기 전까지 잡몹이 안 나오게 하려면 여기서 타이머를 일시정지 해도 좋습니다.
-            // if (RunManager.TryGetInstance(out RunManager rm)) rm.WaveTimer.PauseTimer();
 
             if (finalPortalPrefab != null && portalSpawnPoint != null)
             {
                 Instantiate(finalPortalPrefab, portalSpawnPoint.position, finalPortalPrefab.transform.rotation);
             }
-            // 여기서 return 하여 StartPhase가 호출되지 않게 막습니다! (포탈 대기 상태)
             return;
         }
 
-        // 1~5번째 보스라면 처치 즉시 다음 페이즈로 정상 진행
         StartPhase(currentPhaseIndex + 1);
     }
 
@@ -154,21 +221,17 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
     private IEnumerator PortalTransitionRoutine(GameObject player)
     {
-        // 맵을 끄기 전에 필드에 남은 모든 적을 풀로 되돌려 보냅니다!
         if (EnemyManager.Instance != null)
         {
-            // 개발자님의 EnemyManager 스크립트에 있는 '전체 회수' 함수를 호출합니다.
             EnemyManager.Instance.ClearAllActiveEnemies();
             Debug.Log("필드에 남은 모든 몹을 풀로 회수했습니다.");
         }
 
-        // 1. 맵 전환
         if (plazaMap != null) plazaMap.SetActive(false);
         if (bossMap != null) bossMap.SetActive(true);
 
         ApplySkybox(bossSkybox);
 
-        // 2. 플레이어 순간이동
         if (playerTeleportPoint != null)
         {
             PlayerController playerController = player.GetComponent<PlayerController>();
@@ -184,10 +247,8 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
 
         yield return new WaitForSeconds(1.0f);
 
-        // 3. 마지막 7번째 페이즈(10분) 진입
         StartPhase(currentPhaseIndex + 1);
 
-        // 4. 최종 보스 소환
         if (finalBossPrefab != null && finalBossSpawnPoint != null)
         {
             GameObject bossObj = Instantiate(finalBossPrefab, finalBossSpawnPoint.position, finalBossSpawnPoint.rotation);
@@ -225,7 +286,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         }
 
         currentPhaseIndex = 5;
-        isBossActive = false; // 디버그 소환 시에도 안전하게 해제
+        isBossActive = false;
         OnMidBossDefeated();
     }
 

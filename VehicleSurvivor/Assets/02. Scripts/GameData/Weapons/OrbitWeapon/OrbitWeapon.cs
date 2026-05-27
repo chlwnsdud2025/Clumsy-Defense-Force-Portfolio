@@ -16,6 +16,9 @@ public class OrbitWeapon : WeaponBase
     public Vector3 orbitRotationOffset;
     public float heightOffset = 1f;
 
+    [Tooltip("SO의 스피드 스탯에 곱해질 실제 회전 속도 배율입니다. (추천: 30 ~ 50)")]
+    public float rotateSpeedMultiplier = 50f; // 🌟 [추가됨] 시원시원한 회전을 위한 배율
+
     private readonly List<OrbitObject> orbitObjects =
         new List<OrbitObject>();
 
@@ -35,11 +38,8 @@ public class OrbitWeapon : WeaponBase
     protected override void Update()
     {
         base.Update();
-
-        // 주의: 위치 동기화 로직을 여기서 뺐습니다!
     }
 
-    // [수정됨] 플레이어의 이동과 카메라 추적이 모두 끝난 뒤에 위치를 동기화합니다.
     private void LateUpdate()
     {
         TrackAndRotateAnchor();
@@ -96,10 +96,11 @@ public class OrbitWeapon : WeaponBase
 
         while (orbitObjects.Count < targetCount)
         {
+            // [복구됨] 인스펙터에 설정한 orbitRotationOffset이 정상적으로 적용되도록 수정
             GameObject orbitObject = Instantiate(
                 orbitObjectPrefab,
                 orbitAnchor.transform.position,
-                orbitObjectPrefab.transform.rotation,
+                orbitObjectPrefab.transform.rotation * Quaternion.Euler(orbitRotationOffset),
                 orbitAnchor.transform
             );
 
@@ -144,12 +145,11 @@ public class OrbitWeapon : WeaponBase
         }
     }
 
+    // 🌟 [핵심 수정] 가져온 SO 스탯 값에 배율(Multiplier)을 곱해줍니다.
     private float GetOrbitRotateSpeed(WeaponLevelData data)
     {
-        if (data.ProjectileSpeed > 0f)
-            return data.ProjectileSpeed;
-
-        return data.BulletSpeed;
+        float baseSpeed = data.ProjectileSpeed > 0f ? data.ProjectileSpeed : data.BulletSpeed;
+        return baseSpeed * rotateSpeedMultiplier;
     }
 
     protected override void OnDestroy()
