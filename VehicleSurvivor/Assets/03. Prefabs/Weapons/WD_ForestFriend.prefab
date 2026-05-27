@@ -88,5 +88,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 2048
-  baseOffset: {x: 0, y: 2.5, z: -2}
-  spacing: 1.5
+  hoverHeight: 0.02
+  spacing: 0.8
+  recordInterval: 0.1
+  maxHistory: 500

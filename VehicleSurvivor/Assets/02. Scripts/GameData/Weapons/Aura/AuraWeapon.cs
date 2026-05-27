@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class AuraWeapon : WeaponBase
 {
-   // Damage = 틱당 데미지
-   // Cooldown = 데미지 주기
-   // Range = 오라 반경
-   // Size = Range가 0일 때 대체 반경
+    // Damage = 틱당 데미지
+    // Cooldown = 데미지 주기
+    // Range = 오라 반경
+    // Size = Range가 0일 때 대체 반경
 
     [Header("Aura References")]
     public GameObject auraEffectPrefab;
@@ -35,6 +35,7 @@ public class AuraWeapon : WeaponBase
             return;
 
         float radius = GetAuraRadius(data);
+        // 변경된 DamageInfo 시스템 적용
         DamageInfo damageInfo = GetFinalDamage(data.Damage);
 
         Collider[] hits = Physics.OverlapSphere(
@@ -44,6 +45,10 @@ public class AuraWeapon : WeaponBase
 
         foreach (Collider hit in hits)
         {
+            // [수정] 플레이어 레이어 제외
+            if (IsPlayerLayer(hit))
+                continue;
+
             IDamageable damageable =
                 hit.GetComponentInParent<IDamageable>();
 
@@ -108,6 +113,21 @@ public class AuraWeapon : WeaponBase
             : data.Size;
 
         return GetFinalWeaponScale(baseRadius);
+    }
+
+    // [추가] 플레이어 판별 로직
+    private bool IsPlayerLayer(Collider other)
+    {
+        int playerLayer = LayerMask.NameToLayer("Player");
+
+        if (playerLayer == -1)
+            return false;
+
+        if (other.gameObject.layer == playerLayer)
+            return true;
+
+        Transform root = other.transform.root;
+        return root.gameObject.layer == playerLayer;
     }
 
     private void OnDrawGizmosSelected()

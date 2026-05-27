@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class OrbitObject : MonoBehaviour
 {
+    // 변경된 DamageInfo 적용
     private DamageInfo damageInfo;
     private float hitCooldown;
 
@@ -20,6 +21,10 @@ public class OrbitObject : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        // [수정] 플레이어 레이어 제외
+        if (IsPlayerLayer(other))
+            return;
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
@@ -42,6 +47,7 @@ public class OrbitObject : MonoBehaviour
             );
         }
 
+        // DamageInfo 객체로 데미지 전달
         damageable.TakeDamage(damageInfo);
 
         Debug.Log($"[OrbitObject] 데미지: {damageInfo.Amount}");
@@ -49,6 +55,10 @@ public class OrbitObject : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // [수정] 플레이어 레이어 제외 (불필요한 연산 방지)
+        if (IsPlayerLayer(other))
+            return;
+
         IDamageable damageable =
             other.GetComponentInParent<IDamageable>();
 
@@ -59,5 +69,20 @@ public class OrbitObject : MonoBehaviour
         {
             hitTimers.Remove(damageable);
         }
+    }
+
+    // [추가] 플레이어 판별 로직
+    private bool IsPlayerLayer(Collider other)
+    {
+        int playerLayer = LayerMask.NameToLayer("Player");
+
+        if (playerLayer == -1)
+            return false;
+
+        if (other.gameObject.layer == playerLayer)
+            return true;
+
+        Transform root = other.transform.root;
+        return root.gameObject.layer == playerLayer;
     }
 }

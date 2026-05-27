@@ -13,7 +13,7 @@ public class MeteorProjectile : MonoBehaviour
     private float explosionRadius;
     private float delay;
 
-    private Vector3 targetPosition;
+    private Vector3 moveDirection; // 추가: 낙하할 방향 벡터
     private bool isFalling;
     private bool hasExploded;
 
@@ -30,15 +30,12 @@ public class MeteorProjectile : MonoBehaviour
         explosionRadius = newExplosionRadius;
         delay = newDelay;
 
-        targetPosition = newTargetPosition;
+        // [수정] 강제로 특정 위치로 이동하는 것이 아니라, 목표 지점을 향하는 '방향'만 계산해 둡니다.
+        moveDirection = (newTargetPosition - transform.position).normalized;
 
-        Vector3 direction =
-            (targetPosition - transform.position).normalized;
-
-        if (direction != Vector3.zero)
+        if (moveDirection != Vector3.zero)
         {
-            transform.rotation =
-                Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.LookRotation(moveDirection);
         }
 
         Invoke(nameof(StartFall), delay);
@@ -54,13 +51,24 @@ public class MeteorProjectile : MonoBehaviour
         if (!isFalling || hasExploded)
             return;
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPosition,
-            speed * Time.deltaTime
-        );
+        // [수정] 목표 위치 도달 여부와 상관없이 계산된 방향으로 계속 낙하합니다.
+        transform.position += moveDirection * speed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, targetPosition) <= 0.1f)
+        // [안전장치] 만약 맵 밖으로 빗나가서 영원히 떨어지는 것을 방지 (y가 너무 낮아지면 삭제)
+        if (transform.position.y < -50f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // [추가] 물리 충돌로 바닥을 감지하여 폭발시킵니다.
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasExploded)
+            return;
+
+        // 부딪힌 오브젝트의 레이어가 "Ground"인지 확인합니다.
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Explode();
         }
@@ -112,8 +120,7 @@ public class MeteorProjectile : MonoBehaviour
 
     private bool IsPlayerLayer(Collider other)
     {
-        int playerLayer =
-            LayerMask.NameToLayer("Player");
+        int playerLayer = LayerMask.NameToLayer("Player");
 
         if (playerLayer == -1)
             return false;
