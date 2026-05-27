@@ -72,5 +72,7 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon_evolved_turtle_tornado
   weaponName: "\uD130\uD2C0 \uD1A0\uB124\uC774\uB3C4"
-  orbitObjectPrefab: {fileID: 5565921339195667882, guid: 72c5b6ab6714d9745af88661d22ddb7c, type: 3}
+  orbitObjectPrefab: {fileID: 1619472958129159634, guid: 964180b7888c345429b6958bbbddc769, type: 3}
   orbitRotationOffset: {x: 0, y: 0, z: 0}
+  heightOffset: 1
+  rotateSpeedMultiplier: 50
