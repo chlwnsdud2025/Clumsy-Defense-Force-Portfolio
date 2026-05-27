@@ -14,6 +14,7 @@ public class SettingPanel : MonoBehaviour
     [SerializeField] private Ease enterEase = Ease.OutBack;
 
     private bool _isBinding;
+    private bool _volumeDirty;
     private Vector3 _normalScale = Vector3.one;
     private Tween _enterTween;
 
@@ -32,7 +33,7 @@ public class SettingPanel : MonoBehaviour
 
     private void OnDisable()
     {
-        SaveVolumeSettings();
+        SaveVolumeSettingsIfDirty();
         StopEnterAnimation();
 
         if (musicSlider != null)
@@ -84,12 +85,13 @@ public class SettingPanel : MonoBehaviour
         BindSliders();
     }
 
-    public void SaveVolumeSettings()
+    public void SaveVolumeSettingsIfDirty()
     {
-        if (!SoundManager.TryGetInstance(out SoundManager soundManager))
+        if (!_volumeDirty || !SoundManager.TryGetInstance(out SoundManager soundManager))
             return;
 
         soundManager.SaveVolumeSettings();
+        _volumeDirty = false;
     }
 
     private void BindSliders()
@@ -122,6 +124,7 @@ public class SettingPanel : MonoBehaviour
             return;
 
         soundManager.SetBgmVolume(value);
+        _volumeDirty = true;
     }
 
     private void OnSfxVolumeChanged(float value)
@@ -130,6 +133,7 @@ public class SettingPanel : MonoBehaviour
             return;
 
         soundManager.SetSfxVolume(value);
+        _volumeDirty = true;
 
         if (value > 0f)
             soundManager.PlaySfx(ESoundId.SFX_UI_Click);
