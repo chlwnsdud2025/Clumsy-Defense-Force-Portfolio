@@ -1,4 +1,6 @@
-public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
+using System;
+
+public sealed class PlayerRuntime
 {
     public CharacterDefinitionSO Character { get; }
 
@@ -6,6 +8,7 @@ public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
     public PlayerHealth Health { get; }
     public LevelRuntime Level { get; }
     public PlayerInventory Inventory { get; }
+    public PlayerItemEffectRuntime ItemEffects { get; }
 
     public PlayerRuntime(CharacterDefinitionSO character)
     {
@@ -17,6 +20,7 @@ public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
         Health = new PlayerHealth(Stats);
         Level = new LevelRuntime();
         Inventory = new PlayerInventory(this);
+        ItemEffects = new PlayerItemEffectRuntime(this);
     }
 
     private void InitializeBaseStats(CharacterDefinitionSO character)
@@ -43,5 +47,30 @@ public sealed class PlayerRuntime //이번 판의 플레이어 상태 묶음
         Stats.SetBaseStat(EStatType.ExpGainMultiplier, 1f);
         Stats.SetBaseStat(EStatType.GoldGainMultiplier, 1f);
         Stats.SetBaseStat(EStatType.Luck, 0f);
+    }
+}
+
+public sealed class PlayerItemEffectRuntime
+{
+    private readonly PlayerRuntime owner;
+
+    public bool HasGoldStarStamp { get; private set; }
+    public bool HasTreasureChestSpawnListener => TreasureChestSpawnRequested != null;
+
+    public event Action<PlayerRuntime, int> TreasureChestSpawnRequested;
+
+    public PlayerItemEffectRuntime(PlayerRuntime owner)
+    {
+        this.owner = owner;
+    }
+
+    public void RequestTreasureChestSpawn(int chestCount)
+    {
+        TreasureChestSpawnRequested?.Invoke(owner, chestCount);
+    }
+
+    public void EnableGoldStarStamp()
+    {
+        HasGoldStarStamp = true;
     }
 }

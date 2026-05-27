@@ -154,7 +154,7 @@ public class WeaponBase : MonoBehaviour
         if (isCritical)
             damage *= stats.GetValue(EStatType.CriticalDamageMultiplier);
 
-        return new DamageInfo(damage, isCritical);
+        return new DamageInfo(damage, isCritical, playerRuntime);
     }
 
     protected float GetFinalCooldown(float weaponCooldown)
