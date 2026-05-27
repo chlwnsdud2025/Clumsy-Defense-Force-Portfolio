@@ -22,7 +22,7 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _previewPrefab: {fileID: 4134642201842911355, guid: baf1fa295a7c0c0429568f42e3337afd, type: 3}
   _visualPrefab: {fileID: 4134642201842911355, guid: 89ae5657752edd44a9871081f0680b8f, type: 3}
-  defaultWeaponId: weapon_unique_dino_roar
+  _startingWeapon: {fileID: 11400000, guid: 044f5956d86d1e640be3cc827b065b59, type: 2}
   _combat:
     MaxHealth: 222
     Defense: 2
@@ -30,7 +30,6 @@ MonoBehaviour:
     DamageMultiplier: 2
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_dino_roar
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []

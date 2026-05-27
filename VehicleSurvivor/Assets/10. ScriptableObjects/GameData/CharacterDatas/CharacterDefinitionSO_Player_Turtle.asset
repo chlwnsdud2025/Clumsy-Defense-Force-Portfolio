@@ -22,7 +22,7 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: b3eea32e56c034e73a8f2aeb84e0462e, type: 3}
   _previewPrefab: {fileID: 5741818621203534110, guid: cb9e7735b0edd7b4fadc49c62a906a07, type: 3}
   _visualPrefab: {fileID: 5741818621203534110, guid: b353fbc623f586a448f34e5d17023952, type: 3}
-  defaultWeaponId: weapon_unique_shell_spin
+  _startingWeapon: {fileID: 11400000, guid: 397674b3bb40991449ca752f1fdd4300, type: 2}
   _combat:
     MaxHealth: 222
     Defense: 2
@@ -30,7 +30,6 @@ MonoBehaviour:
     DamageMultiplier: 2
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_shell_spin
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []

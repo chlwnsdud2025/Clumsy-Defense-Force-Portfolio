@@ -22,7 +22,7 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: ea0d15c8ad5814d68ba5d1f53bae6247, type: 3}
   _previewPrefab: {fileID: 5335225805418909871, guid: aab57869a149cca478fe05ddc9f5e8bd, type: 3}
   _visualPrefab: {fileID: 5335225805418909871, guid: 6e131544f2f0efa448e706a5f29ba33e, type: 3}
-  defaultWeaponId: weapon_unique_repulsor_beam
+  _startingWeapon: {fileID: 11400000, guid: 22a389da3bfece64a9099a36ff91c9fa, type: 2}
   _combat:
     MaxHealth: 555
     Defense: 5
@@ -30,7 +30,6 @@ MonoBehaviour:
     DamageMultiplier: 5
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_repulsor_beam
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []

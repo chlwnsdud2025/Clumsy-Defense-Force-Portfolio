@@ -14,7 +14,6 @@ public struct CharacterCombatStats
 [System.Serializable]
 public struct CharacterLoadoutData
 {
-    public string StartingWeaponId;
     public string UniqueTraitId;
     [TextArea] public string TraitDescription;
     public List<string> BadgeIds;
@@ -49,16 +48,14 @@ public class CharacterDefinitionSO : ScriptableObject
     [SerializeField] private GameObject _previewPrefab;
     [SerializeField] private GameObject _visualPrefab;
 
-    [Header("Default Weapon")]
-    [SerializeField] private string defaultWeaponId;
-    public string DefaultWeaponId => defaultWeaponId;
+    [Header("Starting Weapon")]
+    [SerializeField] private WeaponDefinitionSO _startingWeapon;
+
+    public WeaponDefinitionSO StartingWeapon => _startingWeapon;
 
     public string GetStartingWeaponId()
     {
-        if (!string.IsNullOrWhiteSpace(defaultWeaponId))
-            return defaultWeaponId.Trim();
-
-        return _loadout.StartingWeaponId?.Trim() ?? string.Empty;
+        return _startingWeapon != null ? _startingWeapon.WeaponId?.Trim() ?? string.Empty : string.Empty;
     }
 
     [Header("Combat")]
@@ -76,7 +73,6 @@ public class CharacterDefinitionSO : ScriptableObject
     [SerializeField]
     private CharacterLoadoutData _loadout = new CharacterLoadoutData
     {
-        StartingWeaponId = string.Empty,
         UniqueTraitId = string.Empty,
         TraitDescription = string.Empty,
         BadgeIds = null,
@@ -116,7 +112,6 @@ public class CharacterDefinitionSO : ScriptableObject
         _combat.DamageMultiplier = Mathf.Max(0f, _combat.DamageMultiplier);
         _combat.PickupRangeMultiplier = Mathf.Max(0f, _combat.PickupRangeMultiplier);
 
-        _loadout.StartingWeaponId = _loadout.StartingWeaponId?.Trim() ?? string.Empty;
         _loadout.UniqueTraitId = _loadout.UniqueTraitId?.Trim() ?? string.Empty;
         _loadout.TraitDescription = _loadout.TraitDescription?.Trim() ?? string.Empty;
         _loadout.BadgeIds ??= new List<string>();

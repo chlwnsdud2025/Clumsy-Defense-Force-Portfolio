@@ -22,7 +22,7 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: cc8d84ca581ba449293a44a011efb99b, type: 3}
   _previewPrefab: {fileID: 5382548778612334277, guid: 36b950a0fd9b1a44ea92371843877ef0, type: 3}
   _visualPrefab: {fileID: 5382548778612334277, guid: 5ecd9ddef845a0646ae289d48898d609, type: 3}
-  defaultWeaponId: weapon_unique_crown_boomerang
+  _startingWeapon: {fileID: 11400000, guid: b50df351ae620b245987220a02200bed, type: 2}
   _combat:
     MaxHealth: 777
     Defense: 7
@@ -30,7 +30,6 @@ MonoBehaviour:
     DamageMultiplier: 7
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_crown_boomerang
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []

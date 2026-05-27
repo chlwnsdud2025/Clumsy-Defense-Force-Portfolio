@@ -22,7 +22,7 @@ MonoBehaviour:
   _portrait: {fileID: 21300000, guid: 9f35db904975f48b9b6673de8a13d323, type: 3}
   _previewPrefab: {fileID: 3985054355110936385, guid: 87967e1108ca8594b9c1ca5b16d458ba, type: 3}
   _visualPrefab: {fileID: 3985054355110936385, guid: e3694f81a083dfc44b8e62a497e11bcc, type: 3}
-  defaultWeaponId: weapon_unique_carrot_cannon
+  _startingWeapon: {fileID: 11400000, guid: 1eab6e2e815a4f14daa5cd4567007284, type: 2}
   _combat:
     MaxHealth: 111
     Defense: 11
@@ -30,7 +30,6 @@ MonoBehaviour:
     DamageMultiplier: 1
     PickupRangeMultiplier: 1
   _loadout:
-    StartingWeaponId: weapon_unique_carrot_cannon
     UniqueTraitId: 
     TraitDescription: 
     BadgeIds: []
