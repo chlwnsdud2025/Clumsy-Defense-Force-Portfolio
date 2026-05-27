@@ -40,7 +40,7 @@ public class MeteorWeapon : WeaponBase
         );
     }
 
-    private void SpawnMeteor(
+    protected void SpawnMeteor(
         DamageInfo damageInfo,
         float meteorSpeed,
         float explosionRadius,
@@ -123,7 +123,7 @@ public class MeteorWeapon : WeaponBase
         );
     }
 
-    private float GetMeteorSpeed(
+    protected float GetMeteorSpeed(
         WeaponLevelData data
     )
     {

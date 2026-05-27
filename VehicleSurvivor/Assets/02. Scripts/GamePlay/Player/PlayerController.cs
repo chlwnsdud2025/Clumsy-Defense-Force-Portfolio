@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -14,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private const string AnimParamJump = "Jump";
     private const string AnimParamFreeFall = "FreeFall";
     private const string AnimParamMotionSpeed = "MotionSpeed";
+    private const string AnimParamDie = "Die";
 
     private const float Threshold = 0.01f;
     private const float BlendMaxSpeed = 6f;
@@ -22,6 +25,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("BlendTree Run 임계값(6)에 맞춘 달리기 클립 기준 속도")]
     [SerializeField]
     private float _runAnimReferenceSpeed = 6f;
+
+    [Header("사망 연출")]
+    [SerializeField] private PlayerDeathCameraEffect _deathCameraEffect;
+    [SerializeField] private PlayerHitCameraShake _hitCameraShake;
 
     [Header("카메라")]
     [Tooltip("이동 방향 기준으로 사용합니다.")]
@@ -49,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
     [Tooltip("카메라 회전을 잠글지 여부")]
     public bool LockCameraPosition = false;
+
+    public bool IsDeathPresentationActive { get; private set; }
 
     public PlayerMotor Motor { get; private set; }
 
@@ -85,6 +94,12 @@ public class PlayerController : MonoBehaviour
     {
         ResolveMainCamera();
         Motor = GetComponent<PlayerMotor>();
+
+        if (_deathCameraEffect == null)
+            _deathCameraEffect = GetComponentInParent<PlayerDeathCameraEffect>();
+
+        if (_hitCameraShake == null)
+            _hitCameraShake = GetComponentInParent<PlayerHitCameraShake>();
     }
 
     private void Start()
@@ -108,11 +123,70 @@ public class PlayerController : MonoBehaviour
         _runtime = runtime;
         if (Motor != null)
             Motor.BindRuntime(runtime);
+
+        if (runtime != null)
+            ResetForNewRun();
+    }
+
+    private void ResetForNewRun()
+    {
+        SetDeathPresentationActive(false);
+        LockCameraPosition = false;
+        _deathCameraEffect?.ResetForNewRun();
+        _hitCameraShake?.ResetForNewRun();
+    }
+
+    public void SetDeathPresentationActive(bool active)
+    {
+        IsDeathPresentationActive = active;
+        if (active)
+            LockCameraPosition = true;
+
+        Motor?.SetDeathPresentationActive(active);
+    }
+
+    public async UniTaskVoid PlayDeathPresentationAsync(Action onComplete)
+    {
+        if (IsDeathPresentationActive)
+            return;
+
+        AnimatorUpdateMode previousUpdateMode = AnimatorUpdateMode.Normal;
+
+        if (_hasAnimator)
+        {
+            previousUpdateMode = _animator.updateMode;
+            _animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        }
+
+        SetDeathPresentationActive(true);
+
+        try
+        {
+            if (_hasAnimator)
+            {
+                _animator.ResetTrigger(AnimParamDie);
+                _animator.SetTrigger(AnimParamDie);
+            }
+
+            if (_deathCameraEffect != null)
+                await _deathCameraEffect.PlayAsync();
+
+            onComplete?.Invoke();
+        }
+        catch (OperationCanceledException) when (destroyCancellationToken.IsCancellationRequested)
+        {
+        }
+        finally
+        {
+            if (_hasAnimator)
+                _animator.updateMode = previousUpdateMode;
+        }
     }
 
     private void Update()
     {
-        _hasAnimator = TryGetComponent(out _animator);
+        if (IsDeathPresentationActive)
+            return;
 
         if (_mainCamera == null || Motor == null || _input == null)
             return;
@@ -126,6 +200,9 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (IsDeathPresentationActive)
+            return;
+
         CameraRotation();
     }
 

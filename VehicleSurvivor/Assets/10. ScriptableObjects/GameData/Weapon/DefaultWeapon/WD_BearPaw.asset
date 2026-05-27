@@ -19,9 +19,9 @@ MonoBehaviour:
   weaponPrefab: {fileID: 0}
   weaponType: 0
   tags:
-  - "異⑷꺽??
-  - "踰붿쐞"
-  - "?곗뇙"
+  - "충격파"
+  - "범위"
+  - "곰발바닥"
   levelDataList:
   - bulletSpeed: 8
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv1: 湲곕낯 異⑷꺽??
+    description: "Lv1: 기본 충격파"
     cooldown: 1.1
     damage: 11
     projectileSpeed: 8
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv2: ?쇳빐??利앷?"
+    description: "Lv2: 피해량 증가"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 8.5
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv3: 異⑷꺽???ш린 利앷?"
+    description: "Lv3: 충격파 크기 증가"
     cooldown: 1.05
     damage: 13
     projectileSpeed: 8.5
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv4: ?쇳빐??利앷?"
+    description: "Lv4: 피해량 증가"
     cooldown: 1
     damage: 15
     projectileSpeed: 9
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 0.8
     meteorDelay: 1
-    description: "Lv5: 異⑷꺽???ш린 利앷?"
+    description: "Lv5: 충격파 크기 증가"
     cooldown: 0.95
     damage: 18
     projectileSpeed: 9.5

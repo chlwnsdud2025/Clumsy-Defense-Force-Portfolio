@@ -11,9 +11,13 @@ public sealed class PlayerHitCameraShake : MonoBehaviour
     [Tooltip("카메라 쉐이크를 수신할 카메라. 비어 있으면 자식 Camera를 찾습니다.")]
     [SerializeField] private Camera targetCamera;
 
-    [Header("Impulse")]
+    [Header("Hit Impulse")]
     [SerializeField] private float impulseForce = 0.25f;
     [SerializeField] private float impulseDuration = 0.12f;
+
+    [Header("Death Impulse")]
+    [SerializeField] private float deathImpulseForce = 0.65f;
+    [SerializeField] private float deathImpulseDuration = 0.22f;
 
     [Header("Listener")]
     [SerializeField] private float listenerGain = 0.35f;
@@ -48,7 +52,35 @@ public sealed class PlayerHitCameraShake : MonoBehaviour
             return;
 
         lastShakeTime = Time.time;
-        ImpulseSource.GenerateImpulseWithForce(impulseForce);
+        GenerateImpulse(impulseForce, impulseDuration, useUnscaledTime: false);
+    }
+
+    public void TriggerDeathShake()
+    {
+        if (!EnsureInitialized())
+            return;
+
+        lastShakeTime = Time.unscaledTime;
+        GenerateImpulse(deathImpulseForce, deathImpulseDuration, useUnscaledTime: true);
+    }
+
+    public void ResetForNewRun()
+    {
+        if (CinemachineImpulseManager.Instance != null)
+            CinemachineImpulseManager.Instance.IgnoreTimeScale = false;
+    }
+
+    private void GenerateImpulse(float force, float duration, bool useUnscaledTime)
+    {
+        CinemachineImpulseDefinition definition = ImpulseSource.ImpulseDefinition;
+        float previousDuration = definition.ImpulseDuration;
+
+        if (useUnscaledTime && CinemachineImpulseManager.Instance != null)
+            CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
+
+        definition.ImpulseDuration = duration;
+        ImpulseSource.GenerateImpulseWithForce(force);
+        definition.ImpulseDuration = previousDuration;
     }
 
     private bool EnsureInitialized()

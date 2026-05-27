@@ -163,7 +163,7 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
             return;
         }
 
-        EnemyManager.Instance.playerTransform = playerFollowTransform;
+        EnemyManager.Instance.SetPlayerTransform(playerFollowTransform);
     }
 
     private void DestroySpawnedPlayer()

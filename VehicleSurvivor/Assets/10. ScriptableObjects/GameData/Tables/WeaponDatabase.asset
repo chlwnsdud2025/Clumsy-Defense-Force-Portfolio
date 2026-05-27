@@ -26,4 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 05e2e559e679f66e9748e6a2e4bd4aa0, type: 2}
   - {fileID: 11400000, guid: 19ee03cf552be25405fe0ad2974702d4, type: 2}
   - {fileID: 11400000, guid: a79297fe6775591f0cd1e0bfdcf17e7b, type: 2}
-  evolutionWeapons: []
+  evolutionWeapons:
+  - {fileID: 11400000, guid: 9ce1f0487560cd7f0d2d8d835148b17c, type: 2}
+  - {fileID: 11400000, guid: 5bcf2c59c40b36fe3cee52a0c0dcf3d2, type: 2}
+  - {fileID: 11400000, guid: 17513e8b1a44ea798b1b709687592d7c, type: 2}

@@ -150,9 +150,13 @@ public class SuicideEnemy : Enemy
 
     private void Update()
     {
-        // 스스로 ManagedUpdate를 실행하여 플레이어를 정상 추격하게 만듭니다!
         if (_useSelfUpdate)
         {
+            if (RunManager.TryGetInstance(out RunManager runManager) &&
+                runManager.RunSession != null &&
+                !runManager.RunSession.ShouldUpdateGameplay)
+                return;
+
             ManagedUpdate(Time.deltaTime);
         }
     }

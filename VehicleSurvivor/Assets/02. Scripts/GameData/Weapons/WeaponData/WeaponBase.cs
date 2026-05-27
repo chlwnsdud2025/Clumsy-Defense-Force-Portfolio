@@ -63,6 +63,11 @@ public class WeaponBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (RunManager.TryGetInstance(out RunManager runManager) &&
+            runManager.RunSession != null &&
+            !runManager.RunSession.ShouldUpdateGameplay)
+            return;
+
         WeaponLevelData data = GetCurrentLevelData();
         if (data == null)
             return;

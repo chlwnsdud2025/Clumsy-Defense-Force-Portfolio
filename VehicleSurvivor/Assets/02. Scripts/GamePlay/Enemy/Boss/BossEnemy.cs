@@ -39,6 +39,9 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float slowClimbSpeed = 5f;
     public float gravity = -20f;
 
+    [Header("Overlap Block")]
+    public float playerBlockRadius = 2f;
+
     private float verticalVelocity;
     private bool isGrounded;
 
@@ -59,6 +62,16 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         ResolveHitFlash();
         ServiceLocator.TryGet(out _eventBus);
+    }
+
+    protected virtual void OnEnable()
+    {
+        BlockableRegistry.Register(transform, playerBlockRadius);
+    }
+
+    protected virtual void OnDisable()
+    {
+        BlockableRegistry.Unregister(transform);
     }
 
     protected virtual void Start()
@@ -83,7 +96,13 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
-        if (playerTarget == null) return;
+        if (playerTarget == null)
+            return;
+
+        if (RunManager.TryGetInstance(out RunManager runManager) &&
+            runManager.RunSession != null &&
+            !runManager.RunSession.ShouldUpdateGameplay)
+            return;
 
         float dt = Time.deltaTime;
 
@@ -111,6 +130,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         playerDir = playerDir.normalized;
 
         Vector3 horizontalVelocity = playerDir * moveSpeed;
+        ClipPlayerOverlap(ref horizontalVelocity);
 
         Vector3 nextPosXZ = transform.position + (horizontalVelocity * dt);
         float targetHeight = transform.position.y;
@@ -325,5 +345,21 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
                 }
             }
         }
+    }
+
+    private void ClipPlayerOverlap(ref Vector3 horizontalVelocity)
+    {
+        if (playerTarget == null)
+            return;
+
+        float playerRadius = EnemyManager.Instance != null
+            ? EnemyManager.Instance.PlayerBlockRadius
+            : EnemyManager.DefaultPlayerBlockRadius;
+
+        OverlapBlockUtility.ClipApproach(
+            ref horizontalVelocity,
+            transform.position,
+            playerTarget.position,
+            playerBlockRadius + playerRadius);
     }
 }

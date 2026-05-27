@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "치명적인 귀여움"
   description: "오로라 범위가 증가하고 적을 확률적으로 수면 또는 기절 상태로 만듭니다."
   icon: {fileID: 21300000, guid: d1f291f6de10b2e40a680f208b019d76, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 2477110694707164228, guid: 0dbdf937a72348f5ae5e4dccf1850133, type: 3}
   weaponType: 1
   tags:
   - "오라"

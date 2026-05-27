@@ -19,9 +19,9 @@ MonoBehaviour:
   weaponPrefab: {fileID: 0}
   weaponType: 2
   tags:
-  - "?ν뙋"
-  - "吏?랁뵾??
-  - "?붿뿼"
+  - "장판"
+  - "지속피해"
+  - "화염"
   levelDataList:
   - bulletSpeed: 0.1
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv1: 湲곕낯 踰붿쐞"
+    description: "Lv1: 기본 범위"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -46,7 +46,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv2: 踰붿쐞 利앷?"
+    description: "Lv2: 범위 증가"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -62,7 +62,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv3: ?쇳빐??利앷?"
+    description: "Lv3: 피해량 증가"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -78,7 +78,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv4: 踰붿쐞 利앷?"
+    description: "Lv4: 범위 증가"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -94,7 +94,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv5: ?쇳빐 二쇨린 媛먯냼"
+    description: "Lv5: 피해 주기 감소"
     cooldown: 1
     damage: 15
     projectileSpeed: 0.1

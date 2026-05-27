@@ -21,4 +21,4 @@ MonoBehaviour:
     spawnWeight: 1
     spawnAsPurePack: 0
   miniBossPrefabs: []
-  miniBossCount: 0
+  miniBossCount: 1

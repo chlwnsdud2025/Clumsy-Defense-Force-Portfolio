@@ -16,6 +16,35 @@ public class WeaponDatabaseSO : ScriptableObject
     public IReadOnlyList<WeaponDefinitionSO> Weapons => weapons;
     public IReadOnlyList<WeaponDefinitionSO> EvolutionWeapons => evolutionWeapons;
 
+    public bool IsEvolutionWeapon(WeaponDefinitionSO weapon)
+    {
+        if (weapon == null || string.IsNullOrWhiteSpace(weapon.WeaponId))
+            return false;
+
+        return IsEvolutionWeaponId(weapon.WeaponId);
+    }
+
+    public bool IsEvolutionWeaponId(string weaponId)
+    {
+        if (string.IsNullOrWhiteSpace(weaponId))
+            return false;
+
+        string normalizedId = weaponId.Trim();
+
+        if (FindWeaponOrNull(evolutionWeapons, normalizedId) != null)
+            return true;
+
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            WeaponDefinitionSO weapon = weapons[i];
+
+            if (weapon != null && weapon.EvolutionWeaponId == normalizedId)
+                return true;
+        }
+
+        return false;
+    }
+
     public WeaponDefinitionSO GetWeaponOrNull(string weaponId)
     {
         if (string.IsNullOrWhiteSpace(weaponId))

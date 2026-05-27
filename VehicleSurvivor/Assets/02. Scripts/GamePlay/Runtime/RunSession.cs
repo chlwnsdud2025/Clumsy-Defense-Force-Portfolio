@@ -159,7 +159,7 @@ public sealed class RunSession
 
     public void GameOver()
     {
-        if (IsFinished)
+        if (State != ERunState.Playing)
             return;
 
         ChangeState(ERunState.GameOver);

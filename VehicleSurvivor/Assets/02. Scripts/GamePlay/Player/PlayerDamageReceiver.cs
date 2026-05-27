@@ -45,8 +45,14 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
         playerRuntime.Health.TakeDamage(damageInfo.Amount);
         SoundPlayback.PlaySfx(ESoundId.SFX_Player_Hurt);
 
-        HitFlash?.TriggerHitFlash();
-        CameraShake?.TriggerShake();
+        if (playerRuntime.Health.CurrentHp > 0f)
+        {
+            HitFlash?.TriggerHitFlash();
+            CameraShake?.TriggerShake();
+            return;
+        }
+
+        CameraShake?.TriggerDeathShake();
     }
 
     public void Heal(float amount)
