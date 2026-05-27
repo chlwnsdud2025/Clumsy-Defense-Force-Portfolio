@@ -13,24 +13,18 @@ MonoBehaviour:
   m_Name: WD_FireLine
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_fire_line
-  weaponName: "방화선"
-  description: "캐릭터 주변에 불길 장판을 생성해 주기적으로 피해를 줍니다."
-  icon: {fileID: 0}
-  weaponPrefab: {fileID: 0}
+  weaponName: "\uBC29\uD654\uC120"
+  description: "\uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC5D0 \uBD88\uAE38 \uC7A5\uD310\uC744
+    \uC0DD\uC131\uD574 \uC8FC\uAE30\uC801\uC73C\uB85C \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: d1f291f6de10b2e40a680f208b019d76, type: 3}
+  weaponPrefab: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
   weaponType: 2
   tags:
-  - "장판"
-  - "지속피해"
-  - "화염"
+  - "\uC7A5\uD310"
+  - "\uC9C0\uC18D\uD53C\uD574"
+  - "\uD654\uC5FC"
   levelDataList:
-  - bulletSpeed: 0.1
-    spreadAngle: 0
-    radius: 3
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 1.5
-    meteorDelay: 1
-    description: "Lv1: 기본 범위"
+  - description: "Lv1: \uAE30\uBCF8 \uBC94\uC704"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -39,14 +33,22 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.5
     range: 3
-  - bulletSpeed: 0.1
+    bulletSpeed: 0.1
     spreadAngle: 0
     radius: 3
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv2: 범위 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv2: \uBC94\uC704 \uC99D\uAC00"
     cooldown: 1.2
     damage: 10
     projectileSpeed: 0.1
@@ -55,14 +57,22 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.45
     range: 3
-  - bulletSpeed: 0.1
+    bulletSpeed: 0.1
     spreadAngle: 0
     radius: 3
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv3: 피해량 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv3: \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -71,14 +81,22 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.45
     range: 3
-  - bulletSpeed: 0.1
+    bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.2
+    radius: 3
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv4: 범위 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv4: \uBC94\uC704 \uC99D\uAC00"
     cooldown: 1.1
     damage: 12
     projectileSpeed: 0.1
@@ -87,14 +105,22 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.35
     range: 3.2
-  - bulletSpeed: 0.1
+    bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.5
+    radius: 3.2
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1.5
     meteorDelay: 1
-    description: "Lv5: 피해 주기 감소"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv5: \uD53C\uD574 \uC8FC\uAE30 \uAC10\uC18C"
     cooldown: 1
     damage: 15
     projectileSpeed: 0.1
@@ -103,5 +129,20 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.3
     range: 3.5
+    bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 3.5
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
   evolutionWeaponId: weapon_evolved_backdraft
   requiredBadgeId: badge_max_health
