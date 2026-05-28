@@ -13,88 +13,114 @@ MonoBehaviour:
   m_Name: WD_PaperAirplane
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_common_paper_airplane
-  weaponName: "종이비행기"
-  description: "주변에서 종이비행기가 무작위 방향으로 날아갑니다."
+  weaponName: "\uC885\uC774\uBE44\uD589\uAE30"
+  description: "\uC8FC\uBCC0\uC5D0\uC11C \uC885\uC774\uBE44\uD589\uAE30\uAC00 \uBB34\uC791\uC704
+    \uBC29\uD5A5\uC73C\uB85C \uB0A0\uC544\uAC11\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 0631dd2889f5c754995588d2ba5a7107, type: 3}
   weaponPrefab: {fileID: 3471973541581513014, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
   weaponType: 0
   tags:
-  - "투사체"
-  - "랜덤방향"
-  - "다발"
+  - "\uD22C\uC0AC\uCCB4"
+  - "\uB79C\uB364\uBC29\uD5A5"
+  - "\uB2E4\uBC1C"
   levelDataList:
-  - bulletSpeed: 10
-    spreadAngle: 0
-    radius: 6
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 1
-    meteorDelay: 1
-    description: "발사 수 증가"
+  - description: "\uBC1C\uC0AC \uC218 \uC99D\uAC00"
     cooldown: 1
-    damage: 9
+    damage: 2
     projectileSpeed: 10
     duration: 1
     size: 1
     projectileCount: 1
     tickInterval: 0.5
     range: 6
-  - bulletSpeed: 10.5
+    bulletSpeed: 10
     spreadAngle: 0
     radius: 6
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "피해량 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "\uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.95
-    damage: 11
+    damage: 6
     projectileSpeed: 10.5
     duration: 1
     size: 1
     projectileCount: 1
     tickInterval: 0.5
     range: 6
-  - bulletSpeed: 10.5
+    bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 6.5
+    radius: 6
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "거리 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "\uAC70\uB9AC \uC99D\uAC00"
     cooldown: 0.95
-    damage: 11
+    damage: 6
     projectileSpeed: 10.5
     duration: 1
     size: 1
     projectileCount: 2
     tickInterval: 0.5
     range: 6.5
-  - bulletSpeed: 11
+    bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 7
+    radius: 6.5
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "거리 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "\uAC70\uB9AC \uC99D\uAC00"
     cooldown: 0.9
-    damage: 13
+    damage: 6
     projectileSpeed: 11
     duration: 1
     size: 1.1
     projectileCount: 2
     tickInterval: 0.45
     range: 7
-  - bulletSpeed: 11.5
+    bulletSpeed: 11
     spreadAngle: 0
     radius: 7
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "피해량 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "\uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.85
     damage: 15
     projectileSpeed: 11.5
@@ -103,6 +129,20 @@ MonoBehaviour:
     projectileCount: 3
     tickInterval: 0.45
     range: 7
+    bulletSpeed: 11.5
+    spreadAngle: 0
+    radius: 7
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
   evolutionWeaponId: weapon_evolved_paperfold_master
   requiredBadgeId: badge_move_speed
-
