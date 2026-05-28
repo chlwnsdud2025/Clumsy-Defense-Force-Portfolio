@@ -71,6 +71,7 @@ public class Spider_Boss : BossEnemy
                 if (spawnWarningVfx != null)
                 {
                     GameObject vfx = Instantiate(spawnWarningVfx, hit.point, Quaternion.identity, vfxContainer);
+
                     Destroy(vfx, spawnDelay + 0.5f);
                 }
             }
@@ -88,6 +89,7 @@ public class Spider_Boss : BossEnemy
                 if (spiderScript != null)
                 {
                     spiderScript.SpawnSetup(playerTarget, spawnPos, EnemyManager.Instance);
+                    spiderScript.EnableSelfUpdate();
                 }
             }
         }

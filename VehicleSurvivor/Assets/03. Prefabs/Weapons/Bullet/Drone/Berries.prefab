@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 950978409212217623}
   - component: {fileID: 3593858817833916590}
   - component: {fileID: 6350085731210744566}
-  - component: {fileID: 4655045406224358327}
   - component: {fileID: -8582402622212262647}
+  - component: {fileID: 3357764845925559216}
   m_Layer: 0
   m_Name: Berries
   m_TagString: Untagged
@@ -92,28 +92,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4655045406224358327
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8726525270039830399}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4847948056348697381, guid: f07f2f7046545774789f2e6d8bb89801, type: 3}
 --- !u!114 &-8582402622212262647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +105,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneProjectile
   rotateSpeed: 8
+--- !u!135 &3357764845925559216
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726525270039830399}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.0933203
+  m_Center: {x: -0.0045550764, y: 0.26011363, z: 0.00805223}

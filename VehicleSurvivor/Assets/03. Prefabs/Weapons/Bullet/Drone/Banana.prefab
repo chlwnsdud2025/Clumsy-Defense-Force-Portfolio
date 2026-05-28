@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6529523592276359167}
   - component: {fileID: 624962005045473012}
   - component: {fileID: 7869772742807129432}
+  - component: {fileID: 2338217406960071198}
   m_Layer: 11
   m_Name: Banana
   m_TagString: Untagged
@@ -104,3 +105,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneProjectile
   rotateSpeed: 8
+--- !u!65 &2338217406960071198
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2528133529004751048}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.46, y: 4.75, z: 10.5697775}
+  m_Center: {x: 0.055510283, y: 0.96726894, z: 0.4665637}

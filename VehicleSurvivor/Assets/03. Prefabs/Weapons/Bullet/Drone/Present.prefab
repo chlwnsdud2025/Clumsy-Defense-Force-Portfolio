@@ -13,6 +13,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -66,18 +78,31 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3969710884488228003}
+      addedObject: {fileID: 5255055145331417414}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5255055145331417414}
+      addedObject: {fileID: 5653263879393123184}
   m_SourcePrefab: {fileID: 100100000, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
 --- !u!1 &7940379538218745943 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
   m_PrefabInstance: {fileID: 7129353032311127302}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &3969710884488228003
-MeshCollider:
+--- !u!114 &5255055145331417414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940379538218745943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db6073e7a981f74486e6c5547da6460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroneProjectile
+  rotateSpeed: 8
+--- !u!65 &5653263879393123184
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -94,20 +119,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2025473661010187619, guid: fd143e2941141f44cb2a17ae08bb8bda, type: 3}
---- !u!114 &5255055145331417414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7940379538218745943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5db6073e7a981f74486e6c5547da6460, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DroneProjectile
-  rotateSpeed: 8
+  serializedVersion: 3
+  m_Size: {x: 0.9, y: 0.76, z: 0.8850086}
+  m_Center: {x: -0.00017294288, y: 0.53029925, z: -0.000000014901161}
