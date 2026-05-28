@@ -120,14 +120,11 @@ public class ProjectileWeapon : WeaponBase
                     0f
                 );
 
-            // Y -90 고정 (프리팹 모델링 방향 보정)
-            Quaternion visualRotation =
-                shootRotation *
-                Quaternion.Euler(
-                    0f,
-                    -90f,
-                    0f
-                );
+            Quaternion visualRotation = // 프리팹별로 y값 설정할수있게 수정
+      shootRotation *
+      Quaternion.Euler(
+          projectileRotationOffset
+      );
 
             GameObject projectileObject =
                 Instantiate(
