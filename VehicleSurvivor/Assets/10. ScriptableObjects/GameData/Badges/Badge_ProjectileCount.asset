@@ -21,12 +21,6 @@ MonoBehaviour:
   maxLevel: 5
   levelModifiers:
   - statType: 501
-    value: 0
-    isPercent: 0
-  - statType: 501
-    value: 1
-    isPercent: 0
-  - statType: 501
     value: 1
     isPercent: 0
   - statType: 501
@@ -34,4 +28,10 @@ MonoBehaviour:
     isPercent: 0
   - statType: 501
     value: 3
+    isPercent: 0
+  - statType: 501
+    value: 4
+    isPercent: 0
+  - statType: 501
+    value: 5
     isPercent: 0

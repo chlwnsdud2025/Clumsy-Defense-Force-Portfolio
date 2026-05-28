@@ -15,6 +15,7 @@ public class PlayerVisual : MonoBehaviour
 
     [Tooltip("피격 시 플래시 효과")]
     [SerializeField] private HitFlashEffect hitFlash;
+    [SerializeField] private PlayerOcclusionSilhouette occlusionSilhouette;
 
     private GameObject spawnedVisual;
     private CancellationTokenSource applyCharacterCts;
@@ -26,11 +27,15 @@ public class PlayerVisual : MonoBehaviour
 
         if (hitFlash == null)
             hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
+
+        if (occlusionSilhouette == null)
+            occlusionSilhouette = gameObject.GetOrAddComponent<PlayerOcclusionSilhouette>();
     }
 
     private void OnDestroy()
     {
         CancelPendingApplyCharacter();
+        occlusionSilhouette?.Clear();
         spawnedVisual = null;
     }
 
@@ -62,6 +67,7 @@ public class PlayerVisual : MonoBehaviour
             }
 
             ClearVisual(visualRoot);
+            occlusionSilhouette?.Clear();
             await UniTask.NextFrame(cancellationToken: cancellationToken);
 
             spawnedVisual = Instantiate(character.VisualPrefab, visualRoot);
@@ -79,6 +85,8 @@ public class PlayerVisual : MonoBehaviour
 
             if (hitFlash != null)
                 hitFlash.RefreshRenderersFrom(spawnedVisual.transform);
+
+            occlusionSilhouette?.RebuildFrom(spawnedVisual.transform);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
