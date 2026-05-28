@@ -24,17 +24,17 @@ MonoBehaviour:
   - "\uB2E8\uC77C\uD0C0\uAC9F"
   - "\uC7A5\uB09C\uAC10"
   levelDataList:
-  - description: "Lv1: \uD22C\uC0AC\uCCB4 1\uAC1C"
+  - description: "\uB9DB\uC788\uB294 \uB2F9\uADFC \uBB34\uAE30"
     cooldown: 1
     damage: 10
-    projectileSpeed: 10
+    projectileSpeed: 20
     duration: 1
     size: 1
     projectileCount: 1
     tickInterval: 0.5
     range: 6
     bulletSpeed: 10
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6
     bounceCount: 3
     pierceCount: 0
@@ -48,17 +48,17 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  - description: "Lv2: \uD53C\uD574\uB7C9 \uC99D\uAC00"
+  - description: "Lv2: \uB2F9\uADFC +1, \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 1
-    damage: 12
-    projectileSpeed: 10.5
+    damage: 15
+    projectileSpeed: 20
     duration: 1
     size: 1
-    projectileCount: 1
+    projectileCount: 2
     tickInterval: 0.5
     range: 6
     bulletSpeed: 10.5
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6
     bounceCount: 3
     pierceCount: 0
@@ -72,17 +72,17 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  - description: "Lv3: \uD22C\uC0AC\uCCB4 +1"
-    cooldown: 0.95
-    damage: 12
-    projectileSpeed: 10.5
+  - description: "Lv3: \uB2F9\uADFC \uAC1C\uC218+1,  \uB2F9\uADFC \uC18D\uB3C4 \uC99D\uAC00"
+    cooldown: 1
+    damage: 15
+    projectileSpeed: 25
     duration: 1
     size: 1
-    projectileCount: 2
+    projectileCount: 3
     tickInterval: 0.5
     range: 6.5
     bulletSpeed: 10.5
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6.5
     bounceCount: 3
     pierceCount: 0
@@ -96,17 +96,17 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  - description: "Lv4: \uD53C\uD574\uB7C9 \uC99D\uAC00"
+  - description: "Lv4: \uB2F9\uADFC \uAC1C\uC218+1, \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.9
-    damage: 15
-    projectileSpeed: 11
+    damage: 20
+    projectileSpeed: 28
     duration: 1
     size: 1.1
-    projectileCount: 2
+    projectileCount: 4
     tickInterval: 0.5
     range: 6.5
     bulletSpeed: 11
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6.5
     bounceCount: 3
     pierceCount: 0
@@ -120,17 +120,18 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  - description: "Lv5: \uD22C\uC0AC\uCCB4 +1"
+  - description: "Lv5: \uB2F9\uADFC \uAC1C\uC218+1, \uD53C\uD574\uB7C9 \uC99D\uAC00,
+      \uC18D\uB3C4\uC99D\uAC00"
     cooldown: 0.85
-    damage: 15
-    projectileSpeed: 11
+    damage: 25
+    projectileSpeed: 32
     duration: 1
-    size: 1.1
-    projectileCount: 3
+    size: 5
+    projectileCount: 5
     tickInterval: 0.5
     range: 7
     bulletSpeed: 11
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 7
     bounceCount: 3
     pierceCount: 0
