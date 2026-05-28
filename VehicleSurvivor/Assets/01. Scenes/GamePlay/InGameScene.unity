@@ -2362,6 +2362,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSpecialEffectManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6118359201472391004, guid: 91c095a177eb3524d91e05e1dd6ecd73, type: 3}
+      propertyPath: treasureChestPrefab
+      value: 
+      objectReference: {fileID: 6478067406739816690, guid: 6952d91a41020df4bac2cadaf944a2b3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
