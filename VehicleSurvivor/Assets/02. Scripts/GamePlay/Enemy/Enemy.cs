@@ -305,30 +305,17 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected void ClipPlayerOverlap(ref Vector3 horizontalVelocity)
     {
-        if (playerTarget == null)
-            return;
+        if (playerTarget == null) return;
 
-        // ==========================================
-        // 🚀 [핵심 추가] 플레이어와 몬스터의 고도(Y축) 차이 계산
-        // ==========================================
-        float yDiff = Mathf.Abs(playerTarget.position.y - transform.position.y);
-
-        // 플레이어와 높이 차이가 몬스터의 키(playerBlockHeight)보다 크다면?
-        // -> "플레이어가 내 머리 위로 점프했구나!" 하고 블록 처리를 아예 무시해버립니다.
-        if (yDiff >= playerBlockHeight)
-        {
-            return; // ClipApproach를 실행하지 않고 그대로 통과시킴!
-        }
-
-        // ==========================================
-        // 높이 차이가 키보다 작을 때(같은 평면에 있을 때)만 기존처럼 밀어내기 적용
         float playerRadius = myManager != null ? myManager.PlayerBlockRadius : EnemyManager.DefaultPlayerBlockRadius;
 
+        // 업그레이드된 유틸리티 함수에 playerBlockHeight를 함께 전달합니다.
         OverlapBlockUtility.ClipApproach(
             ref horizontalVelocity,
             transform.position,
             playerTarget.position,
-            playerBlockRadius + playerRadius);
+            playerBlockRadius + playerRadius,
+            playerBlockHeight);
     }
 
     // --- (TakeDamage, Die 등 기타 함수 동일) ---
