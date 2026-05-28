@@ -25,14 +25,20 @@ public class BouncyProjectileWeapon : WeaponBase
         if (data == null)
             return;
 
+        // 🌟 [핵심 수정 1] SO에서 Size 값을 비워둬서(0) 오브젝트가 투명해지는 현상 방지
+        float baseSize = data.Size > 0f ? data.Size : 1f;
+
+        // 🌟 [핵심 수정 2] 바운스 횟수가 0이라서 땅에 닿자마자 파괴되는 현상 방지 (기본 3번 튕김)
+        int bounceCount = data.BounceCount > 0 ? data.BounceCount : 3;
+
         FireProjectiles(
             GetFinalDamage(data.Damage),
             GetProjectileSpeed(data),
             Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount)),
             data.SpreadAngle,
             data.Range,
-            data.BounceCount,
-            GetFinalWeaponScale(data.Size)
+            bounceCount,
+            GetFinalWeaponScale(baseSize)
         );
     }
 
@@ -46,8 +52,7 @@ public class BouncyProjectileWeapon : WeaponBase
         float projectileSize
     )
     {
-        Transform resolvedFirePoint =
-            ResolveFirePoint(firePoint);
+        Transform resolvedFirePoint = ResolveFirePoint(firePoint);
 
         if (bouncyProjectilePrefab == null)
         {
@@ -61,8 +66,7 @@ public class BouncyProjectileWeapon : WeaponBase
             return;
         }
 
-        Quaternion baseRotation =
-            resolvedFirePoint.rotation;
+        Quaternion baseRotation = resolvedFirePoint.rotation;
 
         if (shootParticlePrefab != null)
         {
@@ -79,33 +83,23 @@ public class BouncyProjectileWeapon : WeaponBase
 
             if (count > 1)
             {
-                float centerIndex =
-                    (count - 1) * 0.5f;
-
-                angle =
-                    (i - centerIndex) * spreadAngleValue;
+                float centerIndex = (count - 1) * 0.5f;
+                angle = (i - centerIndex) * spreadAngleValue;
             }
 
-            Quaternion shootRotation =
-                baseRotation *
-                Quaternion.Euler(0f, angle, 0f);
+            Quaternion shootRotation = baseRotation * Quaternion.Euler(0f, angle, 0f);
+            Quaternion visualRotation = shootRotation * Quaternion.Euler(projectileRotationOffset);
 
-            Quaternion visualRotation =
-                shootRotation *
-                Quaternion.Euler(projectileRotationOffset);
+            GameObject projectileObject = Instantiate(
+                bouncyProjectilePrefab,
+                resolvedFirePoint.position,
+                visualRotation
+            );
 
-            GameObject projectileObject =
-                Instantiate(
-                    bouncyProjectilePrefab,
-                    resolvedFirePoint.position,
-                    visualRotation
-                );
+            // 이제 Size 값이 없어도 기본 크기(1)가 보장되어 무조건 화면에 보입니다.
+            projectileObject.transform.localScale = Vector3.one * projectileSize;
 
-            projectileObject.transform.localScale =
-                Vector3.one * projectileSize;
-
-            BouncyProjectile projectile =
-                projectileObject.GetComponent<BouncyProjectile>();
+            BouncyProjectile projectile = projectileObject.GetComponent<BouncyProjectile>();
 
             if (projectile == null)
             {
@@ -113,9 +107,7 @@ public class BouncyProjectileWeapon : WeaponBase
                 continue;
             }
 
-            Vector3 startVelocity =
-                shootRotation * Vector3.forward * projectileSpeed;
-
+            Vector3 startVelocity = shootRotation * Vector3.forward * projectileSpeed;
             startVelocity.y += upwardForce;
 
             projectile.Initialize(
