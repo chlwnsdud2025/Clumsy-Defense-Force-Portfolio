@@ -5167,12 +5167,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b986650f165aaa448ed40c8089f2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureChest
-  requiredGold: 15
   interactPromptRoot: {fileID: 5397378705022738870}
   interactCanvas: {fileID: 5633817341507688163}
   goldAmountText: {fileID: 1063249360570012387}
   goldAffordableColor: {r: 1, g: 1, b: 1, a: 1}
   goldUnaffordableColor: {r: 1, g: 0.3372549, b: 0.3372549, a: 1}
+  isMapDefaultChest: 1
 --- !u!135 &5756706862984111221
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ MonoBehaviour:
     range: 3
     bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3
+    radius: 2.5
     bounceCount: 3
     pierceCount: 0
     chainCount: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
     range: 3.2
     bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.2
+    radius: 4
     bounceCount: 3
     pierceCount: 0
     chainCount: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
     range: 3.2
     bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.2
+    radius: 4
     bounceCount: 3
     pierceCount: 0
     chainCount: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
     range: 3.5
     bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.5
+    radius: 6
     bounceCount: 3
     pierceCount: 0
     chainCount: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
     range: 3.8
     bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.8
+    radius: 6
     bounceCount: 3
     pierceCount: 0
     chainCount: 0

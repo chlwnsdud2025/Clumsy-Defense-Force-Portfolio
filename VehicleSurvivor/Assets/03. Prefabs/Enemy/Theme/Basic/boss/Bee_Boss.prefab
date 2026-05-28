@@ -56,8 +56,8 @@ MonoBehaviour:
   maxHealth: 1000
   moveSpeed: 2
   rotationSpeed: 10
-  contactRange: 3
-  contactCooltime: 1
+  contactRange: 3.22
+  contactCooltime: 1.09
   expReward: 10
   moneyReward: 10
   contactDamage: 30
@@ -69,6 +69,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 2.5
+  playerBlockHeight: 11.33
   attackCooltime: 0.1
   hitFlash: {fileID: 7585557088816424824}
   playerLayerMask:

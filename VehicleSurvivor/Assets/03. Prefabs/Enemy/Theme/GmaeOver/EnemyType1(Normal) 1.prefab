@@ -136,10 +136,16 @@ MonoBehaviour:
   maxHealth: 50
   rotationSpeed: 2
   expReward: 1
+  moneyReward: 15
   separationRadius: 1
   separationWeight: 1
-  attackRange: 1
-  attackCooltime: 2
+  playerBlockRadius: 0.8
+  playerBlockHeight: 0.82
+  contactDamage: 10
+  contactRange: 1.5
+  contactCooltime: 1
+  patternRange: 5
+  patternCooltime: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -147,8 +153,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 0}
 --- !u!1 &7311469931525132662
 GameObject:
   m_ObjectHideFlags: 0

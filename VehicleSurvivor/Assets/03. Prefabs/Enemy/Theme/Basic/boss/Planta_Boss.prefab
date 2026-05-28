@@ -492,7 +492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf0ebd231d45af4499cdedecc5cec58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Geezer
-  bossName: 
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 1205074186043561273}
   displayName: Planta_Geezer
@@ -512,6 +511,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 2.29
+  playerBlockHeight: 8.54
   attackCooltime: 4
   hitFlash: {fileID: 5982372186386273733}
 --- !u!54 &7746416926621405691
@@ -1291,7 +1292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18557f4339eb36f4aa3190be20d2d0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Queen
-  bossName: 
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 9051413299716602695}
   displayName: Planta_Queen
@@ -1311,6 +1311,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 2.51
+  playerBlockHeight: 8.8
   attackCooltime: 4
   hitFlash: {fileID: 2417329163863539008}
   telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}

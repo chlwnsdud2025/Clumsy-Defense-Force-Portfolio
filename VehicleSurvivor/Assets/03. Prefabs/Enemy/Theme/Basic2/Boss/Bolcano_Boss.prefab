@@ -2425,6 +2425,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 3.36
+  playerBlockHeight: 11.9
   attackCooltime: 4
   hitFlash: {fileID: 8315188047240112334}
   playerLayerMask:

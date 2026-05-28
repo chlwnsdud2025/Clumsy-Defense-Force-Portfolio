@@ -145,10 +145,16 @@ MonoBehaviour:
   maxHealth: 10
   rotationSpeed: 2
   expReward: 1
+  moneyReward: 15
   separationRadius: 2
   separationWeight: 1
-  attackRange: 10
-  attackCooltime: 5
+  playerBlockRadius: 0.8
+  playerBlockHeight: 0
+  contactDamage: 10
+  contactRange: 1.5
+  contactCooltime: 1
+  patternRange: 5
+  patternCooltime: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -156,8 +162,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 0}
   telegraphDuration: 1
   laserLength: 20
   startRadius: 0.4
