@@ -85,11 +85,14 @@ public class UI_Title : UIScene
 
     public void OnClickStart()
     {
+        PlayUIClickSfx();
         TitleSceneManager.Instance.PlayTitleCutscene();
     }
 
     public void OnClickSetting()
     {
+        PlayUIClickSfx();
+
         if (UIManager.Instance == null)
             return;
 
@@ -98,6 +101,7 @@ public class UI_Title : UIScene
 
     public void OnClickQuit()
     {
+        PlayUIClickSfx();
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else

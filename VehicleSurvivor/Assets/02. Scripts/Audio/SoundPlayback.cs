@@ -11,4 +11,10 @@ public static class SoundPlayback
         if (SoundManager.TryGetInstance(out SoundManager manager))
             manager.PlayBgm(id, crossFade);
     }
+
+    public static void SetBgmDuck(float multiplier, float duration = -1f)
+    {
+        if (SoundManager.TryGetInstance(out SoundManager manager))
+            manager.SetBgmDuck(multiplier, duration);
+    }
 }

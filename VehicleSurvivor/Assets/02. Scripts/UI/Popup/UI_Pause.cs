@@ -43,7 +43,7 @@ public class UI_Pause : UIPopup
 
     public override void OnClickBack()
     {
-        UIManager.Instance?.ClosePopup(this);
+        base.OnClickBack();
     }
 
     private void OnDestroy()

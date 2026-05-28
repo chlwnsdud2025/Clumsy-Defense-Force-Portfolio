@@ -259,6 +259,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     private void PublishAppeared()
     {
+        SoundPlayback.PlaySfx(ESoundId.SFX_Boss_Appear);
+
         if (_eventBus == null && !ServiceLocator.TryGet(out _eventBus))
             return;
 
@@ -283,6 +285,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             return;
 
         _defeatedPublished = true;
+
+        SoundPlayback.PlaySfx(ESoundId.SFX_Boss_Defeat);
 
         if (_eventBus == null && !ServiceLocator.TryGet(out _eventBus))
             return;

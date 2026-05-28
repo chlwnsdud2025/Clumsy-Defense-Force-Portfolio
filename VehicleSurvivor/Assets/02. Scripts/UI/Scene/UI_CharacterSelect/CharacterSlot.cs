@@ -81,6 +81,7 @@ public class CharacterSlot : MonoBehaviour
         if (!HasCharacter)
             return;
 
+        SoundPlayback.PlaySfx(ESoundId.SFX_UI_Click);
         Clicked?.Invoke(this);
     }
 }
