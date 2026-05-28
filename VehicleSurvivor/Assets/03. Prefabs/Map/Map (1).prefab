@@ -37627,7 +37627,7 @@ GameObject:
   - component: {fileID: 868444601100168233}
   - component: {fileID: 7538456811049018153}
   - component: {fileID: 2408489308463570084}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: obstacle_27_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128217,7 +128217,7 @@ GameObject:
   - component: {fileID: 8308599136364633763}
   - component: {fileID: 4308679417176773701}
   - component: {fileID: 8565586681959967847}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144199,7 +144199,7 @@ GameObject:
   - component: {fileID: 7219938185733900374}
   - component: {fileID: 4888280052684455068}
   - component: {fileID: 5475785021212840517}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: arch_005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190056,7 +190056,7 @@ GameObject:
   - component: {fileID: 7423225825411006966}
   - component: {fileID: 8284516839350142260}
   - component: {fileID: 5432625408202598791}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204657,7 +204657,7 @@ GameObject:
   - component: {fileID: 7257771180635188921}
   - component: {fileID: 11372435333898681}
   - component: {fileID: 3817353766586783352}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: obstacle_27_001 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

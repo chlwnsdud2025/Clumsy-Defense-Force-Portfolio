@@ -27,10 +27,10 @@ MonoBehaviour:
   - description: "\uC9C4\uD654 \uC644\uB8CC: \uB4F1\uAECD\uC9C8 \uC218\uAC00 \uC99D\uAC00\uD558\uACE0
       \uB354 \uBE60\uB974\uAC8C \uD68C\uC804\uD569\uB2C8\uB2E4."
     cooldown: 0.35
-    damage: 30
-    projectileSpeed: 20
+    damage: 20
+    projectileSpeed: 15
     duration: 999
-    size: 2
+    size: 1
     projectileCount: 8
     tickInterval: 0.35
     range: 7
