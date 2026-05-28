@@ -94,7 +94,11 @@ public sealed class RewardApplier
         {
             return false;
         }
-        player.Inventory.OnlyAddItem(definition);
+        if (!player.Inventory.OnlyAddItem(definition))
+        {
+            return false;
+        }
+
         ItemSpecialEffectService.ApplyOnItemCollected(player, definition);
         return true;
     }

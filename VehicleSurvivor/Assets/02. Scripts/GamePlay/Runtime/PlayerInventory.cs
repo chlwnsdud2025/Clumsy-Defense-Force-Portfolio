@@ -151,22 +151,29 @@ public sealed class PlayerInventory
         NotifyChanged(EInventoryCategory.Badge, badges.Count - 1);
     }
 
-    public void OnlyAddItem(ItemDefinitionSO definition)
+    public bool OnlyAddItem(ItemDefinitionSO definition)
     {
         if (definition == null)
-            return;
+            return false;
 
         ItemInstance item = GetItem(definition);
 
         if (item != null)
         {
+            if (definition.IsOneTimeUse)
+                return false;
+
             item.AddStack();
             NotifyChanged(EInventoryCategory.Item, items.IndexOf(item));
-            return;
+            return true;
         }
 
-        items.Add(new ItemInstance(definition));
+        if (!CanAddItme())
+            return false;
+
+        items.Add(new ItemInstance(definition, owner));
         NotifyChanged(EInventoryCategory.Item, items.Count - 1);
+        return true;
     }
 
     private void NotifyChanged(EInventoryCategory category, int slotIndex)
