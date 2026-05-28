@@ -120,15 +120,21 @@ public sealed class RewardSystem
         if (itemTable == null)
             return;
 
-        if (!player.Inventory.CanAddItme()) // ?ÑÏù¥???¨Î°Ø ÏµúÎ??∏Ï? ?ïÏù∏
-            return;
+        bool canAddNewItem = player.Inventory.CanAddItme();
 
         foreach (ItemDefinitionSO item in itemTable.Items)
         {
-            if (item != null)
-            {
-                candidates.Add(RewardOption.ItemReward(item));
-            }
+            if (item == null)
+                continue;
+
+            ItemInstance ownedItem = player.Inventory.GetItem(item);
+            if (ownedItem != null && item.IsOneTimeUse)
+                continue;
+
+            if (ownedItem == null && !canAddNewItem)
+                continue;
+
+            candidates.Add(RewardOption.ItemReward(item));
         }
     }
 
