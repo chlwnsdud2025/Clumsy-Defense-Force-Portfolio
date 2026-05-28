@@ -3,8 +3,6 @@ using UnityEngine;
 // 잡몹(Enemy)과는 완전히 분리된, 보스들만의 새로운 최상위 부모 클래스!
 public abstract class BossEnemy : MonoBehaviour, IDamageable
 {
-
-
     [Header("Base References")]
     public Transform playerTarget;
 
@@ -41,7 +39,7 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     [Header("Overlap Block (보스 통과 방지)")]
     public float playerBlockRadius = 1.5f; // 보스 덩치에 맞게 반경을 넓게 설정
-    public float playerBlockHeight = 4.0f;
+    public float playerBlockHeight = 4.0f; // 보스의 키
 
     private float verticalVelocity;
     private bool isGrounded;
@@ -181,7 +179,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             }
         }
 
-
         if (hitGround)
         {
             float heightDiff = targetHeight - transform.position.y;
@@ -218,7 +215,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * dt);
         }
     }
-
 
     public virtual void TakeDamage(DamageInfo damageInfo)
     {
@@ -305,16 +301,14 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         if (hitFlash == null)
             hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
+
     private void DropExpOrbs()
     {
         Vector3 dropPos = transform.position;
         dropPos.y += 0.5f;
-
         if (ExpManager.Instance != null)
         {
-
             ExpManager.Instance.SpawnExp(dropPos, expReward);
-
         }
     }
 
@@ -322,10 +316,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     {
         Vector3 dropPos = transform.position;
         dropPos.y += 0.5f;
-
         if (MoneyManager.Instance != null && playerTarget != null)
             MoneyManager.Instance.SpawnMoney(dropPos, moneyReward, playerTarget);
-
     }
 
     protected virtual void CheckContactDamage(float deltaTime)
@@ -335,7 +327,6 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
             currentContactCooldown -= deltaTime;
         }
 
-        // 보스는 IDamageable을 상속받는 Player를 타겟으로 함
         IDamageable player = playerTarget.GetComponent<IDamageable>();
 
         if (player != null)
@@ -353,57 +344,62 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         }
     }
 
+    // ==========================================
+    // 🛠️ 5개 인자 기반 고도화된 ClipApproach 적용
+    // ==========================================
     private void ClipPlayerOverlap(ref Vector3 horizontalVelocity)
     {
         if (playerTarget == null)
             return;
 
-        // ==========================================
-        // 🚀 [핵심 추가] 보스와 플레이어의 고도(Y축) 차이 계산
-        // ==========================================
-        float yDiff = Mathf.Abs(playerTarget.position.y - transform.position.y);
-
-        // 플레이어가 보스의 키(playerBlockHeight)보다 높이 점프했다면 블록 무시!
-        if (yDiff >= playerBlockHeight)
-        {
-            return; // 겹침 방지 로직을 건너뛰고 그대로 통과시킴
-        }
-
-        // ==========================================
         float playerRadius = EnemyManager.Instance != null
             ? EnemyManager.Instance.PlayerBlockRadius
             : EnemyManager.DefaultPlayerBlockRadius;
 
+        // Utility 함수가 이제 5번째 매개변수로 Y축 고도(playerBlockHeight)를 받아
+        // 알아서 높이 차이를 검사하고 무시해 주므로, 따로 yDiff를 계산할 필요가 없습니다.
         OverlapBlockUtility.ClipApproach(
             ref horizontalVelocity,
             transform.position,
             playerTarget.position,
-            playerBlockRadius + playerRadius);
+            playerBlockRadius + playerRadius,
+            playerBlockHeight); // 🚀 5번째 매개변수로 보스 높이 세팅 적용
     }
 
 #if UNITY_EDITOR
+    // ==========================================
+    // 🛠️ 완벽한 원기둥 모양을 그려주는 기즈모 적용
+    // ==========================================
     private void OnDrawGizmosSelected()
     {
-        // 1. 통과 방지(Overlap Block) 범위 - 빨간색 원기둥 형태
-        Gizmos.color = new Color(1f, 0f, 0f, 0.7f); // 반투명한 빨간색
-
+        Gizmos.color = new Color(1f, 0f, 0f, 0.7f);
         Vector3 basePos = transform.position;
         Vector3 topPos = basePos + (Vector3.up * playerBlockHeight);
 
-        // 아래 바닥과 위쪽 천장을 보여주는 원(구체)
-        Gizmos.DrawWireSphere(basePos, playerBlockRadius);
-        Gizmos.DrawWireSphere(topPos, playerBlockRadius);
+        // 구체 대신 평평한 원형 단면 그리기
+        DrawWireCircle(basePos, playerBlockRadius);
+        DrawWireCircle(topPos, playerBlockRadius);
 
-        // 원기둥의 형태를 잡아주는 4개의 기둥 선
         Gizmos.DrawLine(basePos + Vector3.forward * playerBlockRadius, topPos + Vector3.forward * playerBlockRadius);
         Gizmos.DrawLine(basePos - Vector3.forward * playerBlockRadius, topPos - Vector3.forward * playerBlockRadius);
         Gizmos.DrawLine(basePos + Vector3.right * playerBlockRadius, topPos + Vector3.right * playerBlockRadius);
         Gizmos.DrawLine(basePos - Vector3.right * playerBlockRadius, topPos - Vector3.right * playerBlockRadius);
 
-        // 2. 몸통 충돌(Contact Damage) 판정 범위 - 노란색 구체
-        // (보스 스크립트인 경우 아래 변수가 ContactRange일 수 있으니 변수명에 맞게 조절하세요)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, contactRange);
+    }
+
+    private void DrawWireCircle(Vector3 center, float radius)
+    {
+        int segments = 24;
+        Vector3 lastPos = center + new Vector3(radius, 0, 0);
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = i * (360f / segments) * Mathf.Deg2Rad;
+            Vector3 newPos = center + new Vector3(Mathf.Cos(angle) * radius, 0, Mathf.Sin(angle) * radius);
+            Gizmos.DrawLine(lastPos, newPos);
+            lastPos = newPos;
+        }
     }
 #endif
 }

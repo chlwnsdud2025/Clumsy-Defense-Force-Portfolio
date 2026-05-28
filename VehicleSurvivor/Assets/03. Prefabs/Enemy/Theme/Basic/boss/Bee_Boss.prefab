@@ -53,13 +53,13 @@ MonoBehaviour:
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 6720801822484076126}
   displayName: "\uAFC0\uBC8C\uC774"
-  maxHealth: 1000
+  maxHealth: 3000
   moveSpeed: 2
   rotationSpeed: 10
   contactRange: 3.6
   contactCooltime: 1.09
-  expReward: 10
-  moneyReward: 10
+  expReward: 100
+  moneyReward: 1000
   contactDamage: 30
   groundLayer:
     serializedVersion: 2

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5413531643696276268}
   - component: {fileID: 678818853216400634}
-  - component: {fileID: 5400278059820215609}
   m_Layer: 0
   m_Name: BossEnemytype_1 (7)
   m_TagString: Untagged
@@ -56,49 +55,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5400278059820215609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4415725177970483417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92dd927c3e661c8488d2e3709115469f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
-  playerTarget: {fileID: 0}
-  maxHealth: 10
-  moveSpeed: 2
-  rotationSpeed: 2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  raycastStartHeight: 50
-  raycastDistance: 100
-  fastStepSpeed: 25
-  slowClimbSpeed: 5
-  gravity: -20
-  attackCooltime: 2.5
-  playerLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  telegraphPrefab: {fileID: 4138664138650669604, guid: 1d557602a1698684284c9c32f4a68d64, type: 3}
-  baseDamage: 30
-  baseRadius: 3.5
-  telegraphDuration: 0.7
-  explosionEffectPrefab: {fileID: 0}
-  timeBetweenPhases: 0.7
-  trackingCount: 10
-  trackingInterval: 0.5
-  coneRows: 10
-  rowForwardSpacing: 8
-  circleSideSpacing: 6
-  coneRowTelegraphDelay: 0.4
-  lineCount: 15
-  lineForwardSpacing: 5
-  lineTelegraphDelay: 0.2
 --- !u!1 &4615792951892988626
 GameObject:
   m_ObjectHideFlags: 0

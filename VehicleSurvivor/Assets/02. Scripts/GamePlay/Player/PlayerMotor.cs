@@ -336,11 +336,14 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             for (int i = 0; i < _nearbyEnemyBuffer.Count; i++)
             {
                 Enemy enemy = _nearbyEnemyBuffer[i];
+
+                // 🚀 [핵심 수정 1] 5번째 매개변수로 몬스터의 키(playerBlockHeight)를 넘겨줍니다!
                 OverlapBlockUtility.ClipApproach(
                     ref velocity,
                     selfPosition,
                     enemy.transform.position,
-                    blockRadius + enemy.playerBlockRadius);
+                    blockRadius + enemy.playerBlockRadius,
+                    enemy.playerBlockHeight);
             }
         }
 
@@ -351,11 +354,17 @@ public class PlayerMotor : MonoBehaviour, ICharacterController
             if (entry.Transform == null)
                 continue;
 
+            // 🚀 [핵심 수정 2] 장애물(Blockable)도 높이 제한을 추가합니다.
+            // 만약 BlockableEntry에 높이 변수가 따로 없다면, 임시로 2.0f 같은 기본값을 주거나
+            // 향후 BlockableEntry 스크립트에 BlockHeight 변수를 추가해 주시면 완벽합니다.
+            float obstacleHeight = 2.0f; // 임시 높이값 (장애물 키)
+
             OverlapBlockUtility.ClipApproach(
                 ref velocity,
                 selfPosition,
                 entry.Transform.position,
-                blockRadius + entry.BlockRadius);
+                blockRadius + entry.BlockRadius,
+                obstacleHeight);
         }
     }
 

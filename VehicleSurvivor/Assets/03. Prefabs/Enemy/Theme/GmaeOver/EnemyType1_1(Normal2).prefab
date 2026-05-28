@@ -224,13 +224,19 @@ MonoBehaviour:
   damageTextSpawnpoint: {fileID: 838059249022389571}
   originPool: {fileID: 0}
   moveSpeed: 5
-  maxHealth: 50
+  maxHealth: 100
   rotationSpeed: 2
   expReward: 1
+  moneyReward: 15
   separationRadius: 1
   separationWeight: 1
-  attackRange: 1
-  attackCooltime: 2
+  playerBlockRadius: 0.8
+  playerBlockHeight: 2
+  contactDamage: 10
+  contactRange: 1.5
+  contactCooltime: 1
+  patternRange: 5
+  patternCooltime: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -238,8 +244,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 0}
 --- !u!1001 &5959837149228697161
 PrefabInstance:
   m_ObjectHideFlags: 0
