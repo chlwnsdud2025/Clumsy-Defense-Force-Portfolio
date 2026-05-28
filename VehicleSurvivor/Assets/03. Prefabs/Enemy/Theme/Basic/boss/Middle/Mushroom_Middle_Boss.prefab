@@ -82,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MushRoom_Middle_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 648285832785986120}
-  displayName: Mushroom king
+  displayName: "\uBC84\uC12F\uC774"
   maxHealth: 200
   moveSpeed: 7
   rotationSpeed: 3
@@ -99,6 +99,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 1.5
+  playerBlockHeight: 4
   attackCooltime: 999
   hitFlash: {fileID: 3345883958716556087}
 --- !u!136 &3523250418413494967

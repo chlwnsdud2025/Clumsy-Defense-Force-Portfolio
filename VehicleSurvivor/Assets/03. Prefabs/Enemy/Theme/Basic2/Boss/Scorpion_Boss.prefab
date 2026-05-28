@@ -976,7 +976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scorpion_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 2841512129314865220}
-  displayName: Scorpion King
+  displayName: "\uC804\uAC08\uC774"
   maxHealth: 30
   moveSpeed: 5
   rotationSpeed: 3

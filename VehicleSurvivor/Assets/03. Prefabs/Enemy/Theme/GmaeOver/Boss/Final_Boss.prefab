@@ -5614,7 +5614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MecaBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 7677211998866077695}
-  displayName: Nightmare King
+  displayName: "\uC545\uBABD\uC774"
   maxHealth: 100
   moveSpeed: 2
   rotationSpeed: 2
@@ -5631,6 +5631,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 1.5
+  playerBlockHeight: 4
   attackCooltime: 2.5
   hitFlash: {fileID: 7756159360588242436}
   playerLayerMask:

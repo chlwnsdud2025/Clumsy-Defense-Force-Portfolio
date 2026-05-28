@@ -494,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Geezer
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 1205074186043561273}
-  displayName: Planta_Geezer
+  displayName: "\uC0B0\uC0BC\uB178\uC778"
   maxHealth: 30
   moveSpeed: 8
   rotationSpeed: 3
@@ -1294,7 +1294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TwinBoss_Queen
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 9051413299716602695}
-  displayName: Planta_Queen
+  displayName: "\uC0B0\uC0BC\uC5EC\uC655"
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3

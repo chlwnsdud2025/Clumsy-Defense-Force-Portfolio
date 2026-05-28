@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeeMidBoss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 6720801822484076126}
-  displayName: Bee_King
+  displayName: "\uAFC0\uBC8C\uC774"
   maxHealth: 1000
   moveSpeed: 2
   rotationSpeed: 10

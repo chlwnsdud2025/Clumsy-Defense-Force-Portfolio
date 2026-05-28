@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Rock_Golem_Middle_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 4500637288152994137}
-  displayName: Golem King
+  displayName: "\uACE8\uB818\uC774"
   maxHealth: 10
   moveSpeed: 3
   rotationSpeed: 3
@@ -91,6 +91,8 @@ MonoBehaviour:
   fastStepSpeed: 25
   slowClimbSpeed: 5
   gravity: -20
+  playerBlockRadius: 1.5
+  playerBlockHeight: 4
   attackCooltime: 4
   hitFlash: {fileID: 3399125898996550414}
   playerLayerMask:

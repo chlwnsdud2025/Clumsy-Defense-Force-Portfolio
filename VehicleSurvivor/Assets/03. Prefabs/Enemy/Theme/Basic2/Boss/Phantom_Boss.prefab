@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Phantom_Boss
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 8566155135462255924}
-  displayName: Phantom King
+  displayName: "\uC720\uB839\uC774"
   maxHealth: 30
   moveSpeed: 3
   rotationSpeed: 3
