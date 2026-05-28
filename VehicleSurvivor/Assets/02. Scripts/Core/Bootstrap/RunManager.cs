@@ -52,13 +52,6 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
         ActivateRunSession();
         PublishInitialHudEvents();
-
-        if (SoundManager.TryGetInstance(out SoundManager soundManager) &&
-            soundManager.TryGetComponent(out SoundBgmController bgmController))
-        {
-            bgmController.ResetRunState();
-            bgmController.PlayInGameBgm();
-        }
     }
 
     public void EndRun()
@@ -332,6 +325,11 @@ public class RunManager : MonoSceneSingleton<RunManager>
 
     private void HandleRunStateChanged(ERunState previousState, ERunState nextState)
     {
+        if (nextState == ERunState.RewardSelection)
+            SoundPlayback.SetBgmDuck(0.5f);
+        else if (previousState == ERunState.RewardSelection)
+            SoundPlayback.SetBgmDuck(1f);
+
         if (nextState == ERunState.RewardSelection ||
             nextState == ERunState.Paused ||
             nextState == ERunState.GameOver)

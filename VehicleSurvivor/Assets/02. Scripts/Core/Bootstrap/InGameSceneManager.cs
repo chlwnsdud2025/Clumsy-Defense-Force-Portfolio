@@ -106,6 +106,7 @@ public class InGameSceneManager : MonoSceneSingleton<InGameSceneManager>
             }
 
             runManager.StartRun(selectedCharacter, spawnedPlayer);
+            SoundPlayback.PlayBgm(EBgmId.BGM_InGame_Normal);
 
             IsSceneInitialized = true;
         }

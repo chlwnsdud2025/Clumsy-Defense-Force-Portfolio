@@ -37,6 +37,7 @@ public class TitleSceneManager : MonoSceneSingleton<TitleSceneManager>
             return;
         }
 
+        SoundPlayback.PlayBgm(EBgmId.BGM_Title);
         UIManager.Instance.ShowScene(ESceneUIType.Title);
         IsSceneInitialized = true;
     }

@@ -94,6 +94,7 @@ public class GameManager : MonoSingleton<GameManager>
                 BeforeLoadAsync = () =>
                 {
                     UIManager.Instance.CloseCurrentSceneAndAllPopups();
+                    SoundManager.Instance.StopBgm();
                     return UniTask.CompletedTask;
                 },
                 AfterSceneActivatedAsync = async () =>
@@ -109,12 +110,12 @@ public class GameManager : MonoSingleton<GameManager>
 
                 ChangeState(EGameFlowState.CharacterSelect);
                 UIManager.Instance.ShowScene(ESceneUIType.CharacterSelect);
+                SoundPlayback.PlayBgm(EBgmId.BGM_Title);
                 return;
             }
 
             ChangeState(EGameFlowState.InGame);
-
-            // 인게임 초기화는 InGameSceneManager.InitializeSceneAsync(Start + AfterSceneActivated)에서 처리합니다.
+            SoundPlayback.PlayBgm(EBgmId.BGM_InGame_Normal);
         }
         finally
         {
@@ -148,6 +149,7 @@ public class GameManager : MonoSingleton<GameManager>
                         runManager.EndRun();
 
                     UIManager.Instance.CloseCurrentSceneAndAllPopups();
+                    SoundManager.Instance.StopBgm();
 
                     return UniTask.CompletedTask;
                 }
@@ -160,6 +162,7 @@ public class GameManager : MonoSingleton<GameManager>
             }
 
             ChangeState(EGameFlowState.Title);
+            SoundPlayback.PlayBgm(EBgmId.BGM_Title);
 
             // Title UI 표시는 TitleSceneManager.Start()에서 처리.
             // 여기서 ShowScene(Title)을 또 호출하면 중복 호출 흐름이 생길 수 있음.

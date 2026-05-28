@@ -227,6 +227,8 @@ public class UI_CharacterSelect : UIScene
 
     public void OnClickStartGame()
     {
+        PlayUIClickSfx();
+
         if (characterService == null)
             characterService = ServiceLocator.Get<ICharacterService>();
 
