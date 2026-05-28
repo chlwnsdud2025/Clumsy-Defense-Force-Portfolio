@@ -23,6 +23,5 @@ MonoBehaviour:
   - targetPool: {fileID: 11400000, guid: 4ab81df858ab4ae47a98ce3cfc105ec3, type: 2}
     spawnWeight: 1
     spawnAsPurePack: 0
-  miniBossPrefabs:
-  - {fileID: 4971881291278405673, guid: 6b720a57627dab24c88f7796afc6fec4, type: 3}
+  miniBossPrefabs: []
   miniBossCount: 1

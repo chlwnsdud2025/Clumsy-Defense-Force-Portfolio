@@ -48,6 +48,9 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
     public float attackCooltime = 4.0f;
     protected float currentAttackCooldown;
 
+
+    protected bool isDead = false;
+
     private RaycastHit[] hitBuffer = new RaycastHit[10];
     protected bool isCastingPattern = false;
 
@@ -218,6 +221,8 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(DamageInfo damageInfo)
     {
+        if (isDead) return;
+
         DamageInfo finalDamageInfo = ItemSpecialEffectService.ApplyOnEnemyHit(this, damageInfo);
         currentHealth -= finalDamageInfo.Amount;
 
@@ -236,6 +241,11 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
+        if (isDead) return;
+
+
+        isDead = true;
+
         hitFlash?.ResetFlash();
         Debug.Log($"{gameObject.name} 보스 처치 완료!");
 

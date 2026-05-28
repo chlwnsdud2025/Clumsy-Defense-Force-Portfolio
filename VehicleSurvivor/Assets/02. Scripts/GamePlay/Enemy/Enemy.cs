@@ -80,6 +80,8 @@ public class Enemy : MonoBehaviour, IDamageable
     private float cachedTargetHeight;
     private bool cachedHitGround;
 
+
+    protected bool isDead = false;
     private void Awake()
     {
         ResolveHitFlash();
@@ -93,6 +95,8 @@ public class Enemy : MonoBehaviour, IDamageable
         transform.position = spawnPosition;
         gameObject.SetActive(true);
         currentHealth = maxHealth;
+        isDead = false;
+
 
         // 쿨타임 초기화
         currentContactCooldown = 0f;
@@ -321,6 +325,10 @@ public class Enemy : MonoBehaviour, IDamageable
     // --- (TakeDamage, Die 등 기타 함수 동일) ---
     public virtual void TakeDamage(DamageInfo damageInfo)
     {
+
+        if (isDead) return;
+
+
         DamageInfo finalDamageInfo = ItemSpecialEffectService.ApplyOnEnemyHit(this, damageInfo);
         currentHealth -= finalDamageInfo.Amount;
         SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Hit);
@@ -338,6 +346,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public virtual void Die()
     {
+        if (isDead) return;
+
+        isDead = true;
         hitFlash?.ResetFlash();
         SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Death);
         DropExpOrbs();
