@@ -34,7 +34,7 @@ MonoBehaviour:
     tickInterval: 0.5
     range: 6
     bulletSpeed: 10
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6
     bounceCount: 3
     pierceCount: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
     tickInterval: 0.5
     range: 6
     bulletSpeed: 10.5
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6
     bounceCount: 3
     pierceCount: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     tickInterval: 0.5
     range: 6.5
     bulletSpeed: 10.5
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6.5
     bounceCount: 3
     pierceCount: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
     tickInterval: 0.5
     range: 6.5
     bulletSpeed: 11
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 6.5
     bounceCount: 3
     pierceCount: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
     tickInterval: 0.5
     range: 7
     bulletSpeed: 11
-    spreadAngle: 0
+    spreadAngle: 12
     radius: 7
     bounceCount: 3
     pierceCount: 0
