@@ -96261,8 +96261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f62de48b977314f82a1c975c92441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleBouncer
-  bounceForce: 25
-  bounceHeight: 2
+  bounceForce: 10
+  bounceHeight: 1
 --- !u!1 &4487071150206445044
 GameObject:
   m_ObjectHideFlags: 0
@@ -122391,8 +122391,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f62de48b977314f82a1c975c92441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleBouncer
-  bounceForce: 25
-  bounceHeight: 2
+  bounceForce: 10
+  bounceHeight: 1
 --- !u!1 &5409124595450891697
 GameObject:
   m_ObjectHideFlags: 0
@@ -160390,8 +160390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f62de48b977314f82a1c975c92441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleBouncer
-  bounceForce: 25
-  bounceHeight: 2
+  bounceForce: 10
+  bounceHeight: 1
 --- !u!1 &7179110967642749400
 GameObject:
   m_ObjectHideFlags: 0

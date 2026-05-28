@@ -827,7 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3c2d1e4b5476f9a0b1c2d3e4f5a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
-  Mover: {fileID: 967030319}
+  Mover: {fileID: 0}
   rotationAxis: 1
   rotationSpeed: 500
 --- !u!114 &485161743
@@ -1485,50 +1485,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 310564771}
   m_SourcePrefab: {fileID: 100100000, guid: 95874132a61e9d949b83493220e73ab8, type: 3}
---- !u!114 &967030318 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8521836092933290520, guid: 95874132a61e9d949b83493220e73ab8, type: 3}
-  m_PrefabInstance: {fileID: 967030317}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1964464044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075ccbe9837b0744985e09ba3f015b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KinematicCharacterController.PhysicsMover
---- !u!114 &967030319 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7591735137841988324, guid: 95874132a61e9d949b83493220e73ab8, type: 3}
-  m_PrefabInstance: {fileID: 967030317}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485161735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075ccbe9837b0744985e09ba3f015b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KinematicCharacterController.PhysicsMover
---- !u!114 &967030320 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 242390548710313295, guid: 95874132a61e9d949b83493220e73ab8, type: 3}
-  m_PrefabInstance: {fileID: 967030317}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1847186868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075ccbe9837b0744985e09ba3f015b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KinematicCharacterController.PhysicsMover
---- !u!114 &967030321 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7981949894542327293, guid: 95874132a61e9d949b83493220e73ab8, type: 3}
-  m_PrefabInstance: {fileID: 967030317}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1878829491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075ccbe9837b0744985e09ba3f015b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KinematicCharacterController.PhysicsMover
 --- !u!1 &1135997120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1937,7 +1893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3c2d1e4b5476f9a0b1c2d3e4f5a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
-  Mover: {fileID: 967030320}
+  Mover: {fileID: 0}
   rotationAxis: 1
   rotationSpeed: 500
 --- !u!114 &1847186876
@@ -2032,7 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3c2d1e4b5476f9a0b1c2d3e4f5a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
-  Mover: {fileID: 967030321}
+  Mover: {fileID: 0}
   rotationAxis: 1
   rotationSpeed: 500
 --- !u!114 &1878829499
@@ -2127,7 +2083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f3c2d1e4b5476f9a0b1c2d3e4f5a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KccRotationPlatform
-  Mover: {fileID: 967030318}
+  Mover: {fileID: 0}
   rotationAxis: 1
   rotationSpeed: 500
 --- !u!114 &1964464052
@@ -2286,7 +2242,7 @@ MonoBehaviour:
   - {fileID: 4415725177970483417, guid: 8438b1eef12bc22449a182479d2b16a4, type: 3}
   - {fileID: 4677578714304132432, guid: cbad1387823d824479568d6ce328de08, type: 3}
   currentPhaseIndex: 0
-  debugSkipToFinalBoss: 0
+  debugSkipToFinalBoss: 1
   defaultSkybox: {fileID: 2100000, guid: 33ab377b49aa14f6fae6e5bac230a5d4, type: 2}
   bossSkybox: {fileID: 2100000, guid: ab675e6698bde46fd87143fb0d7580cb, type: 2}
   finalPortalPrefab: {fileID: 1762032885312882881, guid: 5f6c75182f81e6749b6bab2064b1840e, type: 3}
