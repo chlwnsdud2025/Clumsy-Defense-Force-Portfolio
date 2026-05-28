@@ -79,10 +79,16 @@ MonoBehaviour:
   maxHealth: 50
   rotationSpeed: 2
   expReward: 1
+  moneyReward: 15
   separationRadius: 1
   separationWeight: 1
-  attackRange: 20
-  attackCooltime: 3
+  playerBlockRadius: 0.53
+  playerBlockHeight: 1.34
+  contactDamage: 10
+  contactRange: 1.5
+  contactCooltime: 1
+  patternRange: 5
+  patternCooltime: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -90,8 +96,8 @@ MonoBehaviour:
   raycastDistance: 100
   fastStepSpeed: 25
   slowClimbSpeed: 3
-  contactDamage: 10
   gravity: -20
+  hitFlash: {fileID: 0}
   bulletPrefab: {fileID: 9221311787326238095, guid: eb8e9c86143f2494da1abe5d08b4a7e7, type: 3}
   firePoint: {fileID: 2256778290825846030}
   bulletArcHeight: 2

@@ -13,24 +13,18 @@ MonoBehaviour:
   m_Name: WD_CarrotCannon
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
   weaponId: weapon_unique_carrot_cannon
-  weaponName: "당근 캐논"
-  description: "가장 가까운 적에게 단단한 당근 투사체를 발사합니다."
+  weaponName: "\uB2F9\uADFC \uCE90\uB17C"
+  description: "\uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uC801\uC5D0\uAC8C \uB2E8\uB2E8\uD55C
+    \uB2F9\uADFC \uD22C\uC0AC\uCCB4\uB97C \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 9518bf90574f11b4d936bb57918f26a8, type: 3}
   weaponPrefab: {fileID: 8679608512364102798, guid: 860c59aebc90474448e6fa0c3d6262da, type: 3}
   weaponType: 0
   tags:
-  - "투사체"
-  - "단일타겟"
-  - "장난감"
+  - "\uD22C\uC0AC\uCCB4"
+  - "\uB2E8\uC77C\uD0C0\uAC9F"
+  - "\uC7A5\uB09C\uAC10"
   levelDataList:
-  - bulletSpeed: 10
-    spreadAngle: 0
-    radius: 6
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 1
-    meteorDelay: 1
-    description: "Lv1: 투사체 1개"
+  - description: "Lv1: \uD22C\uC0AC\uCCB4 1\uAC1C"
     cooldown: 1
     damage: 10
     projectileSpeed: 10
@@ -39,14 +33,22 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.5
     range: 6
-  - bulletSpeed: 10.5
+    bulletSpeed: 10
     spreadAngle: 0
     radius: 6
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "Lv2: 피해량 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv2: \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 1
     damage: 12
     projectileSpeed: 10.5
@@ -55,14 +57,22 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.5
     range: 6
-  - bulletSpeed: 10.5
+    bulletSpeed: 10.5
     spreadAngle: 0
-    radius: 6.5
+    radius: 6
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "Lv3: 투사체 +1"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv3: \uD22C\uC0AC\uCCB4 +1"
     cooldown: 0.95
     damage: 12
     projectileSpeed: 10.5
@@ -71,14 +81,22 @@ MonoBehaviour:
     projectileCount: 2
     tickInterval: 0.5
     range: 6.5
-  - bulletSpeed: 11
+    bulletSpeed: 10.5
     spreadAngle: 0
     radius: 6.5
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "Lv4: 피해량 증가"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv4: \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.9
     damage: 15
     projectileSpeed: 11
@@ -87,14 +105,22 @@ MonoBehaviour:
     projectileCount: 2
     tickInterval: 0.5
     range: 6.5
-  - bulletSpeed: 11
+    bulletSpeed: 11
     spreadAngle: 0
-    radius: 7
+    radius: 6.5
+    bounceCount: 3
+    pierceCount: 0
     chainCount: 0
     chainRadius: 0
     explosionRadius: 1
     meteorDelay: 1
-    description: "Lv5: 투사체 +1"
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv5: \uD22C\uC0AC\uCCB4 +1"
     cooldown: 0.85
     damage: 15
     projectileSpeed: 11
@@ -103,6 +129,20 @@ MonoBehaviour:
     projectileCount: 3
     tickInterval: 0.5
     range: 7
+    bulletSpeed: 11
+    spreadAngle: 0
+    radius: 7
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
   evolutionWeaponId: weapon_evolved_rabbit_strike
   requiredBadgeId: badge_attack_power
-

@@ -137,6 +137,8 @@ MonoBehaviour:
   moneyReward: 15
   separationRadius: 1.5
   separationWeight: 0.5
+  playerBlockRadius: 0.8
+  playerBlockHeight: 0.9
   contactDamage: 10
   contactRange: 1
   contactCooltime: 1

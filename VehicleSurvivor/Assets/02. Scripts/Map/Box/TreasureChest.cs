@@ -10,6 +10,11 @@ public class TreasureChest : MonoBehaviour
     [SerializeField] private Color goldAffordableColor = Color.white;
     [SerializeField] private Color goldUnaffordableColor = Color.red;
 
+
+    [Header("Respawn Settings")]
+    [Tooltip("체크하면 맵에 기본 배치된 상자로 간주되어, 열린 후에도 다음 페이즈에 리스폰됩니다.")]
+    public bool isMapDefaultChest = false;
+
     private Animator chestAnimator;
     private IEventBus eventBus;
     private Billboard promptBillboard;
@@ -154,11 +159,16 @@ public class TreasureChest : MonoBehaviour
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.BeginChestReward();
 
-        // 🌟 [수정] 상자가 열렸음을 매니저에 알리고 현재 월드 위치/회전값을 넘겨줍니다.
-        if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
-            stageRunManager.HandleChestOpened(transform.position, transform.rotation);
+        // ==========================================
+        // 🌟 [핵심 수정] 맵에 배치된 전용 상자일 때만 매니저에 리스폰 위치를 보고합니다!
+        // ==========================================
+        if (isMapDefaultChest)
+        {
+            if (StageRunManager.TryGetInstance(out StageRunManager stageRunManager))
+                stageRunManager.HandleChestOpened(transform.position, transform.rotation);
+        }
 
-        // 🌟 [수정] 상자가 열리는 애니메이션 연출이 끝날 수 있도록 1.5초 후에 오브젝트를 파괴(제거)합니다.
+        // 상자가 열리는 애니메이션 연출이 끝날 수 있도록 1.5초 후에 오브젝트를 파괴(제거)합니다.
         Destroy(gameObject, 1.5f);
     }
 

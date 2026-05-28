@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("Overlap Block")]
     public float playerBlockRadius = 0.8f;
+    public float playerBlockHeight = 2.0f;
 
     // ==========================================
     // 💥 [핵심 분리 1] 몸통 충돌(Contact) 세팅
@@ -307,7 +308,22 @@ public class Enemy : MonoBehaviour, IDamageable
         if (playerTarget == null)
             return;
 
+        // ==========================================
+        // 🚀 [핵심 추가] 플레이어와 몬스터의 고도(Y축) 차이 계산
+        // ==========================================
+        float yDiff = Mathf.Abs(playerTarget.position.y - transform.position.y);
+
+        // 플레이어와 높이 차이가 몬스터의 키(playerBlockHeight)보다 크다면?
+        // -> "플레이어가 내 머리 위로 점프했구나!" 하고 블록 처리를 아예 무시해버립니다.
+        if (yDiff >= playerBlockHeight)
+        {
+            return; // ClipApproach를 실행하지 않고 그대로 통과시킴!
+        }
+
+        // ==========================================
+        // 높이 차이가 키보다 작을 때(같은 평면에 있을 때)만 기존처럼 밀어내기 적용
         float playerRadius = myManager != null ? myManager.PlayerBlockRadius : EnemyManager.DefaultPlayerBlockRadius;
+
         OverlapBlockUtility.ClipApproach(
             ref horizontalVelocity,
             transform.position,
@@ -364,4 +380,31 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         if (hitFlash == null) hitFlash = gameObject.GetOrAddComponent<HitFlashEffect>();
     }
+
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        // 1. 통과 방지(Overlap Block) 범위 - 빨간색 원기둥 형태
+        Gizmos.color = new Color(1f, 0f, 0f, 0.7f); // 반투명한 빨간색
+
+        Vector3 basePos = transform.position;
+        Vector3 topPos = basePos + (Vector3.up * playerBlockHeight);
+
+        // 아래 바닥과 위쪽 천장을 보여주는 원(구체)
+        Gizmos.DrawWireSphere(basePos, playerBlockRadius);
+        Gizmos.DrawWireSphere(topPos, playerBlockRadius);
+
+        // 원기둥의 형태를 잡아주는 4개의 기둥 선
+        Gizmos.DrawLine(basePos + Vector3.forward * playerBlockRadius, topPos + Vector3.forward * playerBlockRadius);
+        Gizmos.DrawLine(basePos - Vector3.forward * playerBlockRadius, topPos - Vector3.forward * playerBlockRadius);
+        Gizmos.DrawLine(basePos + Vector3.right * playerBlockRadius, topPos + Vector3.right * playerBlockRadius);
+        Gizmos.DrawLine(basePos - Vector3.right * playerBlockRadius, topPos - Vector3.right * playerBlockRadius);
+
+        // 2. 몸통 충돌(Contact Damage) 판정 범위 - 노란색 구체
+        // (보스 스크립트인 경우 아래 변수가 ContactRange일 수 있으니 변수명에 맞게 조절하세요)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, contactRange);
+    }
+#endif
 }
