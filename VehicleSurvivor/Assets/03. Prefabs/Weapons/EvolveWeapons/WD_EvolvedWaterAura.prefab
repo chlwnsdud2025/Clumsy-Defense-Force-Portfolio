@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4313490517861739103}
   - component: {fileID: 7603901340937922460}
   m_Layer: 3
-  m_Name: WD_SleepingStarlight
+  m_Name: WD_EvolvedWaterAura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,4 +72,6 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon_evolved_sleeping_starlight
   weaponName: "\uCE58\uBA85\uC801\uC778 \uADC0\uC5EC\uC6C0"
-  auraEffectPrefab: {fileID: 5766691976136461342, guid: 43d1d06cf70fcb2488255051aaae40a5, type: 3}
+  auraEffectPrefab: {fileID: 2574727718275705088, guid: 6d0f599f53ab3164ba51d07b4810b28a, type: 3}
+  visualScaleMultiplier: 2
+  yOffset: -0.5
