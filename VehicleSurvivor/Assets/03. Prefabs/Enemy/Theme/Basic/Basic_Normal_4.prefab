@@ -133,7 +133,7 @@ MonoBehaviour:
   damageTextSpawnpoint: {fileID: 8993950379998857686}
   originPool: {fileID: 0}
   moveSpeed: 5
-  maxHealth: 300
+  maxHealth: 150
   rotationSpeed: 2
   expReward: 15
   moneyReward: 15
