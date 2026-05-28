@@ -155,8 +155,9 @@ public class PlayerStatsPanel : MonoBehaviour
             case EStatType.HealthRegen:
             case EStatType.Defense:
             case EStatType.ProjectileCount:
-            case EStatType.Luck:
                 return Mathf.RoundToInt(value).ToString();
+            case EStatType.Luck:
+                return $"{Mathf.RoundToInt(value * 100f)}%";
             case EStatType.CooldownReduction:
                 return $"{Mathf.RoundToInt(Mathf.Clamp01(value) * 100f)}%";
             case EStatType.CriticalChance:

@@ -6,6 +6,7 @@ public sealed class RewardSystem
     private readonly WeaponDatabaseSO weaponDatabase;
     private readonly BadgeTableSO badgeTable;
     private readonly ItemTableSO itemTable;
+    private readonly WeaponEvolutionService weaponEvolutionService = new();
     private const float DefaultRewardWeight = 1f;
     private const float OwnedWeaponUpgradeWeight = 3f;
     private static readonly Dictionary<EItemRarity, float> ChestRarityWeights = new()
@@ -31,6 +32,10 @@ public sealed class RewardSystem
 
         if (player != null)
         {
+            AddEvolutionCandidates(player, candidates);
+            if (candidates.Count > 0)
+                return PickRandom(candidates, 1);
+
             AddOwnedWeaponUpgradeCandidates(player, candidates);
             AddOwnedBadgeUpgradeCandidates(player, candidates);
             AddNewWeaponCandidates(player, candidates);
@@ -73,6 +78,24 @@ public sealed class RewardSystem
         }
     }
 
+    private void AddEvolutionCandidates(PlayerRuntime player, List<RewardOption> candidates)
+    {
+        if (weaponDatabase == null)
+            return;
+
+        foreach (WeaponInstance weapon in player.Inventory.Weapons)
+        {
+            if (!weaponEvolutionService.CanEvolveWeapon(player, weapon))
+                continue;
+
+            WeaponDefinitionSO evolutionWeapon = weaponDatabase.GetWeaponOrNull(weapon.Definition.EvolutionWeaponId);
+            if (evolutionWeapon == null)
+                continue;
+
+            candidates.Add(RewardOption.WeaponEvolutionReward(evolutionWeapon, weapon.Definition.WeaponId));
+        }
+    }
+
     private void AddOwnedBadgeUpgradeCandidates(PlayerRuntime player, List<RewardOption> candidates)
     {
         foreach (BadgeInstance badge in player.Inventory.Badges)
@@ -94,7 +117,8 @@ public sealed class RewardSystem
         {
             if (IsValidNewWeaponReward(weapon) &&
                 !weaponDatabase.IsEvolutionWeapon(weapon) &&
-                !HasWeapon(player, weapon.WeaponId))
+                !HasWeapon(player, weapon.WeaponId) &&
+                !HasEvolvedVersionOfWeapon(player, weapon))
             {
                 candidates.Add(RewardOption.WeaponReward(weapon, true, 1));
             }
@@ -148,6 +172,14 @@ public sealed class RewardSystem
         }
 
         return false;
+    }
+
+    private static bool HasEvolvedVersionOfWeapon(PlayerRuntime player, WeaponDefinitionSO weapon)
+    {
+        if (player == null || weapon == null || string.IsNullOrWhiteSpace(weapon.EvolutionWeaponId))
+            return false;
+
+        return HasWeapon(player, weapon.EvolutionWeaponId);
     }
 
     private static bool IsValidOwnedWeaponReward(WeaponInstance weapon)

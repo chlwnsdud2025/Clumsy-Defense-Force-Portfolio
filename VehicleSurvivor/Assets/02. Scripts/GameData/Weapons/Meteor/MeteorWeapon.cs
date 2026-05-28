@@ -36,7 +36,8 @@ public class MeteorWeapon : WeaponBase
             GetFinalWeaponScale(data.ExplosionRadius),
             data.MeteorDelay,
             GetFinalWeaponScale(data.Radius),
-            data.Range
+            data.Range,
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount))
         );
     }
 
@@ -46,7 +47,8 @@ public class MeteorWeapon : WeaponBase
         float explosionRadius,
         float meteorDelay,
         float randomRadius,
-        float safeRange
+        float safeRange,
+        int count
     )
     {
         if (meteorPrefab == null)
@@ -57,6 +59,28 @@ public class MeteorWeapon : WeaponBase
             return;
         }
 
+        for (int i = 0; i < count; i++)
+        {
+            SpawnSingleMeteor(
+                damageInfo,
+                meteorSpeed,
+                explosionRadius,
+                meteorDelay,
+                randomRadius,
+                safeRange
+            );
+        }
+    }
+
+    private void SpawnSingleMeteor(
+        DamageInfo damageInfo,
+        float meteorSpeed,
+        float explosionRadius,
+        float meteorDelay,
+        float randomRadius,
+        float safeRange
+    )
+    {
         Vector2 randomCircle =
             Random.insideUnitCircle.normalized *
             Random.Range(

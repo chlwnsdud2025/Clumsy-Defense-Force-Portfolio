@@ -124,7 +124,7 @@ public sealed class PlayerInventory
         if (index < 0)
             return null;
 
-        WeaponInstance newWeapon = new(newDefinition);
+        WeaponInstance newWeapon = new(newDefinition, true);
         weapons[index] = newWeapon;
         NotifyChanged(EInventoryCategory.Weapon, index);
         return newWeapon;

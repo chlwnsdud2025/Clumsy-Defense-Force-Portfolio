@@ -21,7 +21,8 @@ public class RudolphSleighWeapon : WeaponBase
             GetSleighSpeed(data),
             data.Range,
             data.Radius,
-            data.Size
+            data.Size,
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount))
         );
     }
 
@@ -30,7 +31,8 @@ public class RudolphSleighWeapon : WeaponBase
         float moveSpeed,
         float travelDistance,
         float spawnRadius,
-        float size
+        float size,
+        int count
     )
     {
         if (sleighPrefab == null)
@@ -45,7 +47,26 @@ public class RudolphSleighWeapon : WeaponBase
         if (travelDistance <= 0f)
             travelDistance = 20f;
 
-        // 1. 플레이어 주변 랜덤 위치
+        for (int i = 0; i < count; i++)
+        {
+            SpawnSingleSleigh(
+                damageInfo,
+                moveSpeed,
+                travelDistance,
+                spawnRadius,
+                size
+            );
+        }
+    }
+
+    private void SpawnSingleSleigh(
+        DamageInfo damageInfo,
+        float moveSpeed,
+        float travelDistance,
+        float spawnRadius,
+        float size
+    )
+    {        // 1. 플레이어 주변 랜덤 위치
         Vector2 randomPositionCircle =
             Random.insideUnitCircle.normalized;
 

@@ -11,13 +11,18 @@ public class LoadoutSlot : MonoBehaviour
     private void Awake()
     {
         if (iconImage == null)
-            Debug.LogError($"[LoadoutSlot] {name}의 Icon Image가 할당되지 않았습니다.", this);
+            Debug.LogError($"[LoadoutSlot] {name}??Icon Image가 ?�당?��? ?�았?�니??", this);
 
         if (levelText == null)
-            Debug.LogError($"[LoadoutSlot] {name}의 Level Text가 할당되지 않았습니다.", this);
+            Debug.LogError($"[LoadoutSlot] {name}??Level Text가 ?�당?��? ?�았?�니??", this);
     }
 
     public void Bind(Sprite icon, int level)
+    {
+        Bind(icon, level > 0 ? $"LV {level}" : string.Empty);
+    }
+
+    public void Bind(Sprite icon, string label)
     {
         gameObject.SetActive(true);
 
@@ -27,12 +32,12 @@ public class LoadoutSlot : MonoBehaviour
             iconImage.enabled = icon != null;
         }
 
-        bool showLevel = level > 0;
+        bool showLevel = !string.IsNullOrWhiteSpace(label);
 
         if (levelText != null)
         {
             levelText.gameObject.SetActive(showLevel);
-            levelText.text = showLevel ? $"LV {level}" : string.Empty;
+            levelText.text = showLevel ? label : string.Empty;
         }
     }
 

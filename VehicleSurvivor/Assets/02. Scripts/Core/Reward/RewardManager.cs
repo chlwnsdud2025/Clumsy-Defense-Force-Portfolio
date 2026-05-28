@@ -241,12 +241,20 @@ public class RewardManager : MonoSceneSingleton<RewardManager>
             return false;
         }
 
-        if (!player.Inventory.HasBadge(requiredBadge.BadgeId))
-            player.Inventory.AddOrLevelUpBadge(requiredBadge);
-
-        if (!player.Inventory.HasBadge(requiredBadge.BadgeId))
+        BadgeInstance requiredBadgeInstance = player.Inventory.GetBadge(requiredBadge);
+        while (requiredBadgeInstance == null || !requiredBadgeInstance.IsMaxLevel)
         {
-            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required badge could not be added ({requiredBadge.BadgeId}).");
+            int previousLevel = requiredBadgeInstance != null ? requiredBadgeInstance.CurrentLevel : 0;
+            player.Inventory.AddOrLevelUpBadge(requiredBadge);
+            requiredBadgeInstance = player.Inventory.GetBadge(requiredBadge);
+
+            if (requiredBadgeInstance == null || requiredBadgeInstance.CurrentLevel == previousLevel)
+                break;
+        }
+
+        if (requiredBadgeInstance == null || !requiredBadgeInstance.IsMaxLevel)
+        {
+            Debug.LogWarning($"[RewardManager] Evolution cheat skipped {definition.WeaponId}: required badge is not max level ({requiredBadge.BadgeId}).");
             return false;
         }
 

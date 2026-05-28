@@ -4,6 +4,7 @@ public sealed class WeaponInstance
 {
     public WeaponDefinitionSO Definition { get; }
     public int CurrentLevel { get; private set; }
+    public bool IsEvolution { get; }
     public float CurrentCooldown { get; private set; }
 
     public int MaxLevel => Definition.MaxLevel;
@@ -14,9 +15,10 @@ public sealed class WeaponInstance
 
     public event Action<int> LevelChanged;
 
-    public WeaponInstance(WeaponDefinitionSO definition)
+    public WeaponInstance(WeaponDefinitionSO definition, bool isEvolution = false)
     {
         Definition = definition;
+        IsEvolution = isEvolution;
         CurrentLevel = 1;
         CurrentCooldown = 0f;
     }

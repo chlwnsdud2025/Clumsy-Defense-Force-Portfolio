@@ -7,18 +7,14 @@ public class WD_BearShower : MeteorWeapon
         if (data == null)
             return;
 
-        int bearCount = Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount));
-
-        for (int i = 0; i < bearCount; i++)
-        {
-            SpawnMeteor(
-                GetFinalDamage(data.Damage),
-                GetMeteorSpeed(data),
-                GetFinalWeaponScale(data.ExplosionRadius),
-                data.MeteorDelay,
-                GetFinalWeaponScale(data.Radius),
-                data.Range
-            );
-        }
+        SpawnMeteor(
+            GetFinalDamage(data.Damage),
+            GetMeteorSpeed(data),
+            GetFinalWeaponScale(data.ExplosionRadius),
+            data.MeteorDelay,
+            GetFinalWeaponScale(data.Radius),
+            data.Range,
+            Mathf.Max(1, GetFinalProjectileCount(data.ProjectileCount))
+        );
     }
 }

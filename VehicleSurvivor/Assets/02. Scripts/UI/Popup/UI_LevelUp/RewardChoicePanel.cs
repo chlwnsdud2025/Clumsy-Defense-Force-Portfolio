@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
 {
     private const string NewLevelLabel = "NEW!";
+    private const string EvolutionLevelLabel = "EVOLVE";
 
     [Header("?àÎ≤® ?®ÎÑê ?âÏÉÅ")]
     [SerializeField] private Color newItemLevelTextPanelColor;
@@ -102,7 +103,7 @@ public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
         if (descriptionText != null)
             descriptionText.text = reward.Description;
 
-        ApplyLevelDisplay(reward.IsNew, reward.Level);
+        ApplyLevelDisplay(reward);
         SetSelected(false);
         gameObject.SetActive(true);
     }
@@ -175,14 +176,18 @@ public class RewardChoicePanel : MonoBehaviour, IPointerEnterHandler
         focusScaleTween = null;
     }
 
-    private void ApplyLevelDisplay(bool isNew, int level)
+    private void ApplyLevelDisplay(RewardOption reward)
     {
+        bool isEvolution = reward != null && reward.Type == ERewardType.WeaponEvolution;
+        bool isNew = reward != null && reward.IsNew;
+        int level = reward != null ? reward.Level : 0;
+
         if (levelText != null)
-            levelText.text = isNew ? NewLevelLabel : $"Lv {level}";
+            levelText.text = isEvolution ? EvolutionLevelLabel : isNew ? NewLevelLabel : $"Lv {level}";
 
         if (levelTextPanelImage != null)
         {
-            levelTextPanelImage.color = isNew
+            levelTextPanelImage.color = isNew || isEvolution
                 ? newItemLevelTextPanelColor
                 : normalItemLevelTextPanelColor;
         }

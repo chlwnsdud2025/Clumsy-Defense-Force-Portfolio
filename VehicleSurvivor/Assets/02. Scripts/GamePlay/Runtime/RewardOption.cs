@@ -3,6 +3,7 @@ using UnityEngine;
 public enum ERewardType
 {
     Weapon,
+    WeaponEvolution,
     Badge,
     Item,
     Attack, // 스탯을 레벨업 때 처리하기, 쿨타임, 치명타, 방어력, 체력 등등
@@ -18,6 +19,7 @@ public sealed class RewardOption
     public float HealAmount { get; }
     public bool IsNew { get; }
     public int Level { get; }
+    public string SourceWeaponId { get; }
 
     public EItemRarity ItemRarity => Item?.Rarity ?? EItemRarity.None;
 
@@ -45,6 +47,9 @@ public sealed class RewardOption
         {
             if (Weapon != null)
             {
+                if (Type == ERewardType.WeaponEvolution)
+                    return Weapon.Description;
+
                 if (IsNew)
                     return Weapon.Description;
 
@@ -78,7 +83,7 @@ public sealed class RewardOption
             return null;
         }
     }
-    private RewardOption(ERewardType type, WeaponDefinitionSO weapon, BadgeDefinitionSO badge, ItemDefinitionSO item, float healAmount, bool isNew, int level)
+    private RewardOption(ERewardType type, WeaponDefinitionSO weapon, BadgeDefinitionSO badge, ItemDefinitionSO item, float healAmount, bool isNew, int level, string sourceWeaponId = null)
     {
         Type = type;
         Weapon = weapon;
@@ -87,11 +92,17 @@ public sealed class RewardOption
         HealAmount = healAmount;
         IsNew = isNew;
         Level = level;
+        SourceWeaponId = sourceWeaponId;
     }
 
     public static RewardOption WeaponReward(WeaponDefinitionSO weapon, bool isNew, int level)
     {
         return new RewardOption(ERewardType.Weapon, weapon, null, null, 0f, isNew, level);
+    }
+
+    public static RewardOption WeaponEvolutionReward(WeaponDefinitionSO evolutionWeapon, string sourceWeaponId)
+    {
+        return new RewardOption(ERewardType.WeaponEvolution, evolutionWeapon, null, null, 0f, false, 0, sourceWeaponId);
     }
 
     public static RewardOption BadgeReward(BadgeDefinitionSO badge, bool isNew, int level)

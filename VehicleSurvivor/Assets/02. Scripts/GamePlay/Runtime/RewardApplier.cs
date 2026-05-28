@@ -20,6 +20,8 @@ public sealed class RewardApplier
         {
             case ERewardType.Weapon:
                 return ApplyWeapon(player, reward.Weapon, weaponDatabase, playerWeaponSpawner, owner);
+            case ERewardType.WeaponEvolution:
+                return ApplyWeaponEvolution(player, reward.SourceWeaponId, weaponDatabase, playerWeaponSpawner, owner);
             case ERewardType.Badge:
                 return ApplyBadge(player, reward.Badge, weaponDatabase, playerWeaponSpawner, owner);
             case ERewardType.Item:
@@ -70,7 +72,6 @@ public sealed class RewardApplier
         if (!alreadySpawned && playerWeaponSpawner != null)
             playerWeaponSpawner.TrySpawnWeapon(weapon, owner);
 
-        weaponEvolutionService.TryEvolveAllEligibleWeapons(player, weaponDatabase, playerWeaponSpawner, owner);
         return true;
     }
 
@@ -85,8 +86,22 @@ public sealed class RewardApplier
             return false;
 
         player.Inventory.AddOrLevelUpBadge(definition);
-        weaponEvolutionService.TryEvolveAllEligibleWeapons(player, weaponDatabase, playerWeaponSpawner, owner);
         return true;
+    }
+
+    private bool ApplyWeaponEvolution(
+        PlayerRuntime player,
+        string sourceWeaponId,
+        WeaponDatabaseSO weaponDatabase,
+        PlayerWeaponSpawner playerWeaponSpawner,
+        Transform owner)
+    {
+        return weaponEvolutionService.TryEvolveWeapon(
+            player,
+            sourceWeaponId,
+            weaponDatabase,
+            playerWeaponSpawner,
+            owner);
     }
     private static bool ApplyItem(PlayerRuntime player, ItemDefinitionSO definition)
     {
@@ -289,7 +304,28 @@ public sealed class WeaponEvolutionService
         if (!weapon.IsMaxLevel)
             return false;
 
-        return player.Inventory.HasBadge(definition.RequiredBadgeId);
+        return HasMaxLevelRequiredBadge(player, definition.RequiredBadgeId);
+    }
+
+    public bool TryEvolveWeapon(
+        PlayerRuntime player,
+        string sourceWeaponId,
+        WeaponDatabaseSO weaponDatabase,
+        PlayerWeaponSpawner spawner,
+        Transform owner)
+    {
+        if (player == null || string.IsNullOrWhiteSpace(sourceWeaponId))
+            return false;
+
+        string normalizedId = sourceWeaponId.Trim();
+
+        foreach (WeaponInstance weapon in player.Inventory.Weapons)
+        {
+            if (weapon?.Definition != null && weapon.Definition.WeaponId == normalizedId)
+                return TryEvolveWeapon(player, weapon, weaponDatabase, spawner, owner);
+        }
+
+        return false;
     }
 
     public bool TryEvolveWeapon(
@@ -375,5 +411,25 @@ public sealed class WeaponEvolutionService
         }
 
         return evolvedAny;
+    }
+
+    private static bool HasMaxLevelRequiredBadge(PlayerRuntime player, string requiredBadgeId)
+    {
+        if (player == null || string.IsNullOrWhiteSpace(requiredBadgeId))
+            return false;
+
+        string normalizedId = requiredBadgeId.Trim();
+
+        foreach (BadgeInstance badge in player.Inventory.Badges)
+        {
+            if (badge?.Definition != null &&
+                badge.Definition.BadgeId == normalizedId &&
+                badge.IsMaxLevel)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

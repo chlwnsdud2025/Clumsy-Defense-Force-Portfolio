@@ -37,6 +37,9 @@ public class WeaponBase : MonoBehaviour
             RuntimeData.LevelChanged -= HandleRuntimeLevelChanged;
         }
 
+        if (this.ownerRuntime != null)
+            this.ownerRuntime.Stats.OnStatChanged -= HandleOwnerStatChanged;
+
         Owner = owner;
         OwnerFirePoint = ownerFirePoint;
         RuntimeData = runtimeData;
@@ -52,6 +55,9 @@ public class WeaponBase : MonoBehaviour
             weaponID = RuntimeData.Definition.WeaponId;
             weaponName = RuntimeData.Definition.WeaponName;
         }
+
+        if (this.ownerRuntime != null)
+            this.ownerRuntime.Stats.OnStatChanged += HandleOwnerStatChanged;
 
         OnInitialized();
         OnLevelDataChanged(GetCurrentLevelData());
@@ -203,6 +209,12 @@ public class WeaponBase : MonoBehaviour
         OnLevelDataChanged(GetCurrentLevelData());
     }
 
+    private void HandleOwnerStatChanged(EStatType statType, float oldValue, float newValue)
+    {
+        if (statType == EStatType.ProjectileCount)
+            OnLevelDataChanged(GetCurrentLevelData());
+    }
+
 #if UNITY_EDITOR
     private bool IsUsingEditorTestLevelData()
     {
@@ -235,5 +247,8 @@ public class WeaponBase : MonoBehaviour
         {
             RuntimeData.LevelChanged -= HandleRuntimeLevelChanged;
         }
+
+        if (ownerRuntime != null)
+            ownerRuntime.Stats.OnStatChanged -= HandleOwnerStatChanged;
     }
 }
