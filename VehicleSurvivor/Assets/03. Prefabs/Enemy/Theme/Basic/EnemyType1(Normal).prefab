@@ -131,7 +131,7 @@ MonoBehaviour:
   playerBlockRadius: 0.8
   playerBlockHeight: 0.78
   contactDamage: 10
-  contactRange: 1
+  contactRange: 1.22
   contactCooltime: 1
   patternRange: 0
   patternCooltime: 0

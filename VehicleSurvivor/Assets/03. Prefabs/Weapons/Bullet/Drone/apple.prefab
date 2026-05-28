@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2110109080018203271}
   - component: {fileID: 1375602693825968493}
   - component: {fileID: 4929242010336487165}
-  - component: {fileID: 6183419884781828634}
   - component: {fileID: 4906450315267018465}
+  - component: {fileID: 8713861620965233719}
   m_Layer: 0
   m_Name: apple
   m_TagString: Untagged
@@ -92,28 +92,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6183419884781828634
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6017074683360298223}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3999678221342150853, guid: f208b6ee4995a124699802b3bcfe8f9e, type: 3}
 --- !u!114 &4906450315267018465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +105,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneProjectile
   rotateSpeed: 8
+--- !u!135 &8713861620965233719
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6017074683360298223}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.8414713
+  m_Center: {x: 0.024545133, y: 0.0670242, z: -0.0015927851}
