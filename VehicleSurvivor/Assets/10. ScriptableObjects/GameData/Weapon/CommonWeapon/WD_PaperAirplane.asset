@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponName: "\uC885\uC774\uBE44\uD589\uAE30"
   description: "\uC8FC\uBCC0\uC5D0\uC11C \uC885\uC774\uBE44\uD589\uAE30\uAC00 \uBB34\uC791\uC704
     \uBC29\uD5A5\uC73C\uB85C \uB0A0\uC544\uAC11\uB2C8\uB2E4."
-  icon: {fileID: 21300000, guid: 0631dd2889f5c754995588d2ba5a7107, type: 3}
+  icon: {fileID: 21300000, guid: e16825fb08d94654b85ce04844066a6a, type: 3}
   weaponPrefab: {fileID: 3471973541581513014, guid: 032861ea65f7dde4284cecb7c7fe5a16, type: 3}
   weaponType: 0
   tags:

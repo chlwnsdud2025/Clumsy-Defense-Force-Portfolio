@@ -72,7 +72,7 @@ MonoBehaviour:
     shockwaveAngle: 90
   weaponID: weapon_evolved_paperfold_master
   weaponName: "\uC885\uC774\uC811\uAE30 \uC804\uBB38\uAC00"
-  homingProjectilePrefab: {fileID: 277794150754168136, guid: 6110daff036df3a4aa1d9c995b4341fb, type: 3}
+  homingProjectilePrefab: {fileID: 277794150754168136, guid: 00f6ac930f1a3564da09051f8898a0f2, type: 3}
   shootParticlePrefab: {fileID: 0}
   firePoint: {fileID: 0}
   projectileRotationOffset: {x: 0, y: 0, z: 0}
