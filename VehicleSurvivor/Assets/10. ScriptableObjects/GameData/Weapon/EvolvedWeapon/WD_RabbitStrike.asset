@@ -27,16 +27,16 @@ MonoBehaviour:
   - description: "\uC9C4\uD654 \uC644\uB8CC: \uB2F9\uADFC \uC218\uAC00 \uD06C\uAC8C
       \uC99D\uAC00\uD558\uACE0 \uC801\uC744 \uAD00\uD1B5\uD569\uB2C8\uB2E4."
     cooldown: 0.65
-    damage: 26
+    damage: 30
     projectileSpeed: 14
     duration: 1.5
     size: 2
-    projectileCount: 7
+    projectileCount: 15
     tickInterval: 0.4
-    range: 9
+    range: 15
     bulletSpeed: 14
     spreadAngle: 12
-    radius: 9
+    radius: 15
     bounceCount: 3
     pierceCount: 10
     chainCount: 0

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
-  m_Name: WD_BearShower
+  m_Name: WD_KingBearDrop
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_evolved_bear_shower
-  weaponName: "베어 샤워"
-  description: "젤리곰이 더 자주 떨어지고 낙하 범위가 증가합니다."
-  icon: {fileID: 21300000, guid: 84880b7d082a21d4dacabc24b19ead0f, type: 3}
+  weaponId: weapon_evolved_king_bear_drop
+  weaponName: "킹베어 드롭"
+  description: "킹베어가 떨어져 더 넓은 범위에 큰 피해를 줍니다."
+  icon: {fileID: 21300000, guid: 851bf80c241e35b47a531353fd09ada0, type: 3}
   weaponPrefab: {fileID: 6214138210040237112, guid: ab5f21f8394b4cc391cbb531e5789b74, type: 3}
   weaponType: 0
   tags:
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료: 젤리곰이 더 자주 떨어지고 낙하 범위가 증가합니다."
+    description: "진화 완료: 킹베어가 떨어져 더 넓은 범위에 큰 피해를 줍니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

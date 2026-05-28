@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
-  m_Name: WD_SleepingStarlight
+  m_Name: WD_EvolvedWaterAura
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_evolved_sleeping_starlight
-  weaponName: "치명적인 귀여움"
-  description: "오로라 범위가 증가하고 적을 확률적으로 수면 또는 기절 상태로 만듭니다."
-  icon: {fileID: 21300000, guid: d1f291f6de10b2e40a680f208b019d76, type: 3}
+  weaponId: weapon_evolved_water_aura
+  weaponName: "강화 워터 오라"
+  description: "물의 오라 범위가 넓어지고 더 빠른 간격으로 지속 피해를 줍니다."
+  icon: {fileID: 21300000, guid: 56e22b29246ef0241b4b5e340736d321, type: 3}
   weaponPrefab: {fileID: 2477110694707164228, guid: 0dbdf937a72348f5ae5e4dccf1850133, type: 3}
   weaponType: 1
   tags:
   - "오라"
   - "장판"
-  - "상태이상"
+  - "물"
   levelDataList:
   - bulletSpeed: 12
     spreadAngle: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     chainRadius: 0
     explosionRadius: 1.2
     meteorDelay: 1
-    description: "진화 완료: 오로라 범위가 증가하고 적에게 상태이상을 겁니다."
+    description: "진화 완료: 물의 오라 범위가 증가하고 더 강한 지속 피해를 줍니다."
     cooldown: 0.8
     damage: 20
     projectileSpeed: 12

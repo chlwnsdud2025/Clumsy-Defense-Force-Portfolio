@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ad49b3678229e4a9453b7b4e1dc60e, type: 3}
-  m_Name: WD_DreamAurora
+  m_Name: WD_WaterAura
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinitionSO
-  weaponId: weapon_common_heart_aurora
-  weaponName: "\uD558\uD2B8 \uC624\uB85C\uB77C"
-  description: "\uC8FC\uBCC0 \uC624\uB85C\uB77C \uBC94\uC704 \uC548 \uC801\uC5D0\uAC8C
-    \uCD5C\uB300 \uCCB4\uB825 \uBE44\uB840 \uC9C0\uC18D \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
-  icon: {fileID: 21300000, guid: d1f291f6de10b2e40a680f208b019d76, type: 3}
+  weaponId: weapon_common_water_aura
+  weaponName: "\uC6CC\uD130 \uC624\uB77C"
+  description: "\uC8FC\uBCC0\uC5D0 \uBB3C\uC758 \uC624\uB77C\uB97C \uD3BC\uCCD0
+    \uBC94\uC704 \uC548\uC758 \uC801\uC5D0\uAC8C \uC9C0\uC18D \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 5bd6d43e8f9e742438e8371c867e53b7, type: 3}
   weaponPrefab: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
   weaponType: 1
   tags:
   - "\uC624\uB77C"
   - "\uC7A5\uD310"
-  - "\uCCB4\uB825\uBE44\uB840"
+  - "\uBB3C"
   levelDataList:
   - description: "\uBC94\uC704 \uC99D\uAC00"
     cooldown: 1
@@ -144,5 +144,5 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  evolutionWeaponId: weapon_evolved_sleeping_starlight
+  evolutionWeaponId: weapon_evolved_water_aura
   requiredBadgeId: badge_max_health

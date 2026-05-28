@@ -103,6 +103,6 @@ MonoBehaviour:
     projectileCount: 1
     tickInterval: 0.45
     range: 6
-  evolutionWeaponId: weapon_evolved_bear_shower
+  evolutionWeaponId: weapon_evolved_king_bear_drop
   requiredBadgeId: badge_weapon_size
 

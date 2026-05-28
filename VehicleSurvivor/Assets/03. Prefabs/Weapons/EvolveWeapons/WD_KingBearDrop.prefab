@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4753814877456721291}
   - component: {fileID: 8322155694987762034}
   m_Layer: 3
-  m_Name: WD_BearShower
+  m_Name: WD_KingBearDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,8 +70,8 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  weaponID: weapon_evolved_bear_shower
-  weaponName: "\uBCA0\uC5B4 \uC0E4\uC6CC"
-  meteorPrefab: {fileID: 2047154712773428394, guid: feb2f94033e5a34418916bb1baa6af43, type: 3}
+  weaponID: weapon_evolved_king_bear_drop
+  weaponName: "\uD0B9\uBCA0\uC5B4 \uB4DC\uB86D"
+  meteorPrefab: {fileID: 1934758842587996194, guid: ffacea55000b9bc418d41805f7cc826d, type: 3}
   castParticlePrefab: {fileID: 0}
   spawnHeight: 12

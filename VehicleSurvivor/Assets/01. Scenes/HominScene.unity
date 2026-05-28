@@ -1160,7 +1160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: m_Name
-      value: MagneticAuraWeapon
+      value: WaterAuraWeapon
       objectReference: {fileID: 0}
     - target: {fileID: 3446152509164805236, guid: 2e2dee8234edf054e8171464cd948738, type: 3}
       propertyPath: m_IsActive

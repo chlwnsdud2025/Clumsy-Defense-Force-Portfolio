@@ -72,10 +72,10 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
-  - description: "Lv3: \uB4F1\uAECD\uC9C8 +1, \uD68C\uC804\uC18D\uB3C4 \uC99D\uAC00"
+  - description: "Lv3: \uB4F1\uAECD\uC9C8 +1"
     cooldown: 0.5
     damage: 15
-    projectileSpeed: 14
+    projectileSpeed: 12
     duration: 999
     size: 1
     projectileCount: 3
@@ -99,7 +99,7 @@ MonoBehaviour:
   - description: "Lv4: \uB4F1\uAECD\uC9C8 + 1, \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.5
     damage: 20
-    projectileSpeed: 14
+    projectileSpeed: 12
     duration: 999
     size: 1
     projectileCount: 4
@@ -124,7 +124,7 @@ MonoBehaviour:
       \uC99D\uAC00"
     cooldown: 0.5
     damage: 25
-    projectileSpeed: 20
+    projectileSpeed: 12
     duration: 999
     size: 1
     projectileCount: 5

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db5f5c19dac43d14f8be337ed45702c1, type: 3}
-  m_Name: Item_Legendary_Book
+  m_Name: Item_Legendary_MagicCollectionBook
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinitionSO
   itemId: item_legendary_magic_collection_book
   itemName: "마법 컬렉션북"
@@ -23,4 +23,3 @@ MonoBehaviour:
   - statType: 302
     value: 0.1
     isPercent: 1
-

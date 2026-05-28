@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0e1c64741f4542b409c926fdeff8e2d6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0e1c64741f4542b409c926fdeff8e2d6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0e1c64741f4542b409c926fdeff8e2d6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0e1c64741f4542b409c926fdeff8e2d6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,6 +104,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HomingProjectile
   rotateSpeed: 12
+  modelYRotationOffset: 0
+  lifeTime: 4
+  hitCooldown: 0.5
 --- !u!65 &1178579583974273760
 BoxCollider:
   m_ObjectHideFlags: 0
