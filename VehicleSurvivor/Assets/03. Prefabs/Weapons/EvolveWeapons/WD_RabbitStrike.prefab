@@ -75,4 +75,4 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3621246184623611399, guid: a845700e7370c594585cb4e921da1005, type: 3}
   shootParticlePrefab: {fileID: 0}
   firePoint: {fileID: 0}
-  projectileRotationOffset: {x: 0, y: 0, z: 0}
+  projectileRotationOffset: {x: 0, y: -90, z: 0}
