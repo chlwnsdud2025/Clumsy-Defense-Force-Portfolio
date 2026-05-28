@@ -111,6 +111,8 @@ public class UI_GameOver : UIPopup
 
     public void OnClickTitle()
     {
+        PlayUIClickSfx();
+
         if (GameManager.Instance == null)
             return;
 

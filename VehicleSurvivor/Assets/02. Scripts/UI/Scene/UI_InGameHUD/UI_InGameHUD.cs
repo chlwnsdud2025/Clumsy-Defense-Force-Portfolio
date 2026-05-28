@@ -526,6 +526,7 @@ public class UI_InGameHUD : UIScene
 
     public void OnClickPausePopup()
     {
+        PlayUIClickSfx();
         TryOpenPausePopup();
     }
 

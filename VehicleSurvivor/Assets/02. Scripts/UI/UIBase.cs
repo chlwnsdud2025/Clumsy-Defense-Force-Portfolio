@@ -24,4 +24,9 @@ public class UIBase : MonoBehaviour
     }
 
     public virtual UniTask InitializeAsync() => UniTask.CompletedTask;
+
+    protected void PlayUIClickSfx()
+    {
+        SoundPlayback.PlaySfx(ESoundId.SFX_UI_Click);
+    }
 }
