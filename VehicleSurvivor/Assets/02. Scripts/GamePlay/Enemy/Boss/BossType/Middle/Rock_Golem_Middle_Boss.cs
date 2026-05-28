@@ -91,6 +91,5 @@ public class Rock_Golem_Middle_Boss : BossEnemy
     protected override void HandleStageClear()
     {
         Debug.Log($"{gameObject.name} (미니 보스) 처치 완료! 웨이브 계속 진행.");
-
     }
 }
