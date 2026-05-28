@@ -505,7 +505,11 @@ public class FinalBoss : BossEnemy
             {
                 GameObject spiderObj = Instantiate(suicideEnemyPrefab, spawnPos, Quaternion.identity, vfxContainer);
                 SuicideEnemy spiderScript = spiderObj.GetComponent<SuicideEnemy>();
-                if (spiderScript != null) spiderScript.SpawnSetup(playerTarget, spawnPos, EnemyManager.Instance);
+                if (spiderScript != null)
+                {
+                    spiderScript.SpawnSetup(playerTarget, spawnPos, EnemyManager.Instance);
+                    spiderScript.EnableSelfUpdate();
+                }
             }
         }
         yield return new WaitForSeconds(1.0f);
