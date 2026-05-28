@@ -73,5 +73,5 @@ MonoBehaviour:
   weaponID: weapon_evolved_sleeping_starlight
   weaponName: "\uCE58\uBA85\uC801\uC778 \uADC0\uC5EC\uC6C0"
   auraEffectPrefab: {fileID: 2574727718275705088, guid: 6d0f599f53ab3164ba51d07b4810b28a, type: 3}
-  visualScaleMultiplier: 2
-  yOffset: -0.5
+  visualScaleMultiplier: 0.4
+  yOffset: 0.1
