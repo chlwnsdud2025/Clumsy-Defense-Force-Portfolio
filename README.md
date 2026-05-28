@@ -17,6 +17,12 @@
 
 Unity Hub에서 `VehicleSurvivor` 폴더를 연 뒤 **Play**를 누르면 타이틀 씬부터 실행됩니다. (Build Settings에 위 두 씬만 등록되어 있습니다.)
 
+### 빌드 파일
+
+프로젝트 빌드 파일은 아래 구글드라이브 링크에서 다운로드할 수 있습니다.
+
+- [빌드 파일 다운로드](https://drive.google.com/file/d/1oNmeh3siO_rDWiSACH8VF8TwcTK79cmE/view?usp=sharing)
+
 ### 플레이 흐름
 
 1. **타이틀** — 화면을 클릭해 시작
