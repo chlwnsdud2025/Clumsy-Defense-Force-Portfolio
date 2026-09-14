@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IDamageable
@@ -82,6 +83,55 @@ public class Enemy : MonoBehaviour, IDamageable
 
 
     protected bool isDead = false;
+
+#if UNITY_EDITOR
+    // ==========================================
+    // [에디터 전용] 다층 추적(2단 레이캐스트) 시각화용 스냅샷
+    // Editor/EnemyFloorTrackingGizmo 가 읽습니다. 게임 로직에는 영향 없음.
+    // ==========================================
+    public enum EFloorTrackMode { None, PlayerHigher, LowRay, LowRayMissFallback }
+    public enum EFloorMoveState { None, Grounded, FastStep, SlowClimb, Falling }
+
+    public struct FloorTrackSnapshot
+    {
+        public bool valid;
+        public EFloorTrackMode mode;
+        public Vector3 checkPos;          // 예측 위치 (현재 위치 + 수평속도 × interval)
+        public Vector3 lowRayStart;
+        public float lowRayDistance;
+        public bool lowRayHit;
+        public Vector3 lowHitPoint;
+        public Vector3 highRayStart;
+        public float highRayDistance;
+        public int highHitCount;
+        public Vector3[] highHits;
+        public int chosenHitIndex;
+        public float playerY;
+        public float targetHeight;
+        public bool hitGround;
+        public float heightDiff;
+        public EFloorMoveState moveState;
+    }
+
+    public FloorTrackSnapshot FloorDebug;
+    public readonly List<Vector3> FloorDebugHistory = new List<Vector3>();
+    public const int FloorDebugHistoryMax = 80;
+
+    private void RecordHighHits(int hitCount)
+    {
+        if (FloorDebug.highHits == null) FloorDebug.highHits = new Vector3[hitBuffer.Length];
+        FloorDebug.highHitCount = hitCount;
+        FloorDebug.chosenHitIndex = -1;
+        float closest = float.MaxValue;
+        for (int i = 0; i < hitCount; i++)
+        {
+            FloorDebug.highHits[i] = hitBuffer[i].point;
+            float diff = Mathf.Abs(hitBuffer[i].point.y - playerTarget.position.y);
+            if (diff < closest) { closest = diff; FloorDebug.chosenHitIndex = i; }
+        }
+    }
+#endif
+
     private void Awake()
     {
         ResolveHitFlash();
@@ -107,6 +157,11 @@ public class Enemy : MonoBehaviour, IDamageable
         groundCheckTimer = Random.Range(0f, groundCheckInterval);
         cachedTargetHeight = spawnPosition.y;
         cachedHitGround = true;
+
+#if UNITY_EDITOR
+        FloorDebug.valid = false;
+        FloorDebugHistory.Clear();
+#endif
 
         hitFlash?.ResetFlash();
     }
@@ -137,11 +192,27 @@ public class Enemy : MonoBehaviour, IDamageable
 
             bool isPlayerHigher = playerTarget.position.y > transform.position.y + 2.0f;
 
+#if UNITY_EDITOR
+            FloorDebug.valid = true;
+            FloorDebug.checkPos = checkPosXZ;
+            FloorDebug.playerY = playerTarget.position.y;
+            FloorDebug.lowRayHit = false;
+            FloorDebug.highHitCount = 0;
+            FloorDebug.chosenHitIndex = -1;
+            FloorDebug.mode = isPlayerHigher ? EFloorTrackMode.PlayerHigher : EFloorTrackMode.LowRay;
+#endif
+
             if (isPlayerHigher)
             {
                 float dynamicHeight = Mathf.Max(transform.position.y + raycastStartHeight, playerTarget.position.y + 5.0f);
                 Vector3 highRayStart = checkPosXZ + Vector3.up * dynamicHeight;
                 int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
+
+#if UNITY_EDITOR
+                FloorDebug.highRayStart = highRayStart;
+                FloorDebug.highRayDistance = raycastDistance;
+                RecordHighHits(hitCount);
+#endif
 
                 if (hitCount > 0)
                 {
@@ -164,15 +235,31 @@ public class Enemy : MonoBehaviour, IDamageable
                 float lowRayDistance = 4.0f;
                 Vector3 lowRayStart = checkPosXZ + Vector3.up * lowRayStartHeight;
 
+#if UNITY_EDITOR
+                FloorDebug.lowRayStart = lowRayStart;
+                FloorDebug.lowRayDistance = lowRayDistance;
+#endif
+
                 if (Physics.Raycast(lowRayStart, Vector3.down, out RaycastHit lowHit, lowRayDistance, groundLayer))
                 {
                     cachedTargetHeight = lowHit.point.y;
                     cachedHitGround = true;
+#if UNITY_EDITOR
+                    FloorDebug.lowRayHit = true;
+                    FloorDebug.lowHitPoint = lowHit.point;
+#endif
                 }
                 else
                 {
                     Vector3 highRayStart = checkPosXZ + Vector3.up * raycastStartHeight;
                     int hitCount = Physics.RaycastNonAlloc(highRayStart, Vector3.down, hitBuffer, raycastDistance, groundLayer);
+
+#if UNITY_EDITOR
+                    FloorDebug.mode = EFloorTrackMode.LowRayMissFallback;
+                    FloorDebug.highRayStart = highRayStart;
+                    FloorDebug.highRayDistance = raycastDistance;
+                    RecordHighHits(hitCount);
+#endif
 
                     if (hitCount > 0)
                     {
@@ -190,11 +277,28 @@ public class Enemy : MonoBehaviour, IDamageable
                     }
                 }
             }
+
+#if UNITY_EDITOR
+            FloorDebug.hitGround = cachedHitGround;
+            FloorDebug.targetHeight = cachedTargetHeight;
+            if (cachedHitGround)
+            {
+                FloorDebugHistory.Add(new Vector3(checkPosXZ.x, cachedTargetHeight, checkPosXZ.z));
+                if (FloorDebugHistory.Count > FloorDebugHistoryMax) FloorDebugHistory.RemoveAt(0);
+            }
+#endif
         }
 
         if (cachedHitGround)
         {
             float heightDiff = cachedTargetHeight - transform.position.y;
+#if UNITY_EDITOR
+            FloorDebug.heightDiff = heightDiff;
+            FloorDebug.moveState = heightDiff < -0.1f ? EFloorMoveState.Falling
+                : heightDiff > 0.5f ? EFloorMoveState.SlowClimb
+                : Mathf.Abs(heightDiff) > 0.01f ? EFloorMoveState.FastStep
+                : EFloorMoveState.Grounded;
+#endif
             if (heightDiff >= -0.1f)
             {
                 float currentClimbSpeed;
@@ -212,7 +316,13 @@ public class Enemy : MonoBehaviour, IDamageable
             }
             else isGrounded = false;
         }
-        else isGrounded = false;
+        else
+        {
+            isGrounded = false;
+#if UNITY_EDITOR
+            FloorDebug.moveState = EFloorMoveState.Falling;
+#endif
+        }
 
         if (!isGrounded)
         {
@@ -381,8 +491,13 @@ public class Enemy : MonoBehaviour, IDamageable
 
 
 #if UNITY_EDITOR
+    // Tools > Enemy Spatial Grid Gizmo 메뉴에서 토글 (공간분할 기즈모 캡처 시 끌 수 있음)
+    public static bool DrawDefaultGizmos = true;
+
     private void OnDrawGizmosSelected()
     {
+        if (!DrawDefaultGizmos) return;
+
         // 1. 통과 방지(Overlap Block) 범위 - 빨간색 원기둥 형태
         Gizmos.color = new Color(1f, 0f, 0f, 0.7f); // 반투명한 빨간색
 

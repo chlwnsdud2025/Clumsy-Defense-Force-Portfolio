@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
 
     public const float DefaultPlayerBlockRadius = 0.28f;
     public const float MaxEnemyBlockRadius = 1.5f;
+    public const int SeparationMaxChecks = 5;
 
     [Header("References")]
     public Transform playerTransform;
@@ -27,6 +28,7 @@ public class EnemyManager : MonoBehaviour
     public float PlayerBlockRadius { get; private set; } = DefaultPlayerBlockRadius;
     public Transform FxParent => fxParent;
     public IReadOnlyList<Enemy> ActiveEnemies => activeEnemies;
+    public IReadOnlyDictionary<Vector2Int, List<Enemy>> SpatialGrid => spatialGrid;
 
     private Transform fxParent;
     private float spawnTimer = 0f;
@@ -162,7 +164,6 @@ public class EnemyManager : MonoBehaviour
         Vector2Int cell = GetCellPos(targetEnemy.transform.position);
         float sqrRadius = radius * radius;
         int checkCount = 0;
-        const int MAX_CHECKS = 5;
 
         for (int x = -1; x <= 1; x++)
         {
@@ -174,7 +175,7 @@ public class EnemyManager : MonoBehaviour
 
                 for (int i = 0; i < neighbors.Count; i++)
                 {
-                    if (checkCount >= MAX_CHECKS) return force;
+                    if (checkCount >= SeparationMaxChecks) return force;
 
                     Enemy neighbor = neighbors[i];
                     if (neighbor == targetEnemy) continue;
@@ -389,7 +390,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private Vector2Int GetCellPos(Vector3 position)
+    public Vector2Int GetCellPos(Vector3 position)
     {
         return new Vector2Int(
             Mathf.FloorToInt(position.x / cellSize),
