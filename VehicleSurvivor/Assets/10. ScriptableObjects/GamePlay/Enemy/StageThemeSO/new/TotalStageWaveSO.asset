@@ -13,24 +13,6 @@ MonoBehaviour:
   m_Name: TotalStageWaveSO
   m_EditorClassIdentifier: Assembly-CSharp::StageTheme_SO
   themeName: totalWave
-  enemyPools:
-  - {fileID: 11400000, guid: 83d13bcde26337746babc0e1d8fe5574, type: 2}
-  - {fileID: 11400000, guid: c94a915e744f9c0419cd9757fbbd4341, type: 2}
-  - {fileID: 11400000, guid: 4ab81df858ab4ae47a98ce3cfc105ec3, type: 2}
-  - {fileID: 11400000, guid: 34a70fddce8000e4ca13015113de92f0, type: 2}
-  - {fileID: 11400000, guid: 7543711a0f687f94d91f77eed50a156d, type: 2}
-  - {fileID: 11400000, guid: 64a9f55eae0703747829d23f7fa4d63f, type: 2}
-  - {fileID: 11400000, guid: 42c5f4aeab5a7b04a883417e28d8c5fb, type: 2}
-  - {fileID: 11400000, guid: 43b0063abd143704d877f2d6448d83ab, type: 2}
-  - {fileID: 11400000, guid: bbc84bdb29087674d819ecbbbb9e76e0, type: 2}
-  - {fileID: 11400000, guid: 463eeae834a638a4d9d935cfe153b95b, type: 2}
-  - {fileID: 11400000, guid: e68def14dee892a4ca818449e20148e6, type: 2}
-  - {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
-  - {fileID: 11400000, guid: 2b8382a527fc93c438457d51a9d82920, type: 2}
-  - {fileID: 11400000, guid: 6a824c3bd1961f84e8310af24f04c6e8, type: 2}
-  - {fileID: 11400000, guid: 1c36529eddbf5374dbb697d3cb821ece, type: 2}
-  - {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
-  - {fileID: 11400000, guid: 40efff9f44df385498163590380f8d27, type: 2}
   phases:
   - {fileID: 11400000, guid: 08b93f6eccc9565f558f64edf105cc94, type: 2}
   - {fileID: 11400000, guid: 5ea1fc366b84390a8d5f1939f6bc7c8c, type: 2}

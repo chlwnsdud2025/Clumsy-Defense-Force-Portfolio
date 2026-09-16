@@ -111,7 +111,7 @@ public class EnemyManager : MonoBehaviour
     {
         ClearAllPools();
 
-        foreach (EnemyPoolDataSO poolData in theme.enemyPools)
+        foreach (EnemyPoolDataSO poolData in theme.CollectEnemyPools())
         {
             if (poolData == null) continue;
             poolData.currentReserveCount = 0;
