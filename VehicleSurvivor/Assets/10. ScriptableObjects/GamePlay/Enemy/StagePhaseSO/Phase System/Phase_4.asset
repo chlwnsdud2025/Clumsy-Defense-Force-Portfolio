@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc6180af3c99d077fa7697cffbc850e8, type: 3}
+  m_Name: Phase_4
+  m_EditorClassIdentifier: Assembly-CSharp::StagePhase_SO
+  timeLimit: 300
+  phaseWaves:
+  - {fileID: 11400000, guid: 22c4ba49a46f25544bb1ae9894b5417c, type: 2}
+  - {fileID: 11400000, guid: 8be3b91b25417814e8ab7792cb23d56a, type: 2}
+  - {fileID: 11400000, guid: ce82520c62b072642b164abdbc5d96c7, type: 2}
+  - {fileID: 11400000, guid: 8c8444b80c8ce074480df27b5c7bb6a3, type: 2}
+  - {fileID: 11400000, guid: 122a0ffa0d076e9468bad5e86932022a, type: 2}
+  - {fileID: 11400000, guid: d1696ec58c5abb84b9811ffca5fdf1f2, type: 2}
+  nightmareWaves:
+  - {fileID: 11400000, guid: bbe2a98b40ddb1d409071f01d184bc36, type: 2}
+  - {fileID: 11400000, guid: 1c3609ad89f4ca94eb055144058b0b93, type: 2}
+  - {fileID: 11400000, guid: fa821e2af7164694093fefd06f9d1091, type: 2}
+  - {fileID: 11400000, guid: b35e2f5e851ffd146a743453cb79045d, type: 2}
+  - {fileID: 11400000, guid: 8b340bec18d37634b8372d4829925bdc, type: 2}
+  - {fileID: 11400000, guid: a69bbd399a414b54590ca6ccb138a569, type: 2}

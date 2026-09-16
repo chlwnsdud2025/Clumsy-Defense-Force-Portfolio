@@ -61,7 +61,7 @@ public sealed class WavePhaseTimer
 
 public static class WaveSelection
 {
-    public static WaveEnemy_DataSO GetCurrentWave(StagePhase phase, WavePhaseTimer timer)
+    public static WaveEnemy_DataSO GetCurrentWave(StagePhase_SO phase, WavePhaseTimer timer)
     {
         if (phase == null || timer == null)
             return null;

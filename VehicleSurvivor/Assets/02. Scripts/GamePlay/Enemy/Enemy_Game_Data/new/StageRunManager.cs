@@ -170,7 +170,7 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         Debug.Log($"페이즈 {phaseIndex + 1} 시작!");
 
         currentPhaseIndex = phaseIndex;
-        StagePhase currentPhase = currentTheme.phases[currentPhaseIndex];
+        StagePhase_SO currentPhase = currentTheme.phases[currentPhaseIndex];
 
         if (RunManager.TryGetInstance(out RunManager runManager))
             runManager.StartWavePhase(currentPhase.timeLimit);
