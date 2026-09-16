@@ -25,6 +25,22 @@ public class EnemyManager : MonoBehaviour
     public float cellSize = 2f;
     public float gridUpdateInterval = 0.15f;
 
+    [Header("Recycle Rules")]
+    [Tooltip("플레이어와 XZ 거리가 이 값(m)을 넘은 적은 플레이어 진행 방향 앞쪽 스폰 링으로 재배치합니다. 시야가 넓은 게임이라 기본값을 크게 둡니다.")]
+    public float recycleDistance = 300f;
+    [Tooltip("이 높이(y) 아래로 떨어진 적은 맵 밖 추락으로 보고 재배치합니다.")]
+    public float killY = -50f;
+    [Tooltip("이 시간(초) 동안 거의 움직이지 않은 적은 끼임으로 보고 재배치합니다.")]
+    public float stuckSeconds = 6f;
+    [Tooltip("체크 간격 동안 이동량이 이 거리(m) 미만이면 정지로 간주합니다.")]
+    public float stuckMoveThreshold = 0.15f;
+    [Tooltip("패턴 사거리 안에서 멈춘 적을 끼임으로 오판하지 않도록, patternRange에 더하는 여유 거리(m)")]
+    public float stuckRangeMargin = 2f;
+    [Tooltip("회수 규칙 검사 주기(초)")]
+    public float recycleCheckInterval = 0.5f;
+    [Tooltip("켜면 재배치, 끄면 풀로 회수만 합니다.")]
+    public bool relocateOnRecycle = true;
+
     public float PlayerBlockRadius { get; private set; } = DefaultPlayerBlockRadius;
     public Transform FxParent => fxParent;
     public IReadOnlyList<Enemy> ActiveEnemies => activeEnemies;
@@ -33,6 +49,7 @@ public class EnemyManager : MonoBehaviour
     private Transform fxParent;
     private float spawnTimer = 0f;
     private float gridUpdateTimer = 0f;
+    private float recycleTimer = 0f;
     private WaveEnemy_DataSO lastWave = null;
     private int lastPhaseIndex = -1;
     private Dictionary<Vector2Int, List<Enemy>> spatialGrid = new Dictionary<Vector2Int, List<Enemy>>();
@@ -92,6 +109,14 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
             activeEnemies[i].ManagedUpdate(dt);
+
+        recycleTimer += dt;
+        if (recycleTimer >= recycleCheckInterval)
+        {
+            float elapsed = recycleTimer;
+            recycleTimer = 0f;
+            CheckRecycle(elapsed);
+        }
 
         spawnTimer += dt;
         if (spawnTimer >= currentWave.spawnInterval)
@@ -372,6 +397,93 @@ public class EnemyManager : MonoBehaviour
                 ReturnToPool(enemyToSpawn);
             }
         }
+    }
+
+    // ==========================================================
+    // 회수 규칙: 추락 · 너무 멂 · 끼임 → 보상 없이 재배치(또는 회수)
+    // ==========================================================
+    private enum ERecycleReason { None, Fell, TooFar, Stuck }
+
+    private void CheckRecycle(float elapsed)
+    {
+        Vector3 playerPos = playerTransform.position;
+        float sqrRecycle = recycleDistance * recycleDistance;
+        float sqrStuckMove = stuckMoveThreshold * stuckMoveThreshold;
+
+        for (int i = activeEnemies.Count - 1; i >= 0; i--)
+        {
+            Enemy enemy = activeEnemies[i];
+            if (enemy == null) continue;
+
+            Vector3 pos = enemy.transform.position;
+            Vector3 toPlayerXZ = playerPos - pos;
+            toPlayerXZ.y = 0f;
+            float sqrDist = toPlayerXZ.sqrMagnitude;
+
+            ERecycleReason reason = ERecycleReason.None;
+
+            if (pos.y < killY)
+                reason = ERecycleReason.Fell;
+            else if (sqrDist > sqrRecycle)
+                reason = ERecycleReason.TooFar;
+            else
+            {
+                // 끼임: 사거리 밖(= 움직여야 하는 상황)인데 거의 이동하지 않음
+                float stopRange = enemy.patternRange + stuckRangeMargin;
+                bool shouldBeMoving = sqrDist > stopRange * stopRange;
+                float moved = (pos - enemy.recycleLastPos).sqrMagnitude;
+
+                if (shouldBeMoving && moved < sqrStuckMove)
+                {
+                    enemy.recycleStuckTime += elapsed;
+                    if (enemy.recycleStuckTime >= stuckSeconds)
+                        reason = ERecycleReason.Stuck;
+                }
+                else enemy.recycleStuckTime = 0f;
+            }
+
+            enemy.recycleLastPos = pos;
+
+            if (reason != ERecycleReason.None)
+                Recycle(enemy, reason);
+        }
+    }
+
+    // Die()를 타지 않으므로 경험치·돈·킬 카운트가 발생하지 않는다.
+    private void Recycle(Enemy enemy, ERecycleReason reason)
+    {
+        if (relocateOnRecycle && TryGetRelocatePoint(out Vector3 point))
+        {
+            enemy.SpawnSetup(playerTransform, point, this);
+            return;
+        }
+
+        ReturnToPool(enemy);
+    }
+
+    // 플레이어 진행 방향 앞쪽(±60°)의 스폰 링 위 지면 지점을 찾는다.
+    private bool TryGetRelocatePoint(out Vector3 point)
+    {
+        Vector3 forward = playerTransform.forward;
+        forward.y = 0f;
+        if (forward.sqrMagnitude < 0.001f) forward = Vector3.forward;
+        forward.Normalize();
+
+        for (int attempt = 0; attempt < 3; attempt++)
+        {
+            Vector3 dir = Quaternion.Euler(0f, Random.Range(-60f, 60f), 0f) * forward;
+            Vector3 xz = playerTransform.position + dir * spawnRadius;
+            Vector3 rayStart = new Vector3(xz.x, playerTransform.position.y + raycastStartHeight, xz.z);
+
+            if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, raycastDistance, groundLayer))
+            {
+                point = hit.point;
+                return true;
+            }
+        }
+
+        point = Vector3.zero;
+        return false;
     }
 
     private void UpdateGrid()

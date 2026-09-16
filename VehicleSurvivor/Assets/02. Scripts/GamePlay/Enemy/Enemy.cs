@@ -18,6 +18,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [HideInInspector] public EnemyPoolDataSO originPool;
 
+    // 회수 규칙(EnemyManager.CheckRecycle) 추적값. 스폰 시 초기화.
+    [System.NonSerialized] public Vector3 recycleLastPos;
+    [System.NonSerialized] public float recycleStuckTime;
+
     [Header("Stat")]
     public float moveSpeed = 5f;
     public float maxHealth = 10;
@@ -157,6 +161,9 @@ public class Enemy : MonoBehaviour, IDamageable
         groundCheckTimer = Random.Range(0f, groundCheckInterval);
         cachedTargetHeight = spawnPosition.y;
         cachedHitGround = true;
+
+        recycleLastPos = spawnPosition;
+        recycleStuckTime = 0f;
 
 #if UNITY_EDITOR
         FloorDebug.valid = false;
