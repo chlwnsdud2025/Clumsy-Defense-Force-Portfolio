@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Time_Over_Fly_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 2387385977625573398, guid: e240e9ae72545a84aa4a6c4d35c66e0f, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 0
   currentReserveCount: 0

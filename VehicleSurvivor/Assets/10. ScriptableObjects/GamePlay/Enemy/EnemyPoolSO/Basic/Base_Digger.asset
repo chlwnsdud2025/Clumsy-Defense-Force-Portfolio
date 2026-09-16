@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base_Digger
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 6743300894795504222, guid: 74fc03e5798c4e84f80a2beafe14b276, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 100
   currentReserveCount: 0

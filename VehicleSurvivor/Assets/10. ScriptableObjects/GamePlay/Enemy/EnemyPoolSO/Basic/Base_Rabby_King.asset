@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base_Rabby_King
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 6743300894795504222, guid: 653e8db2da13cc844aedbaef843ab410, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 100
   currentReserveCount: 0

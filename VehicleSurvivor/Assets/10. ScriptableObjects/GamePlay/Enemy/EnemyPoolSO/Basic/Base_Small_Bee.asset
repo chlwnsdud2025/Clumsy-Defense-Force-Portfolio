@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base_Small_Bee
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 6743300894795504222, guid: b6c2bb2579257d74685997ddd045371b, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 100
   currentReserveCount: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base_MushRoom
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 6743300894795504222, guid: a134bea5c03b03340aa7eb0742f67896, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 100
   currentReserveCount: 0

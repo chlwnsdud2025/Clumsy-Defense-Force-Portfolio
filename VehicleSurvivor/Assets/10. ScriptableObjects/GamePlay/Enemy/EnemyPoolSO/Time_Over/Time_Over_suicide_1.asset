@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Time_Over_suicide_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 7539001815701513887, guid: e7612061d793fde48b683358da9b969f, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 0
   currentReserveCount: 0

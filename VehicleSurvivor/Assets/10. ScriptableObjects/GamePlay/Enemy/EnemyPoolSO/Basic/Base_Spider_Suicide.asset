@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base_Spider_Suicide
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 7539001815701513887, guid: 767739718667d0b4a88fddb9fd433f41, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 100
   currentReserveCount: 0

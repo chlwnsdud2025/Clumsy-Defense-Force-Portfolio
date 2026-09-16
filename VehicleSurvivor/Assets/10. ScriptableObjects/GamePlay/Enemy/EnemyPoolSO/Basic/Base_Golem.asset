@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Base_Golem
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 7539001815701513887, guid: 76896c311d2406a4dbb5414a39d689b9, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 100
   currentReserveCount: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Time_Over_Raser_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 2982710734541050597, guid: 523313c59b171cb499ac45d050ddb1c5, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 0
   currentReserveCount: 0

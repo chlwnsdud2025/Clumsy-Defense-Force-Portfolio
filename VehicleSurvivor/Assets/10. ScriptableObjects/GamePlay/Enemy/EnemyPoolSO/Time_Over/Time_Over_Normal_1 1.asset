@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Time_Over_Normal_1 1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPoolDataSO
   prefab: {fileID: 7539001815701513887, guid: 9b079ac896a56334292a21f2ceee9502, type: 3}
-  poolSize: 200
+  poolSize: 100
   maxReserveSize: 0
   currentReserveCount: 0
