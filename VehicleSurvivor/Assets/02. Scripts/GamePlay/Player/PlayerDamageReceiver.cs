@@ -36,6 +36,8 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo damageInfo)
     {
+        if (BenchmarkFlags.PlayerInvincible) return; // 측정용 무적
+
         if (!TryGetPlayerRuntime(out PlayerRuntime playerRuntime))
             return;
 

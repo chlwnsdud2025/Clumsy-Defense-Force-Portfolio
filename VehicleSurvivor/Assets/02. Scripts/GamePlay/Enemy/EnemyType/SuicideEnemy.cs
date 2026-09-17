@@ -20,8 +20,6 @@ public class SuicideEnemy : Enemy
     [Header("VFX")]
     public GameObject explosionEffectPrefab;
 
-    // 보스에 의해 소환 되었을 시
-    private bool _useSelfUpdate = false;
 
 
     private bool isFusing = false;
@@ -140,24 +138,4 @@ public class SuicideEnemy : Enemy
     }
 
 
-    // 매니저의 추적 리스트에 들어가지 않고 보스 등에 의해 직접 Instantiate 된 경우
-
-
-    public void EnableSelfUpdate()
-    {
-        _useSelfUpdate = true;
-    }
-
-    private void Update()
-    {
-        if (_useSelfUpdate)
-        {
-            if (RunManager.TryGetInstance(out RunManager runManager) &&
-                runManager.RunSession != null &&
-                !runManager.RunSession.ShouldUpdateGameplay)
-                return;
-
-            ManagedUpdate(Time.deltaTime);
-        }
-    }
 }

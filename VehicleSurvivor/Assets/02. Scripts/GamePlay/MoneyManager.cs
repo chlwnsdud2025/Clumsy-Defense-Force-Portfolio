@@ -44,6 +44,17 @@ public class MoneyManager : MonoBehaviour
     // 몹/보스가 죽을 때 호출할 함수
     public void SpawnMoney(Vector3 position, int amount, Transform playerTransform)
     {
+        // 측정용: 보조 풀 우회 → 매번 생성
+        if (BenchmarkFlags.BypassAuxPools)
+        {
+            BenchmarkFlags.AuxInstantiateCount++;
+            GameObject fresh = Instantiate(moneyPrefab, transform);
+            MoneyItem freshCoin = fresh.GetComponent<MoneyItem>();
+            freshCoin.Setup(this);
+            freshCoin.Spawn(position, amount, playerTransform);
+            return;
+        }
+
         if (moneyPool.Count > 0)
         {
             MoneyItem coin = moneyPool.Dequeue();
@@ -53,6 +64,7 @@ public class MoneyManager : MonoBehaviour
 
     public void ReturnToPool(MoneyItem coin)
     {
+        if (BenchmarkFlags.BypassAuxPools) { BenchmarkFlags.AuxDestroyCount++; Destroy(coin.gameObject); return; } // 측정용
         coin.gameObject.SetActive(false);
         moneyPool.Enqueue(coin);
     }

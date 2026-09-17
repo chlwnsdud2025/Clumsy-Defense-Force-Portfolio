@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [DisallowMultipleComponent]
 public class HitFlashEffect : MonoBehaviour
@@ -17,8 +18,18 @@ public class HitFlashEffect : MonoBehaviour
     private int colorPropertyID;
     private MaterialPropertyBlock propBlock;
     private float flashTimer;
-    private float flashCooldownTimer;
+    private float cooldownUntil;
     private bool isInitialized;
+    private bool scheduled;
+    private static readonly List<HitFlashEffect> activeFlashes = new List<HitFlashEffect>();
+    private static HitFlashUpdater updater;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetScheduler()
+    {
+        activeFlashes.Clear();
+        updater = null;
+    }
 
     private void Awake()
     {
@@ -43,7 +54,8 @@ public class HitFlashEffect : MonoBehaviour
     public void ResetFlash()
     {
         flashTimer = 0f;
-        flashCooldownTimer = 0f;
+        cooldownUntil = 0f;
+        if (scheduled) { activeFlashes.Remove(this); scheduled = false; }
 
         if (isInitialized)
             RestoreOriginalColors();
@@ -51,29 +63,44 @@ public class HitFlashEffect : MonoBehaviour
 
     public void TriggerHitFlash()
     {
-        if (!isInitialized)
+        if (!isInitialized || !isActiveAndEnabled)
             return;
 
-        if (flashCooldownTimer > 0f)
+        if (Time.time < cooldownUntil)
             return;
 
         flashTimer = flashDuration;
-        flashCooldownTimer = flashDuration + flashCooldown;
+        cooldownUntil = Time.time + flashDuration + flashCooldown;
+        if (!scheduled)
+        {
+            scheduled = true;
+            activeFlashes.Add(this);
+        }
+        if (updater == null)
+        {
+            GameObject runner = new GameObject("HitFlashUpdater");
+            DontDestroyOnLoad(runner);
+            updater = runner.AddComponent<HitFlashUpdater>();
+        }
     }
 
-    private void LateUpdate()
+    private void OnDisable() => ResetFlash();
+
+    internal static void UpdateActiveFlashes(float deltaTime)
     {
-        if (flashCooldownTimer > 0f)
-            flashCooldownTimer -= Time.deltaTime;
-
-        if (flashTimer <= 0f)
-            return;
-
-        flashTimer -= Time.deltaTime;
-        ApplyFlashColor(precalculatedFlashColors);
-
-        if (flashTimer <= 0f)
-            RestoreOriginalColors();
+        for (int i = activeFlashes.Count - 1; i >= 0; i--)
+        {
+            HitFlashEffect effect = activeFlashes[i];
+            if (effect == null) { activeFlashes.RemoveAt(i); continue; }
+            effect.flashTimer -= deltaTime;
+            if (effect.flashTimer > 0f) effect.ApplyFlashColor(effect.precalculatedFlashColors);
+            else
+            {
+                effect.RestoreOriginalColors();
+                effect.scheduled = false;
+                activeFlashes.RemoveAt(i);
+            }
+        }
     }
 
     private void InitializePropertyBlock()

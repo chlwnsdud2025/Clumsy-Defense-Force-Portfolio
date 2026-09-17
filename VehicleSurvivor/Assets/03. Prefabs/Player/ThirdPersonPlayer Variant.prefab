@@ -2023,7 +2023,7 @@ PrefabInstance:
     - target: {fileID: 7123456789012345678, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: _debugCharacterDefinition
       value: 
-      objectReference: {fileID: 11400000, guid: a43eb92c71a8440418419911fd5482e9, type: 2}
+      objectReference: {fileID: 11400000, guid: 95198f0f6ab0bfd34b1a03faab1871ae, type: 2}
     - target: {fileID: 7137988382446314383, guid: 54b5bb94734eb0d42bb9b5cf92f4137c, type: 3}
       propertyPath: m_Layer
       value: 6

@@ -85,8 +85,16 @@ public class ExpManager : MonoBehaviour
 
         ExpOrb orb = null;
 
+        // 측정용: 보조 풀 우회 → 매번 생성
+        if (BenchmarkFlags.BypassAuxPools)
+        {
+            BenchmarkFlags.AuxInstantiateCount++;
+            GameObject fresh = Instantiate(prefabDict[typeToDrop], parentDict[typeToDrop]);
+            orb = fresh.GetComponent<ExpOrb>();
+            orb.Setup(typeToDrop, this);
+        }
         // 1. 대기 중인 풀이 있는 경우
-        if (orbPools[typeToDrop].Count > 0)
+        else if (orbPools[typeToDrop].Count > 0)
         {
             orb = orbPools[typeToDrop].Dequeue();
         }
@@ -130,6 +138,8 @@ public class ExpManager : MonoBehaviour
             orb.activeNode.List.Remove(orb.activeNode);
             orb.activeNode = null;
         }
+
+        if (BenchmarkFlags.BypassAuxPools) { BenchmarkFlags.AuxDestroyCount++; Destroy(orb.gameObject); return; } // 측정용
 
         // 다시 대기 풀에 넣기
         orbPools[orb.orbType].Enqueue(orb);

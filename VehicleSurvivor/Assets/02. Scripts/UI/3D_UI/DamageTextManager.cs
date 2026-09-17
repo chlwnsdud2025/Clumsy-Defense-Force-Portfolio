@@ -30,6 +30,15 @@ public class DamageTextPool : MonoBehaviour
     // 텍스트가 필요할 때 꺼내 쓰는 함수
     public GameObject GetDamageText()
     {
+        // 측정용: 보조 풀 우회 → 매번 생성
+        if (BenchmarkFlags.BypassAuxPools)
+        {
+            BenchmarkFlags.AuxInstantiateCount++;
+            GameObject fresh = Instantiate(damageTextPrefab, transform);
+            fresh.SetActive(true);
+            return fresh;
+        }
+
         if (poolQueue.Count > 0)
         {
             GameObject obj = poolQueue.Dequeue(); // 큐에서 하나 빼기
@@ -48,6 +57,7 @@ public class DamageTextPool : MonoBehaviour
     // 텍스트 연출이 끝나고 다시 풀로 돌려보내는 함수
     public void ReturnToPool(GameObject obj)
     {
+        if (BenchmarkFlags.BypassAuxPools) { BenchmarkFlags.AuxDestroyCount++; Destroy(obj); return; } // 측정용
         obj.SetActive(false); // 비활성화
         poolQueue.Enqueue(obj); // 다시 큐에 집어넣기
     }

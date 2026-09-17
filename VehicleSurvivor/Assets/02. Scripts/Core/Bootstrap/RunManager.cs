@@ -292,6 +292,8 @@ public class RunManager : MonoSceneSingleton<RunManager>
         if (levelsGained > 0)
             SoundPlayback.PlaySfx(ESoundId.SFX_LevelUp);
 
+        if (BenchmarkFlags.DisableLevelUpPopup) return; // 측정용: 보상 팝업 차단
+
         if (RewardManager.TryGetInstance(out RewardManager rewardManager))
             rewardManager.OnLevelChanged(_runSession, levelsGained);
     }

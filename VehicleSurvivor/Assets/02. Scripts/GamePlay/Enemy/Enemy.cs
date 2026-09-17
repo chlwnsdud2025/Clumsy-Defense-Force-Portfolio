@@ -77,6 +77,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
     protected bool isTrackingPlayer = true;
 
+    private bool hasSpawnDefaults;
+    private float defaultSeparationWeight;
+
     private float verticalVelocity;
     private bool isGrounded;
     private float groundCheckTimer = 0f;
@@ -143,11 +146,19 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public virtual void SpawnSetup(Transform target, Vector3 spawnPosition, EnemyManager manager)
     {
+        // 첫 스폰의 설정값을 보관하고, 공격 중 반환된 개체도 재사용 시 복원한다.
+        if (!hasSpawnDefaults)
+        {
+            defaultSeparationWeight = separationWeight;
+            hasSpawnDefaults = true;
+        }
+        separationWeight = defaultSeparationWeight;
+        isTrackingPlayer = true;
+
         myManager = manager;
         playerTarget = target;
         playerDamageable = target != null ? target.GetComponentInChildren<IDamageable>() : null;
         transform.position = spawnPosition;
-        gameObject.SetActive(true);
         currentHealth = maxHealth;
         isDead = false;
 
@@ -171,19 +182,30 @@ public class Enemy : MonoBehaviour, IDamageable
 #endif
 
         hitFlash?.ResetFlash();
+        gameObject.SetActive(true);
+        myManager?.RegisterEnemy(this);
+    }
+
+    protected virtual void OnDisable()
+    {
+        myManager?.UnregisterEnemy(this);
+        hitFlash?.ResetFlash();
     }
 
     public virtual void ManagedUpdate(float deltaTime)
     {
-        if (playerTarget == null) return;
+        if (playerTarget == null || !isActiveAndEnabled || isDead) return;
 
         // 1. [핵심 추가] 매 프레임 독립적으로 3D 몸통 충돌 체크!
         CheckContactDamage(deltaTime);
 
         // 2. 이동 및 패턴 AI 실행
         ExecuteBehavior(deltaTime, out Vector3 desiredVelocity);
+        // 자폭 등 ExecuteBehavior 안에서 반환된 개체는 더 이상 이동하지 않는다.
+        if (!isActiveAndEnabled || isDead) return;
 
-        Vector3 separationForce = myManager.GetSeparationForce(this, separationRadius);
+        Vector3 separationForce = myManager != null && separationWeight > 0f
+            ? myManager.GetSeparationForce(this, separationRadius) : Vector3.zero;
         separationForce.y = 0;
         Vector3 horizontalVelocity = desiredVelocity + (separationForce * separationWeight);
         ClipPlayerOverlap(ref horizontalVelocity);
@@ -343,6 +365,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         transform.position += (horizontalVelocity + Vector3.up * verticalVelocity) * deltaTime;
+        myManager?.NotifyEnemyMoved(this);
 
         if (isTrackingPlayer)
         {
@@ -449,8 +472,11 @@ public class Enemy : MonoBehaviour, IDamageable
         DamageInfo finalDamageInfo = ItemSpecialEffectService.ApplyOnEnemyHit(this, damageInfo);
         currentHealth -= finalDamageInfo.Amount;
         SoundPlayback.PlaySfx(ESoundId.SFX_Enemy_Hit);
-        GameObject textObj = DamageTextPool.Instance.GetDamageText();
-        textObj.GetComponent<DamageText>().Setup(finalDamageInfo.Amount, damageTextSpawnpoint.position, finalDamageInfo.IsCritical);
+        if (!BenchmarkFlags.DisableDamageText) // 측정용
+        {
+            GameObject textObj = DamageTextPool.Instance.GetDamageText();
+            textObj.GetComponent<DamageText>().Setup(finalDamageInfo.Amount, damageTextSpawnpoint.position, finalDamageInfo.IsCritical);
+        }
 
         hitFlash?.TriggerHitFlash();
 
@@ -478,6 +504,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void DropExpOrbs()
     {
+        if (BenchmarkFlags.DisableExpDrop) return; // 측정용
         Vector3 dropPos = transform.position;
         dropPos.y += 0.05f;
         if (ExpManager.Instance != null) ExpManager.Instance.SpawnExp(dropPos, expReward);
@@ -485,6 +512,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void DropMoney()
     {
+        if (BenchmarkFlags.DisableMoneyDrop) return; // 측정용
         Vector3 dropPos = transform.position;
         dropPos.y += 0.5f;
         if (MoneyManager.Instance != null && playerTarget != null)

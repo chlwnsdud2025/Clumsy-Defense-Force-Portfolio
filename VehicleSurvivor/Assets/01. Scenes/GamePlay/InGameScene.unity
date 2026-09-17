@@ -1279,7 +1279,7 @@ MonoBehaviour:
     m_Bits: 1024
   raycastStartHeight: 100
   raycastDistance: 200
-  cellSize: 3
+  cellSize: 2
   gridUpdateInterval: 0.15
 --- !u!114 &663870442
 MonoBehaviour:

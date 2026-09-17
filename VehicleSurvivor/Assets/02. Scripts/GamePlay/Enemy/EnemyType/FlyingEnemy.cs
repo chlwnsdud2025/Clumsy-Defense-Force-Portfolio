@@ -13,16 +13,18 @@ public class FlyingEnemy : Enemy
 
     public override void ManagedUpdate(float deltaTime)
     {
-        if (playerTarget == null) return;
+        if (playerTarget == null || !isActiveAndEnabled || isDead) return;
 
         // [추가] 공중 몹도 고도가 낮아지거나 플레이어가 점프해서 닿으면 몸통 데미지를 줍니다!
         CheckContactDamage(deltaTime);
 
         // 1. 공중 몹 전용 3D 이동 벡터 계산
         ExecuteBehavior(deltaTime, out Vector3 desiredVelocity);
+        if (!isActiveAndEnabled || isDead) return;
 
         // 분리력(Separation)은 Y축을 무시하고 평면적으로만 밀어내게 둡니다.
-        Vector3 separationForce = myManager.GetSeparationForce(this, separationRadius);
+        Vector3 separationForce = myManager != null && separationWeight > 0f
+            ? myManager.GetSeparationForce(this, separationRadius) : Vector3.zero;
         separationForce.y = 0;
 
         Vector3 finalVelocity = desiredVelocity + (separationForce * separationWeight);
@@ -30,6 +32,7 @@ public class FlyingEnemy : Enemy
 
         // 2. 중력이나 레이캐스트 없이 곧바로 3D 공간 이동!
         transform.position += finalVelocity * deltaTime;
+        myManager?.NotifyEnemyMoved(this);
 
         // 3. 회전 처리
         if (isTrackingPlayer)

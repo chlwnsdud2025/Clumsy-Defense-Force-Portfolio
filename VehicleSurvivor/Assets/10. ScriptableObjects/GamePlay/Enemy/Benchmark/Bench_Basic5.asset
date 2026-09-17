@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3fee2737787c149bf9e243412924bb, type: 3}
+  m_Name: Bench_Basic5
+  m_EditorClassIdentifier: Assembly-CSharp::WaveEnemy_DataSO
+  waveStartTime: 0
+  spawnInterval: 0.1
+  minSpawnCount: 20
+  maxSpawnCount: 40
+  activeEnemies:
+  - targetPool: {fileID: 11400000, guid: 34d7e5de1746ce10674b38b8d690a347, type: 2}
+    spawnWeight: 1
+    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: 0714cc9a3ee99b61ba47166c36e7e169, type: 2}
+    spawnWeight: 1
+    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: f40ed731db596bcccd006e3cc1cac78e, type: 2}
+    spawnWeight: 1
+    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: adea5304b0afb543e23e45d4b42f6c3f, type: 2}
+    spawnWeight: 1
+    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: a1b6ad4b11d61ca222582de973fe42c4, type: 2}
+    spawnWeight: 1
+    spawnAsPurePack: 0
+  miniBossPrefabs: []
+  miniBossCount: 1

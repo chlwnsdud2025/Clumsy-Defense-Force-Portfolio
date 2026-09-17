@@ -89,7 +89,6 @@ public class Spider_Boss : BossEnemy
                 if (spiderScript != null)
                 {
                     spiderScript.SpawnSetup(playerTarget, spawnPos, EnemyManager.Instance);
-                    spiderScript.EnableSelfUpdate();
                 }
             }
         }

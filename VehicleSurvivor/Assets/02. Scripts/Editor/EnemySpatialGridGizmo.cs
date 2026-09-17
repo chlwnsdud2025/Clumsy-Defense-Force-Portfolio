@@ -172,7 +172,8 @@ public static class EnemySpatialGridGizmo
             int dz = kv.Key.y - selectedCell.y;
             if (Mathf.Abs(dx) > r || Mathf.Abs(dz) > r) continue;
 
-            bool near = Mathf.Abs(dx) <= 1 && Mathf.Abs(dz) <= 1;
+            int searchRange = Mathf.CeilToInt(selected.separationRadius / cellSize);
+            bool near = Mathf.Abs(dx) <= searchRange && Mathf.Abs(dz) <= searchRange;
             if (showCellLabels)
             {
                 Vector3 center = new Vector3((kv.Key.x + 0.5f) * cellSize, y, (kv.Key.y + 0.5f) * cellSize);
@@ -189,50 +190,25 @@ public static class EnemySpatialGridGizmo
             }
         }
 
-        // 3. 3x3 이웃 셀 + GetSeparationForce와 동일한 순서/조건으로 분류
-        detected.Clear();
-        candidates.Clear();
+        // 실제 선택기를 사용하므로 예산/최근접 선택/완전 겹침 처리가 런타임과 일치한다.
+        manager.GetSeparationDebugNeighbors(selected, detected, candidates);
+        for (int i = candidates.Count - 1; i >= 0; i--)
+            if (detected.Contains(candidates[i])) candidates.RemoveAt(i);
         skipped.Clear();
         float radius = selected.separationRadius;
-        float sqrRadius = radius * radius;
-        int checkCount = 0;
-
-        for (int x = -1; x <= 1; x++)
+        int queryRange = Mathf.CeilToInt(radius / cellSize);
+        for (int x = -queryRange; x <= queryRange; x++)
+        for (int z = -queryRange; z <= queryRange; z++)
         {
-            for (int z = -1; z <= 1; z++)
-            {
-                Vector2Int cell = new Vector2Int(selectedCell.x + x, selectedCell.y + z);
-                bool isCenter = x == 0 && z == 0;
-                DrawCellRect(cell, cellSize, y + (isCenter ? 0.01f : 0f),
-                    isCenter ? centerCellColor : neighborCellColor, isCenter ? lineWidth : thinLineWidth);
-
-                if (!grid.TryGetValue(cell, out List<Enemy> neighbors)) continue;
-
-                for (int i = 0; i < neighbors.Count; i++)
-                {
-                    Enemy n = neighbors[i];
-                    if (n == null || n == selected) continue;
-
-                    if (checkCount >= EnemyManager.SeparationMaxChecks)
-                    {
-                        skipped.Add(n);
-                        continue;
-                    }
-
-                    Vector3 diff = selPos - n.transform.position;
-                    diff.y = 0f;
-                    float sqrDist = diff.sqrMagnitude;
-                    if (sqrDist > 0f && sqrDist < sqrRadius)
-                    {
-                        detected.Add(n);
-                        checkCount++;
-                    }
-                    else
-                    {
-                        candidates.Add(n);
-                    }
-                }
-            }
+            Vector2Int cell = new Vector2Int(selectedCell.x + x, selectedCell.y + z);
+            bool isCenter = x == 0 && z == 0;
+            DrawCellRect(cell, cellSize, y + (isCenter ? 0.01f : 0f),
+                isCenter ? centerCellColor : neighborCellColor, isCenter ? lineWidth : thinLineWidth);
+            if (!grid.TryGetValue(cell, out List<Enemy> neighbors)) continue;
+            foreach (Enemy neighbor in neighbors)
+                if (neighbor != null && neighbor != selected && neighbor.isActiveAndEnabled
+                    && !detected.Contains(neighbor) && !candidates.Contains(neighbor))
+                    skipped.Add(neighbor);
         }
 
         // 4. 선택 Enemy, 반경, 이웃 연결선
@@ -277,14 +253,15 @@ public static class EnemySpatialGridGizmo
         int totalEnemies = manager.ActiveEnemies.Count;
         int checkedEnemies = detected.Count + candidates.Count + skipped.Count;
         float percent = totalEnemies > 0 ? checkedEnemies * 100f / totalEnemies : 0f;
+        int width = Mathf.CeilToInt(selected.separationRadius / manager.cellSize) * 2 + 1;
 
         string text =
             "[Spatial Grid]\n" +
             $"선택: {selected.name}   셀: ({selectedCell.x}, {selectedCell.y})   cellSize: {manager.cellSize}m\n" +
-            $"활성 Enemy: {totalEnemies}   점유 셀: {occupiedCellCount}   탐색 셀: 9 (3x3)\n" +
+            $"활성 Enemy: {totalEnemies}   점유 셀: {occupiedCellCount}   탐색 셀: {width * width} ({width}x{width})\n" +
             $"탐색 후보: {checkedEnemies} / {totalEnemies}   (전체 대비 {percent:0.#}%)\n" +
-            $"<color=#ff4040>감지 {detected.Count}</color>   <color=#ffe633>반경 밖 {candidates.Count}</color>   " +
-            $"<color=#cc66ff>검사 생략 {skipped.Count}</color>   반경 {selected.separationRadius}m   max {EnemyManager.SeparationMaxChecks}";
+            $"<color=#ff4040>선택 {detected.Count}</color>   <color=#ffe633>검사 후 제외 {candidates.Count}</color>   " +
+            $"<color=#cc66ff>미검사 {skipped.Count}</color>   반경 {selected.separationRadius}m   후보 예산 {EnemyManager.SeparationCandidateBudget} / 이웃 {EnemyManager.SeparationMaxChecks}";
 
         Handles.BeginGUI();
         Vector2 size = panelStyle.CalcSize(new GUIContent(text));
