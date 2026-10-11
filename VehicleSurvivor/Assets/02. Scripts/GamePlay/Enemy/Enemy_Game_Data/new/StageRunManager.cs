@@ -260,6 +260,23 @@ public class StageRunManager : MonoSceneSingleton<StageRunManager>
         }
     }
 
+    public StagePhase_SO CurrentPhase
+    {
+        get
+        {
+            if (currentTheme == null || currentTheme.phases == null) return null;
+            if (currentPhaseIndex < 0 || currentPhaseIndex >= currentTheme.phases.Count) return null;
+            return currentTheme.phases[currentPhaseIndex];
+        }
+    }
+
+    /// <summary>현재 페이즈의 적 배율. 테마/페이즈가 없으면 1배.</summary>
+    public EnemyScaling CurrentEnemyScaling => EnemyScaling.From(CurrentPhase);
+
+    /// <summary>씬에 StageRunManager 가 없으면(벤치마크 씬 등) 1배를 돌려준다.</summary>
+    public static EnemyScaling CurrentEnemyScalingOrIdentity =>
+        HasInstance ? Instance.CurrentEnemyScaling : EnemyScaling.Identity;
+
     public WaveEnemy_DataSO GetCurrentWave()
     {
         if (currentTheme == null || currentTheme.phases == null) return null;

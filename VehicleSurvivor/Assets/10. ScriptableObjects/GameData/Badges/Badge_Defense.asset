@@ -21,17 +21,17 @@ MonoBehaviour:
   maxLevel: 5
   levelModifiers:
   - statType: 102
-    value: 5
+    value: 8
     isPercent: 0
   - statType: 102
-    value: 10
+    value: 16
     isPercent: 0
   - statType: 102
-    value: 15
+    value: 24
     isPercent: 0
   - statType: 102
-    value: 20
+    value: 32
     isPercent: 0
   - statType: 102
-    value: 25
+    value: 40
     isPercent: 0

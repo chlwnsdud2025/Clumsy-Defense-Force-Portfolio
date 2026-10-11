@@ -22,7 +22,7 @@ MonoBehaviour:
   _startingWeapon: {fileID: 11400000, guid: 3f750fd7f06958b4c9698d4c98033fa6, type: 2}
   _combat:
     MaxHealth: 115
-    Defense: 3
+    Defense: 12
     MoveSpeedMultiplier: 0.9
     DamageMultiplier: 1.1
     PickupRangeMultiplier: 1

@@ -97,7 +97,7 @@ public class RangedEnemy : Enemy
                     firePoint.position,
                     lockedTargetPos,
                     bulletArcHeight,
-                    mortarDamage,
+                    mortarDamage * DamageScale,
                     bulletFlyTime,
                     explosionRadius,
                     explosionVfxPrefab

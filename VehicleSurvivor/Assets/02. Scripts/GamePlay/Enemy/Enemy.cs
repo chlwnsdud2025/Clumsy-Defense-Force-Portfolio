@@ -80,6 +80,15 @@ public class Enemy : MonoBehaviour, IDamageable
     private bool hasSpawnDefaults;
     private float defaultSeparationWeight;
 
+    // 페이즈 배율 적용 전 프리팹 기본값. 풀 재사용 시 이 값 기준으로 다시 계산한다.
+    private float baseMaxHealth;
+    private float baseContactDamage;
+    private int baseExpReward;
+    private int baseMoneyReward;
+
+    /// <summary>스폰 시점 페이즈의 피해 배율. 자식 클래스의 특수 공격(폭발·레이저·박격포)에 곱한다.</summary>
+    protected float DamageScale { get; private set; } = 1f;
+
     private float verticalVelocity;
     private bool isGrounded;
     private float groundCheckTimer = 0f;
@@ -150,10 +159,16 @@ public class Enemy : MonoBehaviour, IDamageable
         if (!hasSpawnDefaults)
         {
             defaultSeparationWeight = separationWeight;
+            baseMaxHealth = maxHealth;
+            baseContactDamage = contactDamage;
+            baseExpReward = expReward;
+            baseMoneyReward = moneyReward;
             hasSpawnDefaults = true;
         }
         separationWeight = defaultSeparationWeight;
         isTrackingPlayer = true;
+
+        ApplyScaling(StageRunManager.CurrentEnemyScalingOrIdentity);
 
         myManager = manager;
         playerTarget = target;
@@ -184,6 +199,15 @@ public class Enemy : MonoBehaviour, IDamageable
         hitFlash?.ResetFlash();
         gameObject.SetActive(true);
         myManager?.RegisterEnemy(this);
+    }
+
+    private void ApplyScaling(EnemyScaling scaling)
+    {
+        maxHealth = Mathf.Max(1f, baseMaxHealth * scaling.Health);
+        contactDamage = baseContactDamage * scaling.Damage;
+        DamageScale = scaling.Damage;
+        expReward = Mathf.Max(baseExpReward > 0 ? 1 : 0, Mathf.RoundToInt(baseExpReward * scaling.Reward));
+        moneyReward = Mathf.Max(baseMoneyReward > 0 ? 1 : 0, Mathf.RoundToInt(baseMoneyReward * scaling.Reward));
     }
 
     protected virtual void OnDisable()

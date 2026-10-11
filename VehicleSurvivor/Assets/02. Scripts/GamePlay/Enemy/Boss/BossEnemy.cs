@@ -76,6 +76,18 @@ public abstract class BossEnemy : MonoBehaviour, IDamageable
         BlockableRegistry.Unregister(transform);
     }
 
+    /// <summary>
+    /// 웨이브 미니보스용 페이즈 배율. 체력·접촉 피해·보상에 곱한다.
+    /// Start() 이전(Instantiate 직후)에 호출해야 currentHealth 에 반영된다.
+    /// </summary>
+    public void ApplyScaling(EnemyScaling scaling)
+    {
+        maxHealth = Mathf.Max(1f, maxHealth * scaling.Health);
+        contactDamage *= scaling.Damage;
+        expReward = Mathf.RoundToInt(expReward * scaling.Reward);
+        moneyReward = Mathf.RoundToInt(moneyReward * scaling.Reward);
+    }
+
     protected virtual void Start()
     {
         currentHealth = maxHealth;

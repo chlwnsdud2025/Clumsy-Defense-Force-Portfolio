@@ -154,6 +154,8 @@ public class WeaponBase : MonoBehaviour
 
         RuntimeStats stats = playerRuntime.Stats;
         float damage = baseDamage * stats.GetValue(EStatType.DamageMultiplier);
+        if (RuntimeData != null && RuntimeData.IsEvolution)
+            damage *= stats.GetValue(EStatType.EvolvedWeaponDamage);
 
         float criticalChance = stats.GetValue(EStatType.CriticalChance);
         bool isCritical = Random.value < criticalChance;

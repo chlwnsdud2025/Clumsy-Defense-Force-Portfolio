@@ -147,7 +147,7 @@ public class LaserEnemy : Enemy
             IDamageable target = hit.GetComponent<IDamageable>();
             if (target != null)
             {
-                target.TakeDamage(DamageInfo.Normal(laserDamage));
+                target.TakeDamage(DamageInfo.Normal(laserDamage * DamageScale));
             }
         }
     }

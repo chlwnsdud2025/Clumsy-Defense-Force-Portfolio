@@ -29,8 +29,9 @@ public sealed class PlayerHealth
 
     public void TakeDamage(float damage)
     {
-        float defense = stats.GetValue(EStatType.Defense);
-        float finalDamage = Mathf.Max(1f, damage - defense);
+        // 비율 감소: 방어력 100 = 피해 50%. 고정 차감과 달리 방어력을 쌓아도 무적이 되지 않는다.
+        float defense = Mathf.Max(0f, stats.GetValue(EStatType.Defense));
+        float finalDamage = Mathf.Max(1f, damage * 100f / (100f + defense));
 
         CurrentHp = Mathf.Max(0f, CurrentHp - finalDamage);
 

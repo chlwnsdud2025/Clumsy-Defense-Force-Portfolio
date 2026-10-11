@@ -497,7 +497,12 @@ public class EnemyManager : MonoBehaviour
                 GameObject bossObj = Instantiate(bossPrefab, hit.point, Quaternion.identity);
 
                 BossEnemy bossScript = bossObj.GetComponent<BossEnemy>();
-                if (bossScript != null) bossScript.playerTarget = playerTransform;
+                if (bossScript != null)
+                {
+                    bossScript.playerTarget = playerTransform;
+                    // Start() 전에 호출되어야 currentHealth 가 배율 적용된 maxHealth 로 시작한다.
+                    bossScript.ApplyScaling(StageRunManager.CurrentEnemyScalingOrIdentity);
+                }
 
                 Debug.Log($"[Mini-Boss Spawn] 웨이브 미니 보스 '{bossPrefab.name}' 출현!");
             }

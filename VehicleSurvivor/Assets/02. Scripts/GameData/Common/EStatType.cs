@@ -13,7 +13,7 @@ public enum EStatType
     // 공격 (300~)
     DamageMultiplier = 300,           // 피해 배율 (무기 base × 배율, 실제 피해 공식 적용)
     MagicDamageMultiplier = 301,      // 마법 무기 추가 피해 배율 (enum/SO 예약, 피해 공식 미적용)
-    EvolvedWeaponDamage = 302,        // 진화 무기 추가 피해 배율 (enum/SO 예약, 피해 공식 미적용)
+    EvolvedWeaponDamage = 302,        // 진화 무기 추가 피해 배율 (진화 무기에만 DamageMultiplier 와 곱연산)
 
     // 치명타 (400~)
     CriticalChance = 400,             // 치명타 확률
