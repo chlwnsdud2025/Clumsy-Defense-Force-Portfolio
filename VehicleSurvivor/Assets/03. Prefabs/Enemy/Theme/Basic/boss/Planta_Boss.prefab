@@ -495,7 +495,7 @@ MonoBehaviour:
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 1205074186043561273}
   displayName: "\uC0B0\uC0BC\uB178\uC778"
-  maxHealth: 4700
+  maxHealth: 4000
   moveSpeed: 10
   rotationSpeed: 3
   contactRange: 3
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 9051413299716602695}
   displayName: "\uC0B0\uC0BC\uC5EC\uC655"
-  maxHealth: 3300
+  maxHealth: 2800
   moveSpeed: 3
   rotationSpeed: 3
   contactRange: 3

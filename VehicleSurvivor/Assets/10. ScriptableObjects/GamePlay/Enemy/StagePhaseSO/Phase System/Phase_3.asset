@@ -27,6 +27,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b35e2f5e851ffd146a743453cb79045d, type: 2}
   - {fileID: 11400000, guid: 8b340bec18d37634b8372d4829925bdc, type: 2}
   - {fileID: 11400000, guid: a69bbd399a414b54590ca6ccb138a569, type: 2}
-  healthMultiplier: 1.8
-  damageMultiplier: 1.3
+  healthMultiplier: 1.45
+  damageMultiplier: 1.1
   rewardMultiplier: 1.5
