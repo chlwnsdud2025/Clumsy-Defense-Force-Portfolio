@@ -15,7 +15,7 @@ MonoBehaviour:
   waveStartTime: 120
   spawnInterval: 2.5
   minSpawnCount: 3
-  maxSpawnCount: 5
+  maxSpawnCount: 4
   activeEnemies:
   - targetPool: {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
     spawnWeight: 2

@@ -26,7 +26,7 @@ MonoBehaviour:
   levelDataList:
   - description: "\uB4F1\uAECD\uC9C8 \uD68C\uC804 \uBB34\uAE30"
     cooldown: 0.5
-    damage: 10
+    damage: 40
     projectileSpeed: 12
     duration: 999
     size: 1
@@ -50,7 +50,7 @@ MonoBehaviour:
     shockwaveAngle: 90
   - description: "Lv2: \uD53C\uD574\uB7C9 \uC99D\uAC00, \uB4F1\uAECD\uC9C8 +1"
     cooldown: 0.5
-    damage: 15
+    damage: 30
     projectileSpeed: 12
     duration: 999
     size: 1
@@ -74,7 +74,7 @@ MonoBehaviour:
     shockwaveAngle: 90
   - description: "Lv3: \uB4F1\uAECD\uC9C8 +1"
     cooldown: 0.5
-    damage: 15
+    damage: 28
     projectileSpeed: 12
     duration: 999
     size: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
     shockwaveAngle: 90
   - description: "Lv4: \uB4F1\uAECD\uC9C8 + 1, \uD53C\uD574\uB7C9 \uC99D\uAC00"
     cooldown: 0.5
-    damage: 20
+    damage: 32
     projectileSpeed: 12
     duration: 999
     size: 1
@@ -123,7 +123,7 @@ MonoBehaviour:
   - description: "Lv5: \uB4F1\uAECD\uC9C8 +1, \uD53C\uD574\uB7C9 \uC99D\uAC00, \uD68C\uC804\uC18D\uB3C4
       \uC99D\uAC00"
     cooldown: 0.5
-    damage: 25
+    damage: 36
     projectileSpeed: 12
     duration: 999
     size: 1

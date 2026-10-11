@@ -32,7 +32,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "피해량 증가"
     cooldown: 1
-    damage: 10
+    damage: 16
     projectileSpeed: 11
     duration: 1.2
     size: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "속도 증가"
     cooldown: 0.95
-    damage: 12
+    damage: 20
     projectileSpeed: 11.5
     duration: 1.2
     size: 1
@@ -64,7 +64,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "크기 증가"
     cooldown: 0.95
-    damage: 12
+    damage: 24
     projectileSpeed: 12.5
     duration: 1.2
     size: 1.05
@@ -80,7 +80,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "크기 증가"
     cooldown: 0.9
-    damage: 14
+    damage: 34
     projectileSpeed: 12.5
     duration: 1.2
     size: 1.2
@@ -96,7 +96,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "피해량 증가"
     cooldown: 0.85
-    damage: 16
+    damage: 46
     projectileSpeed: 13
     duration: 1.2
     size: 1.25

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveEnemy_DataSO
   waveStartTime: 240
   spawnInterval: 2
-  minSpawnCount: 1
-  maxSpawnCount: 3
+  minSpawnCount: 2
+  maxSpawnCount: 4
   activeEnemies:
   - targetPool: {fileID: 11400000, guid: 463eeae834a638a4d9d935cfe153b95b, type: 2}
     spawnWeight: 2

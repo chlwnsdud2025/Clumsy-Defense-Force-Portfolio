@@ -29,4 +29,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a69bbd399a414b54590ca6ccb138a569, type: 2}
   healthMultiplier: 1
   damageMultiplier: 1
-  rewardMultiplier: 1
+  rewardMultiplier: 0.7

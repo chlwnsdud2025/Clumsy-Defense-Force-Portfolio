@@ -32,7 +32,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "진화 완료: 물의 오라 범위가 증가하고 더 강한 지속 피해를 줍니다."
     cooldown: 0.8
-    damage: 20
+    damage: 52
     projectileSpeed: 12
     duration: 1.2
     size: 1.5

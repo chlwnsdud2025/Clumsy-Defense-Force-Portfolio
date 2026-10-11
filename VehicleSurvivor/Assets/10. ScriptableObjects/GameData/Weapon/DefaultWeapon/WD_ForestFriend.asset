@@ -32,7 +32,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "Lv1: 숲친구 1마리"
     cooldown: 1
-    damage: 10
+    damage: 24
     projectileSpeed: 6
     duration: 2
     size: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "Lv2: 공격력 증가"
     cooldown: 0.9
-    damage: 10
+    damage: 28
     projectileSpeed: 6.5
     duration: 2
     size: 1
@@ -64,7 +64,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "Lv3: 숲친구 +1"
     cooldown: 0.9
-    damage: 11
+    damage: 26
     projectileSpeed: 6.5
     duration: 2
     size: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
     meteorDelay: 1
     description: "Lv4: 공격 속도 증가"
     cooldown: 0.85
-    damage: 13
+    damage: 28
     projectileSpeed: 7
     duration: 2
     size: 1.1
@@ -96,11 +96,11 @@ MonoBehaviour:
     meteorDelay: 1
     description: "Lv5: 숲친구 +1"
     cooldown: 0.8
-    damage: 15
+    damage: 30
     projectileSpeed: 7.5
     duration: 2
     size: 1.1
-    projectileCount: 2
+    projectileCount: 3
     tickInterval: 0.4
     range: 6
   evolutionWeaponId: weapon_evolved_forest_march

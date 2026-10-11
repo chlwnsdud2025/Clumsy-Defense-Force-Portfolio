@@ -83,7 +83,7 @@ MonoBehaviour:
   playerTarget: {fileID: 0}
   damageTextSpawnpoint: {fileID: 6868401127591810207}
   displayName: "\uC545\uBABD\uBC15\uC950"
-  maxHealth: 600
+  maxHealth: 1000
   moveSpeed: 5
   rotationSpeed: 3
   contactRange: 2.2

@@ -28,15 +28,15 @@ MonoBehaviour:
     radius: 7
     chainCount: 0
     chainRadius: 0
-    explosionRadius: 1.2
+    explosionRadius: 1.6
     meteorDelay: 1
     description: "진화 완료: 킹베어가 떨어져 더 넓은 범위에 큰 피해를 줍니다."
     cooldown: 0.8
-    damage: 20
+    damage: 56
     projectileSpeed: 12
     duration: 1.2
     size: 1.5
-    projectileCount: 2
+    projectileCount: 3
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 

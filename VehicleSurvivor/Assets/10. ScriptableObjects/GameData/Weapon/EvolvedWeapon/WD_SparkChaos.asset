@@ -26,17 +26,17 @@ MonoBehaviour:
   - bulletSpeed: 12
     spreadAngle: 0
     radius: 7
-    chainCount: 2
+    chainCount: 3
     chainRadius: 5
     explosionRadius: 1.2
     meteorDelay: 1
     description: "진화 완료: 무작위 위치에 번개가 치고 전기를 방출합니다."
     cooldown: 0.8
-    damage: 26
+    damage: 40
     projectileSpeed: 12
     duration: 1.2
     size: 1.5
-    projectileCount: 4
+    projectileCount: 2
     tickInterval: 0.4
     range: 7
   evolutionWeaponId: 

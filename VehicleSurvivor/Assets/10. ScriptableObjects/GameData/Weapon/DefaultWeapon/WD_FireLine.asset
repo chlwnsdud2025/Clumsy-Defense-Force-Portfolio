@@ -26,7 +26,7 @@ MonoBehaviour:
   levelDataList:
   - description: "Lv1: \uAE30\uBCF8 \uBC94\uC704"
     cooldown: 1.2
-    damage: 10
+    damage: 24
     projectileSpeed: 0.1
     duration: 1.5
     size: 1
@@ -50,61 +50,13 @@ MonoBehaviour:
     shockwaveAngle: 90
   - description: "Lv2: \uBC94\uC704 \uC99D\uAC00"
     cooldown: 1.2
-    damage: 10
+    damage: 30
     projectileSpeed: 0.1
     duration: 1.5
     size: 1.2
     projectileCount: 1
     tickInterval: 0.45
     range: 3
-    bulletSpeed: 0.1
-    spreadAngle: 0
-    radius: 3
-    bounceCount: 3
-    pierceCount: 0
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 1.5
-    meteorDelay: 1
-    dotDuration: 3
-    dotTickInterval: 0.5
-    dotWidth: 2
-    dotLength: 5
-    shockwaveRange: 5
-    shockwaveAngle: 90
-  - description: "Lv3: \uD53C\uD574\uB7C9 \uC99D\uAC00"
-    cooldown: 1.1
-    damage: 12
-    projectileSpeed: 0.1
-    duration: 1.5
-    size: 1.2
-    projectileCount: 1
-    tickInterval: 0.45
-    range: 3
-    bulletSpeed: 0.1
-    spreadAngle: 0
-    radius: 3
-    bounceCount: 3
-    pierceCount: 0
-    chainCount: 0
-    chainRadius: 0
-    explosionRadius: 1.5
-    meteorDelay: 1
-    dotDuration: 3
-    dotTickInterval: 0.5
-    dotWidth: 2
-    dotLength: 5
-    shockwaveRange: 5
-    shockwaveAngle: 90
-  - description: "Lv4: \uBC94\uC704 \uC99D\uAC00"
-    cooldown: 1.1
-    damage: 12
-    projectileSpeed: 0.1
-    duration: 1.5
-    size: 1.35
-    projectileCount: 1
-    tickInterval: 0.35
-    range: 3.2
     bulletSpeed: 0.1
     spreadAngle: 0
     radius: 3.2
@@ -120,9 +72,57 @@ MonoBehaviour:
     dotLength: 5
     shockwaveRange: 5
     shockwaveAngle: 90
+  - description: "Lv3: \uD53C\uD574\uB7C9 \uC99D\uAC00"
+    cooldown: 1.1
+    damage: 34
+    projectileSpeed: 0.1
+    duration: 1.5
+    size: 1.2
+    projectileCount: 1
+    tickInterval: 0.45
+    range: 3
+    bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 3.4
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
+  - description: "Lv4: \uBC94\uC704 \uC99D\uAC00"
+    cooldown: 1.1
+    damage: 40
+    projectileSpeed: 0.1
+    duration: 1.5
+    size: 1.35
+    projectileCount: 1
+    tickInterval: 0.35
+    range: 3.2
+    bulletSpeed: 0.1
+    spreadAngle: 0
+    radius: 3.6
+    bounceCount: 3
+    pierceCount: 0
+    chainCount: 0
+    chainRadius: 0
+    explosionRadius: 1.5
+    meteorDelay: 1
+    dotDuration: 3
+    dotTickInterval: 0.5
+    dotWidth: 2
+    dotLength: 5
+    shockwaveRange: 5
+    shockwaveAngle: 90
   - description: "Lv5: \uD53C\uD574 \uC8FC\uAE30 \uAC10\uC18C"
     cooldown: 1
-    damage: 15
+    damage: 46
     projectileSpeed: 0.1
     duration: 1.5
     size: 1.5
@@ -131,7 +131,7 @@ MonoBehaviour:
     range: 3.5
     bulletSpeed: 0.1
     spreadAngle: 0
-    radius: 3.5
+    radius: 4
     bounceCount: 3
     pierceCount: 0
     chainCount: 0

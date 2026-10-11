@@ -27,12 +27,12 @@ MonoBehaviour:
     spreadAngle: 0
     radius: 4
     chainCount: 0
-    chainRadius: 0
+    chainRadius: 4
     explosionRadius: 0.4
     meteorDelay: 1
     description: "피해량 증가"
     cooldown: 1.2
-    damage: 10
+    damage: 28
     projectileSpeed: 0.1
     duration: 0.4
     size: 1
@@ -43,12 +43,12 @@ MonoBehaviour:
     spreadAngle: 0
     radius: 4.5
     chainCount: 0
-    chainRadius: 0
+    chainRadius: 4
     explosionRadius: 0.4
     meteorDelay: 1
     description: "거리 증가"
     cooldown: 1.15
-    damage: 12
+    damage: 32
     projectileSpeed: 0.1
     duration: 0.4
     size: 1
@@ -58,13 +58,13 @@ MonoBehaviour:
   - bulletSpeed: 0.1
     spreadAngle: 0
     radius: 5
-    chainCount: 0
-    chainRadius: 0
+    chainCount: 2
+    chainRadius: 4
     explosionRadius: 0.4
     meteorDelay: 1
     description: "방출 수 증가"
     cooldown: 1.1
-    damage: 12
+    damage: 22
     projectileSpeed: 0.1
     duration: 0.4
     size: 1.1
@@ -74,13 +74,13 @@ MonoBehaviour:
   - bulletSpeed: 0.1
     spreadAngle: 0
     radius: 5
-    chainCount: 0
-    chainRadius: 0
+    chainCount: 2
+    chainRadius: 4
     explosionRadius: 0.4
     meteorDelay: 1
     description: "쿨타임 감소"
     cooldown: 1.05
-    damage: 14
+    damage: 22
     projectileSpeed: 0.1
     duration: 0.4
     size: 1.1
@@ -90,13 +90,13 @@ MonoBehaviour:
   - bulletSpeed: 0.1
     spreadAngle: 0
     radius: 5.5
-    chainCount: 0
-    chainRadius: 0
+    chainCount: 3
+    chainRadius: 4
     explosionRadius: 0.4
     meteorDelay: 1
     description: "피해량 증가"
     cooldown: 0.95
-    damage: 16
+    damage: 26
     projectileSpeed: 0.1
     duration: 0.4
     size: 1.2
