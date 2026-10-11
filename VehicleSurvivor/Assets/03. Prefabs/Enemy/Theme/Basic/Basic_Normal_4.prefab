@@ -135,8 +135,8 @@ MonoBehaviour:
   moveSpeed: 5
   maxHealth: 150
   rotationSpeed: 2
-  expReward: 15
-  moneyReward: 15
+  expReward: 8
+  moneyReward: 5
   separationRadius: 1
   separationWeight: 1
   playerBlockRadius: 0.59

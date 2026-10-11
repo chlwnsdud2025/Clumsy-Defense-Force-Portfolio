@@ -3193,8 +3193,8 @@ MonoBehaviour:
   - {fileID: 1829964320}
   - {fileID: 1829964319}
   - {fileID: 1829964318}
-  initialChestCost: 50
-  chestCostIncreasePercent: 15
+  initialChestCost: 100
+  chestCostIncreasePercent: 25
   chestRespawnDelay: 15
 --- !u!1001 &1539129987031201551
 PrefabInstance:

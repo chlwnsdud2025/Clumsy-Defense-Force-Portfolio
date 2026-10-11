@@ -89,7 +89,7 @@ MonoBehaviour:
   contactRange: 2.2
   contactCooltime: 1
   expReward: 100
-  moneyReward: 100
+  moneyReward: 50
   contactDamage: 30
   groundLayer:
     serializedVersion: 2

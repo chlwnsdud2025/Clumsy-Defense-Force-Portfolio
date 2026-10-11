@@ -41,8 +41,11 @@ public sealed class LevelRuntime
         return levelsGained;
     }
 
+    // 2차 곡선 (현재 레벨 → 다음 레벨 필요량): Lv1 10 · Lv10 146 · Lv20 450 · Lv30 914 · Lv45 1910
+    // 목표 진행도: P1 종료 Lv12~15, P3 종료 Lv28~32, P6 종료 Lv45~55
     private int CalculateRequiredExp(int level)
     {
-        return 10 + (level - 1) * 5;
+        int n = level - 1;
+        return 10 + n * 8 + n * n * 4 / 5;
     }
 }
