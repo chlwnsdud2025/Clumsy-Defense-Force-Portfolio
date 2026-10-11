@@ -227,7 +227,7 @@ MonoBehaviour:
   hitFlash: {fileID: 8649353717862100934}
   fuseTime: 2
   explosionRadius: 3.5
-  explosionDamage: 50
+  explosionDamage: 35
   warningSphere: {fileID: 2126665518248612861}
   sphereHeightOffset: 0
   playerLayer:

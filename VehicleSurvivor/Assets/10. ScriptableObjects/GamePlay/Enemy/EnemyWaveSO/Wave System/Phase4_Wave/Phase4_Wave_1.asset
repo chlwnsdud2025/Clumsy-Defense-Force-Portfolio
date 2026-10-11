@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: Phase4_Wave_1
   m_EditorClassIdentifier: Assembly-CSharp::WaveEnemy_DataSO
   waveStartTime: 0
-  spawnInterval: 2
-  minSpawnCount: 2
+  spawnInterval: 3
+  minSpawnCount: 4
   maxSpawnCount: 5
   activeEnemies:
-  - targetPool: {fileID: 11400000, guid: 2d7b1361fab103c4fbe5f7ce9d19a876, type: 2}
+  - targetPool: {fileID: 11400000, guid: e68def14dee892a4ca818449e20148e6, type: 2}
+    spawnWeight: 2
+    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: 463eeae834a638a4d9d935cfe153b95b, type: 2}
+    spawnWeight: 2
+    spawnAsPurePack: 0
+  - targetPool: {fileID: 11400000, guid: e28602f2e7872ea4b98dfaaf9ea10a17, type: 2}
     spawnWeight: 1
     spawnAsPurePack: 0
+  miniBossPrefabs: []
+  miniBossCount: 1

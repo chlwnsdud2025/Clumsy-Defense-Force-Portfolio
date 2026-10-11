@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StagePhase_SO
   timeLimit: 300
   phaseWaves:
-  - {fileID: 11400000, guid: 22c4ba49a46f25544bb1ae9894b5417c, type: 2}
-  - {fileID: 11400000, guid: 8be3b91b25417814e8ab7792cb23d56a, type: 2}
-  - {fileID: 11400000, guid: ce82520c62b072642b164abdbc5d96c7, type: 2}
-  - {fileID: 11400000, guid: 8c8444b80c8ce074480df27b5c7bb6a3, type: 2}
-  - {fileID: 11400000, guid: 122a0ffa0d076e9468bad5e86932022a, type: 2}
-  - {fileID: 11400000, guid: d1696ec58c5abb84b9811ffca5fdf1f2, type: 2}
+  - {fileID: 11400000, guid: 4e4a2eaedadcf9249a4726bfa3976955, type: 2}
+  - {fileID: 11400000, guid: fc0e8d159eb05b643b7ec40426400e24, type: 2}
+  - {fileID: 11400000, guid: 56bac6352c104cf4a8c5d49b5b62662f, type: 2}
+  - {fileID: 11400000, guid: a204711e6e156e441a58088d2b42a6d2, type: 2}
+  - {fileID: 11400000, guid: c8f4dda10a8fd324990dbee64775aee6, type: 2}
+  - {fileID: 11400000, guid: 7025e5d7352cc75419ea9476ab830e3a, type: 2}
   nightmareWaves:
   - {fileID: 11400000, guid: bbe2a98b40ddb1d409071f01d184bc36, type: 2}
   - {fileID: 11400000, guid: 1c3609ad89f4ca94eb055144058b0b93, type: 2}
@@ -27,3 +27,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b35e2f5e851ffd146a743453cb79045d, type: 2}
   - {fileID: 11400000, guid: 8b340bec18d37634b8372d4829925bdc, type: 2}
   - {fileID: 11400000, guid: a69bbd399a414b54590ca6ccb138a569, type: 2}
+  healthMultiplier: 2.8
+  damageMultiplier: 1.5
+  rewardMultiplier: 2.1
