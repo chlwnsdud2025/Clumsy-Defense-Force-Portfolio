@@ -11,7 +11,7 @@
 [![URP](https://img.shields.io/badge/URP-Render_Pipeline-222222)](#)
 [![Profiler](https://img.shields.io/badge/Unity_Profiler-Profile_Analyzer-4B8BBE)](#)
 
-[▶ 포트폴리오 영상 (YouTube)](https://www.youtube.com/watch?v=qPuH5ze9sbI) · [💾 빌드 파일 다운로드](https://drive.google.com/file/d/1oNmeh3siO_rDWiSACH8VF8TwcTK79cmE/view?usp=sharing)
+[▶ 포트폴리오 영상 (YouTube)](https://www.youtube.com/watch?v=qPuH5ze9sbI)
 
 <img src="docs/gifs/horde_combat.gif" width="49%" alt="몰려드는 몬스터를 다양한 무기로 한 번에 처치"> <img src="docs/gifs/final_boss.gif" width="49%" alt="최종 보스전">
 
@@ -355,7 +355,7 @@ for (int i = 0; i < hitCount; i++)
 | 시작 씬 (Build Settings 0번) | `Assets/01. Scenes/GamePlay/TitleScene.unity` |
 | 인게임 씬 (Build Settings 1번) | `Assets/01. Scenes/GamePlay/InGameScene.unity` |
 
-Unity Hub에서 `VehicleSurvivor` 폴더를 연 뒤 **Play**를 누르면 타이틀 씬부터 실행됩니다. 빌드 파일은 [구글 드라이브](https://drive.google.com/file/d/1oNmeh3siO_rDWiSACH8VF8TwcTK79cmE/view?usp=sharing)에서 받을 수 있습니다.
+Unity Hub에서 `VehicleSurvivor` 폴더를 연 뒤 **Play**를 누르면 타이틀 씬부터 실행됩니다.
 
 ### 플레이 흐름
 
