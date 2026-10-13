@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚓 우당탕 방범대 (VehicleSurvivor)
+# 🛡️ 우당탕 방범대 (Clumsy Defense Force)
 
 **3D 뱀서라이크 + 장애물 액션 · 팀 프로젝트**
 
